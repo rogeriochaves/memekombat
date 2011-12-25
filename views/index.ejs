@@ -1,0 +1,407 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>Meme Kombat</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  
+  <meta property="og:title" content="Meme Kombat" />
+  <meta property="og:type" content="game" />
+  <meta property="og:url" content="<%= process.env.FACEBOOK_APP_URL %>" />
+  <meta property="og:image" content="<%= process.env.FACEBOOK_APP_HOME %>img/logo_post.png" />
+  <meta property="og:site_name" content="Meme Kombat" />
+  <meta property="fb:app_id" content="<%= app.id %>" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria Hallelujah">
+  <!--link rel="stylesheet" href="css/all.min.css"-->
+  <link rel="stylesheet" href="css/boilerplate.css">
+  <link rel="stylesheet" href="css/application.css">
+  <!-- end CSS-->
+
+  <!--script src="js/libs/modernizr-2.0.6.min.js"></script-->
+  <script src="js/libs/jquery-1.6.2.min.js"></script>
+  <!--script type="text/javascript" charset="utf-8" src="js/min/all2.min.js"></script-->
+  <script type="text/javascript" charset="utf-8" src="js/jquery.jplayer.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/jquery.preloader.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/luta.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/database.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/movimento.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/habilidades.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/armas.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/eventos.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/sons.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/jquery.backgroundPosition.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<!--script type="text/javascript" charset="utf-8" src="js/jquery.jplayer.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.preloader.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/luta.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/database.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/movimento.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/habilidades.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/armas.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/eventos.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/sons.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.backgroundPosition.min.js"></script-->
+
+  	<script type="text/javascript">
+		window.fbAsyncInit = function() {
+		  FB.Canvas.setAutoGrow();
+		}
+      function popup(pageURL, title,w,h) {
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        var targetWin = window.open(
+          pageURL,
+          title,
+          'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left
+          );
+      }
+
+    </script>
+	<script type="text/javascript" charset="utf-8">
+		cached_pages = {};
+		atualizar_social = 0;
+		tweetou = false;
+		function cache_page(url, data){
+			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){
+				cached_pages['ranking.php'] = null;
+				cached_pages['arena.php'] = null;
+				cached_pages['perfil.php'] = null;
+				cached_pages['perfil.php?uid=' + url.split('vs=')[1]] = null;
+			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?finalizar') >= 0){
+				tempo_restante = undefined;
+				cached_pages['ranking.php'] = null;
+				cached_pages['perfil.php'] = null;
+				cached_pages['campeonato.php'] = null;
+				cached_pages['campeonato.php?proxima_luta=true'] = null;
+				cached_pages['campeonato.php?finalizar=true'] = null;
+			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?') >= 0){
+				tempo_restante = undefined;
+				cached_pages['campeonato.php'] = null;
+				cached_pages['campeonato.php?proxima_luta=true'] = null;
+				cached_pages['campeonato.php?finalizar=true'] = null;
+			}else if(url.indexOf('sair_campeonato') >= 0){
+				cached_pages['perfil'] = data;
+			}else{
+				cached_pages[url] = data;
+			}
+		}
+		function ajaxizar_links(){
+			$('a').each(function() {
+				if (!$(this).hasClass('no-follow') && !$(this).hasClass('no-rel') && ($(this).attr('rel') == '' || $(this).attr('rel') == undefined)) {
+					$(this).attr('rel', $(this).attr('href'));
+					$(this).attr('href', '#');
+				};
+			});
+			atualizar_twitter();
+		}
+		$(document).ready(function() {
+			$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
+			$('.small_badge').live('click', function() {
+				$('.badge img').attr('src', "img/badges/" + $(this).attr('data-img'));
+				$('.badge .texto.cima').html($(this).attr('data-up'));
+				$('.badge .texto.baixo').html($(this).attr('data-down'));
+				$('.badge .texto.baixo').css('margin-top', "-" + (62 * (parseInt($(this).attr('data-down').length / 13) + 1)) + "px");
+				$('.backlight').fadeIn();
+				$('.badge').fadeIn();
+			});
+			$('.ajuda').live('click', function() {
+				$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
+				$('.backlight').fadeIn();
+				$('.badge').fadeIn();
+			});
+			<% if(novo_personagem){ %>
+				$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
+				$('.backlight').fadeIn();
+				$('.badge').fadeIn();
+			<% } %>
+			$('.badge, .backlight').click(function() {
+				$('.backlight').fadeOut();
+				$('.badge').fadeOut();
+			});
+			<%
+				var redir = false;
+				if(novo_personagem){
+					redir = "arena";
+				}else if(typeof session_fight != 'undefined'){
+					redir = "luta/" + session_fight;
+				}else{
+					redir = 'perfil';
+				}
+			%>
+			<% if(redir){ %>
+				$('.carregando').fadeOut();
+				$.get('<%= redir %>', function(data) {
+					$('.conteudo').html(data);
+					ajaxizar_links();
+					cache_page('<%= redir %>', data);
+				});
+			<% }else{ %>
+				$('.carregando').fadeOut();
+				cache_page('perfil', $('.conteudo').html());
+			<% } %>
+			
+			ajaxizar_links();
+			$('a[rel]').live('click', function() {
+				if (!$(this).hasClass('no-rel')) {
+					if ($(this).hasClass('erase-content')) {
+						FB.Canvas.setSize({height: 300});
+						$('.conteudo').html("");
+					}
+					var url = $(this).attr('rel');
+					if(cached_pages[url] == undefined || cached_pages[url] == null){
+						$('.carregando').show();
+						$('.carregando').css({'opacity': '0'});
+						$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
+						$('.carregando').animate({'opacity': '0.5'});
+						/*carregando_timeout = setTimeout(function(){
+							$('.carregando').fadeOut();
+						}, 10000);*/
+						$.get(url + (url.indexOf('?') > 0 ? '&' : '?') + 'socket_id=<%= socket_id %>', function(data){
+							//clearTimeout(carregando_timeout);
+							parar_luta();
+							$('.conteudo').html(data);
+							$('.carregando').fadeOut();
+							ajaxizar_links();
+							cache_page(url, data);
+						});
+					}else{
+						parar_luta();
+						$('.conteudo').html(cached_pages[url]);
+						ajaxizar_links();
+					}
+				
+					if(atualizar_social > 0){
+						$.post('_atualizar_social', {luta_id: atualizar_social, tweetou: (tweetou ? 1 : 0)});
+						atualizar_social = 0;
+						tweetou = false;
+					}
+				
+					return false;
+				}
+			});
+		});
+	</script>
+	<script type="text/javascript" charset="utf-8">
+		var socket_id = '<%= socket_id %>';
+		var portugues = <%= portugues ? 'true' : 'false' %>;
+	</script>
+	<script type="text/javascript" charset="utf-8" src="js/sockets.js"></script>
+</head>
+
+<body>
+	<div class="backlight"></div>
+	<div class="badge">
+		<div class="texto cima"></div>
+		<img src="img/loading51.gif" />
+		<div class="texto baixo"></div>
+	</div>
+	<div class="carregando">
+		<img src="img/loading51.gif" />
+	</div>
+<div style="height:95px">
+<div class="topo clearfix">
+	<div class="megusta_button">
+		<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fapps%2Fapplication.php%3Fid%3D183114805092475&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;locale=es_ES&amp;appId=251027861615668" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>
+	</div>
+	<div class="logo">
+		<img src="img/logo.png" alt="Meme Kombat" />
+	</div>
+	<ul class="menu">
+		<li><a href="perfil"><%= portugues ? "Início" : "Home" %></a></li>
+		<li><a href="arena">Arena</a></li>
+		<li><a href="ranking">Ranking</a></li>
+		<li class="last"><a href="loja"><%= portugues ? "Loja" : "Store" %></a></li>
+	</ul>
+</div>
+</div>
+
+<div class="conteudo">
+	<!--%- if(!redir){
+			index = true;
+			include('perfil.php');
+		} %-->
+</div>
+<br /><br />
+<hr class="pessoas" />
+<div class="rodape">
+	<div class="pessoas clearfix">
+			<div class="quem-mais" style="display:none">
+				<%= portugues ? "Amigos que já jogam" : "Friends on Meme Kombat" %> <br />
+		    	<ul class="clearfix"></ul>
+				<small><%= portugues ? "Clique para desafiá-los" : "Click to fight them" %></small>
+			</div>
+			<div class="quem-deveria" style="display:none">
+				<%= portugues ? "Quem pode ser seu pupilo" : "They can be your pupil" %><br />
+		    	<ul class="clearfix"></ul>
+				<small>
+					<%- portugues ? '<a href="#" class="convidar-amigos no-follow">Ver mais</a>' : '<a href="#" class="convidar-amigos no-follow">All friends</a>' %>
+				</small>
+			</div>
+	</div>
+	
+	<hr />
+	<!-- Begin Ad Call Tag - Do not Modify -->
+	<iframe width='468' height='60' style="margin-left:156px" frameborder='no' framespacing='0' scrolling='no' src='//ads.lfstmedia.com/slot/slot27031?ad_size=468x60&adkey=796'></iframe>
+	<!-- End of Ad Call Tag -->
+	
+	<div class="creditos">
+		<hr />
+		<?php
+			$now = find("SELECT now() 'now'");
+			$dt = strptime($now['now'], '%Y-%m-%d %H:%M:%S');
+		?>
+		<p>© <?php echo date("Y") ?> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc. <?php echo ($portugues ? "Hora no servidor " : "Server's time ") . $dt['tm_hour'] . ":" . $dt['tm_min'] . ":" . $dt['tm_sec'] ?>. <a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><?php echo $portugues ? "Como jogar" : "How to play" ?></a>. <br />
+        	<!--a href="http://www.facebook.com/LABINC"><img src="http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc7/313183_235786553133974_188185091227454_656018_496740_n.jpg" width="145" height="156"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/apps/application.php?id=183114805092475"><img src="http://profile.ak.fbcdn.net/hprofile-ak-snc4/277035_183114805092475_912185436_n.jpg" width="153" height="142"></a-->
+		<?php #print_r(find("SELECT now()")) ?>
+		</p>
+	</div>
+	
+	<!--hr />
+	<?php
+	
+	#$info = FBUtils::fetchFromFBGraph("me?fields=third_party_id&access_token=$token");
+	#$third_party_id = $info->third_party_id;
+	
+	?>
+	<div id="applifier_bar"></div>
+	<script type="text/javascript">
+	(function() {
+	  window.applifierAsyncInit = function() {
+	    var bar = new Applifier.Bar({applicationId: 1653, thirdPartyId: "<?php #echo $third_party_id ?>", barType: "bar", barContainer: "#applifier_bar"});
+	  };
+
+	  var a = document.createElement('script'); a.type = 'text/javascript'; a.async = true;
+	  a.src = (('https:' == document.location.protocol) ? 'https://secure' : 'http://cdn') + '.applifier.com/applifier.min.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
+	})();
+	</script-->
+	
+</div>
+
+<div id="fb-root"></div>
+<script src="https://connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= app.id %>"></script>
+<script>
+	function requestCallback(response) {
+	        // Handle callback here
+	      }
+	function sendRequestToOneRecipient(user_id) {
+	    FB.ui({
+			method: 'apprequests',
+	    	message: '<%= portugues ? "Seja meu pupilo" : "Be my pupil" %>',
+	    	to: user_id
+	    }, requestCallback);
+	  }
+	function sendRequestToManyRecipients() {
+	  FB.ui({method: 'apprequests',
+	    message: '<%= portugues ? "Seja meu pupilo" : "Be my pupil" %>'
+	  }, requestCallback);
+	}
+	$(document).ready(function() {
+		/*FB.init({
+	        appId  : '<?php echo AppInfo::appID(); ?>',
+	        status : true,
+	        cookie : true,
+	        oauth: true
+	      });*/
+		$('.convidar-amigos').live('click', function() {
+			sendRequestToManyRecipients();
+			return false;
+		});
+		$('.quem-deveria li a').live('click', function() {
+			sendRequestToOneRecipient($(this).attr('uid'));
+			return false;
+		});
+	});
+</script>
+
+<?php session_write_close(); mysql_close(); ?>
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26500030-1']);
+  _gaq.push(['_trackPageview']);
+  //_gaq.push(['_trackSocial(network, socialAction, opt_target, opt_pagePath)']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+	FB.Event.subscribe('edge.create', function(targetUrl) {
+		_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+	});
+	FB.Event.subscribe('edge.remove', function(targetUrl) {
+		_gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+	});
+	FB.Event.subscribe('message.send', function(targetUrl) {
+		_gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
+	});
+	FB.Event.subscribe('comment.create',function(response) {
+		_gaq.push(['_trackSocial','Facebook','comment',response]);
+	});
+	FB.Event.subscribe('comment.remove',function(response) {
+		_gaq.push(['_trackSocial','Facebook','uncomment',response]);
+	});
+	
+	function extractParamFromUri(uri, paramName) {
+	  if (!uri) {
+	    return;
+	  }
+	  var uri = uri.split('#')[0];  // Remove anchor.
+	  var parts = uri.split('?');  // Check for query params.
+	  if (parts.length == 1) {
+	    return;
+	  }
+	  var query = decodeURI(parts[1]);
+
+	  // Find url param.
+	  paramName += '=';
+	  var params = query.split('&');
+	  for (var i = 0, param; param = params[i]; ++i) {
+	    if (param.indexOf(paramName) === 0) {
+	      return unescape(param.split('=')[1]);
+	    }
+	  }
+	}
+	
+	twttr.events.bind('tweet', function(event) {
+	  if (event) {
+	    var targetUrl;
+	    if (event.target && event.target.nodeName == 'IFRAME') {
+	      targetUrl = extractParamFromUri(event.target.src, 'url');
+	    }
+	    _gaq.push(['_trackSocial', 'twitter', 'tweet', targetUrl]);
+		tweetou = true;
+	  }
+	});
+	
+	function atualizar_twitter(){
+		try{
+			twttr.widgets.load();
+		}catch(err){
+			console.log(twttr);
+		}
+		
+	}
+
+</script>
+
+</body>
+</html>

@@ -4,23 +4,46 @@ var everyauth = require('everyauth');
 var express   = require('express');
 
 var FacebookClient = require('facebook-client').FacebookClient;
-var facebook = new FacebookClient();
+global.facebook = new FacebookClient();
 
-var uuid = require('node-uuid');
+global.uuid = require('node-uuid');
+
+
+global.mongoose = require('mongoose')  
+global.Schema = mongoose.Schema
+global.ObjectId = Schema.ObjectId;
+
+require('./schema.js');
+
+global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+if(environment == 'development'){
+	process.env.FACEBOOK_APP_ID = '130619640386826';
+	process.env.FACEBOOK_SECRET = '***REMOVED***';
+	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
+	process.env.FACEBOOK_APP_HOME = 'http://localhost:3000/';
+	mongoose.connect('mongodb://localhost/memekombat');
+}else{
+	process.env.FACEBOOK_APP_ID = '282893221758514';
+	process.env.FACEBOOK_SECRET = '***REMOVED***';
+	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattwo/';
+	process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
+	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
+}
+
 
 // configure facebook authentication
 everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
   .appSecret(process.env.FACEBOOK_SECRET)
-  .scope('user_likes,user_photos,user_photo_video_tags')
+  .scope('publish_stream,publish_actions')
   .entryPath('/')
   .redirectPath('/home')
   .findOrCreateUser(function() {
     return({});
-  })
+  });
 
 // create an express webserver
-var app = express.createServer(
+global.app = express.createServer(
   express.logger(),
   express.static(__dirname + '/public'),
   express.cookieParser(),
@@ -43,13 +66,34 @@ app.listen(port, function() {
   console.log("Listening on " + port);
 });
 
+app.post('/', function(request, response){
+	if(request.params.request_ids){
+		request.session.request_ids = request.params.request_ids.split(',');
+	}
+	if(request.params.i){
+		request.session.indicacao_uid = request.params.i;
+	}
+	if(request.params.fight){
+		request.session.fight = request.params.fight;
+	}
+	
+	if (request.session.auth) {
+		response.redirect('/home');
+		return false;
+	}else{
+		var method = request.headers['x-forwarded-proto'] || 'http';
+		var host = method + '://' + request.headers.host;
+		response.send('<script type="text/javascript">top.location.href = "'+host+'";</script>');
+	}
+});
+
 // create a socket.io backend for sending facebook graph data
 // to the browser as we receive it
 var io = require('socket.io').listen(app);
 
 // wrap socket.io with basic identification and message queueing
 // code is in lib/socket_manager.js
-var socket_manager = require('socket_manager').create(io);
+global.socket_manager = require('socket_manager').create(io);
 
 // use xhr-polling as the transport for socket.io
 io.configure(function () {
@@ -129,3 +173,8 @@ app.get('/home', function(request, response) {
 
   }
 });
+
+require('./controllers/inicio.js');
+require('./controllers/index.js');
+require('./controllers/perfil.js');
+require('./controllers/testando.js');

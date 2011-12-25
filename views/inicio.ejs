@@ -1,0 +1,205 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>Meme Kombat</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  
+  <meta property="og:title" content=""/>
+  <meta property="og:type" content=""/>
+  <meta property="og:url" content=""/>
+  <meta property="og:image" content=""/>
+  <meta property="og:site_name" content=""/>
+  <meta property="fb:app_id" content="<%= app.id %>" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria Hallelujah">
+  <link rel="stylesheet" href="css/boilerplate.css">
+  <link rel="stylesheet" href="css/application.css">
+  <!-- end CSS-->
+
+  <!--script src="js/libs/modernizr-2.0.6.min.js"></script-->
+  <script type="text/javascript" src="js/libs/jquery-1.6.2.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+  	<script type="text/javascript">
+		window.fbAsyncInit = function() {
+		  FB.Canvas.setAutoGrow();
+		}
+      function popup(pageURL, title,w,h) {
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        var targetWin = window.open(
+          pageURL,
+          title,
+          'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left
+          );
+      }
+
+		
+	var socket = io.connect();
+
+	socket.on('connect', function() {
+
+		// identify this socket with our auth token
+		socket.emit('auth', '<%= socket_id %>');
+
+		// when a friend is received from the backend, add it to the page
+		socket.on('friend_using_app', function(friend) {
+			$('.quem-mais').show().children('ul').append('          							  					         \
+			<li>             						                                                                     \
+			<img src="https://graph.facebook.com/'+friend.uid+'/picture?type=square" alt="' + friend.name + '" />      \
+			</li>                                                                               						 \
+			');
+		});
+	});
+
+
+
+    </script>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Gloria Hallelujah">
+	<script type="text/javascript" charset="utf-8" src="js/jquery.jplayer.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/sons.js"></script>
+</head>
+
+<body>
+	<div class="carregando" style="display:none">
+		<img src="img/loading51.gif" />
+	</div>
+<div style="height:95px">
+<div class="topo clearfix">
+	<div class="megusta_button">
+		<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fapps%2Fapplication.php%3Fid%3D183114805092475&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;locale=es_ES&amp;appId=251027861615668" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>
+	</div>
+	<div class="logo">
+		<img src="img/logo.png" alt="Meme Kombat" />
+	</div>
+</div>
+</div>
+
+<div class="conteudo">
+
+<style type="text/css" media="screen">
+	.megusta_button{margin:15px 0 0 600px;}
+</style>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#sounds .sound").each(function(){
+			carrega_som(this);
+		});
+		setTimeout(function(){
+			sound('choose_your_destiny');
+		}, 1000);
+		selecionou = false;
+		$('.memes li').click(function() {
+			if(selecionou) return false;
+			selecionou = true;
+			var este = this;
+			$(this).css('border','1px solid #F00');
+			setTimeout(function(){
+				$(este).css('border','1px solid #000');
+			}, 100);
+			setTimeout(function(){
+				$(este).css('border','1px solid #F00');
+			}, 200);
+			setTimeout(function(){
+				$(este).css('border','1px solid #000');
+			}, 300);
+			setTimeout(function(){
+				$(este).css('border','1px solid #F00');
+			}, 400);
+			setTimeout(function(){
+				$(este).css('border','1px solid #000');
+			}, 500);
+			setTimeout(function(){
+				$(este).css('border','1px solid #F00');
+			}, 600);
+			setTimeout(function(){
+				$('.carregando').fadeIn();
+			}, 2000);
+			setTimeout(function(){
+				window.location = "index/?meme="+$(este).attr("class");
+			}, 2400);
+			sound('risada_mk');
+		});
+	});
+</script>
+
+<div id="sounds">
+	<div class="sound" name="choose_your_destiny"></div>
+	<div class="sound" name="risada_mk"></div>
+</div>
+<br />
+<center><h1><%= portugues ? "Escolha seu destino" : "Choose your destiny" %></h1></center>
+<ul class="memes clearfix <%= user.gender == 'female' ? "derpina" : "" %>">
+	<li class="demente"></li>
+	<li class="rage"></li>
+	<li class="fuckyea"></li>
+	<li class="forever_alone"></li>
+	<li class="troll"></li>
+	<li class="yuno"></li>
+	<li class="pokerface"></li>
+	<li class="megusta"></li>
+	<li class="challenge"></li>
+	<li class="serious"></li>
+	<li class="lol"></li>
+	<li class="okay"></li>
+	<li class="fodase"></li>
+	<li class="fap"></li>
+	<li class="cereal_guy"></li>
+</ul>
+</div>
+<?php
+
+	require_once('FBUtils.php');
+
+	$amigos_que_jogam = FBUtils::fql(
+	  "SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()",
+	  $token
+	);
+
+?>
+<hr />
+<div class="rodape">
+	<div class="clearfix">
+			<div class="quem-mais" style="width:660px; display:none">
+				<%= portugues ? "Quem já está jogando" : "They are already playing!" %><br />
+		    	<ul class="clearfix">
+			    </ul>
+			</div>
+	</div>
+	<div class="creditos">
+		<hr />
+		© <%= (new Date()).getFullYear() %> <a href="https://www.facebook.com/LABINC">Like a Boss</a> Inc.
+	</div>
+</div>
+<div id="fb-root"></div>
+<script src="https://connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= app.id %>"></script>
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26500030-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
+</html>

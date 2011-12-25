@@ -1,0 +1,253 @@
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('.meme_lv img').load(function(){
+			if($(this).height() > $(this).width()){
+				$(this).css('width', '111px');
+			}else{
+				$(this).css('height', '111px');
+			}
+		});
+	});
+</script>
+<% if (user.id == personagem.uid){ %>
+	<div class="clearfix" style="margin-top: 34px;">
+	<% if (session_erro){ %>
+		<div class="notice">
+			<span style="color:#F00"><%= session_erro %>
+		</div>
+	<% }else{ %>
+		<!--% if (lutas_restantes > 0){ %-->
+			<div class="notice" style="display:none">
+				<!--%= portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>' %-->
+			</div>
+		<!--% } %-->
+	<% } %>
+		<div class="help">
+			<div class="box">
+				<%= portugues ? "Envie esse link para seus amigos virarem seus pupilos!" : "Send this link to your friends and make them your pupil" %>
+			</div>
+		</div>
+		<div class="link_indicacao">
+			<%= portugues ? "Link de indicação" : "Referral link" %>
+			<input type="text" onmouseover="this.focus();this.select();" value="<%= (personagem.link_indicacao && personagem.link_indicacao != "http://bit.ly/") ? personagem.link_indicacao : "https://apps.facebook.com/meme_kombat/?i=" + personagem.uid %>" readonly="readonly" style="width:120px" />
+		</div>
+	</div>
+	<hr />
+<% }else{ %>
+	<div style="height:40px">&nbsp;</div>
+<% } %>
+<div class="clearfix">
+	<div class="atributos">
+		<div class="clearfix">
+			<div class="meme_lv">
+				<div class="img">
+					<div class="meme <%= personagem.meme_src %> <%= personagem.genero == 'female' ? "derpina" : "" %>" style="border:1px solid #CCC"></div>
+					<img src="https://graph.facebook.com/<%= personagem.uid %>/picture?type=large" border="0" />
+				</div>
+			</div>
+			<div class="attrs">
+				<table>
+					<% if (user.id != personagem.uid){ %>
+						<tr>
+							<td colspan="2" height="50" style="font-size:20px">
+								<%= personagem.nome %>
+							</td>
+						</tr>
+					<% } %>
+					<tr>
+						<td width="160">
+							<% if(personagem.ranking_pos < 8){ %>
+								<div class="clearfix">
+									<div style="float:left; font-size:20px; text-align:center">
+										<%= portugues ? "Nv" : "Lv" %> <span style="font-size:34px"><%= personagem.level %></span>
+									</div>
+									<div style="float:left">
+										<div class="rank" style="background-position:-<%= 45 * (personagem.ranking_pos - 1) %>px 0"></div>
+									</div>
+								</div>
+							<% }else{ %>
+								<div style="width:111px; float:left; font-size:20px; text-align:center">
+									<%= portugues ? "Nv" : "Lv" %> <span style="font-size:34px"><%= personagem.level %></span>
+								</div>
+								<img src="img/ranking_max.png" border="0" />
+							<% } %>
+							<br />
+							<% if (user.id == personagem.uid){ %>
+								<div class="exp">
+									EXP: <%= personagem.exp %> / <%= prox_nivel %>
+									<div class="barra">
+										<div class="barrinha" style="width:<%= Math.min(parseInt(110 * (parseInt(personagem.exp) / prox_nivel)), 110) %>px"></div>
+									</div>
+								</div>
+							<% } %>
+						</td>
+						<td>
+							<table border="0" cellpadding="5" cellspacing="0">
+								<tr>
+									<td align="right">
+										<span class="num quant_pupilos">
+											<!--%= quant_pupilos %-->
+										</span>
+									</td>
+									<td>
+										<% if (user.id == personagem.uid){ %>
+											<a href="#" class="convidar-amigos no-rel">
+												<span class="texto_quant_pupilos"></span>
+											</a>
+										<% }else{ %>
+											<span class="texto_quant_pupilos"></span>
+										<% } %>
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<span class="num">
+											<%= personagem.vitorias %>
+										</span>
+									</td>
+									<td>
+										<%= personagem.vitorias != 1 ? (portugues ? "vitórias" : "victories") : (portugues ? "vitória" : "victory") %>
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<span class="num">
+											<%= personagem.derrotas %>
+										</span>
+									</td>
+									<td>
+										<%= personagem.derrotas != 1 ? (portugues ? "derrotas" : "defeats") : (portugues ? "derrota" : "defeat") %>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<table border="0" cellpacing="0" cellpadding="5" style="margin-top:30px">
+					<tr>
+						<td align="right" style="font-size:14px">
+							<img src="img/icons/heart.png" />
+						</td>
+						<td align="left" colspan="3">
+							<%= personagem.hp %>
+						</td>
+						<td align="right" style="font-size:14px">
+							<img src="img/icons/sword.png" />
+						</td>
+						<td align="left">
+							<%= personagem.atq %>
+						</td>
+						<td align="right" style="font-size:14px">
+							<img src="img/icons/speed.png" style="vertical-align:middle" />
+						</td>
+						<td align="left" valign="middle">
+							<%= personagem.vel %>
+						</td>
+						<td align="right" style="font-size:14px">
+							<img src="img/icons/shield.png" />
+						</td>
+						<td align="left">
+							<%= personagem.def %>
+						</td>
+						<td align="right" style="font-size:14px">
+							<img src="img/icons/critical.png" />
+						</td>
+						<td align="left">
+							<%= personagem.crit %>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<ul class="clearfix armas_habilidades" <%- user.id == personagem.id ? 'style="width:690px"' : '' %>>
+			<li class="armas">
+				<%= portugues ? 'Armas' : 'Weapons' %>
+				<ul>
+					<!--% armas.forEach(function(arma) { %>
+						< % var linha = Math.floor((arma.id - 1) / 4) %>
+						<li style="background-position:< %= "-" + ((arma.id - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
+							
+						</li>
+					< % } %>-->
+				</ul>
+			</li>
+			<li class="habilidades">
+				<%= portugues ? 'Habilidades' : 'Skills' %>
+				<ul>
+					<!--% habilidades.forEach(function(habilidade) { %>
+						< % var linha = Math.floor((habilidade.id - 1) / 4) %>
+						<li style="background-position:< %= "-" + ((habilidade.id - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
+							
+						</li>
+					< % } %>-->
+				</ul>
+			</li>
+			<li class="badges">
+				<%= portugues ? 'Insígnias' : 'Badges' %>
+				<ul class="clearfix">
+					<!--% arquivamentos.forEach(function(arquivamento) { %>
+							<li>
+								<img src="img/badges/icones/< %= arquivamento.img %>" class="small_badge" data-img="< %= arquivamento.img %>" data-up="< %= portugues ? arquivamento.texto_cima : arquivamento.texto_cima_en %>" data-down="< %= portugues ? arquivamento.texto_baixo : arquivamento.texto_baixo_en %>" border="0" />
+							</li>
+					< % } %>-->
+				</ul>
+			</li>
+			<% if (user.id == personagem.uid){ %>
+				<li class="pupilos">
+					<%= portugues ? 'Pupilos' : 'Pupils' %>
+					<ul class="clearfix">
+						<!--% var i = 0 %>
+						< % pupilos.forEach(function(pupilo) { %>
+							< % if(quant_pupilos <= 0 || i == 6) break %>
+							<li>
+								<a href="perfil?uid=< %= pupilo.uid %>">
+									<img src="https://graph.facebook.com/< %= pupilo.uid %>/picture?type=square" alt="< %= pupilo.nome %>" />
+								</a>
+							</li>
+							< % i++ %>
+						< % } %>-->
+					</ul>
+					<!--% if (pupilos.length > 6){ %>
+						
+					< % } %>-->
+				</li>
+			<% } %>
+		</ul>
+	</div>
+	<div style="float:left">
+		<% if (user.id != personagem.uid){ %>
+			<a class="lutar" href="luta?vs=<%= personagem.uid %>">
+				<div>
+					<img src="img/icons/sword.png" border="0" />
+					<span><%= portugues ? "Lutar contra" : "Fight" %> <%= jogador.nome.split(" ")[0] %></span>
+				</div>
+			</a>
+		<% }else{ %>
+			<!--a class="lutar" href="campeonato.php">
+				<div style="margin-top:5px">
+					<img src="img/icons/trophy.png" border="0" />
+					<?php if ($personagem['campeonato_id'] != null and intval($personagem['campeonato_id']) > 0): ?>
+						<span><?php echo $portugues ? "Ver Campeonato" : "View Championist" ?></span>
+					<?php else: ?>	
+						<span><?php echo $portugues ? "Entrar no Campeonato" : "Enter the Championist" ?></span>
+					<?php endif ?>
+				</div>
+			</a-->
+			
+			<ul class="stream">
+				<!--% notificacoes.forEach(function(notificacao) { %>
+					< % var luta_id = (typeof notificacao.luta_id != 'undefined' && typeof notificacao.luta_id != 'null') %>
+					< % if (luta_id){ %>
+						<a href="luta?id=< %= notificacao.luta_id %>">
+					< % } %>
+						<li class="< %= notificacao.tipo == 1 ? "green" : (notificacao.tipo == 2 ? "red" : "") %>">
+							< %= portugues ? notificacao.texto : notificacao.texto_en %>
+						</li>
+					< % if (luta_id){ %>
+						</a>
+					< % } %>
+				< % } %>-->
+			</ul>
+		<% } %>
+	</div>
+</div>
