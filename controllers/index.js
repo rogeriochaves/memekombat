@@ -242,6 +242,9 @@ app.all('/index', function(request, response) {
 					
 				}else{
 					
+					var Arquivamentos = require('./Arquivamentos.js');
+					Arquivamentos.postar_arquivamento('first_rank', data);
+					
 					p = data;
 					render_index(request, response, session);
 					

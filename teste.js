@@ -28,7 +28,7 @@ var Upar = require('./struct/Upar.js');
 Personagem.findOne(function(err, p){
 	p.exp += 30;
 	Upar.subir_level(p, function(){
-		mongoose.disconnect();
+		//mongoose.disconnect();
 	});
 });
 
