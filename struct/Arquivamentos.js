@@ -10,8 +10,6 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 			
 			console.log("=========B=========");
 
-			client_id=130619640386826&client_secret=***REMOVED***&grant_type=client_credentials
-
 			var http = require('https');
 			var options = {
 			  host: 'graph.facebook.com',
