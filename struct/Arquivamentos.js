@@ -6,7 +6,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 	console.log("=========A=========");
 	
 	Arquivamento.findOne({url: arquivamento_url}, function(err, arquivamento){
-		if(arquivamento != null && personagem.arquivamentos.indexOf(arquivamento.num) == -1){
+		if(arquivamento != null && personagem.arquivamentos.indexOf(arquivamento._id) == -1){
 			
 			console.log("=========B=========");
 
@@ -22,12 +22,12 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 			var req = http.request(options, function(res) {
 				
 				console.log("=========B2=========");
-				console.log(res);
 				
 				res.setEncoding('utf8');
 				res.on('data', function (data) {
 					
 					console.log("=========C=========");
+					console.log(data);
 				
 					var app_access_token = data.split('access_token=')[1];
 					var achievement = process.env.FACEBOOK_APP_HOME + 'achievements/?url=' + arquivamento.url;
@@ -42,6 +42,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 						res.on('data', function (data) {
 							
 							console.log("=========D=========");
+							console.log(data);
 							
 							var achievement_URL = '/' + personagem.uid + '/achievements&achievement=' + achievement + '&access_token=' + app_access_token;
 							
@@ -51,6 +52,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 								res.on('data', function (data) {
 									
 									console.log("=========E=========");
+									console.log(data);
 						
 									personagem.arquivamentos.push(arquivamento._id);
 									personagem.notificacoes.push({

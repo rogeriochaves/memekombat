@@ -243,7 +243,7 @@
 							<a href="luta?id=<%= notificacao.luta_id %>">
 						<% } %>
 							<li class="<%= notificacao.tipo == 1 ? "green" : (notificacao.tipo == 2 ? "red" : "") %>">
-								<%= portugues ? notificacao.texto : notificacao.texto_en %>
+								<%- portugues ? notificacao.texto : notificacao.texto_en %>
 							</li>
 						<% if (luta_id){ %>
 							</a>
