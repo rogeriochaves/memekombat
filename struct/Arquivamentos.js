@@ -52,7 +52,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 									
 									console.log("=========E=========");
 						
-									personagem.arquivamentos.push(arquivamento.num);
+									personagem.arquivamentos.push(arquivamento._id);
 									personagem.notificacoes.push({
 										texto: "Você conseguiu a insígnia <b>" + arquivamento.titulo + "</b>",
 										texto_en: "You achieved the <b>" + arquivamento.titulo + "</b> badge",
