@@ -21,6 +21,9 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 			// uid, meme_src, level, hp, atq, vel, def, crit, nome, exp, idioma, genero, username, ranking_pos, vitorias, derrotas
 			http.request(options, function(res) {
 				
+				console.log("=========B2=========");
+				console.log(res);
+				
 				res.setEncoding('utf8');
 				res.on('data', function (data) {
 					
