@@ -242,7 +242,7 @@ app.all('/index', function(request, response) {
 					
 				}else{
 					
-					var Arquivamentos = require('./Arquivamentos.js');
+					var Arquivamentos = require('./../struct/Arquivamentos.js');
 					Arquivamentos.postar_arquivamento('first_rank', data);
 					
 					p = data;
