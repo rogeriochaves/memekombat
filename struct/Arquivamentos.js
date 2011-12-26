@@ -10,12 +10,14 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 			
 			console.log("=========B=========");
 
+			client_id=130619640386826&client_secret=***REMOVED***&grant_type=client_credentials
+
 			var http = require('https');
 			var options = {
 			  host: 'graph.facebook.com',
 			  port: 443,
 			  path: '/oauth/access_token&client_id='+process.env.FACEBOOK_APP_ID+'&client_secret='+process.env.FACEBOOK_SECRET+'&grant_type=client_credentials',
-			  method: 'POST'
+			  method: 'GET'
 			};
 
 			// uid, meme_src, level, hp, atq, vel, def, crit, nome, exp, idioma, genero, username, ranking_pos, vitorias, derrotas
