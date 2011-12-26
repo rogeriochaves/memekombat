@@ -10,7 +10,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 			
 			console.log("=========B=========");
 
-			var http = require('http');
+			var http = require('https');
 			var options = {
 			  host: 'graph.facebook.com',
 			  port: 443,
