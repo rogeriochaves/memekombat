@@ -178,4 +178,6 @@ require('./controllers/inicio.js');
 require('./controllers/index.js');
 require('./controllers/perfil.js');
 require('./controllers/arena.js');
+require('./controllers/_arena.js');
+require('./controllers/achievements.js');
 require('./controllers/testando.js');

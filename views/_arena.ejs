@@ -1,0 +1,23 @@
+<% players.forEach(function(player){ %>
+	<li> 															 
+		<a href="luta?vs=<%= player.uid %>" class="link_luta">&nbsp;</a>
+		<div class="perfil">										 
+			<div style="width:500px; height:21px">					 
+					<a href="perfil?uid=<%= player.uid %>">			 
+						<%= player.nome %>							 
+					</a>											 
+			</div>													 
+		</div>														 
+		<div class="meme <%= player.meme_src %> <%= player.genero == 'female' ? 'derpina' : '' %>" style="border:1px solid #CCC"></div>																								
+		<div class="foto">																		 
+			<img src="https://graph.facebook.com/<%= player.uid %>/picture?type=large" border="0" />
+		</div>																					 
+		<div class="level">																		 
+			<%= portugues ? 'Nv' : 'Lv' %>
+			<%= player.level %>									 
+		</div>																					 
+	</li>
+	<script type="text/javascript" charset="utf-8">
+		arena_uids.push('<%= player.uid %>');
+	</script>
+<% }) %>

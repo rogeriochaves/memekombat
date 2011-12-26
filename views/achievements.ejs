@@ -1,0 +1,16 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
+  <head>
+    <title><%= arquivamento.titulo_en %></title>
+    <meta property="og:type" content="game.achievement"/>
+    <meta property="og:url" content="<%= app_home %>achievements/?url=<%= arquivamento.url %>"/>
+    <meta property="og:title" content="<%= arquivamento.titulo_en %>"/>
+    <meta property="og:description" content="<%= arquivamento.descricao_en %>"/>
+    <meta property="og:image" content="<%= app_home %>img/badges/<%= arquivamento.img %>"/>
+    <meta property="game:points" content="<%= arquivamento.pontos %>"/>
+    <meta property="fb:app_id" content="<%= app_id %>"/>
+  </head>
+  <body>
+    <%= arquivamento.texto_cima_en %><br />
+	<%= arquivamento.texto_baixo_en %>
+  </body>
+</html>

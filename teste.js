@@ -3,11 +3,66 @@ require.paths.unshift(__dirname + '/lib');
 global.mongoose = require('mongoose')  
 global.Schema = mongoose.Schema
 global.ObjectId = Schema.ObjectId;
-mongoose.connect('mongodb://localhost/memekombat');
 
 require('./schema.js');
 
-var Personagem = mongoose.model('Personagens');
+global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+if(environment == 'development'){
+	process.env.FACEBOOK_APP_ID = '130619640386826';
+	process.env.FACEBOOK_SECRET = '***REMOVED***';
+	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
+	process.env.FACEBOOK_APP_HOME = 'http://localhost:3000/';
+	mongoose.connect('mongodb://localhost/memekombat');
+}else{
+	process.env.FACEBOOK_APP_ID = '282893221758514';
+	process.env.FACEBOOK_SECRET = '***REMOVED***';
+	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattwo/';
+	process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
+	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
+}
+
+//var Personagem = mongoose.model('Personagens');
+
+var Upar = require('./struct/Upar.js');
+
+Personagem.findOne(function(err, p){
+	p.exp += 30;
+	Upar.subir_level(p, function(){
+		mongoose.disconnect();
+	});
+});
+
+
+/*var http = require('http');
+var options = {
+  host: 'graph.facebook.com',
+  port: 443,
+  path: '/oauth/access_token&client_id='+process.env.FACEBOOK_APP_ID+'&client_secret='+process.env.FACEBOOK_SECRET+'&grant_type=client_credentials',
+  method: 'POST'
+};
+
+// uid, meme_src, level, hp, atq, vel, def, crit, nome, exp, idioma, genero, username, ranking_pos, vitorias, derrotas
+http.request(options, function(res) {
+	res.setEncoding('utf8');
+	res.on('data', function (full_data) {
+		console.log(full_data);
+	});
+}).end();*/
+
+
+
+/*Equipamento.find(function(err, armas){
+	armas_rand = [];
+	armas.forEach(function(arma){
+		armas_rand.push({arma: arma, random: Math.random()});
+	});
+	arma = armas_rand.sort(function(a, b){
+		return a.random - b.random
+	})[0].arma;
+	console.log(arma);
+	mongoose.disconnect();
+});*/
+
 /*Personagem.findOne({uid: '123'}, function(err, data){
 	console.log(err);
 	mongoose.disconnect();
@@ -22,7 +77,24 @@ meme.findOne({nome: "Rage"}, function(err, res){
 	console.log(res);
 });*/
 
+
+
+/*require('./lib/ignora_acentos.js');
+var Randomize = require('./struct/Randomize.js');
+
 Personagem.findOne({}, function(err, p){
+	Randomize.gerar_luta(p, p, function(luta){
+		console.log(Randomize.imprimir_movimentos(luta.movimentos));
+		mongoose.disconnect();
+	});
+});*/
+
+
+/*var busca = 'rogé'.ignora_acentos();
+console.log(busca);
+Personagem.find({nome: new RegExp(".*"+busca+".*", "i")}, function(err, p){
+	console.log(p[0].nome);
+	mongoose.disconnect();
 	/*Equipamento.where('_id').in(data.equipamentos).find(function(err, equips){
 		equips.forEach(function(equip){
 			console.log(equip.num);
@@ -36,7 +108,7 @@ Personagem.findOne({}, function(err, p){
 	});
 	p.save();*/
 	
-});
+//});
 
 /*Equipamento.where().sort({}).find(function(err, data){
 	data.forEach(function(d){

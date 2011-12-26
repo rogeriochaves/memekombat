@@ -82,7 +82,7 @@ socket.on('connect', function() {
 	socket.on('nenhum_encontrado', function(){
 		if($('.memes-arena').length > 0){
 			$('.memes-arena img').remove();
-			$('.memes-arena').html('<div style="width:720px; text-align:center; padding:20px 0;">'+(portugues ? "Nenhum resultado econtrado" : "No results found" )+'</div>');
+			$('.memes-arena').html('<div class="nenhum-resultado" style="width:720px; text-align:center; padding:20px 0;">'+(portugues ? "Nenhum resultado econtrado" : "No results found" )+'</div>');
 			ajaxizar_links();
 			cache_page('arena', $('.conteudo').html());
 		}else{
@@ -112,6 +112,7 @@ socket.on('connect', function() {
 					</div>																						\
 				</li>'
 			);
+			arena_uids.push(player.uid);
 			ajaxizar_links();
 			cache_page('arena', $('.conteudo').html());
 		}else{

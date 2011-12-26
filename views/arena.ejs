@@ -32,13 +32,13 @@
 <script type="text/javascript" charset="utf-8">
 	(function(){
 		
+		arena_uids = [];
+		
 		$('form#frmBusca').submit(function() {
-			$('.carregando').show();
-			$('.carregando').css({'opacity': '0'});
-			$('.carregando').animate({'opacity': '0.5'});
-			$.post('arena', $(this).serialize(), function(data){
+			$('.memes-arena').html('<center><img src="img/loading.gif" /></center>');
+			
+			$.get('arena', $(this).serialize() + '&socket_id=' + socket_id, function(data){
 				$('.conteudo').html(data);
-				$('.carregando').fadeOut();
 				ajaxizar_links();
 			});
 			return false;
@@ -54,12 +54,15 @@
 		});
 		
 		$('.mais-memes').click(function() {
-			$(this).find("img").show();
-			$.post('_arena.php', {arena_uids: arena_uids.join(",")}, function(data) {
-				$('.mais-memes').find("img").hide();
+			$('.memes-arena').append('<center><img src="img/loading.gif" class="arena-loading" /></center>');
+			$.post('_arena', {arena_uids: arena_uids.join(",")}, function(data) {
+				$('.arena-loading').remove();
 				$('.memes-arena').append(data);
-				cached_pages['arena.php'] = $('.conteudo').html();
+				if(arena_uids.length > 0){
+					$('.nenhum-resultado').remove();
+				}
 				ajaxizar_links();
+				cached_pages['arena'] = $('.conteudo').html();
 			});
 			return false;
 		});
