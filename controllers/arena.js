@@ -74,14 +74,14 @@ var busca_jogadores_arena = function(user, session, personagem, socket_id, busca
 
 				if(limite > 0){
 					amigos_uids.push(user.id);
-					require('./../lib/ignora_acentos.js');
+					var IgnoraAcentos = require('./../lib/ignora_acentos.js');
 				
 					Personagem
 						.where('uid').nin(amigos_uids)
 						.where('level').lt(personagem.level + 3)
 						.sort('random', 1).limit(limite)
 						.select('uid', 'level', 'nome', 'meme_src', 'genero')
-						.find({nome: new RegExp(".*"+busca.replace(' ','.*').ignora_acentos()+".*", 'i')}, function(err, outros_jogadores){
+						.find({nome: new RegExp(".*"+IgnoraAcentos.ignora_acentos(busca.replace(' ','.*'))+".*", 'i')}, function(err, outros_jogadores){
 
 							outros_jogadores.forEach(function(p){
 								socket_manager.send(socket_id, 'player_arena', p);

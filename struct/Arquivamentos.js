@@ -36,6 +36,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 					var achievement_registration_URL = '/' + process.env.FACEBOOK_APP_ID + '/achievements&achievement=' + achievement + '&display_order=' + achievement_display_order + '&access_token=' + app_access_token;
 				
 					options.path = achievement_registration_URL;
+					options.method = 'POST';
 				
 					var req2 = http.request(options, function(res) {
 						res.setEncoding('utf8');
