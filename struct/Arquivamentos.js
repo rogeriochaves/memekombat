@@ -19,7 +19,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 			};
 
 			// uid, meme_src, level, hp, atq, vel, def, crit, nome, exp, idioma, genero, username, ranking_pos, vitorias, derrotas
-			http.request(options, function(res) {
+			var req = http.request(options, function(res) {
 				
 				console.log("=========B2=========");
 				console.log(res);
@@ -37,7 +37,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 				
 					options.path = achievement_registration_URL;
 				
-					http.request(options, function(res) {
+					var req2 = http.request(options, function(res) {
 						res.setEncoding('utf8');
 						res.on('data', function (data) {
 							
@@ -46,7 +46,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 							var achievement_URL = '/' + personagem.uid + '/achievements&achievement=' + achievement + '&access_token=' + app_access_token;
 							
 							options.path = achievement_URL;
-							http.request(options, function(res) {
+							var req3 = http.request(options, function(res) {
 								res.setEncoding('utf8');
 								res.on('data', function (data) {
 									
@@ -65,13 +65,23 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 								});
 								
 							});
-							
+							req3.end();
+							req3.on('error', function(e) {
+							  console.error(e);
+							});
 						});
 					
 					});
-					
+					req2.end();
+					req2.on('error', function(e) {
+					  console.error(e);
+					});
 				});
 				
+			});
+			req.end();
+			req.on('error', function(e) {
+			  console.error(e);
 			});
 		}
 	});
