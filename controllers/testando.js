@@ -1,12 +1,13 @@
-render_testando = function(request, response){
+render_testando = function(request, response, num){
 	response.render('testando.ejs', {
-      layout:   false
+      layout:   false,
+		num: num
 	});
 }
 
 app.all('/testando', function(request, response) {
 	
 	var Characters = require('./../struct/Characters.js');
-	
-	render_testando(request, response);
+	var num = request.param('num');
+	render_testando(request, response, num);
 });

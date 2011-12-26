@@ -3,6 +3,9 @@ var render_index = function(req, res, session, novo_personagem){
 	var socket_id = uuid();
 	var token = req.session.auth.facebook.accessToken;
 	var user = req.session.auth.facebook.user;
+	
+	require('date-utils');
+	var hora_servidor = (new Date()).toFormat('HH:MI:SS');
 
 	session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 		
@@ -12,6 +15,7 @@ var render_index = function(req, res, session, novo_personagem){
           token:    token,
           app:      app,
           user:     user,
+		  hora_servidor: hora_servidor,
 		  session_fight: (typeof req.session.fight != 'undefined' ? req.session.fight : undefined),
 		  novo_personagem: (novo_personagem ? true : false),
 		  portugues: (user.locale.indexOf('pt') >= 0),
@@ -53,7 +57,7 @@ var criar_personagem = function(request, response, session, mestre_id){
 	var p = new Personagem();
 	p.uid = user.id;
 	p.indicacao_id = mestre_id;
-	p.meme_src = request.params.meme;
+	p.meme_src = request.param('meme');
 	p.level = 1;
 	p.hp = parseInt(Math.random() * 10) + 10;
 	p.atq = parseInt(Math.random() * 3) + 2;
@@ -110,7 +114,7 @@ app.all('/index', function(request, response) {
 			var user = request.session.auth.facebook.user;
 			
 			Personagem.findOne({uid: user.id}, function(err, data){
-				if(data == null && request.params.meme){
+				if(data == null && request.param('meme')){
 					var indicacao;
 					if(request.session.request_ids){
 						var mestre_request_id = request.session.request_ids[0];
@@ -177,40 +181,40 @@ app.all('/index', function(request, response) {
 							p.habilidades = [];
 							p.atributos = [];
 						
-							var equipamentos = [];
+							var equipamentos = {};
 							Equipamento.find(function(err, data){
 								data.forEach(function(equip){
-									equipamentos.push(equip);
+									equipamentos[equip.num] = equip;
 								});
 							
 								var	edata = full_data[1].split(',');
 								edata.forEach(function(equipamento_id){
 									var equip = equipamentos[parseInt(equipamento_id)];
 									if(typeof equip != 'undefined'){
-										p.equipamentos.push(equip._id);
+										p.equipamentos.push(equip.num);
 									}
 								});
 							
 							
-								var habilidades = [];
+								var habilidades = {};
 								Habilidade.find(function(err, data){
 									data.forEach(function(habil){
-										habilidades.push(habil);
+										habilidades[habil.num] = habil;
 									});
 								
 									var	hdata = full_data[2].split(',');
 									hdata.forEach(function(habilidade_id){
 										var habil = habilidades[parseInt(habilidade_id)];
 										if(typeof habil != 'undefined'){
-											p.habilidades.push(habil._id);
+											p.habilidades.push(habil.num);
 										}
 									});
 								
 								
-									var arquivamentos = [];
-									Habilidade.find(function(err, data){
+									var arquivamentos = {};
+									Arquivamento.find(function(err, data){
 										data.forEach(function(arquiv){
-											arquivamentos.push(arquiv);
+											arquivamentos[arquiv.num] = arquiv;
 										});
 
 										var	adata = full_data[3].split(',');

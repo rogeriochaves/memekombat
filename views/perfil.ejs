@@ -163,33 +163,33 @@
 			<li class="armas">
 				<%= portugues ? 'Armas' : 'Weapons' %>
 				<ul>
-					<!--% armas.forEach(function(arma) { %>
-						< % var linha = Math.floor((arma.id - 1) / 4) %>
-						<li style="background-position:< %= "-" + ((arma.id - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
+					<% personagem.equipamentos.forEach(function(num) { %>
+						<% var linha = Math.floor((num - 1) / 4) %>
+						<li style="background-position:<%= "-" + ((num - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
 							
 						</li>
-					< % } %>-->
+					<% }) %>
 				</ul>
 			</li>
 			<li class="habilidades">
 				<%= portugues ? 'Habilidades' : 'Skills' %>
 				<ul>
-					<!--% habilidades.forEach(function(habilidade) { %>
-						< % var linha = Math.floor((habilidade.id - 1) / 4) %>
-						<li style="background-position:< %= "-" + ((habilidade.id - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
+					<% personagem.habilidades.forEach(function(habilidade) { %>
+						<% var linha = Math.floor((habilidade - 1) / 4) %>
+						<li style="background-position:<%= "-" + ((habilidade - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
 							
 						</li>
-					< % } %>-->
+					<% }) %>
 				</ul>
 			</li>
 			<li class="badges">
 				<%= portugues ? 'Insígnias' : 'Badges' %>
 				<ul class="clearfix">
-					<!--% arquivamentos.forEach(function(arquivamento) { %>
+					<!--% personagem.arquivamentos.forEach(function(arquivamento) { %>
 							<li>
 								<img src="img/badges/icones/< %= arquivamento.img %>" class="small_badge" data-img="< %= arquivamento.img %>" data-up="< %= portugues ? arquivamento.texto_cima : arquivamento.texto_cima_en %>" data-down="< %= portugues ? arquivamento.texto_baixo : arquivamento.texto_baixo_en %>" border="0" />
 							</li>
-					< % } %>-->
+					< % }) %>-->
 				</ul>
 			</li>
 			<% if (user.id == personagem.uid){ %>
@@ -235,18 +235,22 @@
 			</a-->
 			
 			<ul class="stream">
-				<!--% notificacoes.forEach(function(notificacao) { %>
-					< % var luta_id = (typeof notificacao.luta_id != 'undefined' && typeof notificacao.luta_id != 'null') %>
-					< % if (luta_id){ %>
-						<a href="luta?id=< %= notificacao.luta_id %>">
-					< % } %>
-						<li class="< %= notificacao.tipo == 1 ? "green" : (notificacao.tipo == 2 ? "red" : "") %>">
-							< %= portugues ? notificacao.texto : notificacao.texto_en %>
-						</li>
-					< % if (luta_id){ %>
-						</a>
-					< % } %>
-				< % } %>-->
+				<% var i = 0; %>
+				<% personagem.notificacoes.forEach(function(notificacao) { %>
+					<% if(i < 8){ %>
+						<% var luta_id = (typeof notificacao.luta_id != 'undefined' && typeof notificacao.luta_id != 'null') %>
+						<% if (luta_id){ %>
+							<a href="luta?id=<%= notificacao.luta_id %>">
+						<% } %>
+							<li class="<%= notificacao.tipo == 1 ? "green" : (notificacao.tipo == 2 ? "red" : "") %>">
+								<%= portugues ? notificacao.texto : notificacao.texto_en %>
+							</li>
+						<% if (luta_id){ %>
+							</a>
+						<% } %>
+						<% i++ %>
+					<% } %>
+				<% }) %>
 			</ul>
 		<% } %>
 	</div>

@@ -7,13 +7,13 @@ app.all('/perfil', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			var socket_id = request.params.socket_id ? request.params.socket_id : uuid();
+			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 
 			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
 				
-				var uid = request.params.uid ? request.params.uid : user.id;
+				var uid = request.param('uid') ? request.param('uid') : user.id;
 				
 				Personagem.findOne({uid: user.id}, function(err, data){
 					if(data == null && request.params.uid){
@@ -23,7 +23,7 @@ app.all('/perfil', function(request, response) {
 					}else{
 						var Characters = require('./../struct/Characters.js');
 						var personagem = data;
-						var session_erro = request.params.session_erro;
+						var session_erro = request.session.erro;
 						var prox_nivel = Characters.exp_necessaria(personagem.level);
 						
 						response.render('perfil.ejs', {
@@ -41,6 +41,28 @@ app.all('/perfil', function(request, response) {
 						Characters.lutas_restantes(personagem._id, function(quant){
 							socket_manager.send(socket_id, 'lutas_restantes', quant);
 						});
+						
+						Arquivamento
+							.where('_id')
+							.in(personagem.arquivamentos)
+							.select('img', 'texto_cima', 'texto_baixo', 'texto_cima_en', 'texto_baixo_en')
+							.find(function(err, arquivs){
+								arquivs.forEach(function(arquiv){
+									socket_manager.send(socket_id, 'arquivamento', arquiv);
+								});
+						});
+						
+						Personagem.where().limit(6).select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
+							pupilos.forEach(function(pupilo){
+								socket_manager.send(socket_id, 'pupilo', pupilo);
+							});
+						});
+						
+						Personagem.find({indicacao_id: personagem._id}).count(function(err, quant){
+							socket_manager.send(socket_id, 'quant_pupilos', quant);
+						});
+						
+						
 					}
 				});
 

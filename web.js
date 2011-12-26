@@ -37,14 +37,14 @@ everyauth.facebook
   .appSecret(process.env.FACEBOOK_SECRET)
   .scope('publish_stream,publish_actions')
   .entryPath('/')
-  .redirectPath('/home')
+  .redirectPath('/index')
   .findOrCreateUser(function() {
     return({});
   });
 
 // create an express webserver
 global.app = express.createServer(
-  express.logger(),
+  //express.logger(),
   express.static(__dirname + '/public'),
   express.cookieParser(),
   // set this to a secret value to encrypt session cookies
@@ -67,18 +67,18 @@ app.listen(port, function() {
 });
 
 app.post('/', function(request, response){
-	if(request.params.request_ids){
+	if(request.param('request_ids')){
 		request.session.request_ids = request.params.request_ids.split(',');
 	}
-	if(request.params.i){
+	if(request.param('i')){
 		request.session.indicacao_uid = request.params.i;
 	}
-	if(request.params.fight){
+	if(request.param('fight')){
 		request.session.fight = request.params.fight;
 	}
 	
 	if (request.session.auth) {
-		response.redirect('/home');
+		response.redirect('/index');
 		return false;
 	}else{
 		var method = request.headers['x-forwarded-proto'] || 'http';
@@ -177,4 +177,5 @@ app.get('/home', function(request, response) {
 require('./controllers/inicio.js');
 require('./controllers/index.js');
 require('./controllers/perfil.js');
+require('./controllers/arena.js');
 require('./controllers/testando.js');

@@ -72,7 +72,9 @@
 		cached_pages = {};
 		atualizar_social = 0;
 		tweetou = false;
+		pagina_atual = '';
 		function cache_page(url, data){
+			pagina_atual = url;
 			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){
 				cached_pages['ranking.php'] = null;
 				cached_pages['arena.php'] = null;
@@ -105,92 +107,6 @@
 			});
 			atualizar_twitter();
 		}
-		$(document).ready(function() {
-			$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
-			$('.small_badge').live('click', function() {
-				$('.badge img').attr('src', "img/badges/" + $(this).attr('data-img'));
-				$('.badge .texto.cima').html($(this).attr('data-up'));
-				$('.badge .texto.baixo').html($(this).attr('data-down'));
-				$('.badge .texto.baixo').css('margin-top', "-" + (62 * (parseInt($(this).attr('data-down').length / 13) + 1)) + "px");
-				$('.backlight').fadeIn();
-				$('.badge').fadeIn();
-			});
-			$('.ajuda').live('click', function() {
-				$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
-				$('.backlight').fadeIn();
-				$('.badge').fadeIn();
-			});
-			<% if(novo_personagem){ %>
-				$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
-				$('.backlight').fadeIn();
-				$('.badge').fadeIn();
-			<% } %>
-			$('.badge, .backlight').click(function() {
-				$('.backlight').fadeOut();
-				$('.badge').fadeOut();
-			});
-			<%
-				var redir = false;
-				if(novo_personagem){
-					redir = "arena";
-				}else if(typeof session_fight != 'undefined'){
-					redir = "luta/" + session_fight;
-				}else{
-					redir = 'perfil';
-				}
-			%>
-			<% if(redir){ %>
-				$('.carregando').fadeOut();
-				$.get('<%= redir %>', function(data) {
-					$('.conteudo').html(data);
-					ajaxizar_links();
-					cache_page('<%= redir %>', data);
-				});
-			<% }else{ %>
-				$('.carregando').fadeOut();
-				cache_page('perfil', $('.conteudo').html());
-			<% } %>
-			
-			ajaxizar_links();
-			$('a[rel]').live('click', function() {
-				if (!$(this).hasClass('no-rel')) {
-					if ($(this).hasClass('erase-content')) {
-						FB.Canvas.setSize({height: 300});
-						$('.conteudo').html("");
-					}
-					var url = $(this).attr('rel');
-					if(cached_pages[url] == undefined || cached_pages[url] == null){
-						$('.carregando').show();
-						$('.carregando').css({'opacity': '0'});
-						$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
-						$('.carregando').animate({'opacity': '0.5'});
-						/*carregando_timeout = setTimeout(function(){
-							$('.carregando').fadeOut();
-						}, 10000);*/
-						$.get(url + (url.indexOf('?') > 0 ? '&' : '?') + 'socket_id=<%= socket_id %>', function(data){
-							//clearTimeout(carregando_timeout);
-							parar_luta();
-							$('.conteudo').html(data);
-							$('.carregando').fadeOut();
-							ajaxizar_links();
-							cache_page(url, data);
-						});
-					}else{
-						parar_luta();
-						$('.conteudo').html(cached_pages[url]);
-						ajaxizar_links();
-					}
-				
-					if(atualizar_social > 0){
-						$.post('_atualizar_social', {luta_id: atualizar_social, tweetou: (tweetou ? 1 : 0)});
-						atualizar_social = 0;
-						tweetou = false;
-					}
-				
-					return false;
-				}
-			});
-		});
 	</script>
 	<script type="text/javascript" charset="utf-8">
 		var socket_id = '<%= socket_id %>';
@@ -257,11 +173,7 @@
 	
 	<div class="creditos">
 		<hr />
-		<?php
-			$now = find("SELECT now() 'now'");
-			$dt = strptime($now['now'], '%Y-%m-%d %H:%M:%S');
-		?>
-		<p>© <?php echo date("Y") ?> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc. <?php echo ($portugues ? "Hora no servidor " : "Server's time ") . $dt['tm_hour'] . ":" . $dt['tm_min'] . ":" . $dt['tm_sec'] ?>. <a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><?php echo $portugues ? "Como jogar" : "How to play" ?></a>. <br />
+		<p>© <%= (new Date()).getFullYear() %> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc. <%= (portugues ? "Hora no servidor " : "Server's time ") + hora_servidor %>. <a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><%= portugues ? "Como jogar" : "How to play" %></a>. <br />
         	<!--a href="http://www.facebook.com/LABINC"><img src="http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc7/313183_235786553133974_188185091227454_656018_496740_n.jpg" width="145" height="156"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/apps/application.php?id=183114805092475"><img src="http://profile.ak.fbcdn.net/hprofile-ak-snc4/277035_183114805092475_912185436_n.jpg" width="153" height="142"></a-->
 		<?php #print_r(find("SELECT now()")) ?>
 		</p>
@@ -307,13 +219,106 @@
 	    message: '<%= portugues ? "Seja meu pupilo" : "Be my pupil" %>'
 	  }, requestCallback);
 	}
-	$(document).ready(function() {
-		/*FB.init({
-	        appId  : '<?php echo AppInfo::appID(); ?>',
-	        status : true,
-	        cookie : true,
-	        oauth: true
-	      });*/
+	
+	function atualizar_twitter(){
+		try{
+			twttr.widgets.load();
+		}catch(err){}
+	}
+</script>
+
+<?php session_write_close(); mysql_close(); ?>
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+<script type="text/javascript" charset="utf-8">
+	(function() {
+		$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
+		$('.small_badge').live('click', function() {
+			$('.badge img').attr('src', "img/badges/" + $(this).attr('data-img'));
+			$('.badge .texto.cima').html($(this).attr('data-up'));
+			$('.badge .texto.baixo').html($(this).attr('data-down'));
+			$('.badge .texto.baixo').css('margin-top', "-" + (62 * (parseInt($(this).attr('data-down').length / 13) + 1)) + "px");
+			$('.backlight').fadeIn();
+			$('.badge').fadeIn();
+		});
+		$('.ajuda').live('click', function() {
+			$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
+			$('.backlight').fadeIn();
+			$('.badge').fadeIn();
+		});
+		<% if(novo_personagem){ %>
+			$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
+			$('.backlight').fadeIn();
+			$('.badge').fadeIn();
+		<% } %>
+		$('.badge, .backlight').click(function() {
+			$('.backlight').fadeOut();
+			$('.badge').fadeOut();
+		});
+		<%
+			var redir = false;
+			if(novo_personagem){
+				redir = "arena";
+			}else if(typeof session_fight != 'undefined'){
+				redir = "luta/" + session_fight;
+			}else{
+				redir = 'perfil';
+			}
+		%>
+		<% if(redir){ %>
+			$('.carregando').fadeOut();
+			$.get('<%= redir %>?socket_id=<%= socket_id %>', function(data) {
+				$('.conteudo').html(data);
+				ajaxizar_links();
+				cache_page('<%= redir %>', data);
+			});
+		<% }else{ %>
+			$('.carregando').fadeOut();
+			cache_page('perfil', $('.conteudo').html());
+		<% } %>
+		
+		ajaxizar_links();
+		$('a[rel]').live('click', function() {
+			if (!$(this).hasClass('no-rel')) {
+				if ($(this).hasClass('erase-content')) {
+					FB.Canvas.setSize({height: 300});
+					$('.conteudo').html("");
+				}
+				var url = $(this).attr('rel');
+				if(cached_pages[url] == undefined || cached_pages[url] == null){
+					$('.carregando').show();
+					$('.carregando').css({'opacity': '0'});
+					$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
+					$('.carregando').animate({'opacity': '0.5'});
+					/*carregando_timeout = setTimeout(function(){
+						$('.carregando').fadeOut();
+					}, 10000);*/
+					$.get(url + (url.indexOf('?') > 0 ? '&' : '?') + 'socket_id=<%= socket_id %>', function(data){
+						//clearTimeout(carregando_timeout);
+						parar_luta();
+						$('.conteudo').html(data);
+						$('.carregando').fadeOut();
+						ajaxizar_links();
+						cache_page(url, data);
+					});
+				}else{
+					parar_luta();
+					$('.conteudo').html(cached_pages[url]);
+					ajaxizar_links();
+				}
+			
+				if(atualizar_social > 0){
+					$.post('_atualizar_social', {luta_id: atualizar_social, tweetou: (tweetou ? 1 : 0)});
+					atualizar_social = 0;
+					tweetou = false;
+				}
+			
+				return false;
+			}
+		});
+		
 		$('.convidar-amigos').live('click', function() {
 			sendRequestToManyRecipients();
 			return false;
@@ -322,14 +327,10 @@
 			sendRequestToOneRecipient($(this).attr('uid'));
 			return false;
 		});
-	});
+		
+	})();
 </script>
-
-<?php session_write_close(); mysql_close(); ?>
-  <!--[if lt IE 7 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
+</script>
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 <script type="text/javascript">
 
@@ -391,15 +392,6 @@
 		tweetou = true;
 	  }
 	});
-	
-	function atualizar_twitter(){
-		try{
-			twttr.widgets.load();
-		}catch(err){
-			console.log(twttr);
-		}
-		
-	}
 
 </script>
 

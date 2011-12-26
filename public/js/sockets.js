@@ -33,6 +33,8 @@ socket.on('connect', function() {
 		if(!notice.is(':visible')){
 			notice.html(portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>').show();
 		}
+		ajaxizar_links();
+		cache_page(pagina_atual, $('.conteudo').html());
 	});
 	
 	socket.on('quant_pupilos', function(quant_pupilos){
@@ -41,6 +43,81 @@ socket.on('connect', function() {
 		if(quant_pupilos > 6 && $('li.pupilos').length > 0){
 			$('li.pupilos').html('<a href="pupilos">'+(portugues ? "Mais" : "More")+'</a>');
 		}
+		ajaxizar_links();
+		cache_page(pagina_atual, $('.conteudo').html());
+	});
+	
+	socket.on('arquivamento', function(arquivamento){
+		$('.armas_habilidades .badges ul').append(
+			$('<li>').html(
+				$('<img>').attr({
+						src: 'img/badges/icones/'+arquivamento.img,
+						'class': 'small_badge',
+						'data-img': arquivamento.img,
+						'data-up' : (portugues ? arquivamento.texto_cima : arquivamento.texto_cima_en),
+						'data-down': (portugues ? arquivamento.texto_baixo : arquivamento.texto_baixo_en),
+						border: 0
+				})
+			)
+		);
+		cache_page(pagina_atual, $('.conteudo').html());
+	});
+	
+	socket.on('pupilo', function(pupilo){
+		$('.armas_habilidades .pupilos ul').append(
+			$('<li>').html(
+				'<a href="perfil?uid='+pupilo.uid+'"> \
+					<img src="https://graph.facebook.com/'+pupilo.uid+'/picture?type=square" alt="'+pupilo.nome+'" /> \
+				</a>'
+			)
+		);
+		ajaxizar_links();
+		cache_page(pagina_atual, $('.conteudo').html());
+	});
+	
+	socket.on('lutas_restantes_arena', function(lutas_restantes){
+		
+	});
+	
+	socket.on('nenhum_encontrado', function(){
+		if($('.memes-arena').length > 0){
+			$('.memes-arena img').remove();
+			$('.memes-arena').html('<div style="width:720px; text-align:center; padding:20px 0;">'+(portugues ? "Nenhum resultado econtrado" : "No results found" )+'</div>');
+			ajaxizar_links();
+			cache_page('arena', $('.conteudo').html());
+		}else{
+			delete cached_pages['arena'];
+		}
+	});
+	
+	socket.on('player_arena', function(player){
+		if($('.memes-arena').length > 0){
+			$('.memes-arena img').remove();
+			$('.memes-arena').append(
+				'<li> 																							\
+					<a href="luta?vs='+player.uid+'" class="link_luta">&nbsp;</a>								\
+					<div class="perfil">																		\
+						<div style="width:500px; height:21px">													\
+								<a href="perfil?uid='+player.uid+'">											\
+									'+player.nome+'																\
+								</a>																			\
+						</div>																					\
+					</div>																						\
+					<div class="meme '+player.meme_src+' '+(player.genero == 'female' ? 'derpina' : '')+'" style="border:1px solid #CCC"></div>																								\
+					<div class="foto">																			\
+						<img src="https://graph.facebook.com/'+player.uid+'/picture?type=large" border="0" />	\
+					</div>																						\
+					<div class="level">																			\
+						'+(portugues ? 'Nv' : 'Lv')+' '+(player.level)+'										\
+					</div>																						\
+				</li>'
+			);
+			ajaxizar_links();
+			cache_page('arena', $('.conteudo').html());
+		}else{
+			delete cached_pages['arena'];
+		}
+		
 	});
 	
 });

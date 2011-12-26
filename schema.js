@@ -1,5 +1,6 @@
 var ArquivamentoSchema = new Schema({
 	titulo: String
+  , num: { type: Number, unique: true }
   ,	descricao: String
   , pontos: Number
   , titulo_en: String
@@ -47,6 +48,7 @@ var PersonagemSchema = new Schema({
   , equipamentos: Array
   , habilidades: Array
   , notificacoes: [NotificacaoSchema]
+  , random: {type: Number, default: Math.random()}
 });
 mongoose.model('Personagens', PersonagemSchema);
 
@@ -71,18 +73,20 @@ mongoose.model('Pedidos', PedidoSchema);
 
 var EquipamentoSchema = new Schema({
 	nome: String
+  , num: { type: Number, unique: true }
   , atq: Number
   , def: Number
   , vel: Number
   , crit: Number
-  , tipo: Number
+  , tipo: { type: Number, default: 0 }
   , nivel_minimo: Number
-  , preco_creditos: Number
+  , preco_creditos: { type: Number, default: 0 }
 });
 mongoose.model('Equipamentos', EquipamentoSchema);
 
 var HabilidadeSchema = new Schema({
 	nome: String
+  , num: { type: Number, unique: true }
   , dano: Number
 });
 mongoose.model('Habilidades', HabilidadeSchema);
@@ -118,6 +122,7 @@ mongoose.model('Memes', MemeSchema);
 
 var RankingSchema = new Schema({
 	nome: String
+  , nome_en: String
   ,	pos: {type: Number, unique: true}
 });
 mongoose.model('Rankings', RankingSchema);
@@ -128,7 +133,8 @@ global.Habilidade = mongoose.model('Habilidades');
 global.Arquivamento = mongoose.model('Arquivamentos');
 global.Luta = mongoose.model('Lutas');
 global.Credito = mongoose.model('Creditos');
-
+global.Meme = mongoose.model('Memes');
+global.Ranking = mongoose.model('Rankings');
 
 /*
 meme.save(function(err){
