@@ -1,9 +1,9 @@
-app.all('/achievements', function(request, response) {
+app.all('/achievements/:url', function(request, response) {
 	
-	if(!request.param('url')){
+	if(!request.params.url){
 		response.redirect('/');
 	}else{
-		Arquivamento.findOne({url: request.param('url')}, function(err, data){
+		Arquivamento.findOne({url: request.params.url}, function(err, data){
 			if(data == null){
 				response.redirect('/');
 			}else{
