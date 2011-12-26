@@ -3,13 +3,9 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 		return false;
 	}
 	
-	console.log("=========A=========");
-	
 	Arquivamento.findOne({url: arquivamento_url}, function(err, arquivamento){
 		if(arquivamento != null && personagem.arquivamentos.indexOf(arquivamento._id) == -1){
 			
-			console.log("=========B=========");
-
 			var http = require('https');
 			var options = {
 			  host: 'graph.facebook.com',
@@ -21,17 +17,13 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 			// uid, meme_src, level, hp, atq, vel, def, crit, nome, exp, idioma, genero, username, ranking_pos, vitorias, derrotas
 			var req = http.request(options, function(res) {
 				
-				console.log("=========B2=========");
 				
 				res.setEncoding('utf8');
 				res.on('data', function (data) {
 					
-					console.log("=========C=========");
-					console.log(data);
 				
 					var app_access_token = data.split('access_token=')[1];
 					var achievement = process.env.FACEBOOK_APP_HOME + 'achievements/' + arquivamento.url;
-					console.log("====" + achievement + "====");
 					var achievement_display_order = 1;
 					var score = 10;
 					var achievement_registration_URL = '/' + process.env.FACEBOOK_APP_ID + '/achievements&achievement=' + achievement + '&display_order=' + achievement_display_order + '&access_token=' + app_access_token;
@@ -43,8 +35,6 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 						res.setEncoding('utf8');
 						res.on('data', function (data) {
 							
-							console.log("=========D=========");
-							console.log(data);
 							
 							var achievement_URL = '/' + personagem.uid + '/achievements&achievement=' + achievement + '&access_token=' + app_access_token;
 							
@@ -53,8 +43,6 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 								res.setEncoding('utf8');
 								res.on('data', function (data) {
 									
-									console.log("=========E=========");
-									console.log(data);
 						
 									personagem.arquivamentos.push(arquivamento._id);
 									personagem.notificacoes.push({

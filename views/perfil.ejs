@@ -236,7 +236,7 @@
 			
 			<ul class="stream">
 				<% var i = 0; %>
-				<% personagem.notificacoes.forEach(function(notificacao) { %>
+				<% personagem.notificacoes.reverse().forEach(function(notificacao) { %>
 					<% if(i < 8){ %>
 						<% var luta_id = (typeof notificacao.luta_id != 'undefined' && typeof notificacao.luta_id != 'null') %>
 						<% if (luta_id){ %>
