@@ -3,8 +3,12 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 		return false;
 	}
 	
+	console.log("=========A=========");
+	
 	Arquivamento.findOne({url: arquivamento_url}, function(err, arquivamento){
 		if(arquivamento != null && personagem.arquivamentos.indexOf(arquivamento.num) == -1){
+			
+			console.log("=========B=========");
 
 			var http = require('http');
 			var options = {
@@ -19,6 +23,8 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 				
 				res.setEncoding('utf8');
 				res.on('data', function (data) {
+					
+					console.log("=========C=========");
 				
 					var app_access_token = data.split('access_token=')[1];
 					var achievement = process.env.FACEBOOK_APP_HOME + 'achievements/?url=' + arquivamento.url;
@@ -32,12 +38,16 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 						res.setEncoding('utf8');
 						res.on('data', function (data) {
 							
+							console.log("=========D=========");
+							
 							var achievement_URL = '/' + personagem.uid + '/achievements&achievement=' + achievement + '&access_token=' + app_access_token;
 							
 							options.path = achievement_URL;
 							http.request(options, function(res) {
 								res.setEncoding('utf8');
 								res.on('data', function (data) {
+									
+									console.log("=========E=========");
 						
 									personagem.arquivamentos.push(arquivamento.num);
 									personagem.notificacoes.push({
@@ -45,8 +55,9 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 										texto_en: "You achieved the <b>" + arquivamento.titulo + "</b> badge",
 										tipo: 1
 									});
-									personagem.save();
-									if(typeof fn != 'undefined') fn();
+									personagem.save(function(err){
+										if(typeof fn != 'undefined') fn();
+									});
 						
 								});
 								
