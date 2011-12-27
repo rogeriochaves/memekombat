@@ -154,7 +154,7 @@ app.all('/index', function(request, response) {
 						
 						if(full_data == 'NULL'){
 							
-							res.redirect('inicio');
+							response.redirect('inicio');
 							return false;
 							
 						}else{
