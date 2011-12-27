@@ -115,15 +115,18 @@ app.all('/arena', function(request, response) {
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
 				
-				response.render('arena.ejs', {
-		          layout:   false,
-		          token:    token,
-		          app:      app,
-		          user:     user,
-				  busca: 	busca,
-				  portugues: (user.locale.indexOf('pt') >= 0),
-		          socket_id: socket_id
-		        });
+				Characters.lutas_restantes(personagem._id, function(quant){
+					response.render('arena.ejs', {
+			          layout:   false,
+			          token:    token,
+			          app:      app,
+			          user:     user,
+					  busca: 	busca,
+					  lutas_restantes: quant
+					  portugues: (user.locale.indexOf('pt') >= 0),
+			          socket_id: socket_id
+			        });
+			    });
 		
 				Personagem.findOne({uid: user.id}, function(err, personagem){
 					if(personagem != null){
