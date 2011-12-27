@@ -188,7 +188,7 @@
     function comprar(quant) {
 	
       var order_info = { "tipo":0,
-                         "quantidade":quant,
+                         "quantidade":parseInt(quant),
 						 "language": '<%= portugues ? "pt" : "en" %>'
                        };
 
@@ -203,7 +203,7 @@
 
 	function comprar_arma(id){
 		var order_info = { "tipo":1,
-	                         "arma":id,
+	                         "arma":parseInt(id),
 							 "language": '<%= portugues ? "pt" : "en" %>'
 	                       };
 

@@ -66,7 +66,7 @@ var PedidoSchema = new Schema({
   , order_id: String
   , tipo: Number
   , quantidade: Number
-  , arma_id: ObjectId
+  , arma_num: Number
   , data: { type: Date, default: Date.now }
 });
 mongoose.model('Pedidos', PedidoSchema);
@@ -135,6 +135,7 @@ global.Luta = mongoose.model('Lutas');
 global.Credito = mongoose.model('Creditos');
 global.Meme = mongoose.model('Memes');
 global.Ranking = mongoose.model('Rankings');
+global.Pedido = mongoose.model('Rankings');
 
 /*
 meme.save(function(err){
