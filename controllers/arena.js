@@ -61,7 +61,6 @@ var busca_jogadores_arena = function(user, session, personagem, socket_id, busca
 		
 		Personagem
 			.where('uid').in(amigos_uids)
-			.where('level').lt(personagem.level + 3)
 			.sort('random', 1).limit(10)
 			.select('uid', 'level', 'nome', 'meme_src', 'genero')
 			.run(function(err, amigos){
@@ -78,7 +77,6 @@ var busca_jogadores_arena = function(user, session, personagem, socket_id, busca
 				
 					Personagem
 						.where('uid').nin(amigos_uids)
-						.where('level').lt(personagem.level + 3)
 						.sort('random', 1).limit(limite)
 						.select('uid', 'level', 'nome', 'meme_src', 'genero')
 						.find({nome: new RegExp(".*"+IgnoraAcentos.ignora_acentos(busca.replace(' ','.*'))+".*", 'i')}, function(err, outros_jogadores){

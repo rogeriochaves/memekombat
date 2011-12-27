@@ -10,7 +10,7 @@
 		<%= portugues ? "Com quem você quer lutar?" : "Who to fight?" %>
 	</div>
 	<div class="busca">
-		<form id="frmBusca" action="arena.php">
+		<form id="frmBusca" action="arena">
 			<%= portugues ? "Buscar" : "Search" %>:<br />
 			<input type="text" name="busca" value="<%= (typeof busca != 'undefined') ? busca : '' %>" />
 			<input type="image" src="img/icons/magnifier.png" />
@@ -33,13 +33,15 @@
 		
 		if(typeof arena_uids == 'undefined') arena_uids = [];
 		
-		$('form#frmBusca').submit(function() {
-			$('.memes-arena').html('<center><img src="img/loading.gif" class="arena-loading" /></center>');
+		$('form#frmBusca').live('submit', function() {
+			if($('.arena-loading').length == 0){
+				$('.memes-arena').html('<center><img src="img/loading.gif" class="arena-loading" /></center>');
 			
-			$.get('arena', $(this).serialize() + '&socket_id=' + socket_id, function(data){
-				$('.conteudo').html(data);
-				ajaxizar_links();
-			});
+				$.get('arena', $(this).serialize() + '&socket_id=' + socket_id, function(data){
+					$('.conteudo').html(data);
+					ajaxizar_links();
+				});
+			}
 			return false;
 		});
 		$('.memes-arena li img').each(function() {
