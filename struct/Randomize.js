@@ -91,9 +91,9 @@ module.exports.gerar_luta = function(player1, player2, fn) {
 
 						var rand_acao = parseInt(Math.random() * 100);
 						if(atacante.habilidades.length > 0 &&
-						   rand_acao <= Characters.chance_usar_habilidade(atacante.quant_habilidades_usadas)){ // usar habilidade
+						   rand_acao <= Characters.chance_usar_habilidade(atacante.habilidades_usadas)){ // usar habilidade
 							
-							atacantequant_habilidades_usadas++;
+							atacante.habilidades_usadas++;
 							rand_habilidade = parseInt(Math.random() * atacante.habilidades.length);
 							habilidade = atacante.habilidades[rand_habilidade];
 							dano = Characters.dano_habilidade(habilidade.dano, atacante.level);

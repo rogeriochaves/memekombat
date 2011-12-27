@@ -28,14 +28,14 @@ socket.on('connect', function() {
 		$('.quem-deveria').css({width: 55 * Math.max(4, $('.quem-deveria ul li').length) });
 	});
 	
-	socket.on('lutas_restantes', function(lutas_restantes){
+	/*socket.on('lutas_restantes', function(lutas_restantes){
 		var notice = $('.notice');
 		if(!notice.is(':visible')){
 			notice.html(portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>').show().css({fontFamily: "'Lucida Grande', sans-serif"});
 		}
 		ajaxizar_links();
 		cache_page(pagina_atual, $('.conteudo').html());
-	});
+	});*/
 	
 	socket.on('quant_pupilos', function(quant_pupilos){
 		$('.quant_pupilos').html(quant_pupilos);

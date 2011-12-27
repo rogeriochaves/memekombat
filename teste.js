@@ -21,8 +21,16 @@ if(environment == 'development'){
 	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
 }
 
+/*var Characters = require('./struct/Characters.js');
 
-function parse_signed_request(signed_request, secret) {
+Personagem.findOne({uid: '100000633785771'}, function(err, data){
+	Characters.lutas_restantes(data._id, function(quant){
+		console.log(quant);
+	});
+});*/
+
+
+/*function parse_signed_request(signed_request, secret) {
 	var base64url = require('b64url')
 	  , crypto = require('crypto');
     encoded_data = signed_request.split('.',2);
@@ -110,14 +118,14 @@ meme.findOne({nome: "Rage"}, function(err, res){
 
 
 
-/*var Randomize = require('./struct/Randomize.js');
+var Randomize = require('./struct/Randomize.js');
 
 Personagem.findOne({}, function(err, p){
 	Randomize.gerar_luta(p, p, function(luta){
 		console.log(Randomize.imprimir_movimentos(luta.movimentos));
 		mongoose.disconnect();
 	});
-});*/
+});
 
 /*var IgnoraAcentos = require('./lib/ignora_acentos.js');
 

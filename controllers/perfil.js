@@ -26,21 +26,35 @@ app.all('/perfil', function(request, response) {
 						var session_erro = request.session.erro;
 						var prox_nivel = Characters.exp_necessaria(personagem.level);
 						
-						response.render('perfil.ejs', {
-				          layout:   false,
-				          token:    token,
-				          app:      app,
-				          user:     user,
-						  prox_nivel: prox_nivel,
-						  personagem: personagem,
-						  session_erro: session_erro,
-						  portugues: (user.locale.indexOf('pt') >= 0),
-				          socket_id: socket_id
-				        });
-						
-						Characters.lutas_restantes(personagem._id, function(quant){
-							socket_manager.send(socket_id, 'lutas_restantes', quant);
-						});
+						if(uid == user.id){
+							Characters.lutas_restantes(personagem._id, function(quant){
+								response.render('perfil.ejs', {
+						          layout:   false,
+						          token:    token,
+						          app:      app,
+						          user:     user,
+								  prox_nivel: prox_nivel,
+								  lutas_restantes: quant,
+								  personagem: personagem,
+								  session_erro: session_erro,
+								  portugues: (user.locale.indexOf('pt') >= 0),
+						          socket_id: socket_id
+						        });
+								
+							});
+						}else{
+							response.render('perfil.ejs', {
+					          layout:   false,
+					          token:    token,
+					          app:      app,
+					          user:     user,
+							  prox_nivel: prox_nivel,
+							  personagem: personagem,
+							  session_erro: session_erro,
+							  portugues: (user.locale.indexOf('pt') >= 0),
+					          socket_id: socket_id
+					        });
+						}
 						
 						Arquivamento
 							.where('_id')

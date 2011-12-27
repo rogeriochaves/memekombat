@@ -16,11 +16,11 @@
 			<span style="color:#F00"><%= session_erro %>
 		</div>
 	<% }else{ %>
-		<!--% if (lutas_restantes > 0){ %-->
-			<div class="notice" style="display:none">
-				<!--%= portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>' %-->
+		<% if (lutas_restantes && lutas_restantes > 0){ %>
+			<div class="notice">
+				<%- portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>' %>
 			</div>
-		<!--% } %-->
+		<% } %>
 	<% } %>
 		<div class="help">
 			<div class="box">

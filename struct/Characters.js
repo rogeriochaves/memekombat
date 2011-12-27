@@ -10,11 +10,11 @@ module.exports.lutas_restantes = function(personagem_id, fn) {
 		hoje.setHours(0);
 		hoje.setMinutes(0);
 		hoje.setSeconds(0);
-
+		
 		Luta.find()
-			.or({personagem1_id: personagem_id, campeonato: false, credito: true},
-				{personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje }})
-			.count(function(total_gratis){
+			.or([{personagem1_id: personagem_id, campeonato: false, credito: true},
+				{personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje }}])
+			.count(function(err, total_gratis){
 				fn(total - total_gratis + 3);
 			});
 
@@ -30,7 +30,7 @@ module.exports.lutas_comuns_restantes = function(personagem_id, fn) {
 	hoje.setSeconds(0);
 
 	Luta.find({personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje }})
-		.count(function(total){
+		.count(function(err, total){
 			fn(3 - total);
 		});
 
@@ -42,7 +42,7 @@ module.exports.calcular_dano = function(atq, def, critico) {
 		return dano_critico(atq);
 	}else{
 		dano = atq / 2 - def / 4;
-	 	return Math.max((parseInt(Math.random() * 4) > 3 ? 2 : 1), parseInt(dano + dano * parseInt(Math.random() * 100) / 100));
+	 	return parseInt(Math.max((parseInt(Math.random() * 4) > 3 ? 2 : 1), parseInt(dano + dano * parseInt(Math.random() * 100) / 100)));
 	}
 
 };
