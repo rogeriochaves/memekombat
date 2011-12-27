@@ -21,6 +21,35 @@ if(environment == 'development'){
 	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
 }
 
+
+function parse_signed_request(signed_request, secret) {
+	var base64url = require('b64url')
+	  , crypto = require('crypto');
+    encoded_data = signed_request.split('.',2);
+    // decode the data
+    sig = encoded_data[0];
+    json = base64url.decode(encoded_data[1]);
+    data = JSON.parse(json); // ERROR Occurs Here!
+
+    // check algorithm - not relevant to error
+    if (!data.algorithm || data.algorithm.toUpperCase() != 'HMAC-SHA256') {
+        console.error('Unknown algorithm. Expected HMAC-SHA256');
+        return null;
+    }
+
+    // check sig - not relevant to error
+    expected_sig = crypto.createHmac('sha256',secret).update(encoded_data[1]).digest('base64').replace(/\+/g,'-').replace(/\//g,'_').replace('=','');
+    if (sig !== expected_sig) {
+        console.error('Bad signed JSON Signature!');
+        return null;
+    }
+
+    return data;
+}
+
+console.log(parse_signed_request('WGvK-mUKB_Utg0l8gSPvf6smzacp46977pTtcRx0puE.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjEyOTI4MjEyMDAsImlzc3VlZF9hdCI6MTI5MjgxNDgyMCwib2F1dGhfdG9rZW4iOiIxNTI1NDk2ODQ3NzczMDJ8Mi5ZV2NxV2k2T0k0U0h4Y2JwTWJRaDdBX18uMzYwMC4xMjkyODIxMjAwLTcyMTU5OTQ3NnxQaDRmb2t6S1IyamozQWlxVldqNXp2cTBmeFEiLCJ1c2VyIjp7ImxvY2FsZSI6ImVuX0dCIiwiY291bnRyeSI6ImF1In0sInVzZXJfaWQiOiI3MjE1OTk0NzYifQ', 'aew'));
+
+
 //var Personagem = mongoose.model('Personagens');
 
 /*var Upar = require('./struct/Upar.js');
@@ -90,7 +119,7 @@ Personagem.findOne({}, function(err, p){
 	});
 });*/
 
-var IgnoraAcentos = require('./lib/ignora_acentos.js');
+/*var IgnoraAcentos = require('./lib/ignora_acentos.js');
 
 var busca = IgnoraAcentos.ignora_acentos('rogé');
 console.log(busca);
@@ -112,7 +141,7 @@ Personagem.find({nome: new RegExp(".*"+busca+".*", "i")}, function(err, ps){
 	});
 	p.save();*/
 	
-});
+//});
 
 /*Equipamento.where().sort({}).find(function(err, data){
 	data.forEach(function(d){

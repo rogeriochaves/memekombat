@@ -11,6 +11,7 @@
     "node-uuid": "1.2.0",
     "socket.io": "0.8.4",
 	"mongoose": "2.3.12",
-	"date-utils": "1.2.5"
+	"date-utils": "1.2.5",
+	"b64url": "latest"
   }
 }

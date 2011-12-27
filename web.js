@@ -78,7 +78,6 @@ app.listen(port, function() {
 
 app.post('/', function(request, response){
 	
-	
 	if (request.session.auth) {
 		response.redirect('/index');
 		return false;
