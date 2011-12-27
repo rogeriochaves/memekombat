@@ -123,9 +123,11 @@ meme.findOne({nome: "Rage"}, function(err, res){
 Personagem.findOne({nome: 'Rogerio Chaves'}, function(err, p){
 	
 	console.log(p.notificacoes.length);
-	p.notificacoes = p.notificacoes.reverse().splice(0, Math.max(p.notificacoes.length - 1, 2)).reverse();
+	//p.notificacoes = p.notificacoes.reverse().splice(0, 1).reverse();
+	p.notificacoes.reverse().splice(8, p.notificacoes.length);
 	console.log(p.notificacoes.length);
-	p.save();
+	//p.save();
+	mongoose.disconnect();
 	/*Randomize.gerar_luta(p, p, function(luta){
 		console.log(Randomize.imprimir_movimentos(luta.movimentos));
 		mongoose.disconnect();
