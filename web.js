@@ -50,7 +50,8 @@ try{
 	// create an express webserver
 	global.app = express.createServer(
 	  //express.logger(),
-	  express.static(__dirname + '/public'),
+	  var oneYear = 31557600000;
+	  express.static(__dirname + '/public', { maxAge: oneYear }),
 	  express.cookieParser(),
 	  // set this to a secret value to encrypt session cookies
 	  express.session({ secret: process.env.SESSION_SECRET || 'secret123' }),
