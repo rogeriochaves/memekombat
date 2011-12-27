@@ -101,15 +101,15 @@ var LutaSchema = new Schema({
   , data: { type: Date, default: Date.now }
   , ganhador_id: ObjectId
   , perdedor_id: ObjectId
-  , fb_total_count: Number
-  , fb_like_count: Number
-  , fb_comment_count: Number
-  , fb_share_count: Number
-  , fb_click_count: Number
+  , fb_total_count: {type: Number, default: 0}
+  , fb_like_count: {type: Number, default: 0}
+  , fb_comment_count: {type: Number, default: 0}
+  , fb_share_count: {type: Number, default: 0}
+  , fb_click_count: {type: Number, default: 0}
   , credito: Boolean
   , short_url: String
   , campeonato: {type: Boolean, default: false}
-  , tweets: Number
+  , tweets: {type: Number, default: 0}
   , movimentos: String
 });
 mongoose.model('Lutas', LutaSchema);

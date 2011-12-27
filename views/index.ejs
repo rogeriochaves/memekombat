@@ -76,22 +76,22 @@
 		function cache_page(url, data){
 			pagina_atual = url;
 			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){
-				cached_pages['ranking.php'] = null;
-				cached_pages['arena.php'] = null;
-				cached_pages['perfil.php'] = null;
-				cached_pages['perfil.php?uid=' + url.split('vs=')[1]] = null;
+				cached_pages['ranking'] = null;
+				cached_pages['arena'] = null;
+				cached_pages['perfil'] = null;
+				cached_pages['perfil?uid=' + url.split('vs=')[1]] = null;
 			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?finalizar') >= 0){
 				tempo_restante = undefined;
-				cached_pages['ranking.php'] = null;
-				cached_pages['perfil.php'] = null;
-				cached_pages['campeonato.php'] = null;
-				cached_pages['campeonato.php?proxima_luta=true'] = null;
-				cached_pages['campeonato.php?finalizar=true'] = null;
+				cached_pages['ranking'] = null;
+				cached_pages['perfil'] = null;
+				cached_pages['campeonato'] = null;
+				cached_pages['campeonato?proxima_luta=true'] = null;
+				cached_pages['campeonato?finalizar=true'] = null;
 			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?') >= 0){
 				tempo_restante = undefined;
-				cached_pages['campeonato.php'] = null;
-				cached_pages['campeonato.php?proxima_luta=true'] = null;
-				cached_pages['campeonato.php?finalizar=true'] = null;
+				cached_pages['campeonato'] = null;
+				cached_pages['campeonato?proxima_luta=true'] = null;
+				cached_pages['campeonato?finalizar=true'] = null;
 			}else if(url.indexOf('sair_campeonato') >= 0){
 				cached_pages['perfil'] = data;
 			}else{

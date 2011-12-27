@@ -51,6 +51,16 @@ global.app = express.createServer(
   express.session({ secret: process.env.SESSION_SECRET || 'secret123' }),
   // insert a middleware to set the facebook redirect hostname to http/https dynamically
   function(request, response, next) {
+	if(request.param('request_ids')){
+		request.session.request_ids = request.param('request_ids').split(',');
+	}
+	if(request.param('i')){
+		request.session.indicacao_uid = request.param('i');
+	}
+	if(request.param('fight')){
+		request.session.fight = request.param('fight');
+	}
+	
     var method = request.headers['x-forwarded-proto'] || 'http';
     everyauth.facebook.myHostname(method + '://' + request.headers.host);
     next();
@@ -67,15 +77,7 @@ app.listen(port, function() {
 });
 
 app.post('/', function(request, response){
-	if(request.param('request_ids')){
-		request.session.request_ids = request.params.request_ids.split(',');
-	}
-	if(request.param('i')){
-		request.session.indicacao_uid = request.params.i;
-	}
-	if(request.param('fight')){
-		request.session.fight = request.params.fight;
-	}
+	
 	
 	if (request.session.auth) {
 		response.redirect('/index');
@@ -180,4 +182,7 @@ require('./controllers/perfil.js');
 require('./controllers/arena.js');
 require('./controllers/_arena.js');
 require('./controllers/achievements.js');
+require('./controllers/luta.js');
+require('./controllers/loja.js');
+require('./controllers/callback.js');
 require('./controllers/testando.js');

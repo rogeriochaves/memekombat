@@ -31,7 +31,7 @@ socket.on('connect', function() {
 	socket.on('lutas_restantes', function(lutas_restantes){
 		var notice = $('.notice');
 		if(!notice.is(':visible')){
-			notice.html(portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>').show();
+			notice.html(portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>').show().css({fontFamily: "'Lucida Grande', sans-serif"});
 		}
 		ajaxizar_links();
 		cache_page(pagina_atual, $('.conteudo').html());
@@ -81,7 +81,7 @@ socket.on('connect', function() {
 	
 	socket.on('nenhum_encontrado', function(){
 		if($('.memes-arena').length > 0){
-			$('.memes-arena img').remove();
+			$('.arena-loading').remove();
 			$('.memes-arena').html('<div class="nenhum-resultado" style="width:720px; text-align:center; padding:20px 0;">'+(portugues ? "Nenhum resultado econtrado" : "No results found" )+'</div>');
 			ajaxizar_links();
 			cache_page('arena', $('.conteudo').html());
@@ -92,7 +92,7 @@ socket.on('connect', function() {
 	
 	socket.on('player_arena', function(player){
 		if($('.memes-arena').length > 0){
-			$('.memes-arena img').remove();
+			$('.arena-loading').remove();
 			$('.memes-arena').append(
 				'<li> 																							\
 					<a href="luta?vs='+player.uid+'" class="link_luta">&nbsp;</a>								\
@@ -112,6 +112,7 @@ socket.on('connect', function() {
 					</div>																						\
 				</li>'
 			);
+			if(typeof arena_uids == 'undefined') arena_uids = [];
 			arena_uids.push(player.uid);
 			ajaxizar_links();
 			cache_page('arena', $('.conteudo').html());

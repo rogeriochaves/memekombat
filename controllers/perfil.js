@@ -15,7 +15,7 @@ app.all('/perfil', function(request, response) {
 				
 				var uid = request.param('uid') ? request.param('uid') : user.id;
 				
-				Personagem.findOne({uid: user.id}, function(err, data){
+				Personagem.findOne({uid: uid}, function(err, data){
 					if(data == null && request.params.uid){
 						response.redirect('perfil');
 					}else if(data == null){

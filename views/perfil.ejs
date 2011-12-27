@@ -159,7 +159,7 @@
 				</table>
 			</div>
 		</div>
-		<ul class="clearfix armas_habilidades" <%- user.id == personagem.id ? 'style="width:690px"' : '' %>>
+		<ul class="clearfix armas_habilidades" style="<%= user.id != personagem.uid ? 'width:690px' : '' %>">
 			<li class="armas">
 				<%= portugues ? 'Armas' : 'Weapons' %>
 				<ul>
@@ -219,7 +219,7 @@
 			<a class="lutar" href="luta?vs=<%= personagem.uid %>">
 				<div>
 					<img src="img/icons/sword.png" border="0" />
-					<span><%= portugues ? "Lutar contra" : "Fight" %> <%= jogador.nome.split(" ")[0] %></span>
+					<span><%= portugues ? "Lutar contra" : "Fight" %> <%= personagem.nome.split(" ")[0] %></span>
 				</div>
 			</a>
 		<% }else{ %>

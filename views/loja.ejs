@@ -1,0 +1,247 @@
+<div style="font-size:18px; color:#474747; margin:30px 30px;">
+	<%= portugues ? "Três lutas não são suficientes?" : "Three fights are not enought?" %>
+</div>
+
+<ul class="mais_lutas clearfix lutas">
+	<li class="mais um" order="1">
+		<div class="num <%= portugues ? '' : "en" %>"></div>
+		<div class="custo_creditos">
+			<div class="quant">
+				1
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin.png" border="0" />
+			</div>
+		</div>
+	</li>
+	<li class="mais tres" order="3">
+		<div class="num <%= portugues ? '' : "en" %>"></div>
+		<div class="custo_creditos">
+			<div class="quant">
+				2
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin.png" border="0" />
+			</div>
+		</div>
+	</li>
+	<li class="mais cinco" order="5">
+		<div class="num <%= portugues ? '' : "en" %>"></div>
+		<div class="custo_creditos clearfix">
+			<div class="quant">
+				3
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin.png" border="0" />
+			</div>
+		</div>
+	</li>
+</ul>
+
+<div style="font-size:18px; color:#474747; margin:30px 30px;">
+	<%= portugues ? "Espadas elementais. Você pode escolher apenas uma delas:" : "Elemental Swords. You can pick only one of these:" %>
+</div>
+
+<ul class="mais_lutas clearfix arma_vip">
+	<li class="mais cinco <%= espadas_elementais ? "disabled" : '' %>" order="13">
+		<div class="clearfix fire_sword <%= portugues ? '' : "en" %>">
+			<div class="icon"></div>
+			<div class="text"></div>
+		</div>
+		<div class="custo_creditos">
+			<div class="quant">
+				10
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin<%= espadas_elementais ? "-disabled" : '' %>.png" border="0" />
+			</div>
+		</div>
+	</li>
+	<li class="azul <%= espadas_elementais ? "disabled" : '' %>" order="18">
+		<div class="clearfix ice_sword <%= portugues ? '' : "en" %>">
+			<div class="icon"></div>
+			<div class="text"></div>
+		</div>
+		<div class="custo_creditos">
+			<div class="quant">
+				10
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin<%= espadas_elementais ? "-disabled" : '' %>.png" border="0" />
+			</div>
+		</div>
+	</li>
+	<li class="roxo <%= espadas_elementais ? "disabled" : '' %>" order="19">
+		<div class="clearfix thunder_sword <%= portugues ? '' : "en" %>">
+			<div class="icon"></div>
+			<div class="text"></div>
+		</div>
+		<div class="custo_creditos">
+			<div class="quant">
+				10
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin<%= espadas_elementais ? "-disabled" : '' %>.png" border="0" />
+			</div>
+		</div>
+	</li>
+
+</ul>
+
+<% if(espadas_elementais){ %>
+	<div style="font-size:14px; color:#474747; margin:30px 30px;">
+		<%= portugues ? "Você já comprou sua espada elemental" : "You already bought you elemental sword" %>
+	</div>
+<% } %>
+
+<br />
+<!--div style="font-size:18px; color:#474747; margin:30px 30px;">
+	<% if (portugues){ %>
+		<div class="clearfix">
+			<div style="float:left">
+				Armas para
+			</div>
+			<div class="rank" style="background-position:-135px 0; float:left; margin:-20px 10px 0 0"></div>
+			<div style="float:left">
+				e acima
+			</div>
+		</div>
+	<% }else{ %>
+		<div class="clearfix">
+			<div style="float:left">
+				Weapons for
+			</div>
+			<div class="rank" style="background-position:-135px 0; float:left; margin:-20px 10px 0 0"></div>
+			<div style="float:left">
+				and above
+			</div>
+		</div>
+	<% } %>
+</div>
+<ul class="mais_lutas clearfix arma_vip">
+		<li class="dark <%= (darkness_sword || !rank) ? "disabled" : '' %>" order="33">
+		<div class="clearfix darkness_sword <%= portugues ? '' : "en" %>">
+			<div class="icon"></div>
+			<div class="text"></div>
+		</div>
+		<div class="custo_creditos">
+			<div class="quant">
+				15
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin<%= (darkness_sword || !rank) ? "-disabled" : '' %>.png" border="0" />
+			</div>
+		</div>
+	</li>
+	<li class="knight <%= (knigt_sword || !rank) ? "disabled" : '' %>" order="36">
+		<div class="clearfix knight_sword <%= portugues ? '' : "en" %>">
+			<div class="icon"></div>
+			<div class="text"></div>
+		</div>
+		<div class="custo_creditos">
+			<div class="quant">
+				20
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin<%= (knigt_sword || !rank) ? "-disabled" : '' %>.png" border="0" />
+			</div>
+		</div>
+	</li>
+	<li class="dragun <%= (dragun_sword || !rank) ? "disabled" : '' %>" order="31">
+		<div class="clearfix dragun_sword <%= portugues ? '' : "en" %>">
+			<div class="icon"></div>
+			<div class="text"></div>
+		</div>
+		<div class="custo_creditos">
+			<div class="quant">
+				20
+			</div>
+			<div class="fb_coin">
+				<img src="img/fb-coin<%= (dragun_sword || !rank) ? "-disabled" : '' %>.png" border="0" />
+			</div>
+		</div>
+	</li>
+</ul-->
+
+
+<div id="fb-root"></div>
+<!--script src="https://connect.facebook.net/en_US/all.js">
+</script-->
+<script>
+
+	$(document).ready(function() {
+		$('.mais_lutas.lutas li').click(function() {
+			if (!$(this).hasClass("disabled")) {
+				comprar($(this).attr('order'));
+			}
+		});
+		$('.mais_lutas.arma_vip li').click(function() {
+			if (!$(this).hasClass("disabled")) {
+				comprar_arma($(this).attr('order'));
+			}
+		});
+	});
+	
+
+    FB.init({appId: <%= app.id %>, status: true, cookie: true});
+
+    function comprar(quant) {
+	
+      var order_info = { "tipo":0,
+                         "quantidade":quant,
+						 "language": '<%= portugues ? "pt" : "en" %>'
+                       };
+
+      var obj = {
+	    method: 'pay',
+	    order_info: order_info,
+	    purchase_type: 'item'
+      };
+
+      FB.ui(obj, callback);
+    }
+
+	function comprar_arma(id){
+		var order_info = { "tipo":1,
+	                         "arma":id,
+							 "language": '<%= portugues ? "pt" : "en" %>'
+	                       };
+
+	      var obj = {
+		    method: 'pay',
+		    order_info: order_info,
+		    purchase_type: 'item'
+	      };
+
+	      FB.ui(obj, callback);
+	}
+    
+    var callback = function(data) {
+      if (data['order_id']) {
+		  $('.carregando').show();
+		  $('.carregando').css({'opacity': '0'});
+	  	  $('.carregando').animate({'opacity': '0.5'});
+		  cached_pages['loja'] = null;
+		  cached_pages['arena'] = null;
+		  /*if (parseInt(data['tipo']) == 0) {
+			$.get('arena.php', function(data){
+			  	$('.conteudo').html(data);
+			  	$('.carregando').fadeOut();
+			  	ajaxizar_links();
+			  });
+		  }else{*/
+			$.get('perfil', function(data){
+			  	$('.conteudo').html(data);
+			  	$('.carregando').fadeOut();
+			  	ajaxizar_links();
+			  });
+		  //}
+		  
+      } else if (data['error_code']) {
+      	// erro na transação
+      } else {
+        // falha na transação
+      }
+    };
+
+</script>

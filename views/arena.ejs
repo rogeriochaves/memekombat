@@ -19,23 +19,22 @@
 </div>
 
 <ul class="memes-arena clearfix">
-	<center><img src="img/loading.gif" /></center>
+	<center><img src="img/loading.gif" class="arena-loading" /></center>
 </ul>
 
 <a href="#" class="mais-memes no-follow">
 	<div class="tit-ranking" style="font-size:16px; margin:20px 0 0 250px; height: 25px; padding:16px 0;">
 		<%= portugues ? "Mais Memes" : "More Memes" %>
-		<img src="img/loading.gif" style="display:none" />
 	</div>
 </a>
 
 <script type="text/javascript" charset="utf-8">
 	(function(){
 		
-		arena_uids = [];
+		if(typeof arena_uids == 'undefined') arena_uids = [];
 		
 		$('form#frmBusca').submit(function() {
-			$('.memes-arena').html('<center><img src="img/loading.gif" /></center>');
+			$('.memes-arena').html('<center><img src="img/loading.gif" class="arena-loading" /></center>');
 			
 			$.get('arena', $(this).serialize() + '&socket_id=' + socket_id, function(data){
 				$('.conteudo').html(data);
@@ -53,18 +52,20 @@
 			});
 		});
 		
-		$('.mais-memes').click(function() {
-			$('.memes-arena').append('<center><img src="img/loading.gif" class="arena-loading" /></center>');
-			$.post('_arena', {arena_uids: arena_uids.join(",")}, function(data) {
-				$('.arena-loading').remove();
-				$('.memes-arena').append(data);
-				if(arena_uids.length > 0){
-					$('.nenhum-resultado').remove();
-				}
-				ajaxizar_links();
-				cached_pages['arena'] = $('.conteudo').html();
-			});
-			return false;
+		$('.mais-memes').live('click', function() {
+			if($('.arena-loading').length == 0){
+				$('.memes-arena').append('<center style="clear:both" class="arena-loading"><img src="img/loading.gif" /></center>');
+				$.get('_arena', {arena_uids: arena_uids.join(",")}, function(data) {
+					$('.arena-loading').remove();
+					$('.memes-arena').append(data);
+					if(arena_uids.length > 0){
+						$('.nenhum-resultado').remove();
+					}
+					ajaxizar_links();
+					cached_pages['arena'] = $('.conteudo').html();
+				});
+				return false;
+			}
 		});
 		
 	})();

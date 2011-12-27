@@ -23,14 +23,15 @@ if(environment == 'development'){
 
 //var Personagem = mongoose.model('Personagens');
 
-var Upar = require('./struct/Upar.js');
+/*var Upar = require('./struct/Upar.js');
 
-Personagem.findOne(function(err, p){
-	p.exp += 30;
+Personagem.where().count(function(err, p){
+	console.log(p);
+	/*p.exp += 30;
 	Upar.subir_level(p, function(){
 		//mongoose.disconnect();
-	});
-});
+	});*/
+//});
 
 
 /*var http = require('http');
@@ -79,8 +80,8 @@ meme.findOne({nome: "Rage"}, function(err, res){
 
 
 
-/*require('./lib/ignora_acentos.js');
-var Randomize = require('./struct/Randomize.js');
+
+/*var Randomize = require('./struct/Randomize.js');
 
 Personagem.findOne({}, function(err, p){
 	Randomize.gerar_luta(p, p, function(luta){
@@ -89,11 +90,14 @@ Personagem.findOne({}, function(err, p){
 	});
 });*/
 
+var IgnoraAcentos = require('./lib/ignora_acentos.js');
 
-/*var busca = 'rogé'.ignora_acentos();
+var busca = IgnoraAcentos.ignora_acentos('rogé');
 console.log(busca);
-Personagem.find({nome: new RegExp(".*"+busca+".*", "i")}, function(err, p){
-	console.log(p[0].nome);
+Personagem.find({nome: new RegExp(".*"+busca+".*", "i")}, function(err, ps){
+	ps.forEach(function(p){
+		console.log(p.nome);
+	});
 	mongoose.disconnect();
 	/*Equipamento.where('_id').in(data.equipamentos).find(function(err, equips){
 		equips.forEach(function(equip){
@@ -108,7 +112,7 @@ Personagem.find({nome: new RegExp(".*"+busca+".*", "i")}, function(err, p){
 	});
 	p.save();*/
 	
-//});
+});
 
 /*Equipamento.where().sort({}).find(function(err, data){
 	data.forEach(function(d){

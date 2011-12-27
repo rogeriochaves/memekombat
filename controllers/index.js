@@ -16,7 +16,7 @@ var render_index = function(req, res, session, novo_personagem){
           app:      app,
           user:     user,
 		  hora_servidor: hora_servidor,
-		  session_fight: (typeof req.session.fight != 'undefined' ? req.session.fight : undefined),
+		  session_fight: req.session.fight,
 		  novo_personagem: (novo_personagem ? true : false),
 		  portugues: (user.locale.indexOf('pt') >= 0),
           socket_id: socket_id

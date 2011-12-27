@@ -8,7 +8,7 @@ app.all('/_arena', function(request, response) {
 		facebook.getSessionByAccessToken(token)(function(session) {
 
 			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
-			var arena_uids = request.param('arena_uids') ? request.param('arena_uids').split(',') : [];
+			var arena_uids = request.param('arena_uids') ? request.param('arena_uids').replace("'", '').split(',') : [];
 			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 
 				var user = request.session.auth.facebook.user;
@@ -24,11 +24,13 @@ app.all('/_arena', function(request, response) {
 							result.forEach(function(friend) {
 								amigos_uids.push(friend.uid);
 							});
+							
+							var requisicoes = parseInt(arena_uids.length / 8);
 
 							Personagem
 								.where('uid').in(amigos_uids)
 								.where('uid').nin(arena_uids)
-								.where('level').lt(personagem.level + 3)
+								.where('level').lt(personagem.level + requisicoes + 2)
 								.sort('random', 1).limit(5)
 								.select('uid', 'level', 'nome', 'meme_src', 'genero')
 								.run(function(err, amigos){
@@ -42,7 +44,7 @@ app.all('/_arena', function(request, response) {
 
 									Personagem
 										.where('uid').nin(amigos_uids.concat(arena_uids))
-										.where('level').lt(personagem.level + 3)
+										.where('level').lt(personagem.level + requisicoes + 2)
 										.sort('random', 1).limit(limite)
 										.select('uid', 'level', 'nome', 'meme_src', 'genero')
 										.run(function(err, outros_jogadores){
