@@ -101,6 +101,7 @@ global.socket_manager = require('socket_manager').create(io);
 io.configure(function () {
   io.set("transports", ["xhr-polling"]);
   io.set("polling duration", 10);
+  io.set('log level', 1);
 });
 
 // respond to GET /home

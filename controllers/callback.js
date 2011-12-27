@@ -1,7 +1,7 @@
 app.all('/callback', function(req, res) {
 	console.log("===================================");
-	console.log(req.param('credits'));
+	console.log(req);
 	console.log("===================================");
-	console.log(req.param('signed_request'));
+	console.log(req.param('method'));
 	res.send('teste');
 });

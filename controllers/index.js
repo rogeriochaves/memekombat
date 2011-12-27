@@ -106,7 +106,7 @@ app.all('/index', function(request, response) {
 
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
-	if (request.session.auth) {
+	if (request.session.auth && request.session.redir) {
 		
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
@@ -251,6 +251,9 @@ app.all('/index', function(request, response) {
 			
 		});
 
+	}else if(request.session.auth){
+		request.session.redir = true;
+		response.redirect(process.env.FACEBOOK_APP_URL);
 	}else{
 		response.redirect('/');
 	}
