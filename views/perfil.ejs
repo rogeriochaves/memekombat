@@ -13,7 +13,7 @@
 	<div class="clearfix" style="margin-top: 34px;">
 	<% if (session_erro){ %>
 		<div class="notice">
-			<span style="color:#F00"><%= session_erro %>
+			<span style="color:#F00"><%- session_erro %>
 		</div>
 	<% }else{ %>
 		<% if (lutas_restantes && lutas_restantes > 0){ %>
