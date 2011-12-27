@@ -4,58 +4,62 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 		format: 'json'
 	})(function(result) {
 		var amigos_uids = [];
-		result.forEach(function(friend) {
-			amigos_uids.push(friend.uid);
-		});
-
-		Personagem
-			.where('uid').in(amigos_uids)
-			.where('level').lt(personagem.level + 3)
-			.sort('random', 1).limit(5)
-			.select('uid', 'level', 'nome', 'meme_src', 'genero')
-			.run(function(err, amigos){
-				amigos.forEach(function(p){
-					//socket_manager.send(socket_id, 'player_arena', p);
-					p.random = Math.random();
-					p.save();
-				});
-				var limite = 10 - amigos.length;
-
-				amigos_uids.push(user.id);
-
-				Personagem
-					.where('uid').nin(amigos_uids)
-					.where('level').lt(personagem.level + 3)
-					.sort('random', 1).limit(limite)
-					.select('uid', 'level', 'nome', 'meme_src', 'genero')
-					.run(function(err, outros_jogadores){
-
-						outros_jogadores.forEach(function(p){
-							//socket_manager.send(socket_id, 'player_arena', p);
-							p.random = Math.random();
-							p.save();
-						});
-						
-						var Characters = require('./../struct/Characters.js');
-						Characters.lutas_restantes(personagem._id, function(quant){
-							response.render('arena.ejs', {
-					          layout:   false,
-					          user:     user,
-							  busca: '',
-							  players: amigos.concat(outros_jogadores),
-							  lutas_restantes: quant,
-							  portugues: (user.locale.indexOf('pt') >= 0)
-					        });
-					    });
-
-						/*if(amigos.length == 0 && outros_jogadores.length == 0){
-							socket_manager.send(socket_id, 'nenhum_encontrado');
-						}*/
-
-
-					});
-
+		if(result && result.forEach){
+			result.forEach(function(friend) {
+				amigos_uids.push(friend.uid);
 			});
+
+			Personagem
+				.where('uid').in(amigos_uids)
+				.where('level').lt(personagem.level + 3)
+				.sort('random', 1).limit(5)
+				.select('uid', 'level', 'nome', 'meme_src', 'genero')
+				.run(function(err, amigos){
+					amigos.forEach(function(p){
+						//socket_manager.send(socket_id, 'player_arena', p);
+						p.random = Math.random();
+						p.save();
+					});
+					var limite = 10 - amigos.length;
+
+					amigos_uids.push(user.id);
+
+					Personagem
+						.where('uid').nin(amigos_uids)
+						.where('level').lt(personagem.level + 3)
+						.sort('random', 1).limit(limite)
+						.select('uid', 'level', 'nome', 'meme_src', 'genero')
+						.run(function(err, outros_jogadores){
+
+							outros_jogadores.forEach(function(p){
+								//socket_manager.send(socket_id, 'player_arena', p);
+								p.random = Math.random();
+								p.save();
+							});
+						
+							var Characters = require('./../struct/Characters.js');
+							Characters.lutas_restantes(personagem._id, function(quant){
+								response.render('arena.ejs', {
+						          layout:   false,
+						          user:     user,
+								  busca: '',
+								  players: amigos.concat(outros_jogadores),
+								  lutas_restantes: quant,
+								  portugues: (user.locale.indexOf('pt') >= 0)
+						        });
+						    });
+
+							/*if(amigos.length == 0 && outros_jogadores.length == 0){
+								socket_manager.send(socket_id, 'nenhum_encontrado');
+							}*/
+
+
+						});
+
+				});
+			}else{
+				response.send('');
+			}
 
 
 	});
