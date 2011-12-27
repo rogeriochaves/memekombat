@@ -164,11 +164,15 @@ app.all('/callback', function(request, response) {
 							tipo: order_info.tipo,
 							quantidade: order_info.quantidade
 						});
+						p.save();
 						console.log("====2=====");
 						console.log(p);
 						console.log(item);
 						
-						response.send(JSON.stringify(item));
+						response.send(JSON.stringify({
+							content: [item],
+							method: data.method
+						}));
 						
 					}else if(order_info.tipo == 1){ // Armas
 						var arma_id = arma
@@ -185,7 +189,12 @@ app.all('/callback', function(request, response) {
 							tipo: order_info.tipo,
 							arma_num: order_info.arma
 						});
+						p.save();
 						
+						response.send(JSON.stringify({
+							content: [item],
+							method: data.method
+						}));
 					}
 					
 					
@@ -193,12 +202,12 @@ app.all('/callback', function(request, response) {
 					
 				}
 				
-
-				response.send(data);
 			}
 			
 			
 
         });
-    }
+    }else{
+		response.send('');
+	}
 });
