@@ -26,6 +26,8 @@ app.all('/perfil', function(request, response) {
 						var session_erro = request.session.erro;
 						var prox_nivel = Characters.exp_necessaria(personagem.level);
 						
+						if(request.session.erro) delete request.session.erro;
+						
 						if(uid == user.id){
 							Characters.lutas_restantes(personagem._id, function(quant){
 								response.render('perfil.ejs', {
