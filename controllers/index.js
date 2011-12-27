@@ -118,17 +118,27 @@ app.all('/index', function(request, response) {
 			Personagem.findOne({uid: user.id}, function(err, data){
 				if(data == null && request.param('meme')){
 					var indicacao;
+					var pe = data;
 					if(request.session.request_ids){
-						var mestre_request_id = request.session.request_ids[0];
+						/*var mestre_request_id = request.session.request_ids[0];
+						
+						var http = require('https');
+						var options = {
+						  host: 'graph.facebook.com',
+						  port: 443,
+						  path: '/' + request_id + "_" . pe.uid + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
+						  method: 'GET'
+						};
+						
 						session.graphCall('/' + mestre_request_id)(function(result){
 							var game_request = (result.data[0] ? result.data[0] : result.data);
 							Personagem.findOne({id: game_request.from.id}, function(err, data){
-								if(data != null){
-									criar_personagem(request, response, session, data._id);
-								}
+								if(data != null){*/
+									criar_personagem(request, response, session);//, data._id);
+						/*		}
 							});
 							session.graphCall('/' + mestre_request_id + '_' + user.id, {}, 'DELETE')();
-						});
+						});*/
 					}else if(request.session.indicacao_uid){
 						Personagem.findOne({uid: request.session.indicacao_uid}, function(err, data){
 							if(data != null){
