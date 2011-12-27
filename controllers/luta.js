@@ -23,7 +23,7 @@ app.all('/luta/:id?', function(request, response) {
 								var Characters = require('./../struct/Characters.js');
 								Characters.lutas_restantes(personagem._id, function(quant){
 									if(quant <= 0){
-										request.session.erro = (user.locale.indexOf('pt') >= 0) ? 'Você já lutou muitas vezes hoje e seu meme está cansado, volte amanhã.<br />Quer mais lutas? <a href="loja.php">Clique aqui</a>' : 'You\'ve fought too many times today and you meme is tired, come back tomorrow.<br />Want more? <a href="loja.php">Clique here</a>';
+										request.session.erro = (user.locale.indexOf('pt') >= 0) ? 'Você já lutou muitas vezes hoje e seu meme está cansado, <br />volte amanhã.Quer mais lutas? <a href="loja">Clique aqui</a>' : 'You\'ve fought too many times today and you meme is tired, <br />come back tomorrow.Want more? <a href="loja">Clique here</a>';
 										response.redirect('/perfil');
 									}else{
 										
