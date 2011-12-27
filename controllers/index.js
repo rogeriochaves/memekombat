@@ -41,10 +41,12 @@ var render_index = function(req, res, session, novo_personagem){
 			query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 0 ORDER BY rand() LIMIT '+limit,
 			format: 'json'
 		})(function(result) {
+			if(result && result.forEach){
+				result.forEach(function(friend) {
+					socket_manager.send(socket_id, 'friend_not_using_app', friend);
+				});
+			}
 			
-			result.forEach(function(friend) {
-				socket_manager.send(socket_id, 'friend_not_using_app', friend);
-			});
 		});
 		
 	});
