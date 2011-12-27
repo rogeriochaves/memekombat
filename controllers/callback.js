@@ -163,7 +163,10 @@ app.all('/callback', function(request, response) {
 							tipo: order_info.tipo,
 							quantidade: order_info.quantidade
 						});
-						p.save();
+						p.save(function(err){
+							console.log("=========dasdas========");
+							console.log(err);
+						});
 						
 						response.send(JSON.stringify({
 							content: [item],
