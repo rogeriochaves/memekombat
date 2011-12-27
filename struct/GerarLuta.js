@@ -60,6 +60,11 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					texto_en: "You " + palavras_win_en[palavra] + " " + perdedor.nome + "'s meme" + (vencedor._id == p1._id ? ". EXP +" . exp_ganha : "")
 				});
 				vencedor.notificacoes.reverse().splice(8, vencedor.notificacoes.length);
+				if(p1.uid == vencedor.uid){
+					p1.notificacoes = vencedor.notificacoes; 
+				}else{
+					p2.notificacoes = vencedor.notificacoes;
+				}
 				
 				perdedor.notificacoes.push({
 					tipo: 2,
@@ -70,6 +75,11 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 				});
 				
 				perdedor.notificacoes.reverse().splice(8, perdedor.notificacoes.length);
+				if(p1.uid == perdedor.uid){
+					p1.notificacoes = perdedor.notificacoes; 
+				}else{
+					p2.notificacoes = perdedor.notificacoes;
+				}
 				
 				
 				p1.save();
