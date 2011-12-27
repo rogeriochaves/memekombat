@@ -28,7 +28,7 @@ var render_index = function(req, res, session, novo_personagem){
 
 	// Amigos que jogam
 	session.restCall('fql.query', {
-		query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
+		query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand() LIMIT 6',
 		format: 'json'
 	})(function(result) {
 		result.forEach(function(friend) {
