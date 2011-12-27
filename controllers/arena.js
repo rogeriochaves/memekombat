@@ -115,6 +115,7 @@ app.all('/arena', function(request, response) {
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
 				
+				var Characters = require('./../struct/Characters.js');
 				Characters.lutas_restantes(personagem._id, function(quant){
 					response.render('arena.ejs', {
 			          layout:   false,
