@@ -230,7 +230,7 @@
 			  	ajaxizar_links();
 			  });
 		  }else{*/
-			$.get('perfil', function(data){
+			$.get('perfil', {socket_id: socket_id}, function(data){
 			  	$('.conteudo').html(data);
 			  	$('.carregando').fadeOut();
 			  	ajaxizar_links();
