@@ -185,4 +185,5 @@ require('./controllers/achievements.js');
 require('./controllers/luta.js');
 require('./controllers/loja.js');
 require('./controllers/callback.js');
+require('./controllers/ranking.js');
 require('./controllers/testando.js');

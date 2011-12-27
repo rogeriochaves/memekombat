@@ -1,0 +1,138 @@
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('.ranking li.first .img img').each(function() {
+			$(this).load(function(){
+				if($(this).height() > $(this).width()){
+					$(this).css('width', '111px');
+				}else{
+					$(this).css('height', '111px');
+				}
+			});
+		});
+	});
+</script>
+<% var en_pos = ['st', 'nd', 'rd', 'th'] %>
+<br />
+<div class="clearfix">
+	<div style="float:left; width:340px; margin-left:40px">
+		<div class="tit-ranking">
+			<%= portugues ? "Ranking de Amigos" : "Friends Ranking" %>
+		</div>
+		<ul class="ranking">
+			<% var i = 0 %>
+			<% amigos.forEach(function(amigo){ %>
+				<% var nome = amigo.nome.split(' ')[0] %>
+				<li class="clearfix <%= i == 0 ? "first" : "" %>">
+					<a class="link_ranking" href="perfil?uid=<%= amigo.uid %>">
+						<% if (i < 5){ %>
+							<div class="pos"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
+							<div class="img">
+								<div class="meme <%= amigo.meme_src %> <%= i > 0 ? "small" : "" %> <%= amigo.genero == 'female' ? 'derpina' : '' %>" style="border:1px solid #CCC"></div>
+								<img src="https://graph.facebook.com/<%= amigo.uid %>/picture?type=<%= i == 0 ? "large" : "square" %>" border="0" />
+							</div>
+							
+							<% if (amigo.ranking_pos < 8){ %>
+								<div class="info clearfix" style="<%= i > 0 ? "width:233px" : "" %>">
+									<div style="float:left; <%= i == 0 ? "width:95px" : "" %>">
+										<div class="nome"><%= nome %></div>
+										<div class="lv"><%= portugues ? "Nv" : "Lv" %> <%= amigo.level %></div>
+									</div>
+									<div style="float:right">
+										<div class="rank" style="background-position:-<%= 45 * (amigo.ranking_pos - 1) %>px 0"></div>
+									</div>
+								</div>
+							<% }else{ %>
+								<div class="info clearfix">
+									<div style="<%= i > 0 ? "float:left" : "" %>">
+										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+									</div>
+									<div style="<%= i > 0 ? "float:left;" : "" %> margin-left:5px; width:<%= i == 0 ? 150 : 95 %>px">
+										<div class="nome" style="<%= i == 0 ? "margin-top:0" : "" %>"><%= nome %></div>
+										<div class="lv"><%= portugues ? "Nv" : "Lv" %> <%= amigo.level %></div>
+									</div>
+								</div>
+							<% } %>
+							
+							
+						<% }else{ %>
+							<div class="pos" style="font-size:16px; margin-right:20px;"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
+							<div class="info" style="width:300px">
+								<div style="float:left">
+									<%= nome %> <%= portugues ? "Nv" : "Lv" %> <%= amigo.level %>
+								</div>
+								<div style="float:right">
+									<% if (amigo.ranking_pos < 8){ %>
+										<div class="rank" style="background-position:-<%= 45 * (amigo.ranking_pos - 1) %>px 0"></div>
+									<% }else{ %>
+										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+									<% } %>
+								</div>
+							</div>
+						<% } %>
+					</a>
+				</li>
+				<% i++ %>
+			<% }) %>
+		</ul>
+	</div>
+	<div style="float:left; width:1px; height:780px; background-color:#C3C3C3;"></div>
+	
+	<div style="float:left; width:340px; margin-left:30px">
+		<div class="tit-ranking">
+			<%= portugues ? "Ranking Geral" : "Worldwide Ranking" %>
+		</div>
+		<ul class="ranking">
+			<% var i = 0 %>
+			<% jogadores.forEach(function(jogador){ %>
+				<% var nome = jogador.nome.split(' ')[0] %>
+				<li class="clearfix <%= i == 0 ? "first" : "" %>">
+					<a class="link_ranking" href="perfil?uid=<%= jogador.uid %>">
+						<% if (i < 5){ %>
+							<div class="pos"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
+							<div class="img">
+								<div class="meme <%= jogador.meme_src %> <%= i > 0 ? "small" : "" %> <%= jogador.genero == 'female' ? "derpina" : '' %>" style="border:1px solid #CCC"></div>
+								<img src="https://graph.facebook.com/<%= jogador.uid %>/picture?type=<%= i == 0 ? "large" : "square" %>" border="0" />
+							</div>
+							<% if (jogador.ranking_pos < 8){ %>
+								<div class="info clearfix" style="<%= i > 0 ? "width:238px" : "" %>">
+									<div style="float:left; <%= i == 0 ? "width:95px" : "" %>">
+										<div class="nome"><%= nome %></div>
+										<div class="lv"><%= portugues ? "Nv" : "Lv" %> <%= jogador.level %></div>
+									</div>
+									<div style="float:right">
+										<div class="rank" style="background-position:-<%= 45 * (jogador.ranking_pos - 1) %>px 0"></div>
+									</div>
+								</div>
+							<% }else{ %>
+								<div class="info clearfix">
+									<div style="<%= i > 0 ? "float:left" : "" %>">
+										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+									</div>
+									<div style="<%= i > 0 ? "float:left;" : "" %> margin-left:5px; width:<%= i == 0 ? 150 : 95 %>px">
+										<div class="nome" style="<%= i == 0 ? "margin-top:0" : "" %>"><%= nome %></div>
+										<div class="lv"><%= portugues ? "Nv" : "Lv" %> <%= jogador.level %></div>
+									</div>
+								</div>
+							<% } %>
+						<% }else{ %>
+							<div class="pos" style="font-size:16px; margin-right:20px;"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
+							<div class="info" style="width:300px">
+								<div style="float:left">
+									<%= nome %> <%= portugues ? "Nv" : "Lv" %> <%= jogador.level %>
+								</div>
+								<div style="float:right">
+									<% if (jogador.ranking_pos < 8){ %>
+										<div class="rank" style="background-position:-<%= 45 * (jogador.ranking_pos - 1) %>px 0"></div>
+									<% }else{ %>
+										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+									<% } %>
+								</div>
+							</div>
+						<% } %>
+					</a>
+				</li>
+				<% i += 1 %>
+			<% }); %>
+		</ul>
+	</div>
+</div>

@@ -16,12 +16,14 @@ app.all('/loja', function(request, response) {
 						response.redirect('inicio');
 					}else{
 						
+						var possui_elemental = (data.equipamentos.indexOf(13) >= 0 || data.equipamentos.indexOf(18) >= 0 || data.equipamentos.indexOf(19) >= 0);
+						
 						response.render('loja.ejs', {
 							layout:   false,
 					          token:    token,
 					          app:      app,
 					          user:     user,
-							  espadas_elementais: false,
+							  espadas_elementais: possui_elemental,
 							  darkness_sword: false,
 							  knigt_sword: false,
 							  dragun_sword: false,
