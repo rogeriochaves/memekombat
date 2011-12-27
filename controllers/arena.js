@@ -115,22 +115,24 @@ app.all('/arena', function(request, response) {
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
 				
-				var Characters = require('./../struct/Characters.js');
-				Characters.lutas_restantes(personagem._id, function(quant){
-					response.render('arena.ejs', {
-			          layout:   false,
-			          token:    token,
-			          app:      app,
-			          user:     user,
-					  busca: 	busca,
-					  lutas_restantes: quant,
-					  portugues: (user.locale.indexOf('pt') >= 0),
-			          socket_id: socket_id
-			        });
-			    });
 		
 				Personagem.findOne({uid: user.id}, function(err, personagem){
 					if(personagem != null){
+						
+						var Characters = require('./../struct/Characters.js');
+						Characters.lutas_restantes(personagem._id, function(quant){
+							response.render('arena.ejs', {
+					          layout:   false,
+					          token:    token,
+					          app:      app,
+					          user:     user,
+							  busca: 	busca,
+							  lutas_restantes: quant,
+							  portugues: (user.locale.indexOf('pt') >= 0),
+					          socket_id: socket_id
+					        });
+					    });
+						
 						if(busca && busca.length > 0){
 							busca_jogadores_arena(user, session, personagem, socket_id, busca);
 						}else{
