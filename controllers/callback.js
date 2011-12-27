@@ -247,47 +247,6 @@ app.all('/callback', function(request, response) {
 						});
 					});
 					
-
-					if($pedido['tipo'] == 0 and $amount == valor_creditos($pedido['quantidade'])){
-						mysql_query(sprintf(
-							"INSERT INTO Creditos(personagem_id, valor, data, quantidade, pedido_id) values (%s, %s, now(), %s, %s)",
-							$personagem['id'],
-							valor_creditos($pedido['quantidade']),
-							$pedido['quantidade'],
-							$pedido['id']
-						)) or erro_na_compra();
-					}elseif($pedido['tipo'] == 1){
-						$arma = find("SELECT preco_creditos FROM Equipamentos WHERE preco_creditos > 0 AND id = ".$pedido['arma_id']);
-						if($amount == intval($arma['preco_creditos'])){
-							$arma_id = intval($pedido['arma_id']);
-							$armas_compraveis = array(13, 18, 19, 33, 36, 31);
-
-							$equips = array();
-							foreach(consulta("SELECT equipamento_id FROM EquipamentosAtributos WHERE atributo_id = ".$personagem['atributo_id']) as $e){
-								array_push($equips, intval($e['equipamento_id']));	
-							}
-							$espadas_elementais = (in_array(13, $equips) or in_array(18, $equips) or in_array(19, $equips));
-
-							if(in_array($arma_id, $armas_compraveis) and !in_array($arma_id, $equips)){
-								if($espadas_elementais and ($arma_id == 13 or $arma_id == 18 or $arma_id == 19)){
-									erro_na_compra();
-								}else{
-									mysql_query(sprintf(
-										"INSERT INTO EquipamentosAtributos(atributo_id, equipamento_id) values (%s, %s)",
-										$personagem['atributo_id'],
-										$pedido['arma_id']
-									)) or erro_na_compra();
-								}
-							}else{
-								erro_na_compra();
-							}
-
-						}
-					}
-					
-					
-					
-					
 				}
 				
 			}
