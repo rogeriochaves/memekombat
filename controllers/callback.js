@@ -202,45 +202,49 @@ app.all('/callback', function(request, response) {
 					var resposta = {
 						content: {
 							status: 'settled',
-							order_id: order_details.order_id
+							order_id: data.order_id
 						},
 						method: 'payments_status_update'
 					};
 					
-					Personagem.findOne({uid: order_details.buyer}, function(err, personagem){
-						Pedido.findOne({order_id: order_details.order_id}, function(err, pedido){
-							if(pedido.tipo == 0 && amount == valor_creditos(pedido.quantidade)){
-								c = new Credito({
-									personagem_id: personagem._id,
-									valor: amount,
-									quantidade: pedido.quantidade,
-									pedido_id: pedido._id
-								});
-								c.save(function(err){
-									response.send(JSON.stringify(resposta));
-								});
-							}else if(pedido.tipo == 1){
+					Personagem.findOne({uid: order_details.buyer.toString()}, function(err, personagem){
+						Pedido.findOne({order_id: data.order_id}, function(err, pedido){
+							if(pedido != null){
+								if(pedido.tipo == 0 && amount == valor_creditos(pedido.quantidade)){
+									c = new Credito({
+										personagem_id: personagem._id,
+										valor: amount,
+										quantidade: pedido.quantidade,
+										pedido_id: pedido._id
+									});
+									c.save(function(err){
+										response.send(JSON.stringify(resposta));
+									});
+								}else if(pedido.tipo == 1){
 								
-								Equipamento.findOne({num: pedido.arma_num}, function(err, equip){
-									var armas_compraveis = [13, 18, 19, 33, 36, 31];
-									if(amount == equip.preco_creditos && armas_compraveis.indexOf(equip.num) >= 0 && personagem.equipamentos.indexOf(equip.num) < 0){
+									Equipamento.findOne({num: pedido.arma_num}, function(err, equip){
+										var armas_compraveis = [13, 18, 19, 33, 36, 31];
+										if(amount == equip.preco_creditos && armas_compraveis.indexOf(equip.num) >= 0 && personagem.equipamentos.indexOf(equip.num) < 0){
 										
-										var espadas_elementais = [13, 18, 19];
-										var possui_elemental = (personagem.equipamentos.indexOf(13) >= 0 || personagem.equipamentos.indexOf(18) >= 0 || personagem.equipamentos.indexOf(19) >= 0);
-										if(espadas_elementais.indexOf(equip.num) >= 0 && possui_elemental){
-											personagem.equipamentos.push(equip.num);
-											personagem.save(function(err){
-												response.send(JSON.stringify(resposta));
-											});
+											var espadas_elementais = [13, 18, 19];
+											var possui_elemental = (personagem.equipamentos.indexOf(13) >= 0 || personagem.equipamentos.indexOf(18) >= 0 || personagem.equipamentos.indexOf(19) >= 0);
+											if(espadas_elementais.indexOf(equip.num) >= 0 && possui_elemental){
+												personagem.equipamentos.push(equip.num);
+												personagem.save(function(err){
+													response.send(JSON.stringify(resposta));
+												});
+											}else{
+												throw new Error('keyboard cat!');
+											}
+										
 										}else{
 											throw new Error('keyboard cat!');
 										}
-										
-									}else{
-										throw new Error('keyboard cat!');
-									}
-								});
+									});
 								
+								}else{
+									throw new Error('keyboard cat!');
+								}
 							}else{
 								throw new Error('keyboard cat!');
 							}
