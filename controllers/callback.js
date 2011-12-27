@@ -2,10 +2,14 @@ var qs = require('querystring');
 
 app.all('/callback', function(request, response) {
 	
+	console.log("========a==========");
 	if (request.method == 'POST') {
         var body = '';
         request.on('data', function (data) {
             body += data;
+			if (body.length > 1e6) {
+				request.connection.destroy();
+			}
         });
         request.on('end', function () {
             var data = qs.parse(body);
