@@ -194,7 +194,97 @@ app.all('/callback', function(request, response) {
 					}
 					
 					
-				}else if(data.method == 'payments_status_update'){
+				}else if(data.method == 'payments_status_update' && data.status == 'placed'){
+					
+					
+					var order_details = JSON.parse(data.order_details);
+					var amount = order_details.amount;
+					var resposta = {
+						content: {
+							status: 'settled',
+							order_id: order_details.order_id
+						},
+						method: 'payments_status_update'
+					};
+					
+					Personagem.findOne({uid: order_details.buyer}, function(err, personagem){
+						Pedido.findOne({order_id: order_details.order_id}, function(err, pedido){
+							if(pedido.tipo == 0 && amount == valor_creditos(pedido.quantidade)){
+								c = new Credito({
+									personagem_id: personagem._id,
+									valor: amount,
+									quantidade: pedido.quantidade,
+									pedido_id: pedido._id
+								});
+								c.save(function(err){
+									response.send(JSON.stringify(resposta));
+								});
+							}else if(pedido.tipo == 1){
+								
+								Equipamento.findOne({num: pedido.arma_num}, function(err, equip){
+									var armas_compraveis = [13, 18, 19, 33, 36, 31];
+									if(amount == equip.preco_creditos && armas_compraveis.indexOf(equip.num) >= 0 && personagem.equipamentos.indexOf(equip.num) < 0){
+										
+										var espadas_elementais = [13, 18, 19];
+										var possui_elemental = (personagem.equipamentos.indexOf(13) >= 0 || personagem.equipamentos.indexOf(18) >= 0 || personagem.equipamentos.indexOf(19) >= 0);
+										if(espadas_elementais.indexOf(equip.num) >= 0 && possui_elemental){
+											personagem.equipamentos.push(equip.num);
+											personagem.save(function(err){
+												response.send(JSON.stringify(resposta));
+											});
+										}else{
+											throw new Error('keyboard cat!');
+										}
+										
+									}else{
+										throw new Error('keyboard cat!');
+									}
+								});
+								
+							}else{
+								throw new Error('keyboard cat!');
+							}
+						});
+					});
+					
+
+					if($pedido['tipo'] == 0 and $amount == valor_creditos($pedido['quantidade'])){
+						mysql_query(sprintf(
+							"INSERT INTO Creditos(personagem_id, valor, data, quantidade, pedido_id) values (%s, %s, now(), %s, %s)",
+							$personagem['id'],
+							valor_creditos($pedido['quantidade']),
+							$pedido['quantidade'],
+							$pedido['id']
+						)) or erro_na_compra();
+					}elseif($pedido['tipo'] == 1){
+						$arma = find("SELECT preco_creditos FROM Equipamentos WHERE preco_creditos > 0 AND id = ".$pedido['arma_id']);
+						if($amount == intval($arma['preco_creditos'])){
+							$arma_id = intval($pedido['arma_id']);
+							$armas_compraveis = array(13, 18, 19, 33, 36, 31);
+
+							$equips = array();
+							foreach(consulta("SELECT equipamento_id FROM EquipamentosAtributos WHERE atributo_id = ".$personagem['atributo_id']) as $e){
+								array_push($equips, intval($e['equipamento_id']));	
+							}
+							$espadas_elementais = (in_array(13, $equips) or in_array(18, $equips) or in_array(19, $equips));
+
+							if(in_array($arma_id, $armas_compraveis) and !in_array($arma_id, $equips)){
+								if($espadas_elementais and ($arma_id == 13 or $arma_id == 18 or $arma_id == 19)){
+									erro_na_compra();
+								}else{
+									mysql_query(sprintf(
+										"INSERT INTO EquipamentosAtributos(atributo_id, equipamento_id) values (%s, %s)",
+										$personagem['atributo_id'],
+										$pedido['arma_id']
+									)) or erro_na_compra();
+								}
+							}else{
+								erro_na_compra();
+							}
+
+						}
+					}
+					
 					
 					
 					
