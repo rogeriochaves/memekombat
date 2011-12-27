@@ -74,7 +74,10 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					texto_en: "You " + palavras_lost_en[palavra] + " by " + vencedor.nome + "'s meme" + (perdedor._id == p1._id ? ". EXP +" . exp_ganha : "")
 				});
 				
+				console.log("====================");
+				console.log(p1.notificacoes.length);
 				p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
+				console.log(p1.notificacoes.length);
 				p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
 				
 				p1.save(function(err){
