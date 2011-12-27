@@ -59,7 +59,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					texto: "Você " + palavras_win[palavra] + " o meme de " + perdedor.nome + (vencedor._id == p1._id ? ". EXP +" + exp_ganha : ""),
 					texto_en: "You " + palavras_win_en[palavra] + " " + perdedor.nome + "'s meme" + (vencedor._id == p1._id ? ". EXP +" . exp_ganha : "")
 				});
-				vencedor.notificacoes.reverse().splice(8, vencedor.notificacoes.length);
+				
 				if(p1.uid == vencedor.uid){
 					p1.notificacoes = vencedor.notificacoes; 
 				}else{
@@ -74,48 +74,53 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					texto_en: "You " + palavras_lost_en[palavra] + " by " + vencedor.nome + "'s meme" + (perdedor._id == p1._id ? ". EXP +" . exp_ganha : "")
 				});
 				
-				perdedor.notificacoes.reverse().splice(8, perdedor.notificacoes.length);
-				if(p1.uid == perdedor.uid){
-					p1.notificacoes = perdedor.notificacoes; 
-				}else{
-					p2.notificacoes = perdedor.notificacoes;
-				}
+				p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
+				p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
+				
+				p1.save(function(err){
+					
+					p2.save(function(err){
+						
+						Upar.subir_level(p1);
+
+						// Arquivamentos
+
+						Luta.find({ganhador_id: vencedor._id}).count(function(err, quant){
+							if(quant == 1){
+								Arquivamentos.postar_arquivamento('first_win', vencedor);
+							}else if(quant >= 99){
+								Arquivamentos.postar_arquivamento('winner_like_a_boss', vencedor);
+							}
+						});
+
+						Luta.where().or({ganhador_id: vencedor._id}, {perdedor_id: vencedor._id}).limit(4).run(function(err, data){
+							var cont = 1;
+							data.forEach(function(l){
+								if(l.ganhador_id == vencedor._id) cont++;
+							});
+							if(cont == 5) Arquivamentos.postar_arquivamento('win_5_row', vencedor);
+						});
+
+						Luta.where().or({ganhador_id: perdedor._id}, {perdedor_id: perdedor._id}).limit(4).run(function(err, data){
+							var cont = 1;
+							data.forEach(function(l){
+								if(l.perdedor_id == vencedor._id) cont++;
+							});
+							if(cont == 5) Arquivamentos.postar_arquivamento('lose_5_row', perdedor);
+						});
+						
+					});
+					
+				});
 				
 				
-				p1.save();
-				p2.save();
-				Upar.subir_level(p1);
 				
 				var short_url = null;
 				
 				fn(luta, l._id, vencedor, perdedor, short_url);
 				
 				
-				// Arquivamentos
 				
-				Luta.find({ganhador_id: vencedor._id}).count(function(err, quant){
-					if(quant == 1){
-						Arquivamentos.postar_arquivamento('first_win', vencedor);
-					}else if(quant >= 99){
-						Arquivamentos.postar_arquivamento('winner_like_a_boss', vencedor);
-					}
-				});
-				
-				Luta.where().or({ganhador_id: vencedor._id}, {perdedor_id: vencedor._id}).limit(4).run(function(err, data){
-					var cont = 1;
-					data.forEach(function(l){
-						if(l.ganhador_id == vencedor._id) cont++;
-					});
-					if(cont == 5) Arquivamentos.postar_arquivamento('win_5_row', vencedor);
-				});
-				
-				Luta.where().or({ganhador_id: perdedor._id}, {perdedor_id: perdedor._id}).limit(4).run(function(err, data){
-					var cont = 1;
-					data.forEach(function(l){
-						if(l.perdedor_id == vencedor._id) cont++;
-					});
-					if(cont == 5) Arquivamentos.postar_arquivamento('lose_5_row', perdedor);
-				});
 				
 				
 			});

@@ -67,7 +67,7 @@ var sortear_speed = function(speed){
 module.exports.sortear_speed = sortear_speed;
 
 var dano_habilidade = function(dano, level){
-	dano = dano + dano * level / 100;
+	dano = parseInt(dano + dano * level / 100);
 	return parseInt(Math.random() * parseInt(dano * 1.1)) + dano;
 };
 module.exports.dano_habilidade = dano_habilidade;

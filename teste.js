@@ -126,8 +126,10 @@ Personagem.findOne({nome: 'Rogerio Chaves'}, function(err, p){
 	//p.notificacoes = p.notificacoes.reverse().splice(0, 1).reverse();
 	p.notificacoes.reverse().splice(8, p.notificacoes.length);
 	console.log(p.notificacoes.length);
-	//p.save();
-	mongoose.disconnect();
+	p.save(function(err){
+		mongoose.disconnect();
+	});
+	
 	/*Randomize.gerar_luta(p, p, function(luta){
 		console.log(Randomize.imprimir_movimentos(luta.movimentos));
 		mongoose.disconnect();
