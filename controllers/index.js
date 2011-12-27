@@ -113,6 +113,8 @@ var criar_personagem = function(request, response, session, mestre_id){
 
 app.all('/index', function(request, response) {
 
+	try{
+
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth && request.session.redir) {
@@ -282,6 +284,10 @@ app.all('/index', function(request, response) {
 		response.redirect(process.env.FACEBOOK_APP_URL);
 	}else{
 		response.redirect('/');
+	}
+	
+	}catch(e){
+		console.log(e.stack)
 	}
 
 });

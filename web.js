@@ -37,15 +37,19 @@ try{
 
 
 	// configure facebook authentication
-	everyauth.facebook
-	  .appId(process.env.FACEBOOK_APP_ID)
-	  .appSecret(process.env.FACEBOOK_SECRET)
-	  .scope('publish_stream,publish_actions')
-	  .entryPath('/')
-	  .redirectPath('/index')
-	  .findOrCreateUser(function() {
-	    return({});
-	  });
+	try{
+		everyauth.facebook
+		  .appId(process.env.FACEBOOK_APP_ID)
+		  .appSecret(process.env.FACEBOOK_SECRET)
+		  .scope('publish_stream,publish_actions')
+		  .entryPath('/')
+		  .redirectPath('/index')
+		  .findOrCreateUser(function() {
+		    return({});
+		  });
+	}catch(e){
+		console.log(e.stack)
+	}
 
 	var oneYear = 31557600000;
 	// create an express webserver
