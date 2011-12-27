@@ -2,7 +2,7 @@
 	<div class="notice">
 		<% if (lutas_restantes && lutas_restantes > 0){ %>
 			<div class="notice">
-				<%- portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta<br /> restante' : ' lutas<br /> restantes' ) +'.' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining.' %>
+				<%- portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) +'.' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining.' %>
 			</div>
 		<% }else{ %>
 			<%- portugues ? 'Seu meme está cansado, volte amanhã. Quer mais lutas? <a href="loja">Clique aqui</a>' : 'Your meme is tired, come back tomorrow. Want more? <a href="loja">Clique here</a>' %>
@@ -25,7 +25,36 @@
 </div>
 
 <ul class="memes-arena clearfix">
-	<center><img src="img/loading.gif" class="arena-loading" /></center>
+	<% if(players.length == 0){ %>
+		<div class="nenhum-resultado" style="width:720px; text-align:center; padding:20px 0;">
+			<%= portugues ? "Nenhum resultado econtrado" : "No results found" %>
+		</div>
+	<% }else{ %>
+		<% players.forEach(function(player){ %>
+			<li> 															 
+				<a href="luta?vs=<%= player.uid %>" class="link_luta">&nbsp;</a>
+				<div class="perfil">										 
+					<div style="width:500px; height:21px">					 
+							<a href="perfil?uid=<%= player.uid %>">			 
+								<%= player.nome %>							 
+							</a>											 
+					</div>													 
+				</div>														 
+				<div class="meme <%= player.meme_src %> <%= player.genero == 'female' ? 'derpina' : '' %>" style="border:1px solid #CCC"></div>																								
+				<div class="foto">																		 
+					<img src="https://graph.facebook.com/<%= player.uid %>/picture?type=large" border="0" />
+				</div>																					 
+				<div class="level">																		 
+					<%= portugues ? 'Nv' : 'Lv' %>
+					<%= player.level %>									 
+				</div>																					 
+			</li>
+			<script type="text/javascript" charset="utf-8">
+				if(typeof arena_uids == 'undefined') arena_uids = [];
+				arena_uids.push('<%= player.uid %>');
+			</script>
+		<% }) %>
+	<% } %>
 </ul>
 
 <a href="#" class="mais-memes no-follow">

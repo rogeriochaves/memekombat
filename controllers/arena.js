@@ -1,4 +1,4 @@
-var jogadores_arena = function(user, session, personagem, socket_id){
+var jogadores_arena = function(user, session, personagem, request, response, user){
 	session.restCall('fql.query', {
 		query: 'SELECT uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
 		format: 'json'
@@ -15,7 +15,7 @@ var jogadores_arena = function(user, session, personagem, socket_id){
 			.select('uid', 'level', 'nome', 'meme_src', 'genero')
 			.run(function(err, amigos){
 				amigos.forEach(function(p){
-					socket_manager.send(socket_id, 'player_arena', p);
+					//socket_manager.send(socket_id, 'player_arena', p);
 					p.random = Math.random();
 					p.save();
 				});
@@ -31,14 +31,27 @@ var jogadores_arena = function(user, session, personagem, socket_id){
 					.run(function(err, outros_jogadores){
 
 						outros_jogadores.forEach(function(p){
-							socket_manager.send(socket_id, 'player_arena', p);
+							//socket_manager.send(socket_id, 'player_arena', p);
 							p.random = Math.random();
 							p.save();
 						});
+						
+						var Characters = require('./../struct/Characters.js');
+						Characters.lutas_restantes(personagem._id, function(quant){
+							response.render('arena.ejs', {
+					          layout:   false,
+					          app:      app,
+					          user:     user,
+							  busca: '',
+							  players: amigos.concat(outros_jogadores),
+							  lutas_restantes: quant,
+							  portugues: (user.locale.indexOf('pt') >= 0)
+					        });
+					    });
 
-						if(amigos.length == 0 && outros_jogadores.length == 0){
+						/*if(amigos.length == 0 && outros_jogadores.length == 0){
 							socket_manager.send(socket_id, 'nenhum_encontrado');
-						}
+						}*/
 
 
 					});
@@ -49,7 +62,7 @@ var jogadores_arena = function(user, session, personagem, socket_id){
 	});
 }
 
-var busca_jogadores_arena = function(user, session, personagem, socket_id, busca){
+var busca_jogadores_arena = function(user, session, personagem, busca, request, response, user){
 	session.restCall('fql.query', {
 		query: 'SELECT uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 AND strpos(lower(name), lower("'+busca.replace("'", "\\'")+'")) >= 0 ORDER BY rand() LIMIT 10',
 		format: 'json'
@@ -65,7 +78,7 @@ var busca_jogadores_arena = function(user, session, personagem, socket_id, busca
 			.select('uid', 'level', 'nome', 'meme_src', 'genero')
 			.run(function(err, amigos){
 				amigos.forEach(function(p){
-					socket_manager.send(socket_id, 'player_arena', p);
+					//socket_manager.send(socket_id, 'player_arena', p);
 					p.random = Math.random();
 					p.save();
 				});
@@ -82,14 +95,27 @@ var busca_jogadores_arena = function(user, session, personagem, socket_id, busca
 						.find({nome: new RegExp(".*"+IgnoraAcentos.ignora_acentos(busca.replace(' ','.*'))+".*", 'i')}, function(err, outros_jogadores){
 
 							outros_jogadores.forEach(function(p){
-								socket_manager.send(socket_id, 'player_arena', p);
+								
 								p.random = Math.random();
 								p.save();
 							});
+							
+							var Characters = require('./../struct/Characters.js');
+							Characters.lutas_restantes(personagem._id, function(quant){
+								response.render('arena.ejs', {
+						          layout:   false,
+						          app:      app,
+						          user:     user,
+								  busca:   busca,
+								  players: amigos.concat(outros_jogadores),
+								  lutas_restantes: quant,
+								  portugues: (user.locale.indexOf('pt') >= 0)
+						        });
+						    });
 
-							if(amigos.length == 0 && outros_jogadores.length == 0){
+							/*if(amigos.length == 0 && outros_jogadores.length == 0){
 								socket_manager.send(socket_id, 'nenhum_encontrado');
-							}
+							}*/
 
 
 						});
@@ -115,36 +141,17 @@ app.all('/arena', function(request, response) {
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
 				
-		
 				Personagem.findOne({uid: user.id}, function(err, personagem){
 					if(personagem != null){
 						
-						var Characters = require('./../struct/Characters.js');
-						Characters.lutas_restantes(personagem._id, function(quant){
-							response.render('arena.ejs', {
-					          layout:   false,
-					          token:    token,
-					          app:      app,
-					          user:     user,
-							  busca: 	busca,
-							  lutas_restantes: quant,
-							  portugues: (user.locale.indexOf('pt') >= 0),
-					          socket_id: socket_id
-					        });
-					    });
-						
 						if(busca && busca.length > 0){
-							busca_jogadores_arena(user, session, personagem, socket_id, busca);
+							busca_jogadores_arena(user, session, personagem, busca, request, response, user);
 						}else{
-							jogadores_arena(user, session, personagem, socket_id);
+							jogadores_arena(user, session, personagem, request, response, user);
 						}
 						
 					}
 				});
-		
-				
-		
-		
 
 		    });
 			
