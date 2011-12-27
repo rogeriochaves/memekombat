@@ -61,19 +61,27 @@ try{
 	  express.session({ secret: process.env.SESSION_SECRET || 'secret123' }),
 	  // insert a middleware to set the facebook redirect hostname to http/https dynamically
 	  function(request, response, next) {
-		if(request.param('request_ids')){
-			request.session.request_ids = request.param('request_ids').split(',');
-		}
-		if(request.param('i')){
-			request.session.indicacao_uid = request.param('i');
-		}
-		if(request.param('fight')){
-			request.session.fight = request.param('fight');
-		}
+		
+		try{
+		
+			if(request.param('request_ids')){
+				request.session.request_ids = request.param('request_ids').split(',');
+			}
+			if(request.param('i')){
+				request.session.indicacao_uid = request.param('i');
+			}
+			if(request.param('fight')){
+				request.session.fight = request.param('fight');
+			}
 
-	    var method = request.headers['x-forwarded-proto'] || 'http';
-	    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-	    next();
+		    var method = request.headers['x-forwarded-proto'] || 'http';
+		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
+		    next();
+		
+		}catch(e){
+			console.log(e.stack)
+		}
+		
 	  },
 	  everyauth.middleware(),
 	  require('facebook').Facebook()
