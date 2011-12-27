@@ -172,7 +172,7 @@ app.all('/callback', function(request, response) {
 						
 					}else if(order_info.tipo == 1){ // Armas
 						var arma_num = order_info.arma
-						  , arma = desc_armas(arma_id, order_info.language);
+						  , arma = desc_armas(arma_num, order_info.language);
 						item.title = arma.title;
 						item.description = arma.description;
 						item.price = valor_armas(arma_num);
