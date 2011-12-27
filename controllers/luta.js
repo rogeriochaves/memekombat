@@ -6,7 +6,7 @@ app.all('/luta/:id?', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
-			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
 				var luta_id = request.params.id;
@@ -38,7 +38,6 @@ app.all('/luta/:id?', function(request, response) {
 													response.render('luta.ejs', {
 											          layout:   false,
 											          token:    token,
-											          app:      app,
 											          user:     user,
 													  luta_id: luta_id,
 													  p1: personagem,
@@ -128,7 +127,7 @@ app.all('/luta/:id?', function(request, response) {
 					
 				});
 				
-			});
+			//});
 		});
 	}else{
 		response.redirect('/');

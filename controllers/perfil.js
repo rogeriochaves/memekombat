@@ -9,7 +9,7 @@ app.all('/perfil', function(request, response) {
 
 			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 
-			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
 				
@@ -49,7 +49,6 @@ app.all('/perfil', function(request, response) {
 												response.render('perfil.ejs', {
 										          layout:   false,
 										          token:    token,
-										          app:      app,
 										          user:     user,
 												  prox_nivel: prox_nivel,
 												  lutas_restantes: quant,
@@ -69,7 +68,6 @@ app.all('/perfil', function(request, response) {
 											response.render('perfil.ejs', {
 									          layout:   false,
 									          token:    token,
-									          app:      app,
 									          user:     user,
 											  prox_nivel: prox_nivel,
 											  personagem: personagem,
@@ -109,7 +107,7 @@ app.all('/perfil', function(request, response) {
 					}
 				});
 
-		    });
+		    //});
 			
 		});
 

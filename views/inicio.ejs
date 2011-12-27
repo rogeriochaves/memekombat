@@ -16,7 +16,7 @@
   <meta property="og:url" content=""/>
   <meta property="og:image" content=""/>
   <meta property="og:site_name" content=""/>
-  <meta property="fb:app_id" content="<%= app.id %>" />
+  <meta property="fb:app_id" content="<%= process.env.FACEBOOK_APP_ID %>" />
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -169,11 +169,18 @@
 <hr />
 <div class="rodape">
 	<div class="clearfix">
-			<div class="quem-mais" style="width:660px; display:none">
+		<% if(amigos.length > 0){ %>
+			<div class="quem-mais" style="width:660px;">
 				<%= portugues ? "Quem já está jogando" : "They are already playing!" %><br />
 		    	<ul class="clearfix">
+					<% amigos.forEach(function(friend){ %>
+						<li>
+							<img src="https://graph.facebook.com/<%= friend.uid %>/picture?type=square" alt="<%= friend.nome %>" />
+						</li>
+					<% }); %>
 			    </ul>
 			</div>
+		<% } %>
 	</div>
 	<div class="creditos">
 		<hr />
@@ -181,7 +188,7 @@
 	</div>
 </div>
 <div id="fb-root"></div>
-<script src="https://connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= app.id %>"></script>
+<script src="https://connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= process.env.FACEBOOK_APP_ID %>"></script>
   <!--[if lt IE 7 ]>
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>

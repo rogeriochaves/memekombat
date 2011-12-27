@@ -94,7 +94,7 @@ app.post('/', function(request, response){
 
 // create a socket.io backend for sending facebook graph data
 // to the browser as we receive it
-var io = require('socket.io').listen(app);
+/*var io = require('socket.io').listen(app);
 
 // wrap socket.io with basic identification and message queueing
 // code is in lib/socket_manager.js
@@ -105,7 +105,7 @@ io.configure(function () {
   io.set("transports", ["xhr-polling"]);
   io.set("polling duration", 10);
   io.set('log level', 1);
-});
+});*/
 
 // respond to GET /home
 app.get('/home', function(request, response) {

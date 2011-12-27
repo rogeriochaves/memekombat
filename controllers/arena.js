@@ -40,7 +40,6 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 						Characters.lutas_restantes(personagem._id, function(quant){
 							response.render('arena.ejs', {
 					          layout:   false,
-					          app:      app,
 					          user:     user,
 							  busca: '',
 							  players: amigos.concat(outros_jogadores),
@@ -104,7 +103,6 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 							Characters.lutas_restantes(personagem._id, function(quant){
 								response.render('arena.ejs', {
 						          layout:   false,
-						          app:      app,
 						          user:     user,
 								  busca:   busca,
 								  players: amigos.concat(outros_jogadores),
@@ -136,7 +134,7 @@ app.all('/arena', function(request, response) {
 		facebook.getSessionByAccessToken(token)(function(session) {
 
 			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
-			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
@@ -153,7 +151,7 @@ app.all('/arena', function(request, response) {
 					}
 				});
 
-		    });
+		    //});
 			
 		});
 

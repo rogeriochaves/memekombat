@@ -7,7 +7,7 @@ app.all('/loja', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
 				
@@ -21,7 +21,6 @@ app.all('/loja', function(request, response) {
 						response.render('loja.ejs', {
 							layout:   false,
 					          token:    token,
-					          app:      app,
 					          user:     user,
 							  espadas_elementais: possui_elemental,
 							  darkness_sword: false,
@@ -32,7 +31,7 @@ app.all('/loja', function(request, response) {
 					    });
 					}
 				});
-			});
+			//});
 		});
 	}else{
 		response.redirect('/');

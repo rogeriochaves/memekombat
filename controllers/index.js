@@ -7,7 +7,7 @@ var render_index = function(req, res, session, novo_personagem){
 	require('date-utils');
 	var hora_servidor = (new Date()).toFormat('HH:MI:SS');
 
-	session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+	//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 		
 		// Amigos que jogam
 		session.restCall('fql.query', {
@@ -33,7 +33,6 @@ var render_index = function(req, res, session, novo_personagem){
 			        res.render('index.ejs', {
 			          layout:   false,
 			          token:    token,
-			          app:      app,
 			          user:     user,
 					  hora_servidor: hora_servidor,
 					  session_fight: req.session.fight,
@@ -56,7 +55,7 @@ var render_index = function(req, res, session, novo_personagem){
 		
         
 
-    });
+    //});
 
 }
 

@@ -183,7 +183,7 @@
 	});
 	
 
-    FB.init({appId: <%= app.id %>, status: true, cookie: true});
+    FB.init({appId: <%= process.env.FACEBOOK_APP_ID %>, status: true, cookie: true});
 
     function comprar(quant) {
 	

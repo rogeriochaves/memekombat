@@ -9,7 +9,7 @@ app.all('/_arena', function(request, response) {
 
 			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 			var arena_uids = request.param('arena_uids') ? request.param('arena_uids').replace("'", '').split(',') : [];
-			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
@@ -57,7 +57,6 @@ app.all('/_arena', function(request, response) {
 											response.render('_arena.ejs', {
 												layout:   false,
 												token:    token,
-												app:      app,
 												user:     user,
 												players:  amigos.concat(outros_jogadores),
 												portugues: (user.locale.indexOf('pt') >= 0),
@@ -75,7 +74,7 @@ app.all('/_arena', function(request, response) {
 					}
 				});
 
-			});
+			//});
 		});
 	}
 });

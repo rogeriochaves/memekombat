@@ -7,7 +7,7 @@ app.all('/ranking', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
 				
@@ -27,7 +27,6 @@ app.all('/ranking', function(request, response) {
 							response.render('ranking.ejs', {
 								layout:   false,
 						          token:    token,
-						          app:      app,
 						          user:     user,
 								  amigos: amigos,
 								  jogadores: jogadores,
@@ -38,7 +37,7 @@ app.all('/ranking', function(request, response) {
 					
 				});
 				
-			});
+			//});
 		});
 	}else{
 		response.redirect('/');
