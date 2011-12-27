@@ -135,7 +135,7 @@ app.all('/index', function(request, response) {
 						var options = {
 						  host: 'graph.facebook.com',
 						  port: 443,
-						  path: '/' + request_id + "_" . pe.uid + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
+						  path: '/' + mestre_request_id + "_" . pe.uid + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
 						  method: 'GET'
 						};
 						
