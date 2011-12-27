@@ -135,7 +135,6 @@ app.all('/callback', function(request, response) {
 			console.log(data);
 			console.log("===========");
 			
-			
 			signed_request = parse_signed_request(data.signed_request, process.env.FACEBOOK_SECRET);
 			if(signed_request != null){
 				
@@ -165,9 +164,6 @@ app.all('/callback', function(request, response) {
 							quantidade: order_info.quantidade
 						});
 						p.save();
-						console.log("====2=====");
-						console.log(p);
-						console.log(item);
 						
 						response.send(JSON.stringify({
 							content: [item],
@@ -175,11 +171,11 @@ app.all('/callback', function(request, response) {
 						}));
 						
 					}else if(order_info.tipo == 1){ // Armas
-						var arma_id = arma
+						var arma_num = order_info.arma
 						  , arma = desc_armas(arma_id, order_info.language);
 						item.title = arma.title;
 						item.description = arma.description;
-						item.price = valor_armas(arma_id);
+						item.price = valor_armas(arma_num);
 						item.image_url = process.env.FACEBOOK_APP_HOME + 'img/loja/' + arma.img;
 						item.product_url = process.env.FACEBOOK_APP_HOME + 'img/loja/' + arma.img;
 						
@@ -187,7 +183,7 @@ app.all('/callback', function(request, response) {
 							uid: data.receiver,
 							order_id: data.order_id,
 							tipo: order_info.tipo,
-							arma_num: order_info.arma
+							arma_num: arma_num
 						});
 						p.save();
 						
@@ -199,6 +195,8 @@ app.all('/callback', function(request, response) {
 					
 					
 				}else if(data.method == 'payments_status_update'){
+					
+					
 					
 				}
 				
