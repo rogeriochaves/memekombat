@@ -1,5 +1,6 @@
 app.all('/perfil', function(request, response) {
 
+	try{
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
@@ -113,6 +114,9 @@ app.all('/perfil', function(request, response) {
 
 	}else{
 		response.redirect('/');
+	}
+	}catch(e){
+		console.log(e.stack)
 	}
 
 });

@@ -1,5 +1,6 @@
 app.all('/luta/:id?', function(request, response) {
 
+	try{
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
@@ -131,6 +132,9 @@ app.all('/luta/:id?', function(request, response) {
 		});
 	}else{
 		response.redirect('/');
+	}
+	}catch(e){
+		console.log(e.stack)
 	}
 	
 });
