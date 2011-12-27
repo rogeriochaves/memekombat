@@ -28,7 +28,7 @@
 
   <!--script src="js/libs/modernizr-2.0.6.min.js"></script-->
   <script type="text/javascript" src="js/libs/jquery-1.6.2.min.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
+	<!--script src="/socket.io/socket.io.js"></script-->
   	<script type="text/javascript">
 		window.fbAsyncInit = function() {
 		  FB.Canvas.setAutoGrow();
@@ -44,7 +44,7 @@
       }
 
 		
-	var socket = io.connect();
+/*	var socket = io.connect();
 
 	socket.on('connect', function() {
 
@@ -61,7 +61,7 @@
 		});
 	});
 
-
+*/
 
     </script>
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Gloria Hallelujah">
@@ -125,7 +125,7 @@
 				$('.carregando').fadeIn();
 			}, 2000);
 			setTimeout(function(){
-				window.location = "index/?meme="+$(este).attr("class");
+				window.location = "/index/?meme="+$(este).attr("class");
 			}, 2400);
 			sound('risada_mk');
 		});
@@ -156,7 +156,7 @@
 	<li class="cereal_guy"></li>
 </ul>
 </div>
-<?php
+<!--?php
 
 	require_once('FBUtils.php');
 
@@ -165,7 +165,7 @@
 	  $token
 	);
 
-?>
+?-->
 <hr />
 <div class="rodape">
 	<div class="clearfix">

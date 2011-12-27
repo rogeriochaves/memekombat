@@ -27,14 +27,14 @@ app.all('/inicio', function(request, response) {
 		    });
 
 			// Amigos que jogam
-			session.restCall('fql.query', {
+			/*session.restCall('fql.query', {
 				query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
 				format: 'json'
 			})(function(result) {
 				result.forEach(function(friend) {
 					socket_manager.send(socket_id, 'friend_using_app', friend);
 				});
-			});
+			});*/
 			
 		});
 
