@@ -28,37 +28,64 @@ app.all('/perfil', function(request, response) {
 						
 						if(request.session.erro) delete request.session.erro;
 						
-						if(uid == user.id){
-							Characters.lutas_restantes(personagem._id, function(quant){
-								response.render('perfil.ejs', {
-						          layout:   false,
-						          token:    token,
-						          app:      app,
-						          user:     user,
-								  prox_nivel: prox_nivel,
-								  lutas_restantes: quant,
-								  personagem: personagem,
-								  session_erro: session_erro,
-								  portugues: (user.locale.indexOf('pt') >= 0),
-						          socket_id: socket_id
-						        });
+						
+						
+							
+							Arquivamento
+								.where('_id')
+								.in(personagem.arquivamentos)
+								.select('img', 'texto_cima', 'texto_baixo', 'texto_cima_en', 'texto_baixo_en')
+								.find(function(err, arquivamentos){
+								
+									if(uid == user.id){
+										Personagem.where().select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
+
+											var quant_pupilos = pupilos.length;
+											if(quant_pupilos > 6){
+												pupilos = pupilos.splice(0, 6);
+											}
+											
+											Characters.lutas_restantes(personagem._id, function(quant){
+												response.render('perfil.ejs', {
+										          layout:   false,
+										          token:    token,
+										          app:      app,
+										          user:     user,
+												  prox_nivel: prox_nivel,
+												  lutas_restantes: quant,
+												  personagem: personagem,
+												  arquivamentos: arquivamentos,
+												  pupilos: pupilos,
+												  quant_pupilos: quant_pupilos,
+												  session_erro: session_erro,
+												  portugues: (user.locale.indexOf('pt') >= 0),
+										          socket_id: socket_id
+										        });
+											});
+											
+										});
+									}else{
+										Personagem.find({indicacao_id: personagem._id}).count(function(err, quant_pupilos){
+											response.render('perfil.ejs', {
+									          layout:   false,
+									          token:    token,
+									          app:      app,
+									          user:     user,
+											  prox_nivel: prox_nivel,
+											  personagem: personagem,
+											  quant_pupilos: quant_pupilos,
+											  arquivamentos: arquivamentos,
+											  session_erro: session_erro,
+											  portugues: (user.locale.indexOf('pt') >= 0),
+									          socket_id: socket_id
+									        });
+										});
+									}
 								
 							});
-						}else{
-							response.render('perfil.ejs', {
-					          layout:   false,
-					          token:    token,
-					          app:      app,
-					          user:     user,
-							  prox_nivel: prox_nivel,
-							  personagem: personagem,
-							  session_erro: session_erro,
-							  portugues: (user.locale.indexOf('pt') >= 0),
-					          socket_id: socket_id
-					        });
-						}
 						
-						Arquivamento
+						
+						/*Arquivamento
 							.where('_id')
 							.in(personagem.arquivamentos)
 							.select('img', 'texto_cima', 'texto_baixo', 'texto_cima_en', 'texto_baixo_en')
@@ -66,17 +93,17 @@ app.all('/perfil', function(request, response) {
 								arquivs.forEach(function(arquiv){
 									socket_manager.send(socket_id, 'arquivamento', arquiv);
 								});
-						});
+						});*/
 						
-						Personagem.where().limit(6).select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
+						/*Personagem.where().limit(6).select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 							pupilos.forEach(function(pupilo){
 								socket_manager.send(socket_id, 'pupilo', pupilo);
 							});
-						});
+						});*/
 						
-						Personagem.find({indicacao_id: personagem._id}).count(function(err, quant){
+						/*Personagem.find({indicacao_id: personagem._id}).count(function(err, quant){
 							socket_manager.send(socket_id, 'quant_pupilos', quant);
-						});
+						});*/
 						
 						
 					}

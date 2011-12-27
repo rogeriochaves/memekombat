@@ -9,47 +9,55 @@ var render_index = function(req, res, session, novo_personagem){
 
 	session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 		
-        // render the home page
-        res.render('index.ejs', {
-          layout:   false,
-          token:    token,
-          app:      app,
-          user:     user,
-		  hora_servidor: hora_servidor,
-		  session_fight: req.session.fight,
-		  novo_personagem: (novo_personagem ? true : false),
-		  portugues: (user.locale.indexOf('pt') >= 0),
-          socket_id: socket_id
-        });
+		// Amigos que jogam
+		session.restCall('fql.query', {
+			query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand() LIMIT 6',
+			format: 'json'
+		})(function(friends_using) {
+			/*result.forEach(function(friend) {
+				socket_manager.send(socket_id, 'friend_using_app', friend);
+			});*/
 
-		delete req.session.fight;
+			var limit = 12 - Math.max(3, friends_using.length);
+
+			session.restCall('fql.query', {
+				query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 0 ORDER BY rand() LIMIT '+limit,
+				format: 'json'
+			})(function(friends_not_using) {
+				//if(friends_not_using){
+					/*result.forEach(function(friend) {
+						socket_manager.send(socket_id, 'friend_not_using_app', friend);
+					});*/
+					
+					// render the home page
+			        res.render('index.ejs', {
+			          layout:   false,
+			          token:    token,
+			          app:      app,
+			          user:     user,
+					  hora_servidor: hora_servidor,
+					  session_fight: req.session.fight,
+					  novo_personagem: (novo_personagem ? true : false),
+					  friends_using: friends_using,
+					  friends_not_using: friends_not_using,
+					  portugues: (user.locale.indexOf('pt') >= 0),
+			          socket_id: socket_id
+			        });
+
+					delete req.session.fight;
+					
+					
+					
+				//}
+
+			});
+
+		});
+		
+        
 
     });
 
-	// Amigos que jogam
-	session.restCall('fql.query', {
-		query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand() LIMIT 6',
-		format: 'json'
-	})(function(result) {
-		result.forEach(function(friend) {
-			socket_manager.send(socket_id, 'friend_using_app', friend);
-		});
-		
-		var limit = 12 - Math.max(3, result.length);
-		
-		session.restCall('fql.query', {
-			query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 0 ORDER BY rand() LIMIT '+limit,
-			format: 'json'
-		})(function(result) {
-			if(result && result.forEach){
-				result.forEach(function(friend) {
-					socket_manager.send(socket_id, 'friend_not_using_app', friend);
-				});
-			}
-			
-		});
-		
-	});
 }
 
 var criar_personagem = function(request, response, session, mestre_id){
@@ -120,7 +128,7 @@ app.all('/index', function(request, response) {
 					var indicacao;
 					var pe = data;
 					if(request.session.request_ids){
-						/*var mestre_request_id = request.session.request_ids[0];
+						var mestre_request_id = request.session.request_ids[0];
 						
 						var http = require('https');
 						var options = {
@@ -130,15 +138,23 @@ app.all('/index', function(request, response) {
 						  method: 'GET'
 						};
 						
+						console.log("====================");
+						console.log(mestre_request_id);
+						
 						session.graphCall('/' + mestre_request_id)(function(result){
-							var game_request = (result.data[0] ? result.data[0] : result.data);
+							console.log("=========2============");
+							console.log(result);
+							/*var game_request = (result.data[0] ? result.data[0] : result.data);
 							Personagem.findOne({id: game_request.from.id}, function(err, data){
-								if(data != null){*/
-									criar_personagem(request, response, session);//, data._id);
-						/*		}
+								if(data != null){
+									criar_personagem(request, response, session, data._id);
+								}
 							});
-							session.graphCall('/' + mestre_request_id + '_' + user.id, {}, 'DELETE')();
-						});*/
+							session.graphCall('/' + mestre_request_id + '_' + user.id, {}, 'DELETE')();*/
+							
+							criar_personagem(request, response, session);
+							
+						});
 					}else if(request.session.indicacao_uid){
 						Personagem.findOne({uid: request.session.indicacao_uid}, function(err, data){
 							if(data != null){

@@ -88,16 +88,16 @@
 								<tr>
 									<td align="right">
 										<span class="num quant_pupilos">
-											<!--%= quant_pupilos %-->
+											<%= quant_pupilos %>
 										</span>
 									</td>
 									<td>
 										<% if (user.id == personagem.uid){ %>
 											<a href="#" class="convidar-amigos no-rel">
-												<span class="texto_quant_pupilos"></span>
+												<span class="texto_quant_pupilos"><%= portugues ? (quant_pupilos == 1 ? 'pupilo' : 'pupilos') : (quant_pupilos == 1 ? 'pupil' : 'pupils') %></span>
 											</a>
 										<% }else{ %>
-											<span class="texto_quant_pupilos"></span>
+											<span class="texto_quant_pupilos"><%= portugues ? (quant_pupilos == 1 ? 'pupilo' : 'pupilos') : (quant_pupilos == 1 ? 'pupil' : 'pupils') %></span>
 										<% } %>
 									</td>
 								</tr>
@@ -187,27 +187,24 @@
 			<li class="badges">
 				<%= portugues ? 'Insígnias' : 'Badges' %>
 				<ul class="clearfix">
-					<!--% personagem.arquivamentos.forEach(function(arquivamento) { %>
+					<% arquivamentos.forEach(function(arquivamento) { %>
 							<li>
-								<img src="img/badges/icones/< %= arquivamento.img %>" class="small_badge" data-img="< %= arquivamento.img %>" data-up="< %= portugues ? arquivamento.texto_cima : arquivamento.texto_cima_en %>" data-down="< %= portugues ? arquivamento.texto_baixo : arquivamento.texto_baixo_en %>" border="0" />
+								<img src="img/badges/icones/<%= arquivamento.img %>" class="small_badge" data-img="<%= arquivamento.img %>" data-up="<%= portugues ? arquivamento.texto_cima : arquivamento.texto_cima_en %>" data-down="<%= portugues ? arquivamento.texto_baixo : arquivamento.texto_baixo_en %>" border="0" />
 							</li>
-					< % }) %>-->
+					<% }) %>
 				</ul>
 			</li>
 			<% if (user.id == personagem.uid){ %>
 				<li class="pupilos">
 					<%= portugues ? 'Pupilos' : 'Pupils' %>
 					<ul class="clearfix">
-						<!--% var i = 0 %>
-						< % pupilos.forEach(function(pupilo) { %>
-							< % if(quant_pupilos <= 0 || i == 6) break %>
+						<% pupilos.forEach(function(pupilo) { %>
 							<li>
-								<a href="perfil?uid=< %= pupilo.uid %>">
-									<img src="https://graph.facebook.com/< %= pupilo.uid %>/picture?type=square" alt="< %= pupilo.nome %>" />
+								<a href="perfil?uid=<%= pupilo.uid %>">
+									<img src="https://graph.facebook.com/<%= pupilo.uid %>/picture?type=square" alt="<%= pupilo.nome %>" />
 								</a>
 							</li>
-							< % i++ %>
-						< % } %>-->
+						<% }) %>
 					</ul>
 					<!--% if (pupilos.length > 6){ %>
 						

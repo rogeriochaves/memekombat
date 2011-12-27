@@ -40,7 +40,7 @@
   <script type="text/javascript" charset="utf-8" src="js/eventos.js"></script>
   <script type="text/javascript" charset="utf-8" src="js/sons.js"></script>
   <script type="text/javascript" charset="utf-8" src="js/jquery.backgroundPosition.min.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
+	<!--script src="/socket.io/socket.io.js"></script-->
 
 	<!--script type="text/javascript" charset="utf-8" src="js/jquery.jplayer.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/jquery.preloader.js"></script>
@@ -152,18 +152,38 @@
 <hr class="pessoas" />
 <div class="rodape">
 	<div class="pessoas clearfix">
-			<div class="quem-mais" style="display:none">
-				<%= portugues ? "Amigos que já jogam" : "Friends on Meme Kombat" %> <br />
-		    	<ul class="clearfix"></ul>
-				<small><%= portugues ? "Clique para desafiá-los" : "Click to fight them" %></small>
-			</div>
-			<div class="quem-deveria" style="display:none">
-				<%= portugues ? "Quem pode ser seu pupilo" : "They can be your pupil" %><br />
-		    	<ul class="clearfix"></ul>
-				<small>
-					<%- portugues ? '<a href="#" class="convidar-amigos no-follow">Ver mais</a>' : '<a href="#" class="convidar-amigos no-follow">All friends</a>' %>
-				</small>
-			</div>
+			<% if(friends_using.length > 0){ %>
+				<div class="quem-mais">
+					<%= portugues ? "Amigos que já jogam" : "Friends on Meme Kombat" %> <br />
+			    	<ul class="clearfix">
+		    			<% friends_using.forEach(function(friend){ %>
+							<li>
+								<a href="#" uid="<%= friend.uid %>" class="no-follow">
+									<img src="https://graph.facebook.com/<%= friend.uid %>/picture?type=square" alt="<%= friend.nome %>" />
+								</a>
+							</li>
+						<% }); %>
+			    	</ul>
+					<small><%= portugues ? "Clique para desafiá-los" : "Click to fight them" %></small>
+				</div>
+			<% } %>
+			<% if(friends_not_using.length > 0){ %>
+				<div class="quem-deveria">
+					<%= portugues ? "Quem pode ser seu pupilo" : "They can be your pupil" %><br />
+			    	<ul class="clearfix">
+			    		<% friends_not_using.forEach(function(friend){ %>
+							<li>
+								<a href="#" uid="<%= friend.uid %>" class="no-follow">
+									<img src="https://graph.facebook.com/<%= friend.uid %>/picture?type=square" alt="<%= friend.nome %>" />
+								</a>
+							</li>
+						<% }); %>
+			    	</ul>
+					<small>
+						<%- portugues ? '<a href="#" class="convidar-amigos no-follow">Ver mais</a>' : '<a href="#" class="convidar-amigos no-follow">All friends</a>' %>
+					</small>
+				</div>
+			<% } %>
 	</div>
 	
 	<hr />
