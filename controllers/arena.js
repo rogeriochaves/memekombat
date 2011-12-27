@@ -122,7 +122,7 @@ app.all('/arena', function(request, response) {
 			          app:      app,
 			          user:     user,
 					  busca: 	busca,
-					  lutas_restantes: quant
+					  lutas_restantes: quant,
 					  portugues: (user.locale.indexOf('pt') >= 0),
 			          socket_id: socket_id
 			        });
