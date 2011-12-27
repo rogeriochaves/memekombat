@@ -135,7 +135,7 @@ global.Luta = mongoose.model('Lutas');
 global.Credito = mongoose.model('Creditos');
 global.Meme = mongoose.model('Memes');
 global.Ranking = mongoose.model('Rankings');
-global.Pedido = mongoose.model('Rankings');
+global.Pedido = mongoose.model('Pedidos');
 
 /*
 meme.save(function(err){
