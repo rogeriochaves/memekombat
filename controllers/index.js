@@ -131,6 +131,7 @@ app.all('/index', function(request, response) {
 					if(request.session.request_ids){
 						var mestre_request_id = request.session.request_ids[0];
 						
+						
 						var http = require('https');
 						var options = {
 						  host: 'graph.facebook.com',
@@ -139,22 +140,27 @@ app.all('/index', function(request, response) {
 						  method: 'GET'
 						};
 						
-						console.log("====================");
-						console.log(mestre_request_id);
 						
 						session.graphCall('/' + mestre_request_id)(function(result){
-							console.log("=========2============");
-							console.log(result);
-							/*var game_request = (result.data[0] ? result.data[0] : result.data);
-							Personagem.findOne({id: game_request.from.id}, function(err, data){
-								if(data != null){
-									criar_personagem(request, response, session, data._id);
-								}
-							});
-							session.graphCall('/' + mestre_request_id + '_' + user.id, {}, 'DELETE')();*/
+							
+							if(result && result != null && result.from){
+								Personagem.findOne({uid: result.from.id}, function(err, data){
+									if(data != null){
+										criar_personagem(request, response, session, data._id);
+									}
+								});
+								request.session.request_ids.forEach(function(req_id){
+									session.graphCall('/' + req_id + '_' + user.id, {}, 'DELETE')(function(){
+										//
+									});
+								});
+								
+							}else{
+								criar_personagem(request, response, session);
+							}
 							
 							//response.send("fim");
-							criar_personagem(request, response, session);
+							//criar_personagem(request, response, session);
 							
 						});
 					}else if(request.session.indicacao_uid){
