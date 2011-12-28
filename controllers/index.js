@@ -135,7 +135,7 @@ app.all('/index', function(request, response) {
 						var options = {
 						  host: 'graph.facebook.com',
 						  port: 443,
-						  path: '/' + mestre_request_id + "_" . user.id + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
+						  path: '/' + mestre_request_id + "_" + user.id + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
 						  method: 'GET'
 						};
 						
@@ -153,6 +153,7 @@ app.all('/index', function(request, response) {
 							});
 							session.graphCall('/' + mestre_request_id + '_' + user.id, {}, 'DELETE')();*/
 							
+							//response.send("fim");
 							criar_personagem(request, response, session);
 							
 						});
