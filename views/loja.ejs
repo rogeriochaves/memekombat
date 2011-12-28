@@ -1,3 +1,9 @@
+<div style="float:right; margin-right:20px">
+	<a href="#" class="lnkGanheCreditos">
+		Ganhe Créditos<img src="img/fb-coin.png" border="0" style="width:25px; height:25px; vertical-align:middle; margin-left:10px" />
+	</a>
+</div>
+
 <div style="font-size:18px; color:#474747; margin:30px 30px;">
 	<%= portugues ? "Três lutas não são suficientes?" : "Three fights are not enought?" %>
 </div>
@@ -169,7 +175,7 @@
 </script-->
 <script>
 
-	$(document).ready(function() {
+	(function() {
 		$('.mais_lutas.lutas li').click(function() {
 			if (!$(this).hasClass("disabled")) {
 				comprar($(this).attr('order'));
@@ -180,10 +186,27 @@
 				comprar_arma($(this).attr('order'));
 			}
 		});
-	});
+		$('.lnkGanheCreditos').click(function() {
+			earnCredits();
+			return false;
+		});
+	})();
 	
 
-    FB.init({appId: <%= process.env.FACEBOOK_APP_ID %>, status: true, cookie: true});
+    FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true});
+
+	function earnCredits(){
+	    // calling the API ...
+	    var obj = {
+	         method: 'pay',
+	         credits_purchase: true,
+	         dev_purchase_params: {"shortcut":"offer"}
+	    };
+
+	    FB.ui(obj, function(){
+			// nada
+		});
+	 }
 
     function comprar(quant) {
 	
