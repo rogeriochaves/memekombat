@@ -5,7 +5,7 @@ var render_index = function(req, res, session, novo_personagem){
 	var user = req.session.auth.facebook.user;
 	
 	require('date-utils');
-	var hora_servidor = (new Date()).toFormat('HH:MI:SS');
+	var hora_servidor = (new Date()).toFormat('HH24:MI:SS');
 
 	//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 		
@@ -135,7 +135,7 @@ app.all('/index', function(request, response) {
 						var options = {
 						  host: 'graph.facebook.com',
 						  port: 443,
-						  path: '/' + mestre_request_id + "_" . pe.uid + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
+						  path: '/' + mestre_request_id + "_" . user.id + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
 						  method: 'GET'
 						};
 						

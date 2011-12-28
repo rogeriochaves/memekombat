@@ -115,12 +115,13 @@ meme.findOne({nome: "Rage"}, function(err, res){
 	console.log(res);
 });*/
 
-
+require('date-utils');
+console.log((new Date()).toFormat('HH24:MI:SS'));
 
 
 //var Randomize = require('./struct/Randomize.js');
 
-Personagem.findOne({nome: 'Rogerio Chaves'}, function(err, p){
+/*Personagem.findOne({nome: 'Rogerio Chaves'}, function(err, p){
 	
 	console.log(p.notificacoes.length);
 	//p.notificacoes = p.notificacoes.reverse().splice(0, 1).reverse();
@@ -134,7 +135,7 @@ Personagem.findOne({nome: 'Rogerio Chaves'}, function(err, p){
 		console.log(Randomize.imprimir_movimentos(luta.movimentos));
 		mongoose.disconnect();
 	});*/
-});
+//});
 
 /*var IgnoraAcentos = require('./lib/ignora_acentos.js');
 
