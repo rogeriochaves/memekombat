@@ -167,6 +167,8 @@ app.all('/index', function(request, response) {
 						Personagem.findOne({uid: request.session.indicacao_uid}, function(err, data){
 							if(data != null){
 								criar_personagem(request, response, session, data._id);
+							}else{
+								criar_personagem(request, response, session);
 							}
 						});
 					}else{
