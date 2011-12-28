@@ -70,8 +70,8 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					tipo: 2,
 					luta_id: l._id,
 					personagem2_id: vencedor._id,
-					texto: "Você foi " + palavras_lost[palavra] + " pelo meme de " + vencedor.nome + (perdedor._id == p1._id ? ". EXP +" . exp_ganha : ""),
-					texto_en: "You " + palavras_lost_en[palavra] + " by " + vencedor.nome + "'s meme" + (perdedor._id == p1._id ? ". EXP +" . exp_ganha : "")
+					texto: "Você foi " + palavras_lost[palavra] + " pelo meme de " + vencedor.nome + (perdedor._id == p1._id ? ". EXP +" + exp_ganha : ""),
+					texto_en: "You " + palavras_lost_en[palavra] + " by " + vencedor.nome + "'s meme" + (perdedor._id == p1._id ? ". EXP +" + exp_ganha : "")
 				});
 				
 				//console.log("====================");
