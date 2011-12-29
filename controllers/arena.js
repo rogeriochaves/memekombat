@@ -8,6 +8,7 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 			result.forEach(function(friend) {
 				amigos_uids.push(friend.uid);
 			});
+		}
 
 			Personagem
 				.where('uid').in(amigos_uids)
@@ -56,9 +57,9 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 						});
 
 				});
-			}else{
-				response.send('');
-			}
+			//}else{
+			//	response.send('');
+			//}
 
 
 	});
