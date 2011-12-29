@@ -39,7 +39,7 @@ module.exports.gerar_luta = function(player1, player2, fn) {
 			p1.habilidades_usadas = 0;
 			p2.habilidades_usados = 0;
 			
-			Characters.consulta_armas(player2.equipamentos, function(armas){
+			Characters.consulta_armas(player1.equipamentos, function(armas){
 				p1.armas = armas;
 				Characters.consulta_armas(player2.equipamentos, function(armas){
 					p2.armas = armas;
