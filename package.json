@@ -12,6 +12,8 @@
 	"mongoose": "2.3.12",
 	"date-utils": "1.2.5",
 	"b64url": "latest",
-	"forever": "latest"
+	"forever": "latest",
+	"connect-redis": "latest",
+	"redis": "latest"
   }
 }

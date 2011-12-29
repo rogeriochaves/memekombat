@@ -3,11 +3,13 @@ try{
 
 	var everyauth = require('everyauth');
 	var express   = require('express');
-
+	var RedisStore = require('connect-redis')(express);
+	var MemoryStore = express.session.MemoryStore;
 	var FacebookClient = require('facebook-client').FacebookClient;
 	global.facebook = new FacebookClient();
 
 	global.uuid = require('node-uuid');
+
 
 
 	global.mongoose = require('mongoose')  
@@ -18,6 +20,9 @@ try{
 
 	global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 	if(environment == 'development'){
+		
+		
+		
 		process.env.FACEBOOK_APP_ID = '130619640386826';
 		process.env.FACEBOOK_SECRET = '***REMOVED***';
 		process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
@@ -33,6 +38,8 @@ try{
 
 		process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
 		mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
+		
+		
 	}
 
 
@@ -58,7 +65,14 @@ try{
 	  express.static(__dirname + '/public', { maxAge: oneYear }),
 	  express.cookieParser(),
 	  // set this to a secret value to encrypt session cookies
-	  express.session({ secret: process.env.SESSION_SECRET || 'secret123' }),
+	
+		express.session({ secret: '***REMOVED***', store: (environment == 'development' ? new MemoryStore() : new RedisStore({
+			  host: 'barracuda.redistogo.com',
+			  port: '9210',
+			  pass: '43c56adf34497a80bf6cfbc4c3052dd5',
+			  db: 'redistogo'
+		  }))}),
+	
 	  // insert a middleware to set the facebook redirect hostname to http/https dynamically
 	  function(request, response, next) {
 		
