@@ -12,7 +12,7 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 			Personagem
 				.where('uid').in(amigos_uids)
 				.where('level').lt(personagem.level + 3)
-				.sort('random', 1).limit(5)
+				.sort('level', -1, 'random', 1).limit(5)
 				.select('uid', 'level', 'nome', 'meme_src', 'genero')
 				.run(function(err, amigos){
 					amigos.forEach(function(p){
@@ -27,10 +27,9 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 					Personagem
 						.where('uid').nin(amigos_uids)
 						.where('level').lt(personagem.level + 3)
-						.sort('random', 1).limit(limite)
+						.sort('level', -1, 'random', 1).limit(limite)
 						.select('uid', 'level', 'nome', 'meme_src', 'genero')
 						.run(function(err, outros_jogadores){
-
 							outros_jogadores.forEach(function(p){
 								//socket_manager.send(socket_id, 'player_arena', p);
 								p.random = Math.random();
@@ -77,7 +76,7 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 		
 		Personagem
 			.where('uid').in(amigos_uids)
-			.sort('random', 1).limit(10)
+			.sort('level', -1, 'random', 1).limit(10)
 			.select('uid', 'level', 'nome', 'meme_src', 'genero')
 			.run(function(err, amigos){
 				amigos.forEach(function(p){
@@ -93,7 +92,7 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 				
 					Personagem
 						.where('uid').nin(amigos_uids)
-						.sort('random', 1).limit(limite)
+						.sort('level', -1, 'random', 1).limit(limite)
 						.select('uid', 'level', 'nome', 'meme_src', 'genero')
 						.find({nome: new RegExp(".*"+IgnoraAcentos.ignora_acentos(busca.replace(' ','.*'))+".*", 'i')}, function(err, outros_jogadores){
 

@@ -239,7 +239,7 @@ app.all('/campeonato', function(request, response) {
 						var chave_lv = personagem.chave_lv;
 						Campeonato.findOne({_id: personagem.campeonato_id}, function(err, campeonato){
 							
-							if(request.param('finalizar') && campeonato.vencedor_id.toString() == personagem._id.toString()){
+							if(request.param('finalizar') && campeonato.vencedor_id && campeonato.vencedor_id.toString() == personagem._id.toString()){
 								var novo_ranking = Math.min(8, campeonato.ranking_pos + 1);
 								Ranking.findOne({pos: novo_ranking}, function(err, rank){
 									
