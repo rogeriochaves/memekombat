@@ -224,13 +224,10 @@ app.all('/callback', function(request, response) {
 								
 									Equipamento.findOne({num: pedido.arma_num}, function(err, equip){
 										var armas_compraveis = [13, 18, 19, 33, 36, 31];
-										console.log(equip);
-										console.log(equip.num);
-										console.log(armas_compraveis.indexOf(equip.num));
-										console.log(personagem.equipamentos);
-										console.log(personagem.equipamentos.indexOf(equip.num));
 										
-										if(amount == equip.preco_creditos && armas_compraveis.indexOf(equip.num) >= 0 && personagem.equipamentos.indexOf(equip.num) < 0){
+										//console.log(armas_compraveis.indexOf(equip.num));
+										
+										if(amount == equip.preco_creditos && personagem.equipamentos.indexOf(equip.num) < 0){
 										
 											var espadas_elementais = [13, 18, 19];
 											var possui_elemental = (personagem.equipamentos.indexOf(13) >= 0 || personagem.equipamentos.indexOf(18) >= 0 || personagem.equipamentos.indexOf(19) >= 0);
