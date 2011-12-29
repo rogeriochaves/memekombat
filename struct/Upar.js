@@ -67,13 +67,13 @@ module.exports.subir_level = function(personagem, fn) {
 		}
 		
 		if(typeof personagem.indicacao_id != 'undefined' && personagem.indicacao_id != null){
-			Personagem.find({_id: personagem.indicacao_id}, function(err, mestre){
+			Personagem.findOne({_id: personagem.indicacao_id}, function(err, mestre){
 				if(mestre != null){
 					mestre.exp++;
 					mestre.notificacoes.push({
 						tipo: 1,
 						texto: "Seu pupilo "+personagem.nome+" passou de nível. EXP + 1",
-						texto_en: "Your pupil "+personagem.nome+" upped a level. EXP + 1",
+						texto_en: "Your pupil "+personagem.nome+" upped a level. EXP + 1"
 					});
 					mestre.save();
 					subir_level(mestre);

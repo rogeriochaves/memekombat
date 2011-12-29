@@ -45,7 +45,7 @@ app.all('/luta/:id?', function(request, response) {
 													  p2: p2,
 													  movimentos: movimentos,
 													  is_friend: false,
-													  campeonato: false,
+													  campeonato: (request.param('campeonato') ? true : false),
 													  vencedor: vencedor,
 													  perdedor: perdedor,
 													  lutas_restantes: quant,
@@ -100,7 +100,7 @@ app.all('/luta/:id?', function(request, response) {
 													  p2: p2,
 													  movimentos: luta.movimentos,
 													  is_friend: false,
-													  campeonato: false,
+													  campeonato: (request.param('campeonato') ? true : false),
 													  vencedor: vencedor,
 													  perdedor: perdedor,
 													  lutas_restantes: quant,
@@ -131,7 +131,8 @@ app.all('/luta/:id?', function(request, response) {
 			//});
 		});
 	}else{
-		response.redirect('/');
+		//response.redirect('/');
+		response.send('<a href="http://apps.facebook.com/meme_kombat">Veja a luta no Meme Kombat</a>');
 	}
 	}catch(e){
 		console.log(e.stack)

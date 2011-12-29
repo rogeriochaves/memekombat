@@ -115,8 +115,22 @@ meme.findOne({nome: "Rage"}, function(err, res){
 	console.log(res);
 });*/
 
-require('date-utils');
-console.log((new Date()).toFormat('HH24:MI:SS'));
+//equire('date-utils');
+//console.log((new Date()).toFormat('HH24:MI:SS'));
+
+/*Personagem.find({indicacao_id: undefined}, function(err, p){
+	p.forEach(function(personagem){
+		console.log(personagem.campeonato_id);
+	});
+});*/
+
+var GerarCampeonato = require('./struct/GerarCampeonato.js');
+
+Campeonato.findOne({qtd_chaves: 4}, function(err, c){
+	GerarCampeonato.gerar_lutas_campeonato(c, function(){
+		console.log("o/");
+	});
+});
 
 
 //var Randomize = require('./struct/Randomize.js');

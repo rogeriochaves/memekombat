@@ -158,7 +158,7 @@
 			    	<ul class="clearfix">
 		    			<% friends_using.forEach(function(friend){ %>
 							<li>
-								<a href="#" uid="<%= friend.uid %>" class="no-follow">
+								<a href="perfil?uid=<%= friend.uid %>">
 									<img src="https://graph.facebook.com/<%= friend.uid %>/picture?type=square" alt="<%= friend.nome %>" />
 								</a>
 							</li>

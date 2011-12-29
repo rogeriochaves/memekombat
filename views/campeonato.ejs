@@ -1,0 +1,101 @@
+<% if(campeonato.chaves_livres <= 0 && personagem.chave_lv + 1 < campeonato.qtd_chaves){ %>
+	<script type="text/javascript" charset="utf-8">
+		if(typeof tempo_restante == "undefined") tempo_restante = <%= proxima_luta %>;		
+		$(document).ready(function() {
+			atualizar_contador();
+			if(typeof contador != "undefined") clearInterval(contador);
+	  		contador = setInterval(atualizar_contador, 1000);
+		});
+	
+		function atualizar_contador(){
+			if(isNaN(tempo_restante)) return false;
+			if(tempo_restante == 0){
+				$('.lutar.campeonato div').show();
+				$('.proxima.luta').hide();
+			}
+			tempo_restante -= 1;
+			var tempo = tempo_restante;
+			var dias = Math.floor(tempo / 60 / 60 / 24);
+			tempo -= dias * 60 * 60 * 24;
+			var horas = Math.floor(tempo / 60 / 60);
+			tempo -= horas * 60 * 60;
+			var minutos = Math.floor(tempo / 60);
+			tempo -= minutos * 60;
+			var segundos = tempo;
+			$('span.dias').html(addZero(dias));
+			$('#contador .horas').html(addZero(horas));
+			$('#contador .min').html(addZero(minutos));
+			$('#contador .sec').html(addZero(segundos));
+		}
+	
+		function addZero(num){
+			return (num < 10 ? "0" : "") + num
+		}
+	</script>
+<% } %>
+
+<div style="position:absolute; margin:10px 0 0 40px">
+	<% if (campeonato.ranking_pos < 8){ %>
+		<div class="clearfix">
+			<div style="float:left">
+				<div class="rank" style="background-position:-<%= 45 * (campeonato.ranking_pos - 1) %>px 0"></div>
+			</div>
+			<div style="float:left; font-size:20px; text-align:center; margin-left:10px">
+				<%- portugues ? "Campeonato<br />" + rank.nome : "Championist<br />" + rank.nome_en %>
+			</div>
+		</div>
+	<% }else{ %>
+		<div style="font-size:20px; text-align:center; margin:-20px 0 0 0px">
+			<img src="img/ranking_max.png" border="0" /><br />
+			<%- portugues ? "Campeonato<br />"+rank.nome : "Championist<br />"+rank.nome %>
+		</div>
+	<% } %>
+</div>
+
+<%- html %>
+
+<% if ((typeof chaves[levels] == 'undefined' || typeof chaves[levels][0] == 'undefined') && proxima_luta > 0){ %>
+	<div class="proxima luta" style="margin:40px 0 0 210px; font-size:20px; color:#333">
+		<span style="color:#666"><%= portugues ? "Próxima luta em:" : "Next fight:" %></span> &nbsp;
+		<span class="tempo" id="contador">
+			<span class="horas" style="font-size:30px">&nbsp;&nbsp;</span>H
+			<span class="min" style="font-size:30px">&nbsp;&nbsp;</span>M
+			<span class="sec" style="font-size:30px">&nbsp;&nbsp;</span>S
+		</span>
+	</div>
+<% }else if(typeof chaves[levels] != 'undefined' && typeof chaves[levels][0] != 'undefined' && campeonato.vencedor_id.toString() == personagem._id.toString()){ %>
+	<div class="proxima luta" style="margin:40px 0 0 0; width:760px; text-align:center; font-size:14px">
+		<span style="color:#333"><%= portugues ? "Parabéns! Você ganhou o campeonato!" : "Congratulations! You won the Championist!" %></span>
+	</div>
+	<a class="lutar campeonato" href="campeonato?finalizar=true">
+		<div style="margin:10px 0 0 252px">
+			<% if (personagem.ranking_pos < 8){ %>
+				<img src="img/icons/up.png" border="0" />
+				<span><%= portugues ? "Subir de Ranking" : "Up a Rank" %></span>
+			<% }else{ %>
+				<span><%= portugues ? "Sair do Campeonato" : "Quit this Championist" %></span>
+			<% } %>
+		</div>
+	</a>
+<% } %>
+<% if (personagem_perdeu){ %>
+	<div class="proxima luta" style="margin:40px 0 0 0; width:760px; text-align:center; font-size:14px; color:#000">
+		<span style="color:#333"><%- portugues ? "Você já perdeu este campeonato,<br /> clique em sair para tentar de novo outra hora" : "You lost this championist,<br /> press quit to try again another time" %></span>
+	</div>
+	<a class="lutar campeonato" href="campeonato?finalizar=true">
+		<div style="margin:10px 0 0 252px">
+			<span><%= portugues ? "Sair do Campeonato" : "Quit this Championist" %></span>
+		</div>
+	</a>
+<% } %>
+<% if ((typeof chaves[levels] == 'undefined' || typeof chaves[levels][0] == 'undefined') && campeonato.chaves_livres <= 0){ %>
+	<a class="lutar campeonato" href="campeonato?proxima_luta=true">
+		<div style="margin:30px 0 0 252px; <%= proxima_luta > 0 ? "display:none" : "" %>">
+			<span><%= portugues ? "Ver sua próxima luta" : "View your next fight" %></span>
+		</div>
+	</a>
+<% }else if(campeonato.chaves_livres > 0){ %>
+	<div class="proxima luta" style="margin:40px 0 0 0; width:760px; text-align:center; font-size:16px; color:#333">
+		<span style="color:#333"><%- (portugues ? "Aguardando mais <b>"+campeonato.chaves_livres+"</b> "+(campeonato.chaves_livres == 1 ? "meme" : "memes")+" para iniciar o Campeonato" : "Waiting for <b>"+campeonato.chaves_livres+" "+(campeonato.chaves_livres == 1 ? "meme" : "memes")+"</b> to join the Championist") %></span>
+	</div>
+<% } %>

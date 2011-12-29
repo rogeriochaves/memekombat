@@ -127,6 +127,32 @@ var RankingSchema = new Schema({
 });
 mongoose.model('Rankings', RankingSchema);
 
+var CampeonatoSchema = new Schema({
+	ranking_pos: Number
+  , vencedor_id: ObjectId
+  , vencedor_uid: String
+  , qtd_chaves: Number
+  , chaves_livres: Number
+  , data_inicio: { type: Date, default: Date.now }
+});
+mongoose.model('Campeonatos', CampeonatoSchema);
+
+var ChaveSchema = new Schema({
+	campeonato_id: ObjectId
+  , personagem1_id: ObjectId
+  , personagem2_id: ObjectId
+  , uid1: String
+  , uid2: String
+  , num: Number
+  , level: Number
+  , data_liberacao: Date
+  , luta_id: ObjectId
+  , vencedor_id: ObjectId
+  , vencedor_uid: String
+});
+mongoose.model('Chaves', ChaveSchema);
+
+
 global.Personagem = mongoose.model('Personagens');
 global.Equipamento = mongoose.model('Equipamentos');
 global.Habilidade = mongoose.model('Habilidades');
@@ -136,6 +162,8 @@ global.Credito = mongoose.model('Creditos');
 global.Meme = mongoose.model('Memes');
 global.Ranking = mongoose.model('Rankings');
 global.Pedido = mongoose.model('Pedidos');
+global.Chave = mongoose.model('Chaves');
+global.Campeonato = mongoose.model('Campeonatos');
 
 /*
 meme.save(function(err){

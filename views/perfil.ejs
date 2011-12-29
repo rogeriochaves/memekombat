@@ -222,16 +222,16 @@
 				</div>
 			</a>
 		<% }else{ %>
-			<!--a class="lutar" href="campeonato.php">
+			<a class="lutar" href="campeonato">
 				<div style="margin-top:5px">
 					<img src="img/icons/trophy.png" border="0" />
-					<?php if ($personagem['campeonato_id'] != null and intval($personagem['campeonato_id']) > 0): ?>
-						<span><?php echo $portugues ? "Ver Campeonato" : "View Championist" ?></span>
-					<?php else: ?>	
-						<span><?php echo $portugues ? "Entrar no Campeonato" : "Enter the Championist" ?></span>
-					<?php endif ?>
+					<% if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){ %>
+						<span><%= portugues ? "Ver Campeonato" : "View Championist" %></span>
+					<% }else{ %>	
+						<span><%= portugues ? "Entrar no Campeonato" : "Enter the Championist" %></span>
+					<% } %>
 				</div>
-			</a-->
+			</a>
 			
 			<ul class="stream">
 				<% var i = 0; %>
