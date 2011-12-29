@@ -28,6 +28,8 @@ var render_index = function(req, res, session, novo_personagem){
 					/*result.forEach(function(friend) {
 						socket_manager.send(socket_id, 'friend_not_using_app', friend);
 					});*/
+					session_fight = req.session.fight;
+					delete req.session.fight;
 					
 					// render the home page
 			        res.render('index.ejs', {
@@ -35,7 +37,7 @@ var render_index = function(req, res, session, novo_personagem){
 			          token:    token,
 			          user:     user,
 					  hora_servidor: hora_servidor,
-					  session_fight: req.session.fight,
+					  session_fight: session_fight,
 					  novo_personagem: (novo_personagem ? true : false),
 					  friends_using: friends_using,
 					  friends_not_using: friends_not_using,
