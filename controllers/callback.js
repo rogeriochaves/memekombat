@@ -231,16 +231,16 @@ app.all('/callback', function(request, response) {
 										
 										if(amount == equip.preco_creditos && personagem.equipamentos.indexOf(equip.num) < 0){
 										
-											var espadas_elementais = [13, 18, 19];
-											var possui_elemental = (personagem.equipamentos.indexOf(13) >= 0 || personagem.equipamentos.indexOf(18) >= 0 || personagem.equipamentos.indexOf(19) >= 0);
-											if(espadas_elementais.indexOf(equip.num) >= 0 && possui_elemental){
+											//var espadas_elementais = [13, 18, 19];
+											//var possui_elemental = (personagem.equipamentos.indexOf(13) >= 0 || personagem.equipamentos.indexOf(18) >= 0 || personagem.equipamentos.indexOf(19) >= 0);
+											//if(espadas_elementais.indexOf(equip.num) >= 0 && possui_elemental){
 												personagem.equipamentos.push(equip.num);
 												personagem.save(function(err){
 													response.send(JSON.stringify(resposta));
 												});
-											}else{
+											/*}else{
 												throw new Error('keyboard cat 1!');
-											}
+											}*/
 										
 										}else{
 											throw new Error('keyboard cat 2!');
