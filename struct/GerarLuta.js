@@ -73,14 +73,19 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					//console.log(p1.notificacoes.length);
 					if(p1.notificacoes.length > 8){
 						for(var i = 8; i < p1.notificacoes.length; i++){
-							p1.notificacoes.reverse()[i].remove();
+							if(p1.notificacoes.reverse()[i] && typeof p1.notificacoes.reverse()[i]._id != null)
+								p1.notificacoes.reverse()[i].remove();
 						}
 					}
 					if(p2.notificacoes.length > 8){
 						for(var i = 8; i < p2.notificacoes.length; i++){
-							p2.notificacoes.reverse()[i].remove();
+							if(p2.notificacoes.reverse()[i] && p2.notificacoes.reverse()[i]._id != null)
+								p2.notificacoes.reverse()[i].remove();
 						}
 					}
+					p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
+					p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
+					
 
 					p1.save(function(err){
 
