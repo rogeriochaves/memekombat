@@ -225,7 +225,9 @@ app.all('/callback', function(request, response) {
 									Equipamento.findOne({num: pedido.arma_num}, function(err, equip){
 										var armas_compraveis = [13, 18, 19, 33, 36, 31];
 										
-										//console.log(armas_compraveis.indexOf(equip.num));
+										console.log(armas_compraveis.indexOf(equip.num));
+										console.log(amount == equip.preco_creditos);
+										console.log(personagem.equipamentos.indexOf(equip.num));
 										
 										if(amount == equip.preco_creditos && personagem.equipamentos.indexOf(equip.num) < 0){
 										
