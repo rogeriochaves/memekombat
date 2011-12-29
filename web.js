@@ -70,8 +70,7 @@ try{
 			  host: 'barracuda.redistogo.com',
 			  port: '9210',
 			  pass: '43c56adf34497a80bf6cfbc4c3052dd5',
-			  db: 'redistogo',
-			  cookie: {maxAge: 60000 * 20}
+			  db: 'redistogo'
 		  }))}),
 	
 	  // insert a middleware to set the facebook redirect hostname to http/https dynamically

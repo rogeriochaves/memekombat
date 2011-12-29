@@ -18,9 +18,12 @@ app.all('/ranking', function(request, response) {
 					format: 'json'
 				})(function(result) {
 					var amigos_uids = [];
-					result.forEach(function(friend) {
-						amigos_uids.push(friend.uid);
-					});
+					if(result && result.forEach){
+						result.forEach(function(friend) {
+							amigos_uids.push(friend.uid);
+						});
+					}
+					
 					amigos_uids.push(user.id);
 
 					Personagem.where('uid').in(amigos_uids).sort('level', -1).limit(10).run(function(err, amigos){
