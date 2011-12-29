@@ -7,7 +7,7 @@ global.ObjectId = Schema.ObjectId;
 require('./schema.js');
 
 global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-if(environment == 'development'){
+if(environment == 'adevelopment'){
 	process.env.FACEBOOK_APP_ID = '130619640386826';
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
@@ -21,13 +21,16 @@ if(environment == 'development'){
 	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
 }
 
-/*var Characters = require('./struct/Characters.js');
+var Characters = require('./struct/Characters.js');
 
 Personagem.findOne({uid: '100000633785771'}, function(err, data){
-	Characters.lutas_restantes(data._id, function(quant){
-		console.log(quant);
+	console.log(data.notificacoes.length);
+	data.notificacoes.reverse().splice(8, data.notificacoes.length);
+	console.log(data.notificacoes.length);
+	data.save(function(err){
+		console.log(err);
 	});
-});*/
+});
 
 
 /*function parse_signed_request(signed_request, secret) {
