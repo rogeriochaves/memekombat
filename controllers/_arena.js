@@ -20,10 +20,16 @@ app.all('/_arena', function(request, response) {
 							query: 'SELECT uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
 							format: 'json'
 						})(function(result) {
+							
 							var amigos_uids = [];
-							result.forEach(function(friend) {
-								amigos_uids.push(friend.uid);
-							});
+							
+							if(result && result.forEach){
+								result.forEach(function(friend) {
+									amigos_uids.push(friend.uid);
+								});
+							}
+							
+							
 							
 							var requisicoes = parseInt(arena_uids.length / 8);
 
