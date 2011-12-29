@@ -71,7 +71,8 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 
 					//console.log("====================");
 					//console.log(p1.notificacoes.length);
-					if(p1.notificacoes.length > 8){
+					
+					/*if(p1.notificacoes.length > 8){
 						for(var i = 8; i < p1.notificacoes.length; i++){
 							if(p1.notificacoes.reverse()[i] && typeof p1.notificacoes.reverse()[i]._id != 'undefined'){
 								try{
@@ -88,7 +89,8 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 								}catch(e){}
 							}
 						}
-					}
+					}*/
+					
 					//p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
 					//p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
 					
