@@ -254,7 +254,11 @@
 			  });
 		  }else{*/
 			pagina_atual = 'perfil';
+			carregando_timeout = setTimeout(function(){
+				$('.carregando').fadeOut();
+			}, 5000);
 			$.get('perfil', {socket_id: socket_id}, function(data){
+				clearInterval(carregando_timeout);
 			  	$('.conteudo').html(data);
 			  	$('.carregando').fadeOut();
 			  	ajaxizar_links();
