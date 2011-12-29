@@ -312,11 +312,11 @@
 					$('.carregando').css({'opacity': '0'});
 					$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
 					$('.carregando').animate({'opacity': '0.5'});
-					/*carregando_timeout = setTimeout(function(){
+					carregando_timeout = setTimeout(function(){
 						$('.carregando').fadeOut();
-					}, 10000);*/
+					}, 5000);
 					$.get(url + (url.indexOf('?') > 0 ? '&' : '?') + 'socket_id=<%= socket_id %>', function(data){
-						//clearTimeout(carregando_timeout);
+						clearTimeout(carregando_timeout);
 						parar_luta();
 						$('.conteudo').html(data);
 						$('.carregando').fadeOut();
