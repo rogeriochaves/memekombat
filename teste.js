@@ -23,12 +23,28 @@ if(environment == 'adevelopment'){
 
 var Characters = require('./struct/Characters.js');
 
-Personagem.findOne({uid: '100000633785771'}, function(err, data){
-	console.log(data.notificacoes.length);
-	data.notificacoes.reverse().splice(8, data.notificacoes.length);
-	console.log(data.notificacoes.length);
-	data.save(function(err){
-		console.log(err);
+Personagem.where().select('notificacoes').run(function(err, data){
+	console.log(data.length);
+	var done = 0
+	  , max = data.length;
+	data.forEach(function(p){
+		if(p.notificacoes.length > 8){
+			p.notificacoes.reverse().splice(8, p.notificacoes.length);
+			p.save(function(err){
+				done++;
+				if(err != null){
+					console.log("err: ");
+					console.log(err);
+				}
+				console.log("+1");
+				if(done == max){
+					console.log("finalizado!");
+					mongoose.disconnect();
+				}
+			});
+		}else{
+			max--;
+		}
 	});
 });
 
@@ -126,14 +142,14 @@ meme.findOne({nome: "Rage"}, function(err, res){
 		console.log(personagem.campeonato_id);
 	});
 });*/
-
+/*
 var GerarCampeonato = require('./struct/GerarCampeonato.js');
 
 Campeonato.findOne({qtd_chaves: 4}, function(err, c){
 	GerarCampeonato.gerar_lutas_campeonato(c, function(){
 		console.log("o/");
 	});
-});
+});*/
 
 
 //var Randomize = require('./struct/Randomize.js');
