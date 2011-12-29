@@ -61,12 +61,6 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 						texto_en: "You " + palavras_win_en[palavra] + " " + perdedor.nome + "'s meme" + (vencedor._id == p1._id ? ". EXP +" . exp_ganha : "")
 					});
 
-					if(p1.uid == vencedor.uid){
-						p1.notificacoes = vencedor.notificacoes; 
-					}else{
-						p2.notificacoes = vencedor.notificacoes;
-					}
-
 					perdedor.notificacoes.push({
 						tipo: 2,
 						luta_id: l._id,
@@ -77,9 +71,16 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 
 					//console.log("====================");
 					//console.log(p1.notificacoes.length);
-					p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
-					//console.log(p1.notificacoes.length);
-					p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
+					if(p1.notificacoes.length > 8){
+						for(var i = 8; i < p1.notificacoes.length; i++){
+							p1.notificacoes.reverse()[i].remove();
+						}
+					}
+					if(p2.notificacoes.length > 8){
+						for(var i = 8; i < p2.notificacoes.length; i++){
+							p2.notificacoes.reverse()[i].remove();
+						}
+					}
 
 					p1.save(function(err){
 
