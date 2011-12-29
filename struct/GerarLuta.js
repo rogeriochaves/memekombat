@@ -73,14 +73,20 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					//console.log(p1.notificacoes.length);
 					if(p1.notificacoes.length > 8){
 						for(var i = 8; i < p1.notificacoes.length; i++){
-							if(p1.notificacoes.reverse()[i] && typeof p1.notificacoes.reverse()[i]._id != null)
-								p1.notificacoes.reverse()[i].remove();
+							if(p1.notificacoes.reverse()[i] && typeof p1.notificacoes.reverse()[i]._id != 'undefined'){
+								try{
+									p1.notificacoes.reverse()[i].remove();
+								}catch(e){}
+							}
 						}
 					}
 					if(p2.notificacoes.length > 8){
 						for(var i = 8; i < p2.notificacoes.length; i++){
-							if(p2.notificacoes.reverse()[i] && p2.notificacoes.reverse()[i]._id != null)
-								p2.notificacoes.reverse()[i].remove();
+							if(p2.notificacoes.reverse()[i] && typeof p2.notificacoes.reverse()[i]._id != 'undefined'){
+								try{
+									p2.notificacoes.reverse()[i].remove();
+								}catch(e){}
+							}
 						}
 					}
 					p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
@@ -88,9 +94,9 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					
 
 					p1.save(function(err){
-
+						console.log(err);
 						p2.save(function(err){
-
+							console.log(err);
 							Upar.subir_level(p1);
 
 							// Arquivamentos
