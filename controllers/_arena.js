@@ -76,5 +76,7 @@ app.all('/_arena', function(request, response) {
 
 			//});
 		});
+	}else{
+		response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
 	}
 });

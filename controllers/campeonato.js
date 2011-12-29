@@ -297,6 +297,6 @@ app.all('/campeonato', function(request, response) {
 			});
 		});
 	}else{
-		response.redirect('/');
+		response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
 	}
 });
