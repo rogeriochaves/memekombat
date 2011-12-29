@@ -89,8 +89,8 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 							}
 						}
 					}
-					p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
-					p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
+					//p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
+					//p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
 					
 
 					p1.save(function(err){
