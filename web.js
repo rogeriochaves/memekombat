@@ -66,12 +66,12 @@ try{
 	  express.cookieParser(),
 	  // set this to a secret value to encrypt session cookies
 	
-		express.session({ secret: '***REMOVED***', store: ((environment == 'development') ? new MemoryStore() : new RedisStore({
+		express.session({ secret: '***REMOVED***', store: ((environment == 'development2') ? new MemoryStore() : new RedisStore({
 			  host: 'barracuda.redistogo.com',
 			  port: '9210',
 			  pass: '43c56adf34497a80bf6cfbc4c3052dd5',
 			  db: 'redistogo',
-			  cookie: {maxAge: 60000 * 20}
+			  cookie: {maxAge: 60000 * 5}
 		  }))}),
 	
 	  // insert a middleware to set the facebook redirect hostname to http/https dynamically
