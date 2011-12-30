@@ -71,9 +71,11 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 		format: 'json'
 	})(function(result) {
 		var amigos_uids = [];
-		result.forEach(function(friend) {
-			amigos_uids.push(friend.uid);
-		});
+		if(result && result.forEach){
+			result.forEach(function(friend) {
+				amigos_uids.push(friend.uid);
+			});
+		}
 		
 		Personagem
 			.where('uid').in(amigos_uids)

@@ -1,4 +1,4 @@
-module.exports.subir_level = function(personagem, fn) {
+var sl = function subir_level(personagem, fn) {
 	
 	var Characters = require('./Characters.js');
 	var prox_level = Characters.exp_necessaria(personagem.level);
@@ -88,3 +88,5 @@ module.exports.subir_level = function(personagem, fn) {
 	
 	
 };
+
+module.exports.subir_level = sl;
