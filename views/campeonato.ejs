@@ -80,7 +80,7 @@
 <% } %>
 <% if (personagem_perdeu){ %>
 	<div class="proxima luta" style="margin:40px 0 0 0; width:760px; text-align:center; font-size:14px; color:#000">
-		<span style="color:#333"><%- portugues ? "Você já perdeu este campeonato,<br /> clique em sair para tentar de novo outra hora" : "You lost this championist,<br /> press quit to try again another time" %></span>
+		<span style="color:#333"><%- (portugues ? "Você já perdeu este campeonato,<br /> clique em sair para tentar de novo outra hora" : "You lost this championist,<br /> press quit to try again another time") %></span>
 	</div>
 	<a class="lutar campeonato" href="campeonato?finalizar=true">
 		<div style="margin:10px 0 0 252px">
@@ -88,7 +88,7 @@
 		</div>
 	</a>
 <% } %>
-<% if ((typeof chaves[levels] == 'undefined' || typeof chaves[levels][0] == 'undefined') && campeonato.chaves_livres <= 0){ %>
+<% if ((typeof chaves[levels] == 'undefined' || typeof chaves[levels][0] == 'undefined') && campeonato.chaves_livres <= 0 && !personagem_perdeu){ %>
 	<a class="lutar campeonato" href="campeonato?proxima_luta=true">
 		<div style="margin:30px 0 0 252px; <%= proxima_luta > 0 ? "display:none" : "" %>">
 			<span><%= portugues ? "Ver sua próxima luta" : "View your next fight" %></span>

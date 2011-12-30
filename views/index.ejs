@@ -314,7 +314,7 @@
 					$('.carregando').animate({'opacity': '0.5'});
 					carregando_timeout = setTimeout(function(){
 						$('.carregando').fadeOut();
-					}, 5000);
+					}, 10000);
 					$.get(url + (url.indexOf('?') > 0 ? '&' : '?') + 'socket_id=<%= socket_id %>', function(data){
 						clearTimeout(carregando_timeout);
 						parar_luta();
