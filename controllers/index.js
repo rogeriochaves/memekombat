@@ -142,7 +142,6 @@ app.all('/index', function(request, response) {
 						  method: 'GET'
 						};
 						
-						
 						session.graphCall('/' + mestre_request_id)(function(result){
 							
 							if(result && result != null && result.from){

@@ -80,7 +80,11 @@
 <% } %>
 <% if (personagem_perdeu){ %>
 	<div class="proxima luta" style="margin:40px 0 0 0; width:760px; text-align:center; font-size:14px; color:#000">
-		<span style="color:#333"><%- (portugues ? "Você já perdeu este campeonato,<br /> clique em sair para tentar de novo outra hora" : "You lost this championist,<br /> press quit to try again another time") %></span>
+		<span style="color:#333">
+		<%= portugues ? "Você já perdeu este campeonato," : "You lost this championist," %>
+		<br />
+		<%= portugues ? "clique em sair para tentar de novo outra hora" : "press quit to try again another time" %>
+		</span>
 	</div>
 	<a class="lutar campeonato" href="campeonato?finalizar=true">
 		<div style="margin:10px 0 0 252px">

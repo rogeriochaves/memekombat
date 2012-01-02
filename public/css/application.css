@@ -253,3 +253,10 @@ td.r{background-image: url(../img/chaves/r.gif);}
 
 .pupilos{list-style: none; margin: 0 20px 0 0; padding: 0; width:740px;}
 	.pupilos li{float: left; margin:0 10px 10px 0;}
+	
+	
+.seta{width: 36px; height: 101px; background: url(../img/setas-armas.png) no-repeat; position: absolute; cursor: pointer; margin: 0 0 0 -20px;}
+.seta.dir{width: 38px; height: 99px; background-position: -36px 0; margin: 0 0 0 184px;}
+.carousel{width: 178px; overflow: hidden; position: relative; float: left;}
+	.carousel .wrapper{position: relative;}
+	.carousel ul{position: relative; width: 168px; padding: 0; margin: 0; float: left; background: none;}

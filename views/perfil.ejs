@@ -164,14 +164,33 @@
 		<ul class="clearfix armas_habilidades" style="<%= user.id != personagem.uid ? 'width:690px' : '' %>">
 			<li class="armas">
 				<%= portugues ? 'Armas' : 'Weapons' %>
-				<ul>
-					<% personagem.equipamentos.forEach(function(num) { %>
-						<% var linha = Math.floor((num - 1) / 4) %>
-						<li style="background-position:<%= "-" + ((num - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
-							
-						</li>
-					<% }) %>
-				</ul>
+				<% if(personagem.equipamentos.length > 8){ %>
+					<div class="seta esq"></div>
+				<% } %>
+				<div class="carousel">
+					<div class="wrapper" style="width:<%= 178 * (parseInt(personagem.equipamentos.length / 8) + 1) %>px">
+						<% var i = 0 %>
+						<% personagem.equipamentos.forEach(function(num) { %>
+							<% if(i % 8 == 0){ %>
+								<% if(i != 0){ %>
+									</ul>
+								<% } %>
+								<ul>
+							<% } %>
+							<% var linha = Math.floor((num - 1) / 4) %>
+							<li style="background-position:<%= "-" + ((num - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
+
+							</li>
+							<% if(i + 1 == personagem.equipamentos.length){ %>
+								</ul>
+							<% } %>
+							<% i++ %>
+						<% }) %>
+					</div>
+				</div>
+				<% if(personagem.equipamentos.length > 8){ %>
+					<div class="seta dir"></div>
+				<% } %>
 			</li>
 			<li class="habilidades">
 				<%= portugues ? 'Habilidades' : 'Skills' %>

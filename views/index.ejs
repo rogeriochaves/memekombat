@@ -348,6 +348,25 @@
 			return false;
 		});
 		
+		$('.seta').live('click', function() {
+			var wrapper = $('.carousel .wrapper');
+			var pos = wrapper.position().left;
+			var max = $('.carousel ul').length - 1;
+			console.log(pos);
+			if($(this).hasClass('dir')){
+				pos -= 178;
+			}else{
+				pos += 178;
+			}
+			if(pos < -178 * max){
+				pos = 0;
+			}else if(pos > 0){
+				pos = -178 * max;
+			}
+			console.log(pos);
+			wrapper.animate({left: pos + 'px'});
+		});
+		
 	})();
 </script>
 </script>
