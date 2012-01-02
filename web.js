@@ -54,6 +54,10 @@ try{
 		  .findOrCreateUser(function() {
 		    return({});
 		  });
+		everyauth.everymodule.moduleErrback( function (err) {
+		  console.log(err);
+		});
+		
 	}catch(e){
 		console.log(e.stack)
 	}
