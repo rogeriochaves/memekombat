@@ -71,7 +71,7 @@ try{
 	  express.cookieParser(),
 	  // set this to a secret value to encrypt session cookies
 	
-		express.session({ secret: '***REMOVED***', store: ((environment == 'development') ? new MemoryStore() : new RedisStore({
+		express.session({ secret: '***REMOVED***', store: ((true || environment == 'development') ? new MemoryStore() : new RedisStore({
 			  host: 'barracuda.redistogo.com',
 			  port: '9210',
 			  pass: '43c56adf34497a80bf6cfbc4c3052dd5',
