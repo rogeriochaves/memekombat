@@ -82,7 +82,7 @@
 	  // insert a middleware to set the facebook redirect hostname to http/https dynamically
 	  function(request, response, next) {
 		
-		try{
+		//try{
 			
 			if(request.param('request_ids')){
 				request.session.request_ids = request.param('request_ids').split(',');
@@ -98,9 +98,9 @@
 		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 		    next();
 		
-		}catch(e){
-			console.log(e.stack)
-		}
+		//}catch(e){
+		//	console.log(e.stack)
+		//}
 		
 	  },
 	  everyauth.middleware(),

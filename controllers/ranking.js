@@ -1,6 +1,6 @@
 app.all('/ranking', function(request, response) {
 
-	try{
+	//try{
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
@@ -46,7 +46,7 @@ app.all('/ranking', function(request, response) {
 	}else{
 		response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
 	}
-	}catch(e){
-		console.log(e.stack)
-	}
+	//}catch(e){
+	//	console.log(e.stack)
+	//}
 });
