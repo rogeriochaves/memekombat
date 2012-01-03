@@ -1,4 +1,4 @@
-try{
+//try{
 	require.paths.unshift(__dirname + '/lib');
 
 	var everyauth = require('everyauth');
@@ -44,7 +44,7 @@ try{
 
 
 	// configure facebook authentication
-	try{
+	//try{
 		everyauth.facebook
 		  .appId(process.env.FACEBOOK_APP_ID)
 		  .appSecret(process.env.FACEBOOK_SECRET)
@@ -58,14 +58,14 @@ try{
 		  console.log(err);
 		});
 		
-	}catch(e){
+	/*}catch(e){
 		console.log(e.stack)
-	}
+	}*/
 
 	var oneYear = 31557600000;
 	// create an express webserver
 	global.app = express.createServer(
-	  express.logger(),
+	  //express.logger(),
 	  express.errorHandler(),
 	  express.static(__dirname + '/public', { maxAge: oneYear }),
 	  express.cookieParser(),
@@ -153,6 +153,6 @@ try{
 	require('./controllers/ranking.js');
 	require('./controllers/campeonato.js');
 	require('./controllers/testando.js');
-}catch(e){
+/*}catch(e){
 	console.log(e.stack)
-}
+}*/

@@ -46,7 +46,6 @@ var render_index = function(req, res, session, novo_personagem){
 					delete req.session.fight;
 					
 					
-					
 				//}
 
 			});
@@ -113,7 +112,7 @@ var criar_personagem = function(request, response, session, mestre_id){
 
 app.all('/index', function(request, response) {
 
-	try{
+	//try{
 
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
@@ -299,8 +298,8 @@ app.all('/index', function(request, response) {
 		response.redirect('/');
 	}
 	
-	}catch(e){
-		console.log(e.stack)
-	}
+	//}catch(e){
+	//	console.log(e.stack)
+	//}
 
 });
