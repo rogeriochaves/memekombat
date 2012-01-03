@@ -1,4 +1,4 @@
-try{
+//try{
 	require.paths.unshift(__dirname + '/lib');
 
 	var everyauth = require('everyauth');
@@ -208,7 +208,7 @@ try{
 
 
 	// configure facebook authentication
-	try{
+	//try{
 		everyauth.facebook
 		  .appId(process.env.FACEBOOK_APP_ID)
 		  .appSecret(process.env.FACEBOOK_SECRET)
@@ -222,9 +222,9 @@ try{
 		  console.log(err);
 		});
 		
-	}catch(e){
-		console.log(e.stack)
-	}
+	//}catch(e){
+	//	console.log(e.stack)
+	//}
 
 	var oneYear = 31557600000;
 	// create an express webserver
@@ -247,7 +247,7 @@ try{
 	  function(request, response, next) {
 		
 		request.connection.setTimeout(10000);
-		try{
+		//try{
 			
 			if(request.param('request_ids')){
 				request.session.request_ids = request.param('request_ids').split(',');
@@ -263,9 +263,9 @@ try{
 		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 		    next();
 		
-		}catch(e){
-			console.log(e.stack)
-		}
+		//}catch(e){
+		//	console.log(e.stack)
+		//}
 		
 	  },
 	  everyauth.middleware(),
@@ -1265,7 +1265,7 @@ try{
 
 	app.all('/index', function(request, response) {
 
-		try{
+		//try{
 
 		var method = request.headers['x-forwarded-proto'] || 'http';
 
@@ -1451,9 +1451,9 @@ try{
 			response.redirect('/');
 		}
 
-		}catch(e){
-			console.log(e.stack)
-		}
+		//}catch(e){
+		//	console.log(e.stack)
+		//}
 
 	});
 	
@@ -1554,7 +1554,7 @@ try{
 	
 	app.all('/luta/:id?', function(request, response) {
 
-		try{
+		//try{
 		var method = request.headers['x-forwarded-proto'] || 'http';
 
 		if (request.session.auth) {
@@ -1688,15 +1688,15 @@ try{
 			//response.redirect('/');
 			response.send('<a href="http://apps.facebook.com/meme_kombat">Veja a luta no Meme Kombat</a>');
 		}
-		}catch(e){
-			console.log(e.stack)
-		}
+		//}catch(e){
+		//	console.log(e.stack)
+		//}
 
 	});
 	
 	app.all('/perfil', function(request, response) {
 
-		try{
+		//try{
 		var method = request.headers['x-forwarded-proto'] || 'http';
 
 		if (request.session.auth) {
@@ -1812,15 +1812,15 @@ try{
 			response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
 			//response.redirect('/');
 		}
-		}catch(e){
-			console.log(e.stack)
-		}
+		//}catch(e){
+		//	console.log(e.stack)
+		//}
 
 	});
 	
 	app.all('/ranking', function(request, response) {
 
-		try{
+		//try{
 		var method = request.headers['x-forwarded-proto'] || 'http';
 
 		if (request.session.auth) {
@@ -1866,15 +1866,15 @@ try{
 		}else{
 			response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
 		}
-		}catch(e){
-			console.log(e.stack)
-		}
+		//}catch(e){
+		//	console.log(e.stack)
+		//}
 	});
 	
 	
 	
 	
 	
-}catch(e){
-	console.log(e.stack)
-}
+//}catch(e){
+//	console.log(e.stack)
+//}
