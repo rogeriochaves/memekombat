@@ -441,7 +441,7 @@ try{
 									p.save();
 								});
 
-								var Characters = require('./../struct/Characters.js');
+								var Characters = require('./struct/Characters.js');
 								Characters.lutas_restantes(personagem._id, function(quant){
 									response.render('arena.ejs', {
 							          layout:   false,
@@ -495,7 +495,7 @@ try{
 
 					if(limite > 0){
 						amigos_uids.push(user.id);
-						var IgnoraAcentos = require('./../lib/ignora_acentos.js');
+						var IgnoraAcentos = require('./lib/ignora_acentos.js');
 
 						Personagem
 							.where('uid').nin(amigos_uids)
@@ -509,7 +509,7 @@ try{
 									p.save();
 								});
 
-								var Characters = require('./../struct/Characters.js');
+								var Characters = require('./struct/Characters.js');
 								Characters.lutas_restantes(personagem._id, function(quant){
 									response.render('arena.ejs', {
 							          layout:   false,
@@ -1022,12 +1022,12 @@ try{
 		campeonato_html(levels, num_chaves, lutas, chaves, personagem, portugues, function(html, personagem_perdeu){
 
 			if(request.param('finalizar') && personagem_perdeu){
-				var GerarCampeonato = require('./../struct/GerarCampeonato.js');
+				var GerarCampeonato = require('./struct/GerarCampeonato.js');
 				GerarCampeonato.exp_ganha(personagem, personagem.chave_lv, function(personagem){
 					personagem.chave_lv = 0;
 					personagem.campeonato_id = null;
 					personagem.save(function(err){
-						var Upar = require('./../struct/Upar.js');
+						var Upar = require('./struct/Upar.js');
 						Upar.subir_level(personagem);
 						response.redirect('/perfil');
 					});
@@ -1073,7 +1073,7 @@ try{
 					if(personagem == null){
 						response.redirect('inicio');
 					}else{
-						var GerarCampeonato = require('./../struct/GerarCampeonato.js');
+						var GerarCampeonato = require('./struct/GerarCampeonato.js');
 						if(typeof personagem.campeonato_id == 'undefined' || personagem.campeonato_id == null){
 							GerarCampeonato.get_campeonato_livre(personagem.ranking_pos, function(campeonato){
 								GerarCampeonato.inserir_personagem_no_campeonato(personagem, campeonato, function(){
@@ -1090,7 +1090,7 @@ try{
 									var novo_ranking = Math.min(8, campeonato.ranking_pos + 1);
 									Ranking.findOne({pos: novo_ranking}, function(err, rank){
 
-										var GerarCampeonato = require('./../struct/GerarCampeonato.js');
+										var GerarCampeonato = require('./struct/GerarCampeonato.js');
 										GerarCampeonato.exp_ganha(personagem, personagem.chave_lv, function(personagem){
 											if(personagem.ranking_pos != novo_ranking){
 												personagem.notificacoes.push({
@@ -1110,7 +1110,7 @@ try{
 											personagem.campeonato_id = null;
 
 											personagem.save(function(err){
-												var Upar = require('./../struct/Upar.js');
+												var Upar = require('./struct/Upar.js');
 												Upar.subir_level(personagem);
 												response.redirect('/perfil');
 											});
@@ -1575,7 +1575,7 @@ try{
 									response.redirect('/arena');
 								}else{
 
-									var Characters = require('./../struct/Characters.js');
+									var Characters = require('./struct/Characters.js');
 									Characters.lutas_restantes(personagem._id, function(quant){
 										if(quant <= 0){
 											request.session.erro = (user.locale.indexOf('pt') >= 0) ? 'Você já lutou muitas vezes hoje e seu meme está cansado, <br />volte amanhã. Quer mais lutas? <a href="loja">Clique aqui</a>' : 'You\'ve fought too many times today and you meme is tired, <br />come back tomorrow. Want more? <a href="loja">Clique here</a>';
@@ -1585,9 +1585,9 @@ try{
 											Personagem.findOne({uid: vs}, function(err, p2){
 
 												if(p2 != null){
-													var GerarLuta = require('./../struct/GerarLuta.js');
+													var GerarLuta = require('./struct/GerarLuta.js');
 													GerarLuta.gerar_luta(personagem, p2, false, function(luta, luta_id, vencedor, perdedor, short_url){
-														var Randomize = require('./../struct/Randomize.js');
+														var Randomize = require('./struct/Randomize.js');
 														var movimentos = Randomize.imprimir_movimentos(luta.movimentos);
 
 														response.render('luta.ejs', {
@@ -1642,7 +1642,7 @@ try{
 													var vencedor = (p1._id.toString() == luta.ganhador_id.toString() ? p1 : p2);
 													var perdedor = (p1._id.toString() == luta.ganhador_id.toString() ? p2 : p1);
 
-													var Characters = require('./../struct/Characters.js');
+													var Characters = require('./struct/Characters.js');
 													Characters.lutas_restantes(personagem._id, function(quant){
 														response.render('luta.ejs', {
 												          layout:   false,
@@ -1718,7 +1718,7 @@ try{
 						}else if(data == null){
 							response.redirect('inicio');
 						}else{
-							var Characters = require('./../struct/Characters.js');
+							var Characters = require('./struct/Characters.js');
 							var personagem = data;
 							var session_erro = request.session.erro;
 							var prox_nivel = Characters.exp_necessaria(personagem.level);
