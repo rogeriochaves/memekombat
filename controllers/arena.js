@@ -27,8 +27,9 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 
 					Personagem
 						.where('uid').nin(amigos_uids)
-						.where('level').lt(personagem.level + 3)
-						.sort('level', -1, 'random', 1).limit(limite)
+						.where('level').lt(personagem.level + 2)
+						.where('level').gt(personagem.level - 1)
+						.sort('random', 1, 'level', -1).limit(limite)
 						.select('uid', 'level', 'nome', 'meme_src', 'genero')
 						.run(function(err, outros_jogadores){
 							outros_jogadores.forEach(function(p){
