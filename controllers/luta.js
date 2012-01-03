@@ -1,16 +1,17 @@
 app.all('/luta/:id?', function(request, response) {
 
+	console.log(util.inspect(process.memoryUsage()));
 	//try{
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
-			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
+			//var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
-				var luta_id = request.params.id;
+				var luta_id = request.params.id ? request.params.id : (request.param('id') ? request.param('id') : undefined);
 				
 				Personagem.findOne({uid: user.id}, function(err, personagem){
 					
@@ -52,8 +53,7 @@ app.all('/luta/:id?', function(request, response) {
 													  app_url: process.env.FACEBOOK_APP_URL,
 													  app_home: process.env.FACEBOOK_APP_HOME,
 													  short_url: short_url,
-													  portugues: (user.locale.indexOf('pt') >= 0),
-											          socket_id: socket_id
+													  portugues: (user.locale.indexOf('pt') >= 0)
 											        });
 													
 												});
@@ -71,9 +71,8 @@ app.all('/luta/:id?', function(request, response) {
 							}
 						
 						
-						}else if(request.param('id')){
+						}else if(luta_id){
 							
-							var luta_id = request.param('id');
 							Luta.findOne({_id: luta_id}, function(err, luta){
 								if(luta == null){
 									response.redirect('/perfil');
