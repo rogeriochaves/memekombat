@@ -1,5 +1,5 @@
 module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) {
-	if(environment == 'development'){
+	if(process.env.NODE_ENV != 'production'){
 		return false;
 	}
 	
