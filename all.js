@@ -171,17 +171,17 @@ try{
 	mongoose.model('Chaves', ChaveSchema);
 
 
-	var Personagem = mongoose.model('Personagens');
-	var Equipamento = mongoose.model('Equipamentos');
-	var Habilidade = mongoose.model('Habilidades');
-	var Arquivamento = mongoose.model('Arquivamentos');
-	var Luta = mongoose.model('Lutas');
-	var Credito = mongoose.model('Creditos');
-	var Meme = mongoose.model('Memes');
-	var Ranking = mongoose.model('Rankings');
-	var Pedido = mongoose.model('Pedidos');
-	var Chave = mongoose.model('Chaves');
-	var Campeonato = mongoose.model('Campeonatos');
+	global.Personagem = mongoose.model('Personagens');
+	global.Equipamento = mongoose.model('Equipamentos');
+	global.Habilidade = mongoose.model('Habilidades');
+	global.Arquivamento = mongoose.model('Arquivamentos');
+	global.Luta = mongoose.model('Lutas');
+	global.Credito = mongoose.model('Creditos');
+	global.Meme = mongoose.model('Memes');
+	global.Ranking = mongoose.model('Rankings');
+	global.Pedido = mongoose.model('Pedidos');
+	global.Chave = mongoose.model('Chaves');
+	global.Campeonato = mongoose.model('Campeonatos');
 
 
 	var environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
