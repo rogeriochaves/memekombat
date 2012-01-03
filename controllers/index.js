@@ -126,6 +126,8 @@ app.all('/index', function(request, response) {
 			Personagem.findOne({uid: user.id}, function(err, data){
 				if(data == null && request.param('meme')){
 					
+					var portugues = (user.locale.indexOf('pt') >= 0);
+					
 					var message = {
 						message: (portugues ? "Estou jogando Meme Kombat! Venha me desafiar!" : "I'm playing Meme Kombat, challenge me, I dare you!"),
 						picture: process.env.FACEBOOK_APP_HOME + 'img/logo_post.png',
