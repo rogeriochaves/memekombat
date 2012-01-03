@@ -83,9 +83,6 @@
 	  function(request, response, next) {
 		
 		//try{
-			console.log("=====all=====");
-			var util = require('util');
-			console.log(util.inspect(process.memoryUsage()));
 			
 			if(request.param('request_ids')){
 				request.session.request_ids = request.param('request_ids').split(',');
@@ -100,6 +97,10 @@
 		    var method = request.headers['x-forwarded-proto'] || 'http';
 		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 		    next();
+		
+			console.log("====="+req.url+"=====");
+			var util = require('util');
+			console.log(util.inspect(process.memoryUsage()));
 		
 		//}catch(e){
 		//	console.log(e.stack)
