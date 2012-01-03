@@ -107,8 +107,7 @@ app.all('/luta/:id?', function(request, response) {
 													  app_url: process.env.FACEBOOK_APP_URL,
 													  app_home: process.env.FACEBOOK_APP_HOME,
 													  short_url: luta.short_url,
-													  portugues: (user.locale.indexOf('pt') >= 0),
-											          socket_id: socket_id
+													  portugues: (user.locale.indexOf('pt') >= 0)
 											        });
 												});
 												
