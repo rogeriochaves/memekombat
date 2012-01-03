@@ -1,6 +1,7 @@
 app.all('/luta/:id?', function(request, response) {
 
 	var util = require('util');
+	console.log("======= Luta =======");
 	console.log(util.inspect(process.memoryUsage()));
 	//try{
 	var method = request.headers['x-forwarded-proto'] || 'http';
@@ -123,6 +124,8 @@ app.all('/luta/:id?', function(request, response) {
 						}else{
 							response.redirect('/');
 						}
+					}else{
+						response.send('');
 					}
 					
 				});

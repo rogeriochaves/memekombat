@@ -83,8 +83,9 @@
 	  function(request, response, next) {
 		
 		//try{
-			
-			
+			console.log("=====all=====");
+			var util = require('util');
+			console.log(util.inspect(process.memoryUsage()));
 			
 			if(request.param('request_ids')){
 				request.session.request_ids = request.param('request_ids').split(',');
