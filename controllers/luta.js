@@ -1,6 +1,6 @@
 app.all('/luta/:id?', function(request, response) {
 
-	try{
+	//try{
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
@@ -134,8 +134,8 @@ app.all('/luta/:id?', function(request, response) {
 		//response.redirect('/');
 		response.send('<a href="http://apps.facebook.com/meme_kombat">Veja a luta no Meme Kombat</a>');
 	}
-	}catch(e){
-		console.log(e.stack)
-	}
+	//}catch(e){
+	//	console.log(e.stack)
+	//}
 	
 });
