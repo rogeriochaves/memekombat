@@ -1,7 +1,11 @@
 var get_campeonato = function(personagem, fn){
 	if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){
 		Campeonato.find({_id: personagem.campeonato_id}, function(err, campeonato){
-			fn(campeonato);
+			if(campeonato != null){
+				fn(campeonato);
+			}else{
+				fn();
+			}
 		});
 	}else{
 		fn();
@@ -51,14 +55,13 @@ app.all('/perfil', function(request, response) {
 				
 				var uid = request.param('uid') ? request.param('uid') : user.id;
 				
-				Personagem.findOne({uid: uid}, function(err, data){
-					if(data == null && request.params.uid){
+				Personagem.findOne({uid: uid}, function(err, personagem){
+					if(personagem == null && request.params.uid){
 						response.redirect('perfil');
-					}else if(data == null){
+					}else if(personagem == null){
 						response.redirect('inicio');
 					}else{
 						var Characters = require('./../struct/Characters.js');
-						var personagem = data;
 						var session_erro = request.session.erro;
 						var prox_nivel = Characters.exp_necessaria(personagem.level);
 						

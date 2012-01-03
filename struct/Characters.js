@@ -1,6 +1,6 @@
 module.exports.lutas_restantes = function(personagem_id, fn) {
 
-	Credito.find({personagem_id: personagem_id}, function(err, results){
+	Credito.find({personagem_id: personagem_id}).select('quantidade').run(function(err, results){
 		var total = 0;
 		results.forEach(function(result){
 			total += result.quantidade;
@@ -14,6 +14,7 @@ module.exports.lutas_restantes = function(personagem_id, fn) {
 		Luta.find()
 			.or([{personagem1_id: personagem_id, campeonato: false, credito: true},
 				{personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje }}])
+			.select('_id')
 			.count(function(err, total_gratis){
 				fn(total - total_gratis + 3);
 			});
