@@ -84,7 +84,7 @@
 		
 		//try{
 			
-			var util = require('util');
+			
 			
 			if(request.param('request_ids')){
 				request.session.request_ids = request.param('request_ids').split(',');
