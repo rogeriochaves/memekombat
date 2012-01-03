@@ -1,1 +1,1 @@
-web: foreman web.js
+web: node forever.js
