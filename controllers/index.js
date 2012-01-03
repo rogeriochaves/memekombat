@@ -125,6 +125,21 @@ app.all('/index', function(request, response) {
 			
 			Personagem.findOne({uid: user.id}, function(err, data){
 				if(data == null && request.param('meme')){
+					
+					var message = {
+						message: (portugues ? "Estou jogando Meme Kombat! Venha me desafiar!" : "I'm playing Meme Kombat, challenge me, I dare you!"),
+						picture: process.env.FACEBOOK_APP_HOME + 'img/logo_post.png',
+						link: process.env.FACEBOOK_APP_HOME,
+						name: 'Meme Kombat',
+						caption: (portugues ? 'Ui! Estou jogando Meme Kombat' : 'Y U NO PLAYING MEME KOMBAT YET?'),
+						description: (portugues ? "O jogo mais Fuck Yea já feito" : "The most Fuck Yea game ever made"),
+						source: process.env.FACEBOOK_APP_HOME
+					}
+
+					session.graphCall('/' + user.id + '/feed', message, 'POST')(function(result){
+						
+					});
+					
 					var indicacao;
 					var pe = data;
 					if(request.session.request_ids){
