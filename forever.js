@@ -3,7 +3,8 @@ var forever = require('forever');
 var child = new (forever.Monitor)('web.js', {
   max: 3,
   silent: false,
-  options: []
+  options: [],
+  killTree: true
 });
 
 //child.on('exit', this.callback);
