@@ -65,7 +65,7 @@ try{
 	var oneYear = 31557600000;
 	// create an express webserver
 	global.app = express.createServer(
-	  //express.logger(),
+	  express.logger(),
 	  express.errorHandler(),
 	  express.static(__dirname + '/public', { maxAge: oneYear }),
 	  express.cookieParser(),
@@ -82,7 +82,6 @@ try{
 	  // insert a middleware to set the facebook redirect hostname to http/https dynamically
 	  function(request, response, next) {
 		
-		request.connection.setTimeout(10000);
 		try{
 			
 			if(request.param('request_ids')){
