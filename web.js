@@ -101,8 +101,6 @@
 		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 		    next();
 		
-			console.log(request.url + " - depois: "+process.memoryUsage().heapUsed);
-		
 		//}catch(e){
 		//	console.log(e.stack)
 		//}
@@ -157,7 +155,7 @@
 	require('./controllers/callback.js');
 	require('./controllers/ranking.js');
 	require('./controllers/campeonato.js');
-	require('./controllers/testando.js');
+	//require('./controllers/testando.js');
 /*}catch(e){
 	console.log(e.stack)
 }*/
