@@ -18,7 +18,6 @@ app.all('/sair_campeonato', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;
 				
@@ -33,7 +32,7 @@ app.all('/sair_campeonato', function(request, response) {
 				
 		});
 	}
-}
+});
 
 
 app.all('/perfil', function(request, response) {
