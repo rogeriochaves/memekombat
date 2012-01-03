@@ -66,6 +66,7 @@ try{
 	// create an express webserver
 	global.app = express.createServer(
 	  //express.logger(),
+	  express.errorHandler(),
 	  express.static(__dirname + '/public', { maxAge: oneYear }),
 	  express.cookieParser(),
 	  // set this to a secret value to encrypt session cookies
@@ -81,6 +82,7 @@ try{
 	  // insert a middleware to set the facebook redirect hostname to http/https dynamically
 	  function(request, response, next) {
 		
+		request.connection.setTimeout(10000);
 		try{
 			
 			if(request.param('request_ids')){
@@ -114,7 +116,6 @@ try{
 	});
 
 	app.post('/', function(request, response){
-
 		if (request.session.auth) {
 			response.redirect('/index');
 			return false;
