@@ -19,16 +19,8 @@
 	require('./schema.js');
 
 	global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-	if(environment == 'development'){
+	if(process.env.NODE_ENV == 'production'){
 		
-		
-		require("v8-profiler");
-		process.env.FACEBOOK_APP_ID = '130619640386826';
-		process.env.FACEBOOK_SECRET = '***REMOVED***';
-		process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
-		process.env.FACEBOOK_APP_HOME = 'http://localhost:3000/';
-		mongoose.connect('mongodb://localhost/memekombat');
-	}else{
 		/*process.env.FACEBOOK_APP_ID = '282893221758514';
 		process.env.FACEBOOK_SECRET = '***REMOVED***';
 		process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattwo/';*/
@@ -39,6 +31,15 @@
 		process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
 		mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
 		
+		
+	}else{
+		
+		require("v8-profiler");
+		process.env.FACEBOOK_APP_ID = '130619640386826';
+		process.env.FACEBOOK_SECRET = '***REMOVED***';
+		process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
+		process.env.FACEBOOK_APP_HOME = 'http://localhost:3000/';
+		mongoose.connect('mongodb://localhost/memekombat');
 		
 	}
 
@@ -109,6 +110,10 @@
 	  everyauth.middleware(),
 	  require('facebook').Facebook()
 	);
+	
+	if(process.env.NODE_ENV == 'production'){
+		app.enable('view cache');
+	}
 
 	// listen to the PORT given to us in the environment
 	var port = process.env.PORT || 3000;

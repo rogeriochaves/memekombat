@@ -15,6 +15,7 @@
 	"forever": "latest",
 	"connect-redis": "latest",
 	"redis": "latest",
-	"v8-profiler": "latest"
+	"v8-profiler": "latest",
+	"memcache": "latest"
   }
 }
