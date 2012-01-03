@@ -1,6 +1,5 @@
 var render_index = function(req, res, session, novo_personagem){
 	
-	var socket_id = uuid();
 	var token = req.session.auth.facebook.accessToken;
 	var user = req.session.auth.facebook.user;
 	
@@ -41,8 +40,7 @@ var render_index = function(req, res, session, novo_personagem){
 					  novo_personagem: (novo_personagem ? true : false),
 					  friends_using: friends_using,
 					  friends_not_using: friends_not_using,
-					  portugues: (user.locale.indexOf('pt') >= 0),
-			          socket_id: socket_id
+					  portugues: (user.locale.indexOf('pt') >= 0)
 			        });
 
 					delete req.session.fight;

@@ -109,7 +109,6 @@
 		}
 	</script>
 	<script type="text/javascript" charset="utf-8">
-		var socket_id = '<%= socket_id %>';
 		var portugues = <%= portugues ? 'true' : 'false' %>;
 	</script>
 	<!--script type="text/javascript" charset="utf-8" src="js/sockets.js"></script-->
@@ -289,7 +288,7 @@
 		%>
 		<% if(redir){ %>
 			$('.carregando').fadeOut();
-			$.get('<%= redir %>?socket_id=<%= socket_id %>', function(data) {
+			$.get('<%= redir %>', function(data) {
 				$('.conteudo').html(data);
 				ajaxizar_links();
 				cache_page('<%= redir %>', data);
@@ -315,7 +314,7 @@
 					carregando_timeout = setTimeout(function(){
 						$('.carregando').fadeOut();
 					}, 10000);
-					$.get(url + (url.indexOf('?') > 0 ? '&' : '?') + 'socket_id=<%= socket_id %>', function(data){
+					$.get(url, function(data){
 						clearTimeout(carregando_timeout);
 						parar_luta();
 						$('.conteudo').html(data);
