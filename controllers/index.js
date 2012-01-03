@@ -224,14 +224,16 @@ app.all('/index', function(request, response) {
 								data.forEach(function(equip){
 									equipamentos[equip.num] = equip;
 								});
-							
-								var	edata = full_data[1].split(',');
-								edata.forEach(function(equipamento_id){
-									var equip = equipamentos[parseInt(equipamento_id)];
-									if(typeof equip != 'undefined'){
-										p.equipamentos.push(equip.num);
-									}
-								});
+								
+								try{
+									var	edata = full_data[1].split(',');
+									edata.forEach(function(equipamento_id){
+										var equip = equipamentos[parseInt(equipamento_id)];
+										if(typeof equip != 'undefined'){
+											p.equipamentos.push(equip.num);
+										}
+									});
+								}catch(e){}
 							
 							
 								var habilidades = {};
@@ -240,14 +242,15 @@ app.all('/index', function(request, response) {
 										habilidades[habil.num] = habil;
 									});
 								
-									var	hdata = full_data[2].split(',');
-									hdata.forEach(function(habilidade_id){
-										var habil = habilidades[parseInt(habilidade_id)];
-										if(typeof habil != 'undefined'){
-											p.habilidades.push(habil.num);
-										}
-									});
-								
+									try{
+										var	hdata = full_data[2].split(',');
+										hdata.forEach(function(habilidade_id){
+											var habil = habilidades[parseInt(habilidade_id)];
+											if(typeof habil != 'undefined'){
+												p.habilidades.push(habil.num);
+											}
+										});
+									}catch(e){}
 								
 									var arquivamentos = {};
 									Arquivamento.find(function(err, data){
@@ -255,13 +258,15 @@ app.all('/index', function(request, response) {
 											arquivamentos[arquiv.num] = arquiv;
 										});
 
-										var	adata = full_data[3].split(',');
-										adata.forEach(function(arquivamento_id){
-											var arquiv = arquivamentos[parseInt(arquivamento_id)];
-											if(typeof arquiv != 'undefined'){
-												p.arquivamentos.push(arquiv._id);
-											}
-										});
+										try{
+											var	adata = full_data[3].split(',');
+											adata.forEach(function(arquivamento_id){
+												var arquiv = arquivamentos[parseInt(arquivamento_id)];
+												if(typeof arquiv != 'undefined'){
+													p.arquivamentos.push(arquiv._id);
+												}
+											});
+										}catch(e){}
 									
 									
 										p.save();
