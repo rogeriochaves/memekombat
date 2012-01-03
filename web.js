@@ -98,7 +98,7 @@
 		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 		    next();
 		
-			console.log("====="+req.url+"=====");
+			console.log("====="+request.url+"=====");
 			var util = require('util');
 			console.log(util.inspect(process.memoryUsage()));
 		
