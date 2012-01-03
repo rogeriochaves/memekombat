@@ -84,6 +84,10 @@
 		
 		//try{
 			
+			console.log("====="+request.url+"===ANTES===");
+			var util = require('util');
+			console.log(util.inspect(process.memoryUsage()));
+			
 			if(request.param('request_ids')){
 				request.session.request_ids = request.param('request_ids').split(',');
 			}
@@ -98,7 +102,7 @@
 		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 		    next();
 		
-			console.log("====="+request.url+"=====");
+			console.log("====="+request.url+"===DEPOIS===");
 			var util = require('util');
 			console.log(util.inspect(process.memoryUsage()));
 		
