@@ -1,4 +1,14 @@
-app.all('/perfil', function(request, response) {
+var get_campeonato = function(personagem, fn){
+	if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){
+		Campeonato.find({_id: personagem.campeonato_id}, function(err, campeonato){
+			fn(campeonato);
+		});
+	}else{
+		fn();
+	}
+}
+
+app.all('/sair_campeonato', function(request, response) {
 
 	//try{
 	var method = request.headers['x-forwarded-proto'] || 'http';
@@ -8,7 +18,33 @@ app.all('/perfil', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
+			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
+				
+				var user = request.session.auth.facebook.user;
+				
+				Personagem.findOne({uid: user.id}, function(err, personagem){
+					
+					personagem.campeonato_id = null;
+					personagem.save(function(err){
+						response.redirect('/perfil');
+					});
+					
+				});
+				
+		});
+	}
+}
+
+
+app.all('/perfil', function(request, response) {
+
+	//try{
+	var method = request.headers['x-forwarded-proto'] || 'http';
+
+	if (request.session.auth) {
+
+		var token = request.session.auth.facebook.accessToken;
+		facebook.getSessionByAccessToken(token)(function(session) {
 
 			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
@@ -38,6 +74,7 @@ app.all('/perfil', function(request, response) {
 								.select('img', 'texto_cima', 'texto_baixo', 'texto_cima_en', 'texto_baixo_en')
 								.find(function(err, arquivamentos){
 								
+								
 									if(uid == user.id){
 										Personagem.where().select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 
@@ -46,22 +83,26 @@ app.all('/perfil', function(request, response) {
 												pupilos = pupilos.splice(0, 6);
 											}
 											
-											Characters.lutas_restantes(personagem._id, function(quant){
-												response.render('perfil.ejs', {
-										          layout:   false,
-										          token:    token,
-										          user:     user,
-												  prox_nivel: prox_nivel,
-												  lutas_restantes: quant,
-												  personagem: personagem,
-												  arquivamentos: arquivamentos,
-												  pupilos: pupilos,
-												  quant_pupilos: quant_pupilos,
-												  session_erro: session_erro,
-												  portugues: (user.locale.indexOf('pt') >= 0),
-										          socket_id: socket_id
-										        });
+											get_campeonato(personagem, function(campeonato){
+												Characters.lutas_restantes(personagem._id, function(quant){
+													response.render('perfil.ejs', {
+											          layout:   false,
+											          token:    token,
+											          user:     user,
+													  prox_nivel: prox_nivel,
+													  lutas_restantes: quant,
+													  personagem: personagem,
+													  arquivamentos: arquivamentos,
+													  pupilos: pupilos,
+													  quant_pupilos: quant_pupilos,
+													  session_erro: session_erro,
+													  portugues: (user.locale.indexOf('pt') >= 0),
+											          campeonato: campeonato
+											        });
+												});
 											});
+											
+											
 											
 										});
 									}else{
@@ -75,8 +116,7 @@ app.all('/perfil', function(request, response) {
 											  quant_pupilos: quant_pupilos,
 											  arquivamentos: arquivamentos,
 											  session_erro: session_erro,
-											  portugues: (user.locale.indexOf('pt') >= 0),
-									          socket_id: socket_id
+											  portugues: (user.locale.indexOf('pt') >= 0)
 									        });
 										});
 									}

@@ -251,6 +251,11 @@
 					<% } %>
 				</div>
 			</a>
+			<% if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){ %>
+				<% if (campeonato && campeonato.chaves_livres <= 0){ %>
+					<div style="text-align:center; margin:-20px 0 20px 0"><a href="sair_campeonato">Sair do campeonato</a></div>
+				<% } %>
+			<% } %>
 			
 			<ul class="stream">
 				<% var i = 0; %>
