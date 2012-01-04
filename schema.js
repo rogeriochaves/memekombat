@@ -49,7 +49,6 @@ var PersonagemSchema = new Schema({
   , arquivamentos: Array
   , equipamentos: Array
   , habilidades: Array
-  , notificacoes: [NotificacaoSchema]
   , random: {type: Number, default: Math.random()}
 });
 mongoose.model('Personagens', PersonagemSchema);

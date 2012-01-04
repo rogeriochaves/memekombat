@@ -83,7 +83,6 @@ var criar_personagem = function(request, response, session, mestre_id){
 	p.equipamentos = [];
 	p.habilidades = [];
 	p.atributos = [];
-	p.notificacoes = [];
 	
 	p.save(function(){
 		
