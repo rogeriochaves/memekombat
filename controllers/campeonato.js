@@ -246,18 +246,25 @@ app.all('/campeonato', function(request, response) {
 									var GerarCampeonato = require('./../struct/GerarCampeonato.js');
 									GerarCampeonato.exp_ganha(personagem, personagem.chave_lv, function(personagem){
 										if(personagem.ranking_pos != novo_ranking){
-											personagem.notificacoes.push({
+											
+											var n = new Notificacao({
+												personagem_id: personagem._id,
 												tipo: 1,
 												texto: "Parabéns! Você ganhou o campeonato e passou para o ranking <b>"+rank.nome+"</b>",
 												texto_en: "Congratulations! You won the championist and became a <b>"+rank.nome_en+"</b>"
 											});
+											n.save();
+											
 											personagem.ranking_pos = novo_ranking;
 										}else{
-											personagem.notificacoes.push({
+											
+											var n = new Notificacao({
+												personagem_id: personagem._id,
 												tipo: 1,
 												texto: "Parabéns! Você ganhou o campeonato",
 												texto_en: "Congratulations! You won the championist"
 											});
+											n.save();
 										}
 										personagem.chave_lv = 0;
 										personagem.campeonato_id = null;

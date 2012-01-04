@@ -12,11 +12,13 @@ var sl = function subir_level(personagem, fn) {
 		personagem.crit += parseInt(Math.random() * 2);
 		personagem.exp -= prox_level;
 		
-		personagem.notificacoes.push({
+		var n = new Notificacao({
+			personagem_id: personagem._id,
 			tipo: 1,
 			texto: "Parabéns! Você passou para o nível "+personagem.level,
 			texto_en: "Congratulations, you are now level "+personagem.level
 		});
+		n.save();
 		
 		Personagem.where('level').gt(personagem.level - 1).run(function(err, data){
 			if(data == null || data.length <= 1){
@@ -70,11 +72,13 @@ var sl = function subir_level(personagem, fn) {
 			Personagem.findOne({_id: personagem.indicacao_id}, function(err, mestre){
 				if(mestre != null){
 					mestre.exp++;
-					mestre.notificacoes.push({
+					var n = new Notificacao({
+						personagem_id: mestre._id,
 						tipo: 1,
 						texto: "Seu pupilo "+personagem.nome+" passou de nível. EXP + 1",
 						texto_en: "Your pupil "+personagem.nome+" upped a level. EXP + 1"
 					});
+					n.save();
 					mestre.save();
 					subir_level(mestre);
 				}

@@ -87,20 +87,24 @@ app.all('/perfil', function(request, response) {
 											
 											get_campeonato(personagem, function(campeonato){
 												Characters.lutas_restantes(personagem._id, function(quant){
-													response.render('perfil.ejs', {
-											          layout:   false,
-											          token:    token,
-											          user:     user,
-													  prox_nivel: prox_nivel,
-													  lutas_restantes: quant,
-													  personagem: personagem,
-													  arquivamentos: arquivamentos,
-													  pupilos: pupilos,
-													  quant_pupilos: quant_pupilos,
-													  session_erro: session_erro,
-													  portugues: (user.locale.indexOf('pt') >= 0),
-											          campeonato: campeonato
-											        });
+													
+													Notificacao.find({personagem_id: personagem._id}).sort('data', -1).limit(8).run(function(err, notificacoes){
+														response.render('perfil.ejs', {
+												          layout:   false,
+												          token:    token,
+												          user:     user,
+														  prox_nivel: prox_nivel,
+														  lutas_restantes: quant,
+														  personagem: personagem,
+														  arquivamentos: arquivamentos,
+														  pupilos: pupilos,
+														  notificacoes: notificacoes,
+														  quant_pupilos: quant_pupilos,
+														  session_erro: session_erro,
+														  portugues: (user.locale.indexOf('pt') >= 0),
+												          campeonato: campeonato
+												        });
+													});
 												});
 											});
 											

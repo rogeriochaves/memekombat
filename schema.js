@@ -16,12 +16,14 @@ mongoose.model('Arquivamentos', ArquivamentoSchema);
 
 var NotificacaoSchema = new Schema({
 	tipo: Number
+  , personagem_id: ObjectId
   , texto: String
   , texto_en: String
   , data: { type: Date, default: Date.now }
   , luta_id: ObjectId
   , personagem2_id: ObjectId
 });
+mongoose.model('Notificacoes', NotificacaoSchema);
 
 var PersonagemSchema = new Schema({
 	uid: {type: String, unique: true}
@@ -164,6 +166,7 @@ global.Ranking = mongoose.model('Rankings');
 global.Pedido = mongoose.model('Pedidos');
 global.Chave = mongoose.model('Chaves');
 global.Campeonato = mongoose.model('Campeonatos');
+global.Notificacao = mongoose.model('Notificacoes');
 
 /*
 meme.save(function(err){

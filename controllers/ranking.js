@@ -26,8 +26,8 @@ app.all('/ranking', function(request, response) {
 					
 					amigos_uids.push(user.id);
 
-					Personagem.where('uid').in(amigos_uids).sort('level', -1).select('nome', 'uid', 'ranking_pos').limit(10).run(function(err, amigos){
-						Personagem.where().sort('level', -1).select('nome', 'uid', 'ranking_pos').limit(10).run(function(err, jogadores){
+					Personagem.where('uid').in(amigos_uids).sort('level', -1).select('nome', 'uid', 'ranking_pos', 'level').limit(10).run(function(err, amigos){
+						Personagem.where().sort('level', -1).select('nome', 'uid', 'ranking_pos', 'level').limit(10).run(function(err, jogadores){
 							response.render('ranking.ejs', {
 								layout:   false,
 						          token:    token,

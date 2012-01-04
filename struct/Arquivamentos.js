@@ -45,11 +45,13 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 									
 						
 									personagem.arquivamentos.push(arquivamento._id);
-									personagem.notificacoes.push({
+									var n = new Notificacao({
+										personagem_id: personagem._id,
 										texto: "Você conseguiu a insígnia <b>" + arquivamento.titulo + "</b>",
 										texto_en: "You achieved the <b>" + arquivamento.titulo + "</b> badge",
 										tipo: 1
 									});
+									n.save();
 									personagem.save(function(err){
 										if(typeof fn != 'undefined') fn();
 									});

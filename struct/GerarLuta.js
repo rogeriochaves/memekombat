@@ -53,21 +53,25 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 
 					var palavra = parseInt(Math.random() * 6);
 
-					vencedor.notificacoes.push({
+					var n = new Notificacao({
+						personagem_id: vencedor._id,
 						tipo: 1,
 						luta_id: l._id,
 						personagem2_id: perdedor._id,
 						texto: "Você " + palavras_win[palavra] + " o meme de " + perdedor.nome + (vencedor._id == p1._id ? ". EXP +" + exp_ganha : ""),
 						texto_en: "You " + palavras_win_en[palavra] + " " + perdedor.nome + "'s meme" + (vencedor._id == p1._id ? ". EXP +" . exp_ganha : "")
 					});
-
-					perdedor.notificacoes.push({
+					n.save();
+					
+					var n2 = new Notificacao({
+						personagem_id: perdedor._id,
 						tipo: 2,
 						luta_id: l._id,
 						personagem2_id: vencedor._id,
 						texto: "Você foi " + palavras_lost[palavra] + " pelo meme de " + vencedor.nome + (perdedor._id == p1._id ? ". EXP +" + exp_ganha : ""),
 						texto_en: "You " + palavras_lost_en[palavra] + " by " + vencedor.nome + "'s meme" + (perdedor._id == p1._id ? ". EXP +" + exp_ganha : "")
 					});
+					n2.save();
 
 					//console.log("====================");
 					//console.log(p1.notificacoes.length);
@@ -91,8 +95,8 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 						}
 					}*/
 					
-					p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
-					p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
+					//p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
+					//p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
 					
 
 					p1.save(function(err){

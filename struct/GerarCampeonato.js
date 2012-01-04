@@ -194,11 +194,13 @@ module.exports.criar_luta_campeonato = criar_luta_campeonato;
 module.exports.exp_ganha = function(personagem, chave_lv, fn){
 	var qtd_pessoas = (chave_lv == 1 ? "1 meme" : chave_lv + " memes");
 	var exp_ganha = chave_lv;
-	personagem.notificacoes.push({
+	var n = new Notificacao({
+		personagem_id: personagem._id,
 		tipo: 1,
 		texto: "Você derrotou " + qtd_pessoas + " no Campeonato. EXP +" + exp_ganha,
 		texto_en: "You defeated " + qtd_pessoas + " on Championist. EXP +" + exp_ganha
 	});
+	n.save();
 	personagem.exp += exp_ganha;
 	fn(personagem);
 };
