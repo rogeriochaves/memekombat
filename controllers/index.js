@@ -42,8 +42,6 @@ var render_index = function(req, res, session, novo_personagem){
 					  friends_not_using: friends_not_using,
 					  portugues: (user.locale.indexOf('pt') >= 0)
 			        });
-
-					delete req.session.fight;
 					
 					
 				//}

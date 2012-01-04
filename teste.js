@@ -7,7 +7,7 @@ global.ObjectId = Schema.ObjectId;
 require('./schema.js');
 
 global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-if(environment == 'adevelopment'){
+if(environment == 'edevelopment'){
 	process.env.FACEBOOK_APP_ID = '130619640386826';
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
@@ -28,8 +28,8 @@ Personagem.where().select('notificacoes').run(function(err, data){
 	var done = 0
 	  , max = data.length;
 	data.forEach(function(p){
-		if(p.notificacoes.length > 8){
-			p.notificacoes.reverse().splice(8, p.notificacoes.length);
+		//if(p.notificacoes.length > 8){
+			p.notificacoes = [];
 			p.save(function(err){
 				done++;
 				if(err != null){
@@ -42,9 +42,9 @@ Personagem.where().select('notificacoes').run(function(err, data){
 					mongoose.disconnect();
 				}
 			});
-		}else{
-			max--;
-		}
+		//}else{
+			//max--;
+		//}
 	});
 });
 

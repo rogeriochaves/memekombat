@@ -77,9 +77,9 @@ app.all('/luta/:id?', function(request, response) {
 									response.redirect('/perfil');
 								}else{
 									
-									Personagem.findById(luta.personagem1_id).select('_id', 'nome', 'uid', 'genero', 'level', 'meme_src').run(function(err, p1){
+									Personagem.findById(luta.personagem1_id).select('_id', 'nome', 'uid', 'hp', 'genero', 'level', 'meme_src').run(function(err, p1){
 										
-										Personagem.findById(luta.personagem2_id).select('_id', 'nome', 'uid', 'genero', 'level', 'meme_src').run(function(err, p2){
+										Personagem.findById(luta.personagem2_id).select('_id', 'nome', 'uid', 'hp', 'genero', 'level', 'meme_src').run(function(err, p2){
 											if(p1 == null || p2 == null){
 												response.redirect('/perfil');
 											}else{
