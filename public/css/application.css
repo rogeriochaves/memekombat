@@ -260,3 +260,7 @@ td.r{background-image: url(../img/chaves/r.gif);}
 .carousel{width: 178px; overflow: hidden; position: relative; float: left;}
 	.carousel .wrapper{position: relative;}
 	.carousel ul{position: relative; width: 168px; padding: 0; margin: 0; float: left; background: none;}
+
+a.ad{text-decoration: none;}
+.ad p{font-family: sans-serif; position: absolute; width: 340px; color: #fff; font-size: 18px; text-shadow: #333 1px 1px; margin: 15px 0 0 280px; text-align: left;}
+.ad p.num1{color: #333; text-shadow: #FFF 1px 1px;}

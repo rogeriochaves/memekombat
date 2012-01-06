@@ -101,7 +101,6 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 						.find({nome: new RegExp(".*"+IgnoraAcentos.ignora_acentos(busca.replace(' ','.*'))+".*", 'i')}, function(err, outros_jogadores){
 
 							outros_jogadores.forEach(function(p){
-								
 								p.random = Math.random();
 								p.save();
 							});
