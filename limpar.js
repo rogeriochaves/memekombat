@@ -29,12 +29,13 @@ Luta.find({
 
 }).remove(function(err, data){
 	console.log('Limpou Lutas');
+	Notificacao.find({
+
+		data: {$lt: new Date((new Date()) - 1000 * 60 * 60 * 24 * 5)}
+
+	}).remove(function(err, data){
+		console.log('Limpou Notificações');
+		mongoose.disconnect();
+	});
 });
 
-Notificacao.find({
-
-	data: {$lt: new Date((new Date()) - 1000 * 60 * 60 * 24 * 5)}
-
-}).remove(function(err, data){
-	console.log('Limpou Notificações');
-});
