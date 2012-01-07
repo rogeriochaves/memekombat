@@ -160,6 +160,7 @@
 	require('./controllers/callback.js');
 	require('./controllers/ranking.js');
 	require('./controllers/campeonato.js');
+	require('./controllers/offline.js');
 	//require('./controllers/testando.js');
 /*}catch(e){
 	console.log(e.stack)
