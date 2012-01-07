@@ -1,6 +1,6 @@
 var get_campeonato = function(personagem, fn){
 	if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){
-		Campeonato.find({_id: personagem.campeonato_id}, function(err, campeonato){
+		Campeonato.findById(personagem.campeonato_id, function(err, campeonato){
 			if(campeonato != null){
 				fn(campeonato);
 			}else{

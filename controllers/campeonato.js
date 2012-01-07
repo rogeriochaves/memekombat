@@ -1,4 +1,4 @@
-function posicao(x, y, chaves, levels, portugues, fn){
+function posicao(x, y, chaves, levels, personagem, portugues, fn){
 	//console.log("======= chaves =========");
 	//console.log(chaves);
 	if(typeof chaves[x] != 'undefined' && typeof chaves[x][y] != 'undefined' && typeof chaves[x][y].uid != 'undefined' && chaves[x][y].uid != "" && chaves[x][y].uid != null){
@@ -14,7 +14,7 @@ function posicao(x, y, chaves, levels, portugues, fn){
 		}
 		
 		Personagem.findOne({_id: chaves[x][y].personagem_id}, function(err, p){
-			var html = '<a class="player" href="perfil?uid='+chaves[x][y].uid+'">';
+			var html = '<a class="player '+(p.uid == personagem.uid ? 'me' : '')+'" href="perfil?uid='+chaves[x][y].uid+'">';
 			html2 = '<div class="perfil" style="margin-left:'+ml+'px; '+img+'"> 						\
 				<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=square" />		\
 				<div class="info">																		\
@@ -65,7 +65,7 @@ function ver_se_perdeu(x, y, personagem_perdeu, personagem_ultima_vit, ultimo_lv
 
 function coluna_campeonato_html(i, k, m, max, lutas, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem, levels, portugues, html, fn){
 	//console.log("===k==="+k+"========");
-	posicao(i, m, chaves, levels, portugues, function(h){
+	posicao(i, m, chaves, levels, personagem, portugues, function(h){
 		html += '<td class="l">'+h+'</td>';
 		
 		res = ver_se_perdeu(i, m, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem);
@@ -82,7 +82,7 @@ function coluna_campeonato_html(i, k, m, max, lutas, personagem_perdeu, personag
 		for(c = 0; c < Math.max(0, Math.pow(2, i) - 1); c++){
 			html += '<td class="h">&nbsp;</td>';
 		}
-		posicao(i, m, chaves, levels, portugues, function(h){
+		posicao(i, m, chaves, levels, personagem, portugues, function(h){
 			html += '<td class="r">'+h+'</td>';
 			res = ver_se_perdeu(i, m, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem);
 			personagem_perdeu = res[0];
@@ -117,7 +117,7 @@ function linha_campeonato_html(i, html, levels, num_chaves, lutas, personagem_pe
 			ultimo_lv = res[1];
 			personagem_ultima_vit = res[2];
 			
-			posicao(i, 0, chaves, levels, portugues, function(h){
+			posicao(i, 0, chaves, levels, personagem, portugues, function(h){
 				var vencedor = (h != "&nbsp;");
 				espacos -= 2;
 				
