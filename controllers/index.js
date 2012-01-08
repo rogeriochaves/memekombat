@@ -10,6 +10,7 @@ var render_index = function(req, res, session, novo_personagem){
 		
 		// Amigos que jogam
 		amigos_usando(req, res, function(friends_using){
+			friends_using.splice(0, 6);
 			/*result.forEach(function(friend) {
 				socket_manager.send(socket_id, 'friend_using_app', friend);
 			});*/
