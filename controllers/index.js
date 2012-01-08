@@ -9,12 +9,15 @@ var render_index = function(req, res, session, novo_personagem){
 	//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 		
 		// Amigos que jogam
-		amigos_usando(req, res, function(friends_using){
-			var limit = 12;
-			if(friends_using && friends_using.splice){
-				friends_using.splice(0, 6);
-				limit = 12 - Math.max(3, friends_using.length);
+		amigos_usando(req, res, function(fu){
+			
+			friends_using = [];
+			if(fu && fu.forEach){
+				fu.forEach(function (f){
+					if(friends_using.length < 6) friends_using.push(f);
+				});
 			}
+			var limit = 12 - Math.max(3, friends_using.length);
 			/*result.forEach(function(friend) {
 				socket_manager.send(socket_id, 'friend_using_app', friend);
 			});*/
