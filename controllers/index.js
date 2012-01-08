@@ -9,10 +9,7 @@ var render_index = function(req, res, session, novo_personagem){
 	//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 		
 		// Amigos que jogam
-		session.restCall('fql.query', {
-			query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand() LIMIT 6',
-			format: 'json'
-		})(function(friends_using) {
+		amigos_usando(req, res, function(friends_using){
 			/*result.forEach(function(friend) {
 				socket_manager.send(socket_id, 'friend_using_app', friend);
 			});*/

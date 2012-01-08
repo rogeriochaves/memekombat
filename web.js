@@ -133,6 +133,28 @@
 		}
 	});
 
+	global.amigos_usando = function(request, response, fn){
+		if(!request.session.auth){
+			fn(undefined);
+		}else{
+			if(request.session.amigos){
+				fn(request.session.amigos);
+			}else{
+				var token = request.session.auth.facebook.accessToken;
+				facebook.getSessionByAccessToken(token)(function(session) {
+					session.restCall('fql.query', {
+						query: 'SELECT uid, name, username, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
+						format: 'json'
+					})(function(amigos) {
+						request.session.amigos = amigos;
+						fn(amigos);
+					});
+				});
+			}
+		}
+		
+	};
+
 	// create a socket.io backend for sending facebook graph data
 	// to the browser as we receive it
 	/*var io = require('socket.io').listen(app);

@@ -1,8 +1,5 @@
 var jogadores_arena = function(user, session, personagem, request, response, user){
-	session.restCall('fql.query', {
-		query: 'SELECT uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
-		format: 'json'
-	})(function(result) {
+	amigos_usando(request, response, function(result){
 		var amigos_uids = [];
 		if(result && result.forEach){
 			result.forEach(function(friend) {
