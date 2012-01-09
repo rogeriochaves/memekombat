@@ -121,7 +121,7 @@ app.all('/index', function(request, response) {
 
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
-	if (request.session.auth) && request.session.redir) {
+	if (request.session.auth && request.session.redir) {
 
 		//response.redirect('/offline');
 		
