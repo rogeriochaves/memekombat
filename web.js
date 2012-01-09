@@ -86,21 +86,25 @@
 		//try{
 			
 			
-			console.log(request.url + " - antes: "+process.memoryUsage().heapUsed);
-			
-			if(request.param('request_ids')){
-				request.session.request_ids = request.param('request_ids').split(',');
-			}
-			if(request.param('i')){
-				request.session.indicacao_uid = request.param('i');
-			}
-			if(request.param('fight')){
-				request.session.fight = request.param('fight');
-			}
+			if(process.env.NODE_ENV == 'production' && request.headers['x-forwarded-proto']!='https'){
+			    response.redirect('https://'+request.headers.host+request.url)
+			}else{
+		
+				if(request.param('request_ids')){
+					request.session.request_ids = request.param('request_ids').split(',');
+				}
+				if(request.param('i')){
+					request.session.indicacao_uid = request.param('i');
+				}
+				if(request.param('fight')){
+					request.session.fight = request.param('fight');
+				}
 
-		    var method = request.headers['x-forwarded-proto'] || 'http';
-		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-		    next();
+			    var method = request.headers['x-forwarded-proto'] || 'http';
+			    everyauth.facebook.myHostname(method + '://' + request.headers.host);
+			    next();
+
+			}
 		
 		//}catch(e){
 		//	console.log(e.stack)
