@@ -320,7 +320,8 @@ app.all('/index', function(request, response) {
 
 	}else if(request.session.auth){
 		request.session.redir = true;
-		response.redirect(process.env.FACEBOOK_APP_HOME);
+		//response.redirect(process.env.FACEBOOK_APP_HOME);
+		response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
 		//response.redirect(process.env.FACEBOOK_APP_URL);
 	}else{
 		response.redirect('/');
