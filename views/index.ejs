@@ -76,8 +76,8 @@
 		function cache_page(url, data){
 			pagina_atual = url;
 			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){
-				cached_pages['ranking'] = null;
-				cached_pages['arena'] = null;
+				//cached_pages['ranking'] = null;
+				//cached_pages['arena'] = null;
 				cached_pages['perfil'] = null;
 				cached_pages['perfil?uid=' + url.split('vs=')[1]] = null;
 			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?finalizar') >= 0){
