@@ -15,7 +15,7 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 				.run(function(err, amigos){
 					amigos.forEach(function(p){
 						//socket_manager.send(socket_id, 'player_arena', p);
-						p.random = Math.random();
+						p.random = parseInt(Math.random() * 100);
 						p.save();
 					});
 					var limite = 10 - amigos.length;
@@ -82,7 +82,7 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 			.run(function(err, amigos){
 				amigos.forEach(function(p){
 					//socket_manager.send(socket_id, 'player_arena', p);
-					p.random = Math.random();
+					p.random = parseInt(Math.random() * 100);
 					p.save();
 				});
 				var limite = 10 - amigos.length;

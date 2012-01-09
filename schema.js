@@ -49,7 +49,7 @@ var PersonagemSchema = new Schema({
   , arquivamentos: Array
   , equipamentos: Array
   , habilidades: Array
-  , random: {type: Number, default: Math.random()}
+  , random: {type: Number, default: parseInt(Math.random() * 100)}
 });
 mongoose.model('Personagens', PersonagemSchema);
 
