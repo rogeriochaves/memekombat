@@ -85,7 +85,7 @@
 	  function(request, response, next) {
 		
 		//try{
-			
+			console.log(request.url + " - Memory: "+process.memoryUsage().heapUsed);
 			
 			if(process.env.NODE_ENV == 'production' && request.headers['x-forwarded-proto']!='https'){
 			    response.redirect('https://'+request.headers.host+request.url)

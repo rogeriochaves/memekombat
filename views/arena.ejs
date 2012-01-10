@@ -19,7 +19,7 @@
 		<form id="frmBusca" action="arena">
 			<%= portugues ? "Buscar" : "Search" %>:<br />
 			<input type="text" name="busca" value="<%= (typeof busca != 'undefined') ? busca : '' %>" />
-			<input type="image" src="img/icons/magnifier.png" />
+			<input type="image" src="<%= process.env.CDN %>img/icons/magnifier.png" />
 		</form>
 	</div>
 </div>
