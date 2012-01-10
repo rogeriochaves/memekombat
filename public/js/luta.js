@@ -37,7 +37,7 @@ function set_sprite(elem){
 	mirror = $(elem).hasClass("mirror");
 	img = mirror ? sprite_img['image'].split(".")[0] + "_mirror." + sprite_img['image'].split(".")[1] : sprite_img['image']; 
 	$(elem).css({
-		backgroundImage: 'url(img/'+(tipo == 0 ? "personagens" : "armas")+'/'+img+')',
+		backgroundImage: 'url('+cdn+'img/'+(tipo == 0 ? "personagens" : "armas")+'/'+img+')',
 		backgroundPosition: (mirror ? ((sprite['width'] - sprite['size'][0]) * -1) + "px 0px" : "0px 0px"), 
 		width: sprite['size'][0],
 		height: sprite['size'][1]
@@ -204,21 +204,21 @@ function iniciar(){
 
 function preload(callback){
 	$('#luta .loading').show();
-	var preloads = ["img/loading.gif"];
+	var preloads = [cdn+"img/loading.gif"];
 	$(".personagem").each(function(){
 		var sprite = get_sprite_img(this);
-		if($.inArray("img/personagens/"+sprite['image'], preloads) == -1){
-			preloads.push("img/personagens/"+sprite['image']);
-			preloads.push("img/personagens/"+get_mirror(sprite['image']));
+		if($.inArray(cdn+"img/personagens/"+sprite['image'], preloads) == -1){
+			preloads.push(cdn+"img/personagens/"+sprite['image']);
+			preloads.push(cdn+"img/personagens/"+get_mirror(sprite['image']));
 		}
 	});
 	for(i = 0; i < movimentos.length; i++){
 		var movimento = movimentos[i];
 		if(movimento[2] > 0){
 			var sprite = armas[equipamentos[movimento[2]]];
-			if($.inArray("img/armas/"+sprite['image'], preloads) == -1){
-				preloads.push("img/armas/"+sprite['image']);
-				preloads.push("img/armas/"+get_mirror(sprite['image']));
+			if($.inArray(cdn+"img/armas/"+sprite['image'], preloads) == -1){
+				preloads.push(cdn+"img/armas/"+sprite['image']);
+				preloads.push(cdn+"img/armas/"+get_mirror(sprite['image']));
 			}
 			if(sprite['sound'] != undefined){
 				var sounds = sprite['sound'].split(",");
@@ -237,8 +237,8 @@ function preload(callback){
 				var mirror = movimento[0] == 1 && images[p].indexOf('[mirror]') > -1;
 				var img = images[p].split('[mirror]')[0];
 				img = mirror ? get_mirror(img) : img;
-				if($.inArray("img/habilidades/"+img, preloads) == -1){
-					preloads.push("img/habilidades/"+img);
+				if($.inArray(cdn+"img/habilidades/"+img, preloads) == -1){
+					preloads.push(cdn+"img/habilidades/"+img);
 				}
 			}
 			if(sprite['sound'] != undefined){
@@ -263,8 +263,8 @@ function preload(callback){
 				var mirror = movimento[0] == 1 && images[p].indexOf('[mirror]') > -1;
 				var img = images[p].split('[mirror]')[0];
 				img = mirror ? get_mirror(img) : img;
-				if($.inArray("img/eventos/"+img, preloads) == -1){
-					preloads.push("img/eventos/"+img);
+				if($.inArray(cdn+"img/eventos/"+img, preloads) == -1){
+					preloads.push(cdn+"img/eventos/"+img);
 				}
 			}
 			if(sprite['sound'] != undefined){

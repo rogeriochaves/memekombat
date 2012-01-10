@@ -154,8 +154,8 @@ app.all('/callback', function(request, response) {
 						}
 
 						item.price = valor_creditos(order_info.quantidade);
-						item.image_url = process.env.FACEBOOK_APP_HOME + 'img/luta_adicional.png';
-						item.product_url = process.env.FACEBOOK_APP_HOME + 'img/luta_adicional.png';
+						item.image_url = process.env.CDN + 'img/luta_adicional.png';
+						item.product_url = process.env.CDN + 'img/luta_adicional.png';
 						
 						var p = new Pedido({
 							uid: data.receiver,
@@ -176,8 +176,8 @@ app.all('/callback', function(request, response) {
 						item.title = arma.title;
 						item.description = arma.description;
 						item.price = valor_armas(arma_num);
-						item.image_url = process.env.FACEBOOK_APP_HOME + 'img/loja/' + arma.img;
-						item.product_url = process.env.FACEBOOK_APP_HOME + 'img/loja/' + arma.img;
+						item.image_url = process.env.CDN + 'img/loja/' + arma.img;
+						item.product_url = process.env.CDN + 'img/loja/' + arma.img;
 						
 						var p = new Pedido({
 							uid: data.receiver,

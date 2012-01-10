@@ -70,7 +70,7 @@
 		
 		$('form#frmBusca').live('submit', function() {
 			if($('.arena-loading').length == 0){
-				$('.memes-arena').html('<center><img src="img/loading.gif" class="arena-loading" /></center>');
+				$('.memes-arena').html('<center><img src="<%= process.env.CDN %>img/loading.gif" class="arena-loading" /></center>');
 			
 				$.get('arena', $(this).serialize() + '&socket_id=' + socket_id, function(data){
 					$('.conteudo').html(data);
@@ -91,7 +91,7 @@
 		
 		$('.mais-memes').live('click', function() {
 			if($('.arena-loading').length == 0){
-				$('.memes-arena').append('<center style="clear:both" class="arena-loading"><img src="img/loading.gif" /></center>');
+				$('.memes-arena').append('<center style="clear:both" class="arena-loading"><img src="<%= process.env.CDN %>img/loading.gif" /></center>');
 				$.get('_arena', {arena_uids: arena_uids.join(",")}, function(data) {
 					$('.arena-loading').remove();
 					$('.memes-arena').append(data);

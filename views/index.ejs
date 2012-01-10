@@ -14,7 +14,7 @@
   <meta property="og:title" content="Meme Kombat" />
   <meta property="og:type" content="game" />
   <meta property="og:url" content="<%= process.env.FACEBOOK_APP_URL %>" />
-  <meta property="og:image" content="<%= process.env.FACEBOOK_APP_HOME %>img/logo_post.png" />
+  <meta property="og:image" content="<%= process.env.CDN %>img/logo_post.png" />
   <meta property="og:site_name" content="Meme Kombat" />
   <meta property="fb:app_id" content="<%= process.env.FACEBOOK_APP_ID %>" />
 
@@ -23,23 +23,23 @@
   <!-- CSS concatenated and minified via ant build script-->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria Hallelujah">
   <!--link rel="stylesheet" href="css/all.min.css"-->
-  <link rel="stylesheet" href="css/boilerplate.css">
-  <link rel="stylesheet" href="css/application.css">
+  <link rel="stylesheet" href="<%= process.env.CDN %>css/boilerplate.css">
+  <link rel="stylesheet" href="<%= process.env.CDN %>css/application.css">
   <!-- end CSS-->
 
   <!--script src="js/libs/modernizr-2.0.6.min.js"></script-->
-  <script src="js/libs/jquery-1.6.2.min.js"></script>
+  <script src="<%= process.env.CDN %>js/libs/jquery-1.6.2.min.js"></script>
   <!--script type="text/javascript" charset="utf-8" src="js/min/all2.min.js"></script-->
-  <script type="text/javascript" charset="utf-8" src="js/jquery.jplayer.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/jquery.preloader.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/luta.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/database.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/movimento.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/habilidades.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/armas.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/eventos.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/sons.js"></script>
-  <script type="text/javascript" charset="utf-8" src="js/jquery.backgroundPosition.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/jquery.jplayer.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/jquery.preloader.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/luta.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/database.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/movimento.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/habilidades.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/armas.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/eventos.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/sons.js"></script>
+  <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/jquery.backgroundPosition.min.js"></script>
 	<!--script src="/socket.io/socket.io.js"></script-->
 
 	<!--script type="text/javascript" charset="utf-8" src="js/jquery.jplayer.min.js"></script>
@@ -73,6 +73,7 @@
 		atualizar_social = 0;
 		tweetou = false;
 		pagina_atual = '';
+		cdn = '<%= process.env.CDN %>';
 		function cache_page(url, data){
 			pagina_atual = url;
 			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){
@@ -118,11 +119,11 @@
 	<div class="backlight"></div>
 	<div class="badge">
 		<div class="texto cima"></div>
-		<img src="img/loading51.gif" />
+		<img src="<%= process.env.CDN %>img/loading51.gif" />
 		<div class="texto baixo"></div>
 	</div>
 	<div class="carregando">
-		<img src="img/loading51.gif" />
+		<img src="<%= process.env.CDN %>img/loading51.gif" />
 	</div>
 <div style="height:95px">
 <div class="topo clearfix">
@@ -130,7 +131,7 @@
 		<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fapps%2Fapplication.php%3Fid%3D183114805092475&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21&amp;locale=es_ES&amp;appId=251027861615668" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>
 	</div>
 	<div class="logo">
-		<img src="img/logo.png" alt="Meme Kombat" />
+		<img src="<%= process.env.CDN %>img/logo.png" alt="Meme Kombat" />
 	</div>
 	<ul class="menu">
 		<li><a href="perfil"><%= portugues ? "Início" : "Home" %></a></li>
@@ -282,7 +283,7 @@
 	(function() {
 		$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
 		$('.small_badge').live('click', function() {
-			$('.badge img').attr('src', "img/badges/" + $(this).attr('data-img'));
+			$('.badge img').attr('src', "<%= process.env.CDN %>img/badges/" + $(this).attr('data-img'));
 			$('.badge .texto.cima').html($(this).attr('data-up'));
 			$('.badge .texto.baixo').html($(this).attr('data-down'));
 			$('.badge .texto.baixo').css('margin-top', "-" + (62 * (parseInt($(this).attr('data-down').length / 13) + 1)) + "px");
@@ -290,12 +291,12 @@
 			$('.badge').fadeIn();
 		});
 		$('.ajuda').live('click', function() {
-			$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
+			$('.badge img').attr('src', "<%= process.env.CDN %>img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
 			$('.backlight').fadeIn();
 			$('.badge').fadeIn();
 		});
 		<% if(novo_personagem){ %>
-			$('.badge img').attr('src', "img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
+			$('.badge img').attr('src', "<%= process.env.CDN %>img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
 			$('.backlight').fadeIn();
 			$('.badge').fadeIn();
 		<% } %>

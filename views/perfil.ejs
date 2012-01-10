@@ -72,7 +72,7 @@
 								<div style="width:111px; float:left; font-size:20px; text-align:center">
 									<%= portugues ? "Nv" : "Lv" %> <span style="font-size:34px"><%= personagem.level %></span>
 								</div>
-								<img src="img/ranking_max.png" border="0" />
+								<img src="<%= process.env.CDN %>img/ranking_max.png" border="0" />
 							<% } %>
 							<br />
 							<% if (user.id == personagem.uid){ %>
@@ -129,31 +129,31 @@
 				<table border="0" cellpacing="0" cellpadding="5" style="margin-top:30px">
 					<tr>
 						<td align="right" style="font-size:14px">
-							<img src="img/icons/heart.png" />
+							<img src="<%= process.env.CDN %>img/icons/heart.png" />
 						</td>
 						<td align="left" colspan="3">
 							<%= personagem.hp %>
 						</td>
 						<td align="right" style="font-size:14px">
-							<img src="img/icons/sword.png" />
+							<img src="<%= process.env.CDN %>img/icons/sword.png" />
 						</td>
 						<td align="left">
 							<%= personagem.atq %>
 						</td>
 						<td align="right" style="font-size:14px">
-							<img src="img/icons/speed.png" style="vertical-align:middle" />
+							<img src="<%= process.env.CDN %>img/icons/speed.png" style="vertical-align:middle" />
 						</td>
 						<td align="left" valign="middle">
 							<%= personagem.vel %>
 						</td>
 						<td align="right" style="font-size:14px">
-							<img src="img/icons/shield.png" />
+							<img src="<%= process.env.CDN %>img/icons/shield.png" />
 						</td>
 						<td align="left">
 							<%= personagem.def %>
 						</td>
 						<td align="right" style="font-size:14px">
-							<img src="img/icons/critical.png" />
+							<img src="<%= process.env.CDN %>img/icons/critical.png" />
 						</td>
 						<td align="left">
 							<%= personagem.crit %>
@@ -209,7 +209,7 @@
 				<ul class="clearfix">
 					<% arquivamentos.forEach(function(arquivamento) { %>
 							<li>
-								<img src="img/badges/icones/<%= arquivamento.img %>" class="small_badge" data-img="<%= arquivamento.img %>" data-up="<%= portugues ? arquivamento.texto_cima : arquivamento.texto_cima_en %>" data-down="<%= portugues ? arquivamento.texto_baixo : arquivamento.texto_baixo_en %>" border="0" />
+								<img src="<%= process.env.CDN %>img/badges/icones/<%= arquivamento.img %>" class="small_badge" data-img="<%= arquivamento.img %>" data-up="<%= portugues ? arquivamento.texto_cima : arquivamento.texto_cima_en %>" data-down="<%= portugues ? arquivamento.texto_baixo : arquivamento.texto_baixo_en %>" border="0" />
 							</li>
 					<% }) %>
 				</ul>
@@ -237,14 +237,14 @@
 		<% if (user.id != personagem.uid){ %>
 			<a class="lutar" href="luta?vs=<%= personagem.uid %>">
 				<div>
-					<img src="img/icons/sword.png" border="0" />
+					<img src="<%= process.env.CDN %>img/icons/sword.png" border="0" />
 					<span><%= portugues ? "Lutar contra" : "Fight" %> <%= personagem.nome.split(" ")[0] %></span>
 				</div>
 			</a>
 		<% }else{ %>
 			<a class="lutar" href="campeonato">
 				<div style="margin-top:5px">
-					<img src="img/icons/trophy.png" border="0" />
+					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
 					<% if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){ %>
 						<span><%= portugues ? "Ver Campeonato" : "View Championist" %></span>
 					<% }else{ %>	

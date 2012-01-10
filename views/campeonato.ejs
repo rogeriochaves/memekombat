@@ -46,7 +46,7 @@
 		</div>
 	<% }else{ %>
 		<div style="font-size:20px; text-align:center; margin:-20px 0 0 0px">
-			<img src="img/ranking_max.png" border="0" /><br />
+			<img src="<%= process.env.CDN %>img/ranking_max.png" border="0" /><br />
 			<%- portugues ? "Campeonato<br />"+rank.nome : "Championist<br />"+rank.nome %>
 		</div>
 	<% } %>
@@ -70,7 +70,7 @@
 	<a class="lutar campeonato" href="campeonato?finalizar=true">
 		<div style="margin:10px 0 0 252px">
 			<% if (personagem.ranking_pos < 8){ %>
-				<img src="img/icons/up.png" border="0" />
+				<img src="<%= process.env.CDN %>img/icons/up.png" border="0" />
 				<span><%= portugues ? "Subir de Ranking" : "Up a Rank" %></span>
 			<% }else{ %>
 				<span><%= portugues ? "Sair do Campeonato" : "Quit this Championist" %></span>

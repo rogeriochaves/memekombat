@@ -44,7 +44,7 @@
 							<% }else{ %>
 								<div class="info clearfix">
 									<div style="<%= i > 0 ? "float:left" : "" %>">
-										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+										<img src="<%= process.env.CDN %>img/ranking_max.png" border="0" width="100" height="58" />
 									</div>
 									<div style="<%= i > 0 ? "float:left;" : "" %> margin-left:5px; width:<%= i == 0 ? 150 : 95 %>px">
 										<div class="nome" style="<%= i == 0 ? "margin-top:0" : "" %>"><%= nome %></div>
@@ -64,7 +64,7 @@
 									<% if (amigo.ranking_pos < 8){ %>
 										<div class="rank" style="background-position:-<%= 45 * (amigo.ranking_pos - 1) %>px 0"></div>
 									<% }else{ %>
-										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+										<img src="<%= process.env.CDN %>img/ranking_max.png" border="0" width="100" height="58" />
 									<% } %>
 								</div>
 							</div>
@@ -106,7 +106,7 @@
 							<% }else{ %>
 								<div class="info clearfix">
 									<div style="<%= i > 0 ? "float:left" : "" %>">
-										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+										<img src="<%= process.env.CDN %>img/ranking_max.png" border="0" width="100" height="58" />
 									</div>
 									<div style="<%= i > 0 ? "float:left;" : "" %> margin-left:5px; width:<%= i == 0 ? 150 : 95 %>px">
 										<div class="nome" style="<%= i == 0 ? "margin-top:0" : "" %>"><%= nome %></div>
@@ -124,7 +124,7 @@
 									<% if (jogador.ranking_pos < 8){ %>
 										<div class="rank" style="background-position:-<%= 45 * (jogador.ranking_pos - 1) %>px 0"></div>
 									<% }else{ %>
-										<img src="img/ranking_max.png" border="0" width="100" height="58" />
+										<img src="<%= process.env.CDN %>img/ranking_max.png" border="0" width="100" height="58" />
 									<% } %>
 								</div>
 							</div>
