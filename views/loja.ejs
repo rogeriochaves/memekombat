@@ -214,13 +214,20 @@
 						 "language": '<%= portugues ? "pt" : "en" %>'
                        };
 
-      var obj = {
-	    method: 'pay',
-	    order_info: order_info,
-	    purchase_type: 'item'
-      };
+      /*try{
+      	
+      	var obj = {
+		    method: 'pay',
+		    order_info: order_info,
+		    purchase_type: 'item'
+	    };
 
-      FB.ui(obj, callback);
+	    FB.ui(obj, callback);
+
+      }catch(e){*/
+      	window.top.location = 'https://www.facebook.com/dialog/pay?app_id=<%= process.env.FACEBOOK_APP_ID %>&redirect_uri=<%= process.env.FACEBOOK_APP_HOME %>&credits_purchase=false&purchase_type=item&order_info='+encodeURI(JSON.stringify(order_info))
+      //}
+      
     }
 
 	function comprar_arma(id){
@@ -229,13 +236,15 @@
 							 "language": '<%= portugues ? "pt" : "en" %>'
 	                       };
 
-	      var obj = {
+	      window.top.location = 'https://www.facebook.com/dialog/pay?app_id=<%= process.env.FACEBOOK_APP_ID %>&redirect_uri=<%= process.env.FACEBOOK_APP_HOME %>&credits_purchase=false&purchase_type=item&order_info='+encodeURI(JSON.stringify(order_info))
+
+	      /*var obj = {
 		    method: 'pay',
 		    order_info: order_info,
 		    purchase_type: 'item'
 	      };
 
-	      FB.ui(obj, callback);
+	      FB.ui(obj, callback);*/
 	}
     
     var callback = function(data) {

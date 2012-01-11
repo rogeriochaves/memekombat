@@ -9,15 +9,33 @@
 <p> <a onclick="getMore(); return false;">Get More</a></p>
 
 <script>
- function getMore(){
-    // Initialization
-    FB.init({
+
+	FB.init({
 	    appId: '<%= process.env.FACEBOOK_APP_ID %>',
     	status: true,
     	cookie: true,
     	xfbml : true, // parse XFBML 
 		channelUrl : '<%= process.env.FACEBOOK_APP_HOME %>channel.html'
     });
+
+  /*FB.login(function(response) {
+  		console.log(response);
+	   if (response.authResponse) {
+	     console.log('Welcome!  Fetching your information.... ');
+	     /*FB.api('/me', function(response) {
+	       console.log('Good to see you, ' + response.name + '.');
+	       FB.logout(function(response) {
+	         console.log('Logged out.');
+	       });
+	     });*/
+	   /*} else {
+	     console.log('User cancelled login or did not fully authorize.');
+	   }
+ }, {scope: 'email'});*/
+
+ function getMore(){
+    // Initialization
+    
 
     // calling the API ...
     var obj = {
