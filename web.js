@@ -128,14 +128,14 @@
 	});
 
 	app.post('/', function(request, response){
-		if (request.session.auth) {
+		/*if (request.session.auth) {
 			response.redirect('/index');
 			return false;
-		}else{
+		}else{*/
 			var method = request.headers['x-forwarded-proto'] || 'http';
 			var host = method + '://' + request.headers.host;
 			response.send('<script type="text/javascript">top.location.href = "'+host+'";</script>');
-		}
+		//}
 	});
 
 	app.all('/channel.html', function(req, res) {
