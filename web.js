@@ -87,9 +87,9 @@
 		//try{
 			console.log(request.url + " - Memory: "+process.memoryUsage().heapUsed);
 			
-			if(process.env.NODE_ENV == 'production' && request.headers['x-forwarded-proto']!='https'){
-			    response.redirect('https://'+request.headers.host+request.url)
-			}else{
+			//if(process.env.NODE_ENV == 'production' && request.headers['x-forwarded-proto']!='https'){
+			//    response.redirect('https://'+request.headers.host+request.url)
+			//}else{
 		
 				if(request.param('request_ids')){
 					request.session.request_ids = request.param('request_ids').split(',');
@@ -105,7 +105,7 @@
 			    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 			    next();
 
-			}
+			//}
 		
 		//}catch(e){
 		//	console.log(e.stack)
