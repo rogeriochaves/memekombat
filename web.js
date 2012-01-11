@@ -128,14 +128,16 @@
 	});
 
 	app.post('/', function(request, response){
-		/*if (request.session.auth) {
+		if (request.session.auth && request.session.redir) {
 			response.redirect('/index');
-			return false;
-		}else{*/
+		}else if(request.session.auth){
+			request.session.redir = true;
+			response.redirect(process.env.FACEBOOK_APP_URL);
+		}else{
 			var method = request.headers['x-forwarded-proto'] || 'http';
 			var host = method + '://' + request.headers.host;
 			response.send('<script type="text/javascript">top.location.href = "'+host+'";</script>');
-		//}
+		}
 	});
 
 	app.all('/channel.html', function(req, res) {
