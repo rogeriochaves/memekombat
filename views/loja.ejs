@@ -175,6 +175,8 @@
 </script-->
 <script>
 
+	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true});
+
 	(function() {
 		$('.mais_lutas.lutas li').click(function() {
 			if (!$(this).hasClass("disabled")) {
