@@ -216,19 +216,26 @@
 			</li>
 			<% if (user.id == personagem.uid){ %>
 				<li class="pupilos">
-					<%= portugues ? 'Pupilos' : 'Pupils' %>
-					<ul class="clearfix">
-						<% pupilos.forEach(function(pupilo) { %>
-							<li>
-								<a href="perfil?uid=<%= pupilo.uid %>">
-									<img src="https://graph.facebook.com/<%= pupilo.uid %>/picture?type=square" alt="<%= pupilo.nome %>" />
-								</a>
-							</li>
-						<% }) %>
-					</ul>
-					<!--% if (pupilos.length > 6){ %>
-						
-					< % } %>-->
+					<% if(pupilos.length > 0){ %>
+						<%= portugues ? 'Pupilos' : 'Pupils' %>
+						<ul class="clearfix">
+							<% pupilos.forEach(function(pupilo) { %>
+								<li>
+									<a href="perfil?uid=<%= pupilo.uid %>">
+										<img src="https://graph.facebook.com/<%= pupilo.uid %>/picture?type=square" alt="<%= pupilo.nome %>" />
+									</a>
+								</li>
+							<% }) %>
+						</ul>
+						<!--% if (pupilos.length > 6){ %>
+							
+						< % } %>-->
+					<% }else{ %>
+						<%= portugues ? 'Você ainda não tem nenhum pupilo' : "You don't have any pupils yet" %><br><br><br>
+						<a href="#" class="convidar-amigos no-rel">
+							<%= portugues ? 'Convidar Amigos' : 'Invite Friends' %>
+						</a>
+					<% } %>
 				</li>
 			<% } %>
 		</ul>
