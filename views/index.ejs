@@ -250,7 +250,7 @@
 <script>
 
 	//FB._https = true;
-	//FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true});
+	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true, channelUrl : '<%= process.env.FACEBOOK_APP_HOME %>channel.html'});
 
 	function requestCallback(response) {
 	        // Handle callback here
