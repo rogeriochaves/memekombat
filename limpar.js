@@ -24,6 +24,7 @@ if(environment == 'edevelopment'){
 Luta.find({
 
 	fb_total_count: {$lt: 3},
+	campeonato: false,
 	$or: [{credito: false}, {credito: undefined}],
 	data: {$lt: new Date((new Date()) - 1000 * 60 * 60 * 24 * 3)}
 
