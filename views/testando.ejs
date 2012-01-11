@@ -1,1 +1,41 @@
-beaver <%= num %>
+ <html>
+    <head>
+      <title>My Facebook Credits Page</title>
+    </head>
+    <body>
+      <div id="fb-root"></div>
+      <script src="//connect.facebook.net/pt_BR/all.js#appId=<%= process.env.FACEBOOK_APP_ID %>&xfbml=1"></script>
+      
+<p> <a onclick="getMore(); return false;">Get More</a></p>
+
+<script>
+ function getMore(){
+    // Initialization
+    FB.init({
+	    appId: '<%= process.env.FACEBOOK_APP_ID %>',
+    	status: true,
+    	cookie: true,
+    	xfbml : true, // parse XFBML 
+		channelUrl : '<%= process.env.FACEBOOK_APP_HOME %>channel.html'
+    });
+
+    // calling the API ...
+    var obj = {
+         method: 'pay',
+         credits_purchase: true,
+         purchase_type:"item"
+    };
+    /*console.log('?');
+
+    FB.ui({method: 'apprequests',
+	    message: 'Seja meu pupilo'
+	  }, function(){});*/
+
+    FB.ui(obj, function(){});
+
+
+
+ }
+</script>
+</body>
+ </html>

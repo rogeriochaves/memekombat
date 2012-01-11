@@ -138,6 +138,14 @@
 		}
 	});
 
+	app.all('/channel.html', function(req, res) {
+		var cache_expire = 60 * 60 * 24 * 365;
+		res.header('Pragma', 'public');
+		res.header('Cache-Control', 'max-age=' + cache_expire);
+		//res.header('Expires', 'public');
+		res.render('channel.ejs', {layout: false});
+	});
+
 	global.amigos_usando = function(request, response, fn){
 		if(!request.session.auth){
 			fn(undefined);
