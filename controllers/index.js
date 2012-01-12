@@ -123,7 +123,7 @@ console.log("sim!");
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth){// && request.session.redir) {
-		request.session.redir = false;
+		delete request.session.redir;
 		//response.redirect('/offline');
 		
 		
