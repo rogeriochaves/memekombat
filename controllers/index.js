@@ -122,8 +122,8 @@ app.all('/index', function(request, response) {
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	delete request.session.logged;
-	if (request.session.auth && request.session.redir) {
-		delete request.session.redir;
+	if (request.session.auth){// && request.session.redir) {
+		//delete request.session.redir;
 		//response.redirect('/offline');
 		
 		
@@ -317,9 +317,9 @@ app.all('/index', function(request, response) {
 			
 		});
 
-	}else if(request.session.auth){
+	/*}else if(request.session.auth){
 		request.session.redir = true;
-		response.redirect(process.env.FACEBOOK_APP_URL);
+		response.redirect(process.env.FACEBOOK_APP_URL);*/
 	}else{
 		response.redirect('/');
 	}
