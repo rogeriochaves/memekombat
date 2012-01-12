@@ -119,10 +119,10 @@ var criar_personagem = function(request, response, session, mestre_id){
 
 app.all('/index', function(request, response) {
 
-console.log("sim!");
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
-	if (request.session.auth){// && request.session.redir) {
+	delete request.session.logged;
+	if (request.session.auth && request.session.redir) {
 		delete request.session.redir;
 		//response.redirect('/offline');
 		
@@ -317,9 +317,9 @@ console.log("sim!");
 			
 		});
 
-	/*}else if(request.session.auth){
+	}else if(request.session.auth){
 		request.session.redir = true;
-		response.redirect(process.env.FACEBOOK_APP_URL);*/
+		response.redirect(process.env.FACEBOOK_APP_URL);
 	}else{
 		response.redirect('/');
 	}
