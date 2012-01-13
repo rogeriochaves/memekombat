@@ -13,6 +13,6 @@
 	"date-utils": "1.2.5",
 	"b64url": "1.0.3",
 	"forever": "0.7.5",
-	"connect-redis": "latest"
+	"connect-redis": "1.2.0"
   }
 }
