@@ -81,7 +81,11 @@ module.exports.inserir_personagem_no_campeonato = function(personagem, campeonat
 			personagem.save(function(err){
 				campeonato.save(function(err){
 					if(campeonato.chaves_livres == 0){
-						gerar_lutas_campeonato(campeonato, function(){
+						gerar_lutas_campeonato(campeonato, function(err){
+							if(err == null){
+								campeonato.chaves_livres++;
+								campeonato.save();
+							}
 							fn();
 						});
 					}else{
@@ -96,14 +100,18 @@ module.exports.inserir_personagem_no_campeonato = function(personagem, campeonat
 function gerar_chaves_lutas_i(i, levels, qtd_chaves, campeonato, fn){
 	
 	var num_chaves = parseInt(qtd_chaves / Math.pow(2, i));
-	gerar_chaves_lutas_k(i, 0, num_chaves, campeonato, levels, function(){
-		
-		if(i + 1 < levels){
-			i++;
-			gerar_chaves_lutas_i(i, levels, qtd_chaves, campeonato, fn);
+	gerar_chaves_lutas_k(i, 0, num_chaves, campeonato, levels, function(err){
+		if(err == null){
+			fn(null);
 		}else{
-			fn();
+			if(i + 1 < levels){
+				i++;
+				gerar_chaves_lutas_i(i, levels, qtd_chaves, campeonato, fn);
+			}else{
+				fn();
+			}
 		}
+		
 		
 	});
 	
@@ -113,18 +121,39 @@ function gerar_chaves_lutas_i(i, levels, qtd_chaves, campeonato, fn){
 function gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn){
 	
 	criar_luta_campeonato(campeonato, i, k, function(vencedor1, i2, k2){
-		if(i < levels - 1){
-			criar_luta_campeonato(campeonato, i2, k2 + 1, function(vencedor2, i3, k3){
-				chave = new Chave({
-					campeonato_id: campeonato._id,
-					personagem1_id: vencedor1._id,
-					uid1: vencedor1.uid,
-					personagem2_id: vencedor2._id,
-					uid2: vencedor2.uid,
-					num: (k3 - 1) / 2,
-					level: i3 + 1
+		if(vencedor1 == null){
+			fn(null);
+		}else{
+			if(i < levels - 1){
+				criar_luta_campeonato(campeonato, i2, k2 + 1, function(vencedor2, i3, k3){
+					if(vencedor2 == null){
+						fn(null);
+					}else{
+						chave = new Chave({
+							campeonato_id: campeonato._id,
+							personagem1_id: vencedor1._id,
+							uid1: vencedor1.uid,
+							personagem2_id: vencedor2._id,
+							uid2: vencedor2.uid,
+							num: (k3 - 1) / 2,
+							level: i3 + 1
+						});
+						chave.save(function(err){
+							
+							if(k + 2 < max_k){
+								k+=2;
+								gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn);
+							}else{
+								fn();
+							}
+							
+						});
+					}
 				});
-				chave.save(function(err){
+			}else{
+				campeonato.vencedor_id = vencedor1._id,
+				campeonato.vencedor_uid = vencedor1.uid
+				campeonato.save(function(err){
 					
 					if(k + 2 < max_k){
 						k+=2;
@@ -134,20 +163,7 @@ function gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn){
 					}
 					
 				});
-			});
-		}else{
-			campeonato.vencedor_id = vencedor1._id,
-			campeonato.vencedor_uid = vencedor1.uid
-			campeonato.save(function(err){
-				
-				if(k + 2 < max_k){
-					k+=2;
-					gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn);
-				}else{
-					fn();
-				}
-				
-			});
+			}
 		}
 	});
 	
@@ -169,21 +185,26 @@ module.exports.gerar_lutas_campeonato = gerar_lutas_campeonato;
 var criar_luta_campeonato = function(campeonato, i, k, fn){
 	try{
 		Chave.findOne({campeonato_id: campeonato._id, level: i, num: k}, function(err, chave){
-			Personagem.findOne({_id: chave.personagem1_id}, function(err, p1){
-				Personagem.findOne({_id: chave.personagem2_id}, function(err, p2){
-					var GerarLuta = require('./GerarLuta.js');
-					GerarLuta.gerar_luta(p1, p2, campeonato, function(luta, luta_id, vencedor, perdedor, short_url){
-						var now = new Date();
-						chave.data_liberacao = now.setHours(now.getHours() + i * 3);
-						chave.luta_id = luta_id;
-						chave.vencedor_id = vencedor._id;
-						chave.vencedor_uid = vencedor.uid;
-						chave.save(function(err){
-							fn(vencedor, i, k);
+			if(chave != null){
+				Personagem.findOne({_id: chave.personagem1_id}, function(err, p1){
+					Personagem.findOne({_id: chave.personagem2_id}, function(err, p2){
+						var GerarLuta = require('./GerarLuta.js');
+						GerarLuta.gerar_luta(p1, p2, campeonato, function(luta, luta_id, vencedor, perdedor, short_url){
+							var now = new Date();
+							chave.data_liberacao = now.setHours(now.getHours() + i * 3);
+							chave.luta_id = luta_id;
+							chave.vencedor_id = vencedor._id;
+							chave.vencedor_uid = vencedor.uid;
+							chave.save(function(err){
+								fn(vencedor, i, k);
+							});
 						});
 					});
 				});
-			});
+			}else{
+				fn(null);
+			}
+			
 		});
 	}catch(e){
 		console.log(e);
