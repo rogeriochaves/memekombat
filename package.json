@@ -14,8 +14,6 @@
 	"b64url": "1.0.3",
 	"forever": "0.7.5",
 	"connect-redis": "latest",
-	"redis": "latest",
-	"v8-profiler": "latest",
-	"memcache": "latest"
+	"v8-profiler": "latest"
   }
 }
