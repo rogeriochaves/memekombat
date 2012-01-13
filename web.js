@@ -35,7 +35,7 @@
 		
 	}else{
 		
-		require("v8-profiler");
+		//require("v8-profiler");
 		process.env.FACEBOOK_APP_ID = '130619640386826';
 		process.env.FACEBOOK_SECRET = '***REMOVED***';
 		process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
