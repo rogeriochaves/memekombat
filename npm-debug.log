@@ -19,8 +19,8 @@ silly testEngine      mongoose: '2.4.8',
 silly testEngine      'date-utils': '1.2.5',
 silly testEngine      b64url: '1.0.3',
 silly testEngine      forever: '0.7.5',
-silly testEngine      'connect-redis': 'latest',
-silly testEngine      'v8-profiler': '1.0.1' },
+silly testEngine      'v8-profiler': '0.0.2',
+silly testEngine      'connect-redis': 'latest' },
 silly testEngine   _id: 'facebook-template-node@0.0.1',
 silly testEngine   devDependencies: {},
 silly testEngine   engines: { node: '*' },
@@ -42,8 +42,8 @@ verbose where, deps     'mongoose',
 verbose where, deps     'date-utils',
 verbose where, deps     'b64url',
 verbose where, deps     'forever',
-verbose where, deps     'connect-redis',
-verbose where, deps     'v8-profiler' ] ]
+verbose where, deps     'v8-profiler',
+verbose where, deps     'connect-redis' ] ]
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/package.json
 info preinstall facebook-template-node@0.0.1
 silly testEngine { name: 'b64url',
@@ -66,23 +66,6 @@ silly testEngine   _nodeVersion: 'v0.4.12',
 silly testEngine   _defaultsLoaded: true }
 verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/b64url/package.json
 verbose loadDefaults b64url@1.0.3
-silly testEngine { name: 'connect-redis',
-silly testEngine   description: 'Redis session store for Connect',
-silly testEngine   version: '1.2.0',
-silly testEngine   author: 
-silly testEngine    { name: 'TJ Holowaychuk',
-silly testEngine      email: 'tj@vision-media.ca' },
-silly testEngine   main: './index.js',
-silly testEngine   dependencies: { redis: '>= 0.0.1' },
-silly testEngine   devDependencies: { connect: '1.4.x' },
-silly testEngine   engines: { node: '>= 0.1.98' },
-silly testEngine   _id: 'connect-redis@1.2.0',
-silly testEngine   _engineSupported: true,
-silly testEngine   _npmVersion: '1.0.106',
-silly testEngine   _nodeVersion: 'v0.4.12',
-silly testEngine   _defaultsLoaded: true }
-verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/connect-redis/package.json
-verbose loadDefaults connect-redis@1.2.0
 silly testEngine { name: 'date-utils',
 silly testEngine   description: 'Date add-ons for Node.js',
 silly testEngine   version: '1.2.5',
@@ -113,6 +96,23 @@ silly testEngine   _nodeVersion: 'v0.4.12',
 silly testEngine   _defaultsLoaded: true }
 verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/date-utils/package.json
 verbose loadDefaults date-utils@1.2.5
+silly testEngine { name: 'connect-redis',
+silly testEngine   description: 'Redis session store for Connect',
+silly testEngine   version: '1.2.0',
+silly testEngine   author: 
+silly testEngine    { name: 'TJ Holowaychuk',
+silly testEngine      email: 'tj@vision-media.ca' },
+silly testEngine   main: './index.js',
+silly testEngine   dependencies: { redis: '>= 0.0.1' },
+silly testEngine   devDependencies: { connect: '1.4.x' },
+silly testEngine   engines: { node: '>= 0.1.98' },
+silly testEngine   _id: 'connect-redis@1.2.0',
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.4.12',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/connect-redis/package.json
+verbose loadDefaults connect-redis@1.2.0
 silly testEngine { name: 'ejs',
 silly testEngine   description: 'Embedded JavaScript templates',
 silly testEngine   version: '0.4.3',
@@ -131,50 +131,6 @@ silly testEngine   _nodeVersion: 'v0.4.12',
 silly testEngine   _defaultsLoaded: true }
 verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/ejs/package.json
 verbose loadDefaults ejs@0.4.3
-silly testEngine { name: 'everyauth',
-silly testEngine   description: 'Auth solution (password, facebook, & more) for your node.js Connect & Express apps',
-silly testEngine   version: '0.2.18',
-silly testEngine   homepage: 'https://github.com/bnoguchi/everyauth/',
-silly testEngine   repository: 
-silly testEngine    { type: 'git',
-silly testEngine      url: 'git://github.com/bnoguchi/everyauth.git' },
-silly testEngine   author: 
-silly testEngine    { name: 'Brian Noguchi',
-silly testEngine      email: 'brian.noguchi@gmail.com',
-silly testEngine      url: 'https://github.com/bnoguchi/' },
-silly testEngine   keywords: 
-silly testEngine    [ 'auth',
-silly testEngine      'oauth',
-silly testEngine      'password',
-silly testEngine      'facebook',
-silly testEngine      'openid',
-silly testEngine      'twitter',
-silly testEngine      'authorization',
-silly testEngine      'authentication',
-silly testEngine      'connect',
-silly testEngine      'express' ],
-silly testEngine   main: './index.js',
-silly testEngine   directories: { lib: 'lib' },
-silly testEngine   dependencies: 
-silly testEngine    { oauth: '>=0.9.0',
-silly testEngine      restler: '>=0.2.1',
-silly testEngine      connect: '>=1.4.0',
-silly testEngine      openid: '=0.1.8',
-silly testEngine      xml2js: '>=0.1.7' },
-silly testEngine   devDependencies: 
-silly testEngine    { express: '>=2.3.10',
-silly testEngine      jade: '>=0.12.1',
-silly testEngine      tobi: '>=0.2.2',
-silly testEngine      expresso: '>=0.8.1',
-silly testEngine      should: '>=0.2.1' },
-silly testEngine   engines: { node: '>=0.4.0' },
-silly testEngine   _id: 'everyauth@0.2.18',
-silly testEngine   _engineSupported: true,
-silly testEngine   _npmVersion: '1.0.106',
-silly testEngine   _nodeVersion: 'v0.4.12',
-silly testEngine   _defaultsLoaded: true }
-verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/everyauth/package.json
-verbose loadDefaults everyauth@0.2.18
 silly testEngine { name: 'express',
 silly testEngine   description: 'Sinatra inspired web development framework',
 silly testEngine   version: '2.5.2',
@@ -219,6 +175,50 @@ silly testEngine   _nodeVersion: 'v0.4.12',
 silly testEngine   _defaultsLoaded: true }
 verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/express/package.json
 verbose loadDefaults express@2.5.2
+silly testEngine { name: 'everyauth',
+silly testEngine   description: 'Auth solution (password, facebook, & more) for your node.js Connect & Express apps',
+silly testEngine   version: '0.2.18',
+silly testEngine   homepage: 'https://github.com/bnoguchi/everyauth/',
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/bnoguchi/everyauth.git' },
+silly testEngine   author: 
+silly testEngine    { name: 'Brian Noguchi',
+silly testEngine      email: 'brian.noguchi@gmail.com',
+silly testEngine      url: 'https://github.com/bnoguchi/' },
+silly testEngine   keywords: 
+silly testEngine    [ 'auth',
+silly testEngine      'oauth',
+silly testEngine      'password',
+silly testEngine      'facebook',
+silly testEngine      'openid',
+silly testEngine      'twitter',
+silly testEngine      'authorization',
+silly testEngine      'authentication',
+silly testEngine      'connect',
+silly testEngine      'express' ],
+silly testEngine   main: './index.js',
+silly testEngine   directories: { lib: 'lib' },
+silly testEngine   dependencies: 
+silly testEngine    { oauth: '>=0.9.0',
+silly testEngine      restler: '>=0.2.1',
+silly testEngine      connect: '>=1.4.0',
+silly testEngine      openid: '=0.1.8',
+silly testEngine      xml2js: '>=0.1.7' },
+silly testEngine   devDependencies: 
+silly testEngine    { express: '>=2.3.10',
+silly testEngine      jade: '>=0.12.1',
+silly testEngine      tobi: '>=0.2.2',
+silly testEngine      expresso: '>=0.8.1',
+silly testEngine      should: '>=0.2.1' },
+silly testEngine   engines: { node: '>=0.4.0' },
+silly testEngine   _id: 'everyauth@0.2.18',
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.4.12',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/everyauth/package.json
+verbose loadDefaults everyauth@0.2.18
 silly testEngine { name: 'facebook',
 silly testEngine   description: 'Simple Facebook Integration for NodeJS (and Express)',
 silly testEngine   version: '0.0.3',
@@ -336,6 +336,25 @@ silly testEngine   _nodeVersion: 'v0.4.12',
 silly testEngine   _defaultsLoaded: true }
 verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/memcache/package.json
 verbose loadDefaults memcache@0.2.0
+silly testEngine { name: 'node-uuid',
+silly testEngine   description: 'Simple, fast generation of RFC4122(v4) UUIDs.',
+silly testEngine   url: 'http://github.com/broofa/node-uuid',
+silly testEngine   keywords: [ 'uuid', 'guid', 'rfc4122' ],
+silly testEngine   author: { name: 'Robert Kieffer', email: 'robert@broofa.com' },
+silly testEngine   contributors: [],
+silly testEngine   dependencies: {},
+silly testEngine   lib: '.',
+silly testEngine   main: './uuid.js',
+silly testEngine   version: '1.2.0',
+silly testEngine   _id: 'node-uuid@1.2.0',
+silly testEngine   devDependencies: {},
+silly testEngine   engines: { node: '*' },
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.4.12',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/node-uuid/package.json
+verbose loadDefaults node-uuid@1.2.0
 silly testEngine { name: 'mongoose',
 silly testEngine   description: 'Mongoose MongoDB ODM',
 silly testEngine   version: '2.4.8',
@@ -368,25 +387,6 @@ silly testEngine   _nodeVersion: 'v0.4.12',
 silly testEngine   _defaultsLoaded: true }
 verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/mongoose/package.json
 verbose loadDefaults mongoose@2.4.8
-silly testEngine { name: 'node-uuid',
-silly testEngine   description: 'Simple, fast generation of RFC4122(v4) UUIDs.',
-silly testEngine   url: 'http://github.com/broofa/node-uuid',
-silly testEngine   keywords: [ 'uuid', 'guid', 'rfc4122' ],
-silly testEngine   author: { name: 'Robert Kieffer', email: 'robert@broofa.com' },
-silly testEngine   contributors: [],
-silly testEngine   dependencies: {},
-silly testEngine   lib: '.',
-silly testEngine   main: './uuid.js',
-silly testEngine   version: '1.2.0',
-silly testEngine   _id: 'node-uuid@1.2.0',
-silly testEngine   devDependencies: {},
-silly testEngine   engines: { node: '*' },
-silly testEngine   _engineSupported: true,
-silly testEngine   _npmVersion: '1.0.106',
-silly testEngine   _nodeVersion: 'v0.4.12',
-silly testEngine   _defaultsLoaded: true }
-verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/node-uuid/package.json
-verbose loadDefaults node-uuid@1.2.0
 silly testEngine { name: 'redis',
 silly testEngine   version: '0.7.1',
 silly testEngine   description: 'Redis client library',
@@ -460,31 +460,6 @@ silly testEngine   _nodeVersion: 'v0.4.12',
 silly testEngine   _defaultsLoaded: true }
 verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/socket.io/package.json
 verbose loadDefaults socket.io@0.8.4
-verbose has wscript [ undefined,
-verbose has wscript   { file: '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler/package.json',
-verbose has wscript     contributors: false,
-verbose has wscript     serverjs: false,
-verbose has wscript     wscript: true } ]
-silly testEngine { name: 'v8-profiler',
-silly testEngine   version: '0.0.3',
-silly testEngine   description: 'node bindings for the v8 profiler',
-silly testEngine   homepage: 'http://github.com/dannycoates/v8-profiler',
-silly testEngine   author: 
-silly testEngine    { name: 'Danny Coates',
-silly testEngine      email: 'dannycoates@gmail.com' },
-silly testEngine   keywords: [ 'profiler', 'inspector' ],
-silly testEngine   engines: { node: '>=0.3.1' },
-silly testEngine   main: 'v8-profiler',
-silly testEngine   _id: 'v8-profiler@0.0.3',
-silly testEngine   scripts: { preinstall: 'node-waf clean || true; node-waf configure build' },
-silly testEngine   dependencies: {},
-silly testEngine   devDependencies: {},
-silly testEngine   _engineSupported: true,
-silly testEngine   _npmVersion: '1.0.106',
-silly testEngine   _nodeVersion: 'v0.4.12',
-silly testEngine   _defaultsLoaded: true }
-verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler/package.json
-verbose loadDefaults v8-profiler@0.0.3
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/package.json
 verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat [ 'ejs@0.4.3',
 verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'everyauth@0.2.18',
@@ -496,8 +471,8 @@ verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'mongoose@2.4.8',
 verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'date-utils@1.2.5',
 verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'b64url@1.0.3',
 verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'forever@0.7.5',
-verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'connect-redis@latest',
-verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'v8-profiler@1.0.1' ]
+verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'v8-profiler@0.0.2',
+verbose into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat   'connect-redis@latest' ]
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/b64url/package.json
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/connect-redis/package.json
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/date-utils/package.json
@@ -512,7 +487,6 @@ verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/mo
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/node-uuid/package.json
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/redis/package.json
 verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/socket.io/package.json
-verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler/package.json
 verbose already installed in /Users/rogeriocfj/Sites/MemeKombat/MemeKombat skipping ejs@0.4.3
 verbose already installed in /Users/rogeriocfj/Sites/MemeKombat/MemeKombat skipping everyauth@0.2.18
 verbose already installed in /Users/rogeriocfj/Sites/MemeKombat/MemeKombat skipping express@2.5.2
@@ -523,6 +497,17 @@ verbose already installed in /Users/rogeriocfj/Sites/MemeKombat/MemeKombat skipp
 verbose already installed in /Users/rogeriocfj/Sites/MemeKombat/MemeKombat skipping date-utils@1.2.5
 verbose already installed in /Users/rogeriocfj/Sites/MemeKombat/MemeKombat skipping b64url@1.0.3
 verbose already installed in /Users/rogeriocfj/Sites/MemeKombat/MemeKombat skipping forever@0.7.5
+verbose cache add v8-profiler@0.0.2
+verbose cache add [ 'v8-profiler@0.0.2', null ]
+silly cache add: name, spec, args [ undefined,
+silly cache add: name, spec, args   'v8-profiler@0.0.2',
+silly cache add: name, spec, args   [ 'v8-profiler@0.0.2', null ] ]
+verbose parsed url { pathname: 'v8-profiler@0.0.2',
+verbose parsed url   href: 'v8-profiler@0.0.2' }
+silly cache add: name, spec, args [ 'v8-profiler', '0.0.2', [ 'v8-profiler', '0.0.2' ] ]
+verbose parsed url { pathname: '0.0.2', href: '0.0.2' }
+info addNamed [ 'v8-profiler', '0.0.2' ]
+verbose addNamed [ '0.0.2', '0.0.2' ]
 verbose cache add connect-redis@latest
 verbose cache add [ 'connect-redis@latest', null ]
 silly cache add: name, spec, args [ undefined,
@@ -537,22 +522,12 @@ verbose parsed url { pathname: 'latest', href: 'latest' }
 info addNamed [ 'connect-redis', 'latest' ]
 verbose addNamed [ null, null ]
 info addNameTag [ 'connect-redis', 'latest' ]
-verbose cache add v8-profiler@1.0.1
-verbose cache add [ 'v8-profiler@1.0.1', null ]
-silly cache add: name, spec, args [ undefined,
-silly cache add: name, spec, args   'v8-profiler@1.0.1',
-silly cache add: name, spec, args   [ 'v8-profiler@1.0.1', null ] ]
-verbose parsed url { pathname: 'v8-profiler@1.0.1',
-verbose parsed url   href: 'v8-profiler@1.0.1' }
-silly cache add: name, spec, args [ 'v8-profiler', '1.0.1', [ 'v8-profiler', '1.0.1' ] ]
-verbose parsed url { pathname: '1.0.1', href: '1.0.1' }
-info addNamed [ 'v8-profiler', '1.0.1' ]
-verbose addNamed [ '1.0.1', '1.0.1' ]
-verbose GET v8-profiler/1.0.1
-verbose raw, before any munging v8-profiler/1.0.1
+verbose GET v8-profiler/0.0.2
+verbose raw, before any munging v8-profiler/0.0.2
 verbose url resolving [ 'https://registry.npmjs.org/',
-verbose url resolving   './v8-profiler/1.0.1' ]
-verbose url resolved https://registry.npmjs.org/v8-profiler/1.0.1
+verbose url resolving   './v8-profiler/0.0.2' ]
+verbose url resolved https://registry.npmjs.org/v8-profiler/0.0.2
+verbose etag "6ESGAU3KUQUBHQW1R44GQGA9J"
 verbose GET connect-redis
 verbose raw, before any munging connect-redis
 verbose url resolving [ 'https://registry.npmjs.org/', './connect-redis' ]
@@ -560,8 +535,42 @@ verbose url resolved https://registry.npmjs.org/connect-redis
 verbose etag "CZC1SCSG7IYPO9OFXY7BRRKRS"
 silly get cb [ 304,
 silly get cb   { server: 'CouchDB/1.1.0 (Erlang OTP/R14B04)',
+silly get cb     etag: '"6ESGAU3KUQUBHQW1R44GQGA9J"',
+silly get cb     date: 'Fri, 13 Jan 2012 23:27:53 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag v8-profiler/0.0.2 from cache
+verbose bin dist [ '0.4-ares1.7.4-ev4.4-openssl1.0.0d-v83.1.8.26-darwin-11.2.0',
+verbose bin dist   { shasum: 'cd6f3396073169bcd3b15bec4a3b977578004844',
+verbose bin dist     tarball: 'http://registry.npmjs.org/v8-profiler/-/v8-profiler-0.0.2.tgz' } ]
+verbose has wscript [ undefined,
+verbose has wscript   { file: '/Users/rogeriocfj/.npm/v8-profiler/0.0.2/package/package.json',
+verbose has wscript     contributors: false,
+verbose has wscript     serverjs: false,
+verbose has wscript     wscript: true } ]
+silly testEngine { name: 'v8-profiler',
+silly testEngine   version: '0.0.2',
+silly testEngine   description: 'node bindings for the v8 profiler',
+silly testEngine   homepage: 'http://github.com/dannycoates/v8-profiler',
+silly testEngine   author: 
+silly testEngine    { name: 'Danny Coates',
+silly testEngine      email: 'dannycoates@gmail.com' },
+silly testEngine   keywords: [ 'profiler', 'inspector' ],
+silly testEngine   engines: { node: '>=0.3.1' },
+silly testEngine   main: 'v8-profiler',
+silly testEngine   _id: 'v8-profiler@0.0.2',
+silly testEngine   scripts: { preinstall: 'node-waf clean || true; node-waf configure build' },
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: {},
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.4.12',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /Users/rogeriocfj/.npm/v8-profiler/0.0.2/package/package.json
+verbose loadDefaults v8-profiler@0.0.2
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.1.0 (Erlang OTP/R14B04)',
 silly get cb     etag: '"CZC1SCSG7IYPO9OFXY7BRRKRS"',
-silly get cb     date: 'Fri, 13 Jan 2012 23:25:15 GMT',
+silly get cb     date: 'Fri, 13 Jan 2012 23:27:53 GMT',
 silly get cb     'content-length': '0' } ]
 verbose etag connect-redis from cache
 verbose GET connect-redis/1.2.0
@@ -570,32 +579,172 @@ verbose url resolving [ 'https://registry.npmjs.org/',
 verbose url resolving   './connect-redis/1.2.0' ]
 verbose url resolved https://registry.npmjs.org/connect-redis/1.2.0
 verbose etag "CZC1SCSG7IYPO9OFXY7BRRKRS"
-silly get cb [ 404,
-silly get cb   { vary: 'Accept',
-silly get cb     server: 'CouchDB/1.1.0 (Erlang OTP/R14B04)',
-silly get cb     etag: '"6ESGAU3KUQUBHQW1R44GQGA9J"',
-silly get cb     date: 'Fri, 13 Jan 2012 23:25:15 GMT',
-silly get cb     'content-type': 'application/json',
-silly get cb     'content-length': '36' } ]
-ERR! Error: version not found: 1.0.1 : v8-profiler/1.0.1
-ERR!     at Request._callback (/usr/local/lib/node_modules/npm/lib/utils/npm-registry-client/request.js:180:12)
-ERR!     at Request.callback (/usr/local/lib/node_modules/npm/node_modules/request/main.js:99:22)
-ERR!     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/main.js:361:18)
-ERR!     at Request.emit (events.js:64:17)
-ERR!     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/main.js:327:16)
-ERR!     at IncomingMessage.emit (events.js:81:20)
-ERR!     at HTTPParser.onMessageComplete (http.js:133:23)
-ERR!     at CleartextStream.ondata (http.js:1231:22)
-ERR!     at CleartextStream._push (tls.js:303:27)
-ERR!     at SecurePair.cycle (tls.js:577:20)
-ERR! Report this *entire* log at:
-ERR!     <http://github.com/isaacs/npm/issues>
-ERR! or email it to:
-ERR!     <npm-@googlegroups.com>
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.1.0 (Erlang OTP/R14B04)',
+silly get cb     etag: '"CZC1SCSG7IYPO9OFXY7BRRKRS"',
+silly get cb     date: 'Fri, 13 Jan 2012 23:27:55 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag connect-redis/1.2.0 from cache
+verbose bin dist [ '0.4-ares1.7.4-ev4.4-openssl1.0.0d-v83.1.8.26-darwin-11.2.0',
+verbose bin dist   { shasum: '6f45d44361787d1a3135c9be6c9c9ed4b4d47fb7',
+verbose bin dist     tarball: 'http://registry.npmjs.org/connect-redis/-/connect-redis-1.2.0.tgz' } ]
+silly testEngine { name: 'connect-redis',
+silly testEngine   description: 'Redis session store for Connect',
+silly testEngine   version: '1.2.0',
+silly testEngine   author: 
+silly testEngine    { name: 'TJ Holowaychuk',
+silly testEngine      email: 'tj@vision-media.ca' },
+silly testEngine   main: './index.js',
+silly testEngine   dependencies: { redis: '>= 0.0.1' },
+silly testEngine   devDependencies: { connect: '1.4.x' },
+silly testEngine   engines: { node: '>= 0.1.98' },
+silly testEngine   _id: 'connect-redis@1.2.0',
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.4.12',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /Users/rogeriocfj/.npm/connect-redis/1.2.0/package/package.json
+verbose loadDefaults connect-redis@1.2.0
+silly resolved [ { name: 'v8-profiler',
+silly resolved     version: '0.0.2',
+silly resolved     description: 'node bindings for the v8 profiler',
+silly resolved     homepage: 'http://github.com/dannycoates/v8-profiler',
+silly resolved     author: 
+silly resolved      { name: 'Danny Coates',
+silly resolved        email: 'dannycoates@gmail.com' },
+silly resolved     keywords: [ 'profiler', 'inspector' ],
+silly resolved     engines: { node: '>=0.3.1' },
+silly resolved     main: 'v8-profiler',
+silly resolved     _id: 'v8-profiler@0.0.2',
+silly resolved     scripts: { preinstall: 'node-waf clean || true; node-waf configure build' },
+silly resolved     dependencies: {},
+silly resolved     devDependencies: {},
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.0.106',
+silly resolved     _nodeVersion: 'v0.4.12',
+silly resolved     _defaultsLoaded: true } ]
+info into /Users/rogeriocfj/Sites/MemeKombat/MemeKombat v8-profiler@0.0.2
+info installOne v8-profiler@0.0.2
+info unbuild /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler
+verbose from cache /Users/rogeriocfj/.npm/v8-profiler/0.0.2/package/package.json
+verbose mkdir (expected) error ENOENT, No such file or directory '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm'
+verbose mkdir done: /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm 755
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler
+silly gunzTarPerm modes [ '755', '644' ]
+silly spawning [ 'tar',
+silly spawning   [ '-zmvxpf',
+silly spawning     '/Users/rogeriocfj/.npm/v8-profiler/0.0.2/package.tgz' ],
+silly spawning   '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm' ]
+silly tar err x package/.gitignore
+silly tar err x package/graph_edge.cc
+silly tar err x package/graph_edge.h
+silly tar err x package/graph_node.cc
+silly tar err x package/graph_node.h
+silly tar err x package/graph_path.cc
+silly tar err x package/graph_path.h
+silly tar err x package/package.json
+silly tar err x package/profile.cc
+silly tar err x package/profile.h
+silly tar err x package/profile_node.cc
+silly tar err x package/profile_node.h
+silly tar err x package/profiler.cc
+silly tar err x package/readme.md
+silly tar err x package/snapshot.cc
+silly tar err x package/snapshot.h
+silly tar err x package/snapshot_diff.cc
+silly tar err x package/snapshot_diff.h
+silly tar err x package/v8-profiler.js
+silly tar err x package/wscript
+silly tar exit 0
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/.gitignore
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/graph_edge.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/graph_edge.h
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/graph_node.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/graph_node.h
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/graph_path.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/graph_path.h
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/package.json
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/profile.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/profile.h
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/profile_node.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/profile_node.h
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/profiler.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/readme.md
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/snapshot.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/snapshot.h
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/snapshot_diff.cc
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/snapshot_diff.h
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/v8-profiler.js
+silly asyncMap in gTP /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package/wscript
+verbose gunzed /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package
+verbose rm'ed /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler
+verbose renamed [ '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/___v8-profiler.npm/package',
+verbose renamed   '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler' ]
+verbose has wscript [ undefined,
+verbose has wscript   { file: '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler/package.json',
+verbose has wscript     contributors: false,
+verbose has wscript     serverjs: false,
+verbose has wscript     wscript: true } ]
+silly testEngine { name: 'v8-profiler',
+silly testEngine   version: '0.0.2',
+silly testEngine   description: 'node bindings for the v8 profiler',
+silly testEngine   homepage: 'http://github.com/dannycoates/v8-profiler',
+silly testEngine   author: 
+silly testEngine    { name: 'Danny Coates',
+silly testEngine      email: 'dannycoates@gmail.com' },
+silly testEngine   keywords: [ 'profiler', 'inspector' ],
+silly testEngine   engines: { node: '>=0.3.1' },
+silly testEngine   main: 'v8-profiler',
+silly testEngine   _id: 'v8-profiler@0.0.2',
+silly testEngine   scripts: { preinstall: 'node-waf clean || true; node-waf configure build' },
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: {},
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.4.12',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler/package.json
+verbose loadDefaults v8-profiler@0.0.2
+info preinstall v8-profiler@0.0.2
+verbose unsafe-perm in lifecycle true
+silly exec sh "-c" "node-waf clean || true; node-waf configure build"
+silly spawning [ 'sh',
+silly spawning   [ '-c',
+silly spawning     'node-waf clean || true; node-waf configure build' ],
+silly spawning   '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler' ]
+info v8-profiler@0.0.2 Failed to exec preinstall script
+ERR! error installing v8-profiler@0.0.2 Error: v8-profiler@0.0.2 preinstall: `node-waf clean || true; node-waf configure build`
+ERR! error installing v8-profiler@0.0.2 `sh "-c" "node-waf clean || true; node-waf configure build"` failed with 1
+ERR! error installing v8-profiler@0.0.2     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/exec.js:49:20)
+ERR! error installing v8-profiler@0.0.2     at ChildProcess.emit (events.js:67:17)
+ERR! error installing v8-profiler@0.0.2     at ChildProcess.onexit (child_process.js:192:12)
+info unbuild /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler
+verbose from cache /Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules/v8-profiler/package.json
+info preuninstall v8-profiler@0.0.2
+info uninstall v8-profiler@0.0.2
+verbose unbuild v8-profiler@0.0.2 [ true,
+verbose unbuild v8-profiler@0.0.2   '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules',
+verbose unbuild v8-profiler@0.0.2   '/Users/rogeriocfj/Sites/MemeKombat/MemeKombat/node_modules' ]
+info postuninstall v8-profiler@0.0.2
+verbose installOne cb v8-profiler@0.0.2
+ERR! v8-profiler@0.0.2 preinstall: `node-waf clean || true; node-waf configure build`
+ERR! `sh "-c" "node-waf clean || true; node-waf configure build"` failed with 1
+ERR! 
+ERR! Failed at the v8-profiler@0.0.2 preinstall script.
+ERR! This is most likely a problem with the v8-profiler package,
+ERR! not with npm itself.
+ERR! Tell the author that this fails on your system:
+ERR!     node-waf clean || true; node-waf configure build
+ERR! You can get their info via:
+ERR!     npm owner ls v8-profiler
+ERR! There is likely additional logging output above.
 ERR! 
 ERR! System Darwin 11.2.0
 ERR! command "node" "/usr/local/bin/npm" "install"
 ERR! cwd /Users/rogeriocfj/Sites/MemeKombat/MemeKombat
 ERR! node -v v0.4.12
 ERR! npm -v 1.0.106
+ERR! code ELIFECYCLE
 verbose exit [ 1, true ]
