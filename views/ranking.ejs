@@ -21,7 +21,7 @@
 		<ul class="ranking">
 			<% var i = 0 %>
 			<% amigos.forEach(function(amigo){ %>
-				<% var nome = amigo.nome.split(' ')[0] %>
+				<% var nome = (typeof amigo.nome != 'undefined' ? amigo.nome.split(' ')[0] : '') %>
 				<li class="clearfix <%= i == 0 ? "first" : "" %>">
 					<a class="link_ranking" href="perfil?uid=<%= amigo.uid %>">
 						<% if (i < 5){ %>
@@ -84,7 +84,7 @@
 		<ul class="ranking">
 			<% var i = 0 %>
 			<% jogadores.forEach(function(jogador){ %>
-				<% var nome = jogador.nome.split(' ')[0] %>
+				<% var nome = (typeof jogador.nome != 'undefined' ? jogador.nome.split(' ')[0] : '') %>
 				<li class="clearfix <%= i == 0 ? "first" : "" %>">
 					<a class="link_ranking" href="perfil?uid=<%= jogador.uid %>">
 						<% if (i < 5){ %>
