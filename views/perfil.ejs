@@ -252,7 +252,7 @@
 			<a class="lutar" href="campeonato">
 				<div style="margin-top:5px">
 					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
-					<% if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){ %>
+					<% if (campeonato && campeonato != null){ %>
 						<span><%= portugues ? "Ver Campeonato" : "View Championist" %></span>
 					<% }else{ %>	
 						<span><%= portugues ? "Entrar no Campeonato" : "Enter the Championist" %></span>
