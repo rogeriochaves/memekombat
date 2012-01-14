@@ -24,14 +24,6 @@ app.all('/luta/:id?', function(request, response) {
 									response.redirect('/arena');
 								}else{
 								
-									var is_friend = false;
-									for(var i = amigos.length; i--;){
-										if(vs == amigos[i].uid){
-											is_friend = true;
-											break;
-										}
-									}
-
 									var Characters = require('./../struct/Characters.js');
 									Characters.lutas_restantes(personagem._id, function(quant){
 										if(quant <= 0){
@@ -46,6 +38,16 @@ app.all('/luta/:id?', function(request, response) {
 													GerarLuta.gerar_luta(personagem, p2, false, function(luta, luta_id, vencedor, perdedor, short_url){
 														var Randomize = require('./../struct/Randomize.js');
 														var movimentos = Randomize.imprimir_movimentos(luta.movimentos);
+
+														var is_friend = false;
+														if(vencedor.uid == user.id){
+															for(var i = amigos.length; i--;){
+																if(perdedor.uid == amigos[i].uid){
+																	is_friend = true;
+																	break;
+																}
+															}
+														}
 														
 														response.render('luta.ejs', {
 												          layout:   false,
