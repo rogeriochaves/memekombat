@@ -83,8 +83,12 @@ module.exports.inserir_personagem_no_campeonato = function(personagem, campeonat
 					if(campeonato.chaves_livres == 0){
 						gerar_lutas_campeonato(campeonato, function(err){
 							if(err == null){
-								campeonato.chaves_livres++;
-								campeonato.save();
+								Chaves.find({campeonato_id: campeonato._id, level: 0, uid2: undefined}).count(function(err, quant){
+									campeonato.chaves_livres = quant;
+									campeonato.save(function(err){
+										fn();
+									});
+								});
 							}
 							fn();
 						});

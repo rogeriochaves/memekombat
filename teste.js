@@ -23,13 +23,13 @@ if(environment == 'edevelopment'){
 
 var Characters = require('./struct/Characters.js');
 
-Personagem.where().select('notificacoes').run(function(err, data){
+Personagem.find({}, function(err, data){
 	console.log(data.length);
 	var done = 0
 	  , max = data.length;
 	data.forEach(function(p){
 		//if(p.notificacoes.length > 8){
-			p.notificacoes = [];
+			p.campeonato_id = null;
 			p.save(function(err){
 				done++;
 				if(err != null){
@@ -47,6 +47,9 @@ Personagem.where().select('notificacoes').run(function(err, data){
 		//}
 	});
 });
+
+Campeonato.remove();
+Chave.remove()
 
 
 /*function parse_signed_request(signed_request, secret) {
