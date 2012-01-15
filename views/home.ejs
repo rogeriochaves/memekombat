@@ -26,10 +26,10 @@
     hr{border: none; margin-top: -5px; margin-bottom: 50px; width: 350px;}
     .derp{width: 80px; height: 80px; background: url(/images/derp.gif) no-repeat; float: left;}
     .jogar_agora{margin: 30px 0 0 40px;}
-    .jogar_agora a{display: block; float: left; text-decoration: underline; color: #333; margin-left: 20px;}
-    .jogar_agora h1{font-size: 30px; float: left;}
-    .jogar_agora a:hover{text-decoration: none;}
-    .jogar_agora a img{float: left; margin: 30px 0 0 20px;}
+    .jogar_agora a{display: block; float: left; text-decoration: none; color: #333; margin-left: 20px;}
+    .jogar_agora h1{font-size: 20px; float: left; background: url(/img/fundo-lutar.png) no-repeat; width: 249px; height: 55px; text-align: center; padding-top: 5px;}
+    .jogar_agora a:hover{color: #EA9F83;}
+    .jogar_agora a img{float: left; margin: 20px 0 0 5px;}
     .clear{clear:both}
 
     .yuno{position: absolute; margin:100px 0 0 -265px; width: 220px; text-align: center;}
@@ -39,6 +39,8 @@
 
     .nyan .cat{position: absolute; left:0; top:20px; z-index:1}
     .nyan .rainbow{position: absolute; background: url(/img/habilidades/nyan-cat-rainbow.gif); width: 46px; height: 54px; left:0; top:23px;}
+
+    .fb-like{position: absolute!important; margin-left: 100px; bottom:10px}
   </style>
 </head>
 <body>
@@ -77,6 +79,7 @@
       <div class="clear"></div>
     </div>
   </div>
+  <div class="fb-like" data-href="https://www.facebook.com/MemeKombat" data-send="true" data-width="570" data-show-faces="true"></div>
 </div>
   
 <script src="<%= process.env.CDN %>js/libs/jquery-1.6.2.min.js"></script>
@@ -94,6 +97,27 @@
         anim();
       });
     });
+  })();
+</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1&appId=316368308396738";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26500030-1']);
+  _gaq.push(['_trackPageview']);
+  //_gaq.push(['_trackSocial(network, socialAction, opt_target, opt_pagePath)']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
 
