@@ -52,7 +52,7 @@
 		  .appId(process.env.FACEBOOK_APP_ID)
 		  .appSecret(process.env.FACEBOOK_SECRET)
 		  .scope('publish_stream,publish_actions')
-		  .entryPath('/')
+		  .entryPath('/game')
 		  .redirectPath(process.env.FACEBOOK_APP_URL)
 		  .findOrCreateUser(function() {
 		    return({});
@@ -128,7 +128,7 @@
 	  console.log("Listening on " + port);
 	});
 
-	app.post('/', function(request, response){
+	app.post('/game', function(request, response){
 		if (request.session.auth && request.session.logged){// || request.session.redir)) {
 			response.redirect('/index');
 		/*}else if(request.session.auth){
@@ -148,6 +148,10 @@
 		res.header('Cache-Control', 'max-age=' + cache_expire);
 		//res.header('Expires', 'public');
 		res.render('channel.ejs', {layout: false});
+	});
+
+	app.all('/', function(request, response){
+		response.render('home.ejs', {layout: false});
 	});
 
 	global.amigos_usando = function(request, response, fn){

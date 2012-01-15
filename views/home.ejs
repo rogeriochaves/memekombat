@@ -1,200 +1,101 @@
-<!-- This following code is responsible for rendering the HTML   -->
-<!-- content on the page.  Here we use the information generated -->
-<!-- in the above requests to display content that is personal   -->
-<!-- to whomever views the page.  You would rewrite this content -->
-<!-- with your own HTML content.  Be sure that you sanitize any  -->
-<!-- content that you will be displaying to the user.  idx() by  -->
-<!-- default will remove any html tags from the value being      -->
-<!-- and echoEntity() will echo the sanitized content.  Both of  -->
-<!-- these functions are located and documented in 'utils.php'.  -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Meme Kombat</title>
+  <meta name="description" content="Escolha seu meme favorito e destrua seus amigos na arena neste incrível jogo de luta de memes">
+  <meta name="author" content="Rogério Chaves">
 
-    <!-- We get the name of the app out of the information fetched -->
-    <title><%= app.name %></title>
-    <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+  <meta property="og:title" content="Meme Kombat" />
+  <meta property="og:type" content="game" />
+  <meta property="og:url" content="<%= process.env.FACEBOOK_APP_URL %>" />
+  <meta property="og:image" content="<%= process.env.CDN %>img/logo_post.png" />
+  <meta property="og:site_name" content="Meme Kombat" />
+  <meta property="fb:app_id" content="<%= process.env.FACEBOOK_APP_ID %>" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria Hallelujah">
+  <style type="text/css">
+    body{margin:0 auto; padding:0; border:2px solid #DDD; width:760px; font-family: 'Gloria Hallelujah', "Lucida Grande", Tahoma, sans-serif; background:#FFF url(/images/bg2.jpg) center 0; border-width: 0 2px; height: 650px;}
+    .bg{height: 100%; background:#FFF url(/img/bg.jpg) center 0; width: 760px;}
+    .content{width: 450px; margin: 0 auto; padding-top:100px;}
+    h2, h1{font-weight: normal;}
+    h2{font-size: 15px; padding:0; color: #999; text-align: center;}
+    hr{border: none; margin-top: -5px; margin-bottom: 50px; width: 350px;}
+    .derp{width: 80px; height: 80px; background: url(/images/derp.gif) no-repeat; float: left;}
+    .jogar_agora{margin: 30px 0 0 40px;}
+    .jogar_agora a{display: block; float: left; text-decoration: underline; color: #333; margin-left: 20px;}
+    .jogar_agora h1{font-size: 30px; float: left;}
+    .jogar_agora a:hover{text-decoration: none;}
+    .jogar_agora a img{float: left; margin: 30px 0 0 20px;}
+    .clear{clear:both}
 
-    <!-- These are Open Graph tags.  They add meta data to your  -->
-    <!-- site that facebook uses when your content is shared     -->
-    <!-- over facebook.  You should fill these tags in with      -->
-    <!-- your data.  To learn more about Open Graph, visit       -->
-    <!-- 'https://developers.facebook.com/docs/opengraph/'       -->
-    <meta property="og:title" content=""/>
-    <meta property="og:type" content=""/>
-    <meta property="og:url" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:site_name" content=""/>
-    <meta property="fb:app_id" content="<%= app.id %>"/>
+    .yuno{position: absolute; margin:100px 0 0 -265px; width: 220px; text-align: center;}
+    .championist{position: absolute; margin-left: -252px; bottom:0}
+    .ui{position: absolute; margin: 130px 0 0 800px; width: 224px; text-align: center;}
+    .puking-rainbow{position: absolute; margin-left: 761px; bottom:0}
 
-    <script src="/scripts/jquery.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    .nyan .cat{position: absolute; left:0; top:20px; z-index:1}
+    .nyan .rainbow{position: absolute; background: url(/img/habilidades/nyan-cat-rainbow.gif); width: 46px; height: 54px; left:0; top:23px;}
+  </style>
+</head>
+<body>
+<div class="yuno">
+  <img src="/images/yuno.png" /><br>
+  Y U NO Playing Meme Kombat yet?
+</div>
+<div class="championist">
+  <img src="/images/championist.png" />
+</div>
 
-    <script type="text/javascript">
+<div class="ui">
+  <img src="/images/ui.png" /><br>
+  Ui, Meme Kombat!
+</div>
+<div class="puking-rainbow">
+  <img src="/images/puking-rainbow.png" />
+</div>
 
-      function popup(pageURL, title,w,h) {
-        var left = (screen.width/2)-(w/2);
-        var top = (screen.height/2)-(h/2);
-        var targetWin = window.open(
-          pageURL,
-          title,
-          'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left
-          );
-      }
+<div class="nyan">
+  <div class="rainbow"></div>
+  <div class="cat"><img src="/img/habilidades/nyan-cat.gif"></div>
+</div>
 
-      // open a socket.io connection to the backend
-      var socket = io.connect();
-
-      socket.on('connect', function() {
-
-        // identify this socket with our auth token
-        socket.emit('auth', '<%= socket_id %>');
-
-        // when a friend is received from the backend, add it to the page
-        socket.on('friend', function(friend) {
-          $('ul#friends').append('                                                                         \
-            <li>                                                                                           \
-              <a href="#" onclick="window.open(\'http://www.facebook.com/' + friend.id + '\');">           \
-                <img src="https://graph.facebook.com/' + friend.id + '/picture" alt="' + friend.name + '"> \
-                ' + friend.name + '                                                                        \
-              </a>                                                                                         \
-            </li>                                                                                          \
-          ');
-        });
-
-        // when a photo is received from the backend, add it to the page
-        socket.on('photo', function(photo) {
-          $('ul#photos').append('                                     \
-            <li style="background-image: url(' + photo.picture + ')"> \
-              <a href="#" onclick="window.open(\'http://www.facebook.com/' + photo.id + '\');">     \
-              ' + photo.name + '                                      \
-              </a>                                                    \
-            </li>                                                     \
-          ');
-
-          $('ul#photos li:nth-child(4n+1)').addClass('first-column');
-        });
-
-        // when a like is received from the backend, add it to the page
-        socket.on('like', function(like) {
-          $('ul#likes').append('                                   \
-            <li>                                                   \
-              <a href="http://www.facebook.com/' + like.id + '">   \
-                <img src="https://graph.facebook.com/' + like.id +
-                '/picture?type=square" alt="' + like.name + '">    \
-                ' + like.name + '                                  \
-              </a>                                                 \
-            </li>                                                  \
-          ');
-        });
-
-        // when a friend is received from the backend, add it to the page
-        socket.on('friend_using_app', function(friend) {
-          $('ul#friends_using_app').append('                                                    \
-            <li>                                                                                \
-              <a href="" onclick="window.open(\'http://www.facebook.com/' + friend.uid + '\');"> \
-                <img src="' + friend.pic_square + '" alt="' + friend.name + '">                 \
-                ' + friend.name + '                                                             \
-              </a>                                                                              \
-            </li>                                                                               \
-          ');
-        });
+<div class="bg">
+  <div class="content">
+    <h2>Escolha seu meme e destrua seus amigos</h2>
+    <hr />
+    <div class="logo"><img src="/images/meme-kombat-logo.png" alt=""></div>
+    <div class="jogar_agora">
+      <div class="derp"></div>
+      <a href="http://apps.facebook.com/meme_kombat">
+        <h1>Jogar Agora</h1>
+        <img src="/images/ico-fb.png" alt="" border="0">
+      </a>
+      <div class="clear"></div>
+    </div>
+  </div>
+</div>
+  
+<script src="<%= process.env.CDN %>js/libs/jquery-1.6.2.min.js"></script>
+<script type="text/javascript">
+  (function anim(){
+    $('.nyan .cat').animate({
+      left: '100%'
+    }, 1e4 * 4);
+    $('.nyan .rainbow').animate({
+       width: '105%'
+    }, 1e4 * 4, function(){
+      $('.nyan .rainbow').fadeOut(5000, function(){
+        $('.nyan .cat').css({left: 0});
+        $('.nyan .rainbow').css({width: '46px'}).show();
+        anim();
       });
+    });
+  })();
+</script>
 
-    </script>
-    <!--[if IE]>
-      <script>
-        var tags = ['header', 'section'];
-        while(tags.length)
-          document.createElement(tags.pop());
-      </script>
-    <![endif]-->
-  </head>
-  <body>
-    <header class="clearfix">
-      <!-- By passing a valid access token here, we are able to display -->
-      <!-- the user's images without having to download or prepare -->
-      <!-- them ahead of time -->
-      <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<%= token %>)"></p>
-      <div>
-        <h1>Welcome, <strong><%= user.name %></strong></h1>
-        <p class="tagline">
-          This is your app
-          <a href="<%= app.link %>"><%= app.name %></a>
-        </p>
-        <div id="share-app">
-          <p>Share your app:</p>
-          <ul>
-            <li>
-              <a href="#" class="facebook-button" onclick="popup('http://www.facebook.com/dialog/feed?redirect_uri=<%= redirect %>&display=popup&app_id=<%= app.id %>', 'Post to Wall', 580, 400);">
-                <span class="plus">Post to Wall</span>
-              </a>
-            </li>
-            <li>
-            <a href="#" class="facebook-button speech-bubble" onclick="popup('https://www.facebook.com/dialog/send?redirect_uri=<%= redirect %>&display=popup&app_id=<%= app.id %>&link=<%= home %>', 'Send', 580, 400);">
-                <span class="speech-bubble">Send to Friends</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
-    <section id="get-started">
-      <p>Welcome to your Facebook app, running on <span>heroku</span>!</p>
-      <a href="http://devcenter.heroku.com/articles/facebook" class="button">Learn How to Edit This App</a>
-    </section>
-
-    <section id="samples" class="clearfix">
-      <h1>Examples of the Facebook Graph API</h1>
-
-      <div class="list">
-        <h3>A few of your friends</h3>
-        <ul id="friends"></ul>
-      </div>
-
-      <div class="list inline">
-        <h3>Recent photos</h3>
-        <ul id="photos"></ul>
-      </div>
-
-      <div class="list">
-        <h3>Things you like</h3>
-        <ul id="likes"></ul>
-      </div>
-
-      <div class="list">
-        <h3>Friends using this app</h3>
-        <ul id="friends_using_app"></ul>
-      </div>
-    </section>
-
-    <section id="guides" class="clearfix">
-      <h1>Learn More About Heroku &amp; Facebook Apps</h1>
-      <ul>
-        <li>
-          <a href="http://www.heroku.com/" class="icon heroku">Heroku</a>
-          <p>Learn more about <a href="http://www.heroku.com/">Heroku</a>, or read developer docs in the Heroku <a href="http://devcenter.heroku.com/">Dev Center</a>.</p>
-        </li>
-        <li>
-          <a href="http://developers.facebook.com/docs/guides/web/" class="icon websites">Websites</a>
-          <p>
-            Drive growth and engagement on your site with
-            Facebook Login and Social Plugins.
-          </p>
-        </li>
-        <li>
-          <a href="http://developers.facebook.com/docs/guides/mobile/" class="icon mobile-apps">Mobile Apps</a>
-          <p>
-            Integrate with our core experience by building apps
-            that operate within Facebook.
-          </p>
-        </li>
-        <li>
-          <a href="http://developers.facebook.com/docs/guides/canvas/" class="icon apps-on-facebook">Apps on Facebook</a>
-          <p>Let users find and connect to their friends in mobile apps and games.</p>
-        </li>
-      </ul>
-    </section>
-  </body>
+</body>
 </html>
