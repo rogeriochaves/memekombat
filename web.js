@@ -138,7 +138,7 @@
 			var method = request.headers['x-forwarded-proto'] || 'http';
 			var host = method + '://' + request.headers.host;
 			request.session.logged = true;
-			response.send('<script type="text/javascript">top.location.href = "'+host+'";</script>');
+			response.send('<script type="text/javascript">top.location.href = "'+host+'/game";</script>');
 		}
 	});
 
