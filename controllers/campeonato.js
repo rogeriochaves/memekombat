@@ -188,20 +188,21 @@ function render_campeonato(request, response, user, personagem, campeonato){
 		}else{
 			
 			Ranking.findOne({pos: campeonato.ranking_pos}, function(err, rank){
-
-				response.render('campeonato.ejs', {
-					layout:   false,
-					user:     user,
-					proxima_luta: proxima_luta,
-					campeonato: campeonato,
-					rank: rank,
-					personagem: personagem,
-					personagem_perdeu: personagem_perdeu,
-					html: html,
-					levels: levels,
-					chaves: chaves,
-					portugues: portugues
-				});
+				try{
+					response.render('campeonato.ejs', {
+						layout:   false,
+						user:     user,
+						proxima_luta: proxima_luta,
+						campeonato: campeonato,
+						rank: rank,
+						personagem: personagem,
+						personagem_perdeu: personagem_perdeu,
+						html: html,
+						levels: levels,
+						chaves: chaves,
+						portugues: portugues
+					});
+				}catch(e){}
 
 			});
 			
