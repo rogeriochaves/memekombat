@@ -27,7 +27,7 @@
 		process.env.FACEBOOK_APP_ID = '183114805092475';
 		process.env.FACEBOOK_SECRET = '***REMOVED***';
 		process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/meme_kombat/';
-		process.env.FACEBOOK_APP_HOME = 'https://www.memekombat.com/';
+		process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
 		//process.env.CDN = 'https://d24yrm0vsffrow.cloudfront.net/';
 		process.env.CDN = process.env.FACEBOOK_APP_HOME;
 		mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
