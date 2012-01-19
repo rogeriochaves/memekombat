@@ -27,7 +27,7 @@ module.exports.get_campeonato = function(campeonato, chave_lv, fn){
 					if(typeof dt == 'undefined'){
 						prox_luta = 0;
 					}else{
-						prox_luta = dt - (new Date());
+						prox_luta = (new Date().getTime()) - dt.getTime();
 					}
 					console.log("==============");
 					console.log(chave);
