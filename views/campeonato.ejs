@@ -1,5 +1,6 @@
 <% if(campeonato.chaves_livres <= 0 && personagem.chave_lv + 1 < campeonato.qtd_chaves && !personagem_perdeu){ %>
 	<script type="text/javascript" charset="utf-8">
+		//alert('<%= proxima_luta %>');
 		if(typeof tempo_restante == "undefined") tempo_restante = <%= proxima_luta %>;		
 		$(document).ready(function() {
 			atualizar_contador();
