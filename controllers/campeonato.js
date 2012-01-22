@@ -14,20 +14,24 @@ function posicao(x, y, chaves, levels, personagem, portugues, fn){
 		}
 		
 		Personagem.findOne({_id: chaves[x][y].personagem_id}, function(err, p){
-			var html = '<a class="player '+(p.uid == personagem.uid ? 'me' : '')+'" href="perfil?uid='+chaves[x][y].uid+'">';
-			html2 = '<div class="perfil" style="margin-left:'+ml+'px; '+img+'"> 						\
-				<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=square" />		\
-				<div class="info">																		\
-					'+p.nome.split(' ')[0]+'<br />													    \
-					'+(portugues ? "Nv " : "Lv ")+p.level+'												\
-				</div>																					\
-			</div></a>';
-			if(x == levels){
-				fn(html + '<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=normal" border="0">' + html2);
+			if(p != null){
+				var html = '<a class="player '+(p.uid == personagem.uid ? 'me' : '')+'" href="perfil?uid='+chaves[x][y].uid+'">';
+				html2 = '<div class="perfil" style="margin-left:'+ml+'px; '+img+'"> 						\
+					<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=square" />		\
+					<div class="info">																		\
+						'+p.nome.split(' ')[0]+'<br />													    \
+						'+(portugues ? "Nv " : "Lv ")+p.level+'												\
+					</div>																					\
+				</div></a>';
+				if(x == levels){
+					fn(html + '<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=normal" border="0">' + html2);
+				}else{
+					var size = parseInt(50 / Math.max(1, levels - x));
+					mt = (x == 0 ? 40 : 0);
+					fn(html + '<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=square" border="0" style="width:'+size+'px; height:'+size+'px; margin-top:'+mt+'px ">' + html2);
+				}
 			}else{
-				var size = parseInt(50 / Math.max(1, levels - x));
-				mt = (x == 0 ? 40 : 0);
-				fn(html + '<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=square" border="0" style="width:'+size+'px; height:'+size+'px; margin-top:'+mt+'px ">' + html2);
+				fn('');
 			}
 		});
 	}else if(x == 0){
