@@ -46,7 +46,8 @@ var sl = function subir_level(personagem, fn) {
 				});
 			});
 		
-		}else if(rand_ganhar <= Characters.chance_ganhar_arma_nova(personagem.equipamentos.length, personagem.level)){
+		}
+		if(rand_ganhar <= Characters.chance_ganhar_arma_nova(personagem.equipamentos.length, personagem.level)){
 			Equipamento.where('num').nin(personagem.equipamentos).run(function(err, armas){
 				if(armas != null && armas.length > 0){
 					armas_rand = [];
