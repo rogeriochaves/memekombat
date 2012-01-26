@@ -199,7 +199,7 @@ app.all('/index', function(request, response) {
 						criar_personagem(request, response, session);
 					}
 				}else if(data == null){
-					var http = require('http');
+					/*var http = require('http');
 					var options = {
 					  host: (environment == 'development' ? 'localhost' : 'memekombat.phpfogapp.com'),
 					  port: 80,
@@ -212,11 +212,11 @@ app.all('/index', function(request, response) {
 					  res.setEncoding('utf8');
 					  res.on('data', function (full_data) {
 						
-						if(full_data == 'NULL'){
+						if(full_data == 'NULL'){*/
 							
 							response.redirect('/inicio');
 							
-						}else{
+						/*}else{
 							
 					  		var full_data = full_data.split('|');
 							var	pdata = full_data[0].split(',');
@@ -303,7 +303,7 @@ app.all('/index', function(request, response) {
 						}
 						
 					  });
-					}).end();
+					}).end();*/
 					
 					
 				}else{
