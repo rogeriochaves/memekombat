@@ -28,6 +28,7 @@ var sl = function subir_level(personagem, fn) {
 		});
 		
 		var rand_ganhar = parseInt(Math.random() * 101);
+		var nada = 0;
 		if(rand_ganhar <= Characters.chance_ganhar_habilidade_nova(personagem.habilidades.length, personagem.level)){
 			
 			Habilidade.where('num').nin(personagem.habilidades).run(function(err, habils){
@@ -46,6 +47,8 @@ var sl = function subir_level(personagem, fn) {
 				});
 			});
 		
+		}else{
+			nada++;
 		}
 		if(rand_ganhar <= Characters.chance_ganhar_arma_nova(personagem.equipamentos.length, personagem.level)){
 			Equipamento.where('num').nin(personagem.equipamentos).run(function(err, armas){
@@ -64,6 +67,9 @@ var sl = function subir_level(personagem, fn) {
 				});
 			});
 		}else{
+			nada++;
+		}
+		if(nada==2){
 			personagem.save(function(err){
 				if(typeof fn != 'undefined') fn();
 			});
