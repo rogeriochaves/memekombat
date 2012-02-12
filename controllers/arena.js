@@ -148,7 +148,7 @@ app.all('/arena', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
+			//var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
 				var user = request.session.auth.facebook.user;

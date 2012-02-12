@@ -7,7 +7,7 @@ app.all('/_arena', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
+			//var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 			var arena_uids = request.param('arena_uids') ? request.param('arena_uids').replace("'", '').split(',') : [];
 			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 
@@ -65,8 +65,8 @@ app.all('/_arena', function(request, response) {
 												token:    token,
 												user:     user,
 												players:  amigos.concat(outros_jogadores),
-												portugues: (user.locale.indexOf('pt') >= 0),
-												socket_id: socket_id
+												portugues: (user.locale.indexOf('pt') >= 0)/*,
+												socket_id: socket_id*/
 											});
 
 										});

@@ -49,7 +49,7 @@ var render_index = function(req, res, session, novo_personagem){
 					
 					// garbage collect
 					user = null;
-					friends_using = null;
+					//friends_using = null;
 					friends_not_using = null;
 					session = null;
 					

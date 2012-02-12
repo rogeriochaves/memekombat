@@ -1,3 +1,8 @@
+/*
+  Esta classe define os esquemas do banco, quais os atributos e tipo de dados de cada documento
+  Ao executar o arquivo populate.js, este preencherá o banco, com as armas do jogo, habilidades, etc
+*/
+
 var ArquivamentoSchema = new Schema({
 	titulo: String
   , num: { type: Number, unique: true }
@@ -153,7 +158,6 @@ var ChaveSchema = new Schema({
 });
 mongoose.model('Chaves', ChaveSchema);
 
-
 global.Personagem = mongoose.model('Personagens');
 global.Equipamento = mongoose.model('Equipamentos');
 global.Habilidade = mongoose.model('Habilidades');
@@ -166,45 +170,3 @@ global.Pedido = mongoose.model('Pedidos');
 global.Chave = mongoose.model('Chaves');
 global.Campeonato = mongoose.model('Campeonatos');
 global.Notificacao = mongoose.model('Notificacoes');
-
-/*
-meme.save(function(err){
-	if(err) throw(err);
-	
-	var usuario = new Usuario();
-	usuario.meme = meme.src;
-	usuario.uid = '123';
-	usuario.nome = 'Rogério Chaves';
-	usuario.save(function(err){
-		if(err) throw(err);
-
-		Usuario.findOne({uid: '123'}, function(err, data){
-			if(err) throw(err);
-			console.log(data.meme);
-			mongoose.disconnect();
-		});
-
-	});
-	
-	
-});
-
-
-/*
-
-
-mongoose.connect('mongodb://localhost/memekombat');
-mongoose.model('Teste', TesteSchema);
-
-
-var Teste = mongoose.model('Teste');
-
-var t = new Teste();
-t.nome = 'aew';
-t.date = Date.now();
-
-t.save(function(err){
-	if(err) throw(err);
-	console.log("salvo!");
-	mongoose.disconnect();
-});*/
