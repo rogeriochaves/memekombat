@@ -1,3 +1,10 @@
+/*
+
+Após ser autenticado o jogador é redirecionado para este controller,
+nele é carregado o personagem do jogador, ou criado um novo, caso ainda não exista
+
+*/
+
 var render_index = function(req, res, session, novo_personagem){
 	
 	var token = req.session.auth.facebook.accessToken;
@@ -189,9 +196,6 @@ app.all('/index', function(request, response) {
 								criar_personagem(request, response, session);
 							}
 							
-							//response.send("fim");
-							//criar_personagem(request, response, session);
-							
 						});
 					}else if(request.session.indicacao_uid){
 						Personagem.findOne({uid: request.session.indicacao_uid}, function(err, data){
@@ -205,113 +209,7 @@ app.all('/index', function(request, response) {
 						criar_personagem(request, response, session);
 					}
 				}else if(data == null){
-					/*var http = require('http');
-					var options = {
-					  host: (environment == 'development' ? 'localhost' : 'memekombat.phpfogapp.com'),
-					  port: 80,
-					  path: (environment == 'development' ? '/MemeKombat' : '') + '/personagem.php?uid='+user.id,
-					  method: 'GET'
-					};
-
-					// uid, meme_src, level, hp, atq, vel, def, crit, nome, exp, idioma, genero, username, ranking_pos, vitorias, derrotas
-					http.request(options, function(res) {
-					  res.setEncoding('utf8');
-					  res.on('data', function (full_data) {
-						
-						if(full_data == 'NULL'){*/
-							
-							response.redirect('/inicio');
-							
-						/*}else{
-							
-					  		var full_data = full_data.split('|');
-							var	pdata = full_data[0].split(',');
-						
-							var p = new Personagem();
-						  	p.uid = pdata[0];
-							p.meme_src = pdata[1];
-							p.level = pdata[2];
-							p.hp = pdata[3];
-							p.atq = pdata[4];
-							p.vel = pdata[5];
-							p.def = pdata[6];
-							p.crit = pdata[7];
-							p.nome = pdata[8];
-							p.exp = pdata[9];
-							p.idioma = pdata[10];
-							p.genero = pdata[11];
-							p.username = pdata[12];
-							p.ranking_pos = pdata[13];
-							p.vitorias = pdata[14];
-							p.derrotas = pdata[15];
-							p.equipamentos = [];
-							p.habilidades = [];
-							p.atributos = [];
-						
-							var equipamentos = {};
-							Equipamento.find(function(err, data){
-								data.forEach(function(equip){
-									equipamentos[equip.num] = equip;
-								});
-								
-								try{
-									var	edata = full_data[1].split(',');
-									edata.forEach(function(equipamento_id){
-										var equip = equipamentos[parseInt(equipamento_id)];
-										if(typeof equip != 'undefined'){
-											p.equipamentos.push(equip.num);
-										}
-									});
-								}catch(e){}
-							
-							
-								var habilidades = {};
-								Habilidade.find(function(err, data){
-									data.forEach(function(habil){
-										habilidades[habil.num] = habil;
-									});
-								
-									try{
-										var	hdata = full_data[2].split(',');
-										hdata.forEach(function(habilidade_id){
-											var habil = habilidades[parseInt(habilidade_id)];
-											if(typeof habil != 'undefined'){
-												p.habilidades.push(habil.num);
-											}
-										});
-									}catch(e){}
-								
-									var arquivamentos = {};
-									Arquivamento.find(function(err, data){
-										data.forEach(function(arquiv){
-											arquivamentos[arquiv.num] = arquiv;
-										});
-
-										try{
-											var	adata = full_data[3].split(',');
-											adata.forEach(function(arquivamento_id){
-												var arquiv = arquivamentos[parseInt(arquivamento_id)];
-												if(typeof arquiv != 'undefined'){
-													p.arquivamentos.push(arquiv._id);
-												}
-											});
-										}catch(e){}
-									
-									
-										p.save();
-										render_index(request, response, session);
-									
-									
-									});
-								
-								});
-							});
-						}
-						
-					  });
-					}).end();*/
-					
-					
+					response.redirect('/inicio');
 				}else{
 					
 					p = data;

@@ -113,7 +113,7 @@ global.app = express.createServer(
   require('facebook').Facebook()
 );
 
-if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar performance
+if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar (muita) performance
 	app.enable('view cache');
 }
 
@@ -155,11 +155,11 @@ global.amigos_usando = function(request, response, fn){
 	if(!request.session.auth){
 		fn(undefined);
 	}else{
-		if(request.session.amigos){
+		if(request.session.amigos){ // caso exista na session
 			fn(request.session.amigos);
 		}else{
 			var token = request.session.auth.facebook.accessToken;
-			facebook.getSessionByAccessToken(token)(function(session) {
+			facebook.getSessionByAccessToken(token)(function(session) { // consulta à API do facebook
 				session.restCall('fql.query', {
 					query: 'SELECT uid, name, username, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
 					format: 'json'
