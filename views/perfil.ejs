@@ -249,7 +249,7 @@
 				</div>
 			</a>
 		<% }else{ %>
-			<!--
+			
 			<a class="lutar" href="campeonato">
 				<div style="margin-top:5px">
 					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
@@ -262,7 +262,7 @@
 			</a>
 			<% if (campeonato && campeonato != null && campeonato.chaves_livres <= 0){ %>
 				<div style="text-align:center; margin:-20px 0 20px 0"><a href="sair_campeonato" onclick="cached_pages['campeonato'] = null;">Sair do campeonato</a></div>
-			<% } %>-->
+			<% } %>
 			
 			<ul class="stream">
 				<% var i = 0; %>
