@@ -51,7 +51,6 @@ app.all('/luta/:id?', function(request, response) {
 														
 														response.render('luta.ejs', {
 												          layout:   false,
-												          token:    token,
 												          user:     user,
 														  luta_id: luta_id,
 														  p1: personagem,
@@ -67,6 +66,16 @@ app.all('/luta/:id?', function(request, response) {
 														  short_url: short_url,
 														  portugues: (user.locale.indexOf('pt') >= 0)
 												        });
+
+												        // garbage collect
+														user = null;
+														session = null;
+														p1 = null;
+														p2 = null;
+														personagem = null;
+														vencedor = null;
+														perdedor = null;
+														movimentos = null;
 														
 													});
 													
@@ -114,7 +123,6 @@ app.all('/luta/:id?', function(request, response) {
 													Characters.lutas_restantes(personagem._id, function(quant){
 														response.render('luta.ejs', {
 												          layout:   false,
-												          token:    token,
 												          app:      app,
 												          user:     user,
 														  luta_id: luta_id,
@@ -131,6 +139,17 @@ app.all('/luta/:id?', function(request, response) {
 														  short_url: luta.short_url,
 														  portugues: (user.locale.indexOf('pt') >= 0)
 												        });
+
+												        // garbage collect
+														user = null;
+														session = null;
+														p1 = null;
+														p2 = null;
+														personagem = null;
+														vencedor = null;
+														perdedor = null;
+														movimentos = null;
+												        
 													});
 													
 												}

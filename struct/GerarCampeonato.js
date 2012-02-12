@@ -29,9 +29,6 @@ module.exports.get_campeonato = function(campeonato, chave_lv, fn){
 					}else{
 						prox_luta = (dt.getTime() - new Date().getTime());
 					}
-					console.log("==============");
-					console.log(chave);
-					console.log(prox_luta);
 
 					if(chave_lv > chave.level){
 						if(typeof lutas[x] == "undefined") lutas[x] = [];

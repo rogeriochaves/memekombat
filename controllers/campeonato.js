@@ -206,6 +206,16 @@ function render_campeonato(request, response, user, personagem, campeonato){
 						chaves: chaves,
 						portugues: portugues
 					});
+
+					// garbage collect
+					user = null;
+					session = null;
+					campeonato = null;
+					personagem = null;
+					html = null;
+					levels = null;
+					chaves = null;
+
 				}catch(e){}
 
 			});

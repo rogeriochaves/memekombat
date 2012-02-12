@@ -47,6 +47,7 @@ var render_index = function(req, res, session, novo_personagem){
 					  portugues: (user.locale.indexOf('pt') >= 0)
 			        });
 					
+					// garbage collect
 					user = null;
 					friends_using = null;
 					friends_not_using = null;

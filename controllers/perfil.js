@@ -105,6 +105,7 @@ app.all('/perfil', function(request, response) {
 												          campeonato: campeonato
 												        });
 
+												        // garbage collect
 												        personagem = null;
 												        arquivamentos = null;
 												        pupilos = null;
@@ -134,6 +135,7 @@ app.all('/perfil', function(request, response) {
 											  portugues: (user.locale.indexOf('pt') >= 0)
 									        });
 
+									        // garbage collect
 									        personagem = null;
 									        arquivamentos = null;
 									        pupilos = null;
