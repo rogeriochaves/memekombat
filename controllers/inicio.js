@@ -7,7 +7,7 @@ app.all('/inicio', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			var socket_id = uuid();
+			//var socket_id = uuid();
 
 			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 				
@@ -26,7 +26,7 @@ app.all('/inicio', function(request, response) {
 					  portugues: (user.locale.indexOf('pt') >= 0),
 			          home:     method + '://' + request.headers.host + '/',
 			          redirect: method + '://' + request.headers.host + request.url,
-			          socket_id: socket_id
+			          //socket_id: socket_id
 			        });
 					
 				});
