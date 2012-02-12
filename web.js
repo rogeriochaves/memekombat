@@ -74,13 +74,13 @@ global.app = express.createServer(
   express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
   express.cookieParser(), // utilizar cookires
   // configuração da session, conectando com Redis
-	express.session({ secret: '***REMOVED***', store: ((environment == 'development') ? new MemoryStore() : new RedisStore({
+	express.session({ secret: '***REMOVED***', store: ((process.env.NODE_ENV == 'production') ? new RedisStore({
 		  host: 'barracuda.redistogo.com',
 		  port: '9210',
 		  pass: '43c56adf34497a80bf6cfbc4c3052dd5',
 		  db: 'redistogo',
 		  cookie: {maxAge: 60000 * 5}
-	  }))}),
+	  }) : new MemoryStore())}),
 
   // insert a middleware to set the facebook redirect hostname to http/https dynamically
   function(request, response, next) {
