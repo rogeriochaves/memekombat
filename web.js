@@ -16,9 +16,10 @@ global.ObjectId = Schema.ObjectId;
 // definição dos esquemas do banco
 require('./schema.js');
 
-global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+// definindo valores de configuração
 if(process.env.NODE_ENV == 'production'){
 	
+	// Configurações do app do facebook
 	/*process.env.FACEBOOK_APP_ID = '282893221758514';
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattwo/';*/
@@ -26,52 +27,53 @@ if(process.env.NODE_ENV == 'production'){
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/meme_kombat/';
 	process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
+
+	// CDN
 	//process.env.CDN = 'https://d24yrm0vsffrow.cloudfront.net/';
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;
+
+	// Conexão com o banco
 	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
 	
 	
 }else{
 	
-	//require("v8-profiler");
+	//require("v8-profiler"); // para tentar detectar memory leaks
+	// Configurações do app do facebook de teste
 	process.env.FACEBOOK_APP_ID = '130619640386826';
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
 	process.env.FACEBOOK_APP_HOME = 'http://localhost:3000/';
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;
-	mongoose.connect('mongodb://localhost/memekombat');
+	mongoose.connect('mongodb://localhost/memekombat'); // db local
 	
 }
 
 
-// configure facebook authentication
-//try{
-	everyauth.facebook
-	  .appId(process.env.FACEBOOK_APP_ID)
-	  .appSecret(process.env.FACEBOOK_SECRET)
-	  .scope('publish_stream,publish_actions')
-	  .entryPath('/game')
-	  .redirectPath(process.env.FACEBOOK_APP_URL)
-	  .findOrCreateUser(function() {
-	    return({});
-	  });
-	everyauth.everymodule.moduleErrback( function (err) {
-	  console.log(err);
-	});
-	
-/*}catch(e){
-	console.log(e.stack)
-}*/
+// configura a autenticação do facebook
+everyauth.facebook
+  .appId(process.env.FACEBOOK_APP_ID)
+  .appSecret(process.env.FACEBOOK_SECRET)
+  .scope('publish_stream,publish_actions') // permissões para publicar na linha do tempo do usuário
+  .entryPath('/game') // path que direcionará para autenticação
+  .redirectPath(process.env.FACEBOOK_APP_URL) // após autenticação, retornar para url do jogo
+  .findOrCreateUser(function() {
+    return({});
+  });
 
-var oneYear = 31557600000;
+// ao encontrar um erro, apenas logga-lo, não travar o processo
+everyauth.everymodule.moduleErrback( function (err) {
+  console.log(err);
+});
+
+var oneYear = 31557600000; // expiração dos arquivos estáticos
 // create an express webserver
 global.app = express.createServer(
-  //express.logger(),
-  express.errorHandler(),
-  express.static(__dirname + '/public', { maxAge: oneYear }),
-  express.cookieParser(),
-  // set this to a secret value to encrypt session cookies
-
+  //express.logger(), // logga tudo
+  express.errorHandler(), // lida com erros tentando não travar o processo
+  express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
+  express.cookieParser(), // utilizar cookires
+  // configuração da session, conectando com Redis
 	express.session({ secret: '***REMOVED***', store: ((environment == 'development') ? new MemoryStore() : new RedisStore({
 		  host: 'barracuda.redistogo.com',
 		  port: '9210',
@@ -83,39 +85,35 @@ global.app = express.createServer(
   // insert a middleware to set the facebook redirect hostname to http/https dynamically
   function(request, response, next) {
 	
-	//try{
 		console.log(request.url + " - Memory: "+process.memoryUsage().heapUsed);
-		
-		//if(process.env.NODE_ENV == 'production' && request.headers['x-forwarded-proto']!='https'){
-		//    response.redirect('https://'+request.headers.host+request.url)
-		//}else{
-	
-			if(request.param('request_ids')){
-				request.session.request_ids = request.param('request_ids').split(',');
-			}
-			if(request.param('i')){
-				request.session.indicacao_uid = request.param('i');
-			}
-			if(request.param('fight')){
-				request.session.fight = request.param('fight');
-			}
 
-		    var method = request.headers['x-forwarded-proto'] || 'http';
-		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-		    next();
+		// caso o jogador entre em um link de indicação de amigos
+		if(request.param('request_ids')){
+			// salva os parametros na session e faz a autenticação normalmente
+			request.session.request_ids = request.param('request_ids').split(',');
+		}
+		// cada jogador recebe um link de indicação, que passa um parâmetro i com o uid da pessoa
+		if(request.param('i')){
+			// salva os parametros na session e faz a autenticação normalmente
+			request.session.indicacao_uid = request.param('i');
+		}
+		// o link das lutas passa um parâmetro fight com o id da luta
+		if(request.param('fight')){
+			// salva os parametros na session e faz a autenticação normalmente
+			request.session.fight = request.param('fight');
+		}
 
-		//}
-	
-	//}catch(e){
-	//	console.log(e.stack)
-	//}
+		// autentica o usuário
+	    var method = request.headers['x-forwarded-proto'] || 'http';
+	    everyauth.facebook.myHostname(method + '://' + request.headers.host);
+	    next();
 	
   },
   everyauth.middleware(),
   require('facebook').Facebook()
 );
 
-if(process.env.NODE_ENV == 'production'){
+if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar performance
 	app.enable('view cache');
 }
 
@@ -126,12 +124,10 @@ app.listen(port, function() {
   console.log("Listening on " + port);
 });
 
+// redireciona usuário para autenticação do facebook
 app.post('/game', function(request, response){
-	if (request.session.auth && request.session.logged){// || request.session.redir)) {
+	if (request.session.auth && request.session.logged){
 		response.redirect('/index');
-	/*}else if(request.session.auth){
-		request.session.redir = true;
-		response.redirect(process.env.FACEBOOK_APP_URL);*/
 	}else{
 		var method = request.headers['x-forwarded-proto'] || 'http';
 		var host = method + '://' + request.headers.host;
@@ -140,6 +136,7 @@ app.post('/game', function(request, response){
 	}
 });
 
+// recomendação do facebook para resolver alguns problemas de js cross-domain
 app.all('/channel.html', function(req, res) {
 	var cache_expire = 60 * 60 * 24 * 365;
 	res.header('Pragma', 'public');
@@ -148,10 +145,12 @@ app.all('/channel.html', function(req, res) {
 	res.render('channel.ejs', {layout: false});
 });
 
+// página principal, geralmente o jogador só a vê entrando em memekombat.com
 app.all('/', function(request, response){
 	response.render('home.ejs', {layout: false});
 });
 
+// retorna os amigos que estão jogando (utilizado na página inicial, na arena e no ranking) e salva na session para não ficar retornando à API do Facebook
 global.amigos_usando = function(request, response, fn){
 	if(!request.session.auth){
 		fn(undefined);
@@ -167,30 +166,14 @@ global.amigos_usando = function(request, response, fn){
 				})(function(amigos) {
 					request.session.amigos = amigos;
 					fn(amigos);
-					amigos = null;
+					//amigos = null;
 				});
 			});
 		}
 	}
-	
 };
 
-// create a socket.io backend for sending facebook graph data
-// to the browser as we receive it
-/*var io = require('socket.io').listen(app);
-
-// wrap socket.io with basic identification and message queueing
-// code is in lib/socket_manager.js
-global.socket_manager = require('socket_manager').create(io);
-
-// use xhr-polling as the transport for socket.io
-io.configure(function () {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
-  io.set('log level', 1);
-});*/
-
-
+// requisita todos os controllers do jogo
 require('./controllers/inicio.js');
 require('./controllers/index.js');
 require('./controllers/perfil.js');

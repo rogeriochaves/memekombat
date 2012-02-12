@@ -17,7 +17,7 @@ var render_index = function(req, res, session, novo_personagem){
 					if(friends_using.length < 6) friends_using.push(f);
 				});
 			}
-			fu = null;
+			//fu = null;
 			var limit = 12 - Math.max(3, friends_using.length);
 			/*result.forEach(function(friend) {
 				socket_manager.send(socket_id, 'friend_using_app', friend);
