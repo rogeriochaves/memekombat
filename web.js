@@ -169,6 +169,7 @@
 					})(function(amigos) {
 						request.session.amigos = amigos;
 						fn(amigos);
+						amigos = null;
 					});
 				});
 			}

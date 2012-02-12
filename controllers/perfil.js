@@ -104,6 +104,15 @@ app.all('/perfil', function(request, response) {
 														  portugues: (user.locale.indexOf('pt') >= 0),
 												          campeonato: campeonato
 												        });
+
+												        personagem = null;
+												        arquivamentos = null;
+												        pupilos = null;
+												        notificacoes = null;
+												        campeonato = null;
+												        user = null;
+									        			session = null;
+
 													});
 												});
 											});
@@ -124,6 +133,14 @@ app.all('/perfil', function(request, response) {
 											  session_erro: session_erro,
 											  portugues: (user.locale.indexOf('pt') >= 0)
 									        });
+
+									        personagem = null;
+									        arquivamentos = null;
+									        pupilos = null;
+									        notificacoes = null;
+									        campeonato = null;
+									        user = null;
+									        session = null;
 										});
 									}
 								
