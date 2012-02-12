@@ -33,6 +33,10 @@ app.all('/ranking', function(request, response) {
 								  jogadores: jogadores,
 								  portugues: (user.locale.indexOf('pt') >= 0)
 						    });
+						    user = null;
+							session = null;
+							amigos = null;
+							jogadores = null;
 						});
 					});
 					

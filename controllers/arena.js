@@ -45,6 +45,12 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 								  lutas_restantes: quant,
 								  portugues: (user.locale.indexOf('pt') >= 0)
 						        });
+
+						        // garbage collect
+								user = null;
+								session = null;
+								amigos = null;
+								outros_jogadores = null;
 						    });
 
 							/*if(amigos.length == 0 && outros_jogadores.length == 0){
@@ -112,6 +118,11 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 								  lutas_restantes: quant,
 								  portugues: (user.locale.indexOf('pt') >= 0)
 						        });
+						        // garbage collect
+								user = null;
+								session = null;
+								amigos = null;
+								outros_jogadores = null;
 						    });
 
 							/*if(amigos.length == 0 && outros_jogadores.length == 0){
