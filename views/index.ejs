@@ -225,12 +225,14 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 
 <div id="fb-root"></div>
 
-<script src="//connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= process.env.FACEBOOK_APP_ID %>&xfbml=1"></script>
+<!--script src="//connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= process.env.FACEBOOK_APP_ID %>&xfbml=1"></script-->
 <script>
 
-	//FB._https = true;
-	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true, channelUrl : '<%= process.env.FACEBOOK_APP_HOME %>channel.html'});
-	FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
+	(function() {
+	   var e = document.createElement('script'); e.async = true;
+	   e.src = document.location.protocol + '//connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js';
+	   document.getElementById('fb-root').appendChild(e);
+    }());
 
 	function requestCallback(response) {
 	        // Handle callback here
@@ -425,7 +427,12 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-  // social track do facebook
+  window.fbAsyncInit = function() {
+  	//FB._https = true;
+	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true, channelUrl : '<%= process.env.FACEBOOK_APP_HOME %>channel.html'});
+	FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
+    
+    // social track do facebook
 	FB.Event.subscribe('edge.create', function(targetUrl) {
 		_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
 	});
@@ -441,6 +448,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 	FB.Event.subscribe('comment.remove',function(response) {
 		_gaq.push(['_trackSocial','Facebook','uncomment',response]);
 	});
+}
 	
 	function extractParamFromUri(uri, paramName) {
 	  if (!uri) {
