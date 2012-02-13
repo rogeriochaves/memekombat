@@ -1,3 +1,9 @@
+<!--
+
+O layout do jogo é esta página index, já que o resto carrega por ajax na div .conteudo
+
+-->
+
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
@@ -20,16 +26,11 @@
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <!-- CSS concatenated and minified via ant build script-->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria Hallelujah">
-  <!--link rel="stylesheet" href="css/all.min.css"-->
   <link rel="stylesheet" href="<%= process.env.CDN %>css/boilerplate.css">
   <link rel="stylesheet" href="<%= process.env.CDN %>css/application.css">
-  <!-- end CSS-->
 
-  <!--script src="js/libs/modernizr-2.0.6.min.js"></script-->
   <script src="<%= process.env.CDN %>js/libs/jquery-1.6.2.min.js"></script>
-  <!--script type="text/javascript" charset="utf-8" src="js/min/all2.min.js"></script-->
   <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/jquery.jplayer.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/jquery.preloader.js"></script>
   <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/luta.js"></script>
@@ -40,22 +41,10 @@
   <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/eventos.js"></script>
   <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/sons.js"></script>
   <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/jquery.backgroundPosition.min.js"></script>
-	<!--script src="/socket.io/socket.io.js"></script-->
-
-	<!--script type="text/javascript" charset="utf-8" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/jquery.preloader.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/luta.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/database.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/movimento.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/habilidades.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/armas.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/eventos.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/sons.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/jquery.backgroundPosition.min.js"></script-->
 
   	<script type="text/javascript">
 		window.fbAsyncInit = function() {
-		  FB.Canvas.setAutoGrow();
+		  FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
 		}
       function popup(pageURL, title,w,h) {
         var left = (screen.width/2)-(w/2);
@@ -69,50 +58,47 @@
 
     </script>
 	<script type="text/javascript" charset="utf-8">
-		cached_pages = {};
-		atualizar_social = 0;
-		tweetou = false;
+		cached_pages = {}; // para cachear as páginas carregadas por ajax
+		//atualizar_social = 0;
+		//tweetou = false;
 		pagina_atual = '';
 		cdn = '<%= process.env.CDN %>';
-		function cache_page(url, data){
+		function cache_page(url, data){ // salva página em cache
 			pagina_atual = url;
-			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){
-				//cached_pages['ranking'] = null;
-				//cached_pages['arena'] = null;
+			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){ // ao entrar na luta o cache do perfil é apagado (pois o personagem ganha exp, notificações, lvl, etc)
 				cached_pages['perfil'] = null;
 				cached_pages['perfil?uid=' + url.split('vs=')[1]] = null;
-			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?finalizar') >= 0){
+			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?finalizar') >= 0){ // ao finalizar o campeonato, o cache do campeonato, ranking e perfil são apagados
 				tempo_restante = undefined;
 				cached_pages['ranking'] = null;
 				cached_pages['perfil'] = null;
 				cached_pages['campeonato'] = null;
 				cached_pages['campeonato?proxima_luta=true'] = null;
 				cached_pages['campeonato?finalizar=true'] = null;
-			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?') >= 0){
+			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?') >= 0){ // ao entrar no campeonato com algum parâmetro, os caches de campeonato são apagados
 				tempo_restante = undefined;
 				cached_pages['campeonato'] = null;
 				cached_pages['campeonato?proxima_luta=true'] = null;
 				cached_pages['campeonato?finalizar=true'] = null;
-			}else if(url.indexOf('sair_campeonato') >= 0){
+			}else if(url.indexOf('sair_campeonato') >= 0){ // ao sair do campeonato o cache do perfil é apagado
 				cached_pages['perfil'] = data;
 			}else{
 				cached_pages[url] = data;
 			}
 		}
-		function ajaxizar_links(){
+		function ajaxizar_links(){ // faz todos os links, exceto os que tiverem a class no-follow ou no-rel passarem a ser abertos via ajax
 			$('a').each(function() {
 				if (!$(this).hasClass('no-follow') && !$(this).hasClass('no-rel') && ($(this).attr('rel') == '' || $(this).attr('rel') == undefined)) {
 					$(this).attr('rel', $(this).attr('href'));
 					$(this).attr('href', '#');
 				};
 			});
-			atualizar_twitter();
+			atualizar_twitter(); // atualiza o botão do twitter
 		}
 	</script>
 	<script type="text/javascript" charset="utf-8">
 		var portugues = <%= portugues ? 'true' : 'false' %>;
 	</script>
-	<!--script type="text/javascript" charset="utf-8" src="js/sockets.js"></script-->
 </head>
 
 <body>
@@ -143,10 +129,6 @@
 </div>
 
 <div class="conteudo">
-	<!--%- if(!redir){
-			index = true;
-			include('perfil.php');
-		} %-->
 </div>
 <br /><br />
 <hr class="pessoas" />
@@ -282,7 +264,10 @@
   <![endif]-->
 <script type="text/javascript" charset="utf-8">
 	(function() {
+		// centraliza a imagem de carregando
 		$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
+
+		// ao clicar nas insígnias, fazem ela abrir por cima da tela com seu respectivo texto
 		$('.small_badge').live('click', function() {
 			$('.badge img').attr('src', "<%= process.env.CDN %>img/badges/" + $(this).attr('data-img'));
 			$('.badge .texto.cima').html($(this).attr('data-up'));
@@ -291,20 +276,28 @@
 			$('.backlight').fadeIn();
 			$('.badge').fadeIn();
 		});
+
+		// abre a imagem de instruções na tela ao clicar em ajuda
 		$('.ajuda').live('click', function() {
 			$('.badge img').attr('src', "<%= process.env.CDN %>img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
 			$('.backlight').fadeIn();
 			$('.badge').fadeIn();
 		});
+
+		// exibe a imagem de instruções na tela caso seja novo personagem
 		<% if(novo_personagem){ %>
 			$('.badge img').attr('src', "<%= process.env.CDN %>img/instrucoes<%= portugues ? '' : '_en' %>.jpg");
 			$('.backlight').fadeIn();
 			$('.badge').fadeIn();
 		<% } %>
+
+		// fade out ao clicar fora da insígnia aberta na tela
 		$('.badge, .backlight').click(function() {
 			$('.backlight').fadeOut();
 			$('.badge').fadeOut();
 		});
+
+		// se for novo personagem, vai direto para a arena, se tiver algum link para redirecionar, redireciona, se não, abre o perfil
 		<%
 			var redir = false;
 			if(novo_personagem){
@@ -320,62 +313,78 @@
 			$.get('<%= redir %>', function(data) {
 				$('.conteudo').html(data);
 				ajaxizar_links();
-				cache_page('<%= redir %>', data);
+				cache_page('<%= redir %>', data); // faz cache da página
 			});
 		<% }else{ %>
 			$('.carregando').fadeOut();
-			cache_page('perfil', $('.conteudo').html());
+			cache_page('perfil', $('.conteudo').html()); // faz cache da página
 		<% } %>
 		
-		ajaxizar_links();
+		ajaxizar_links(); // faz os links passarem a abrir por ajax
+
+		// carrega os links 'ajaxsarizados'
 		$('a[rel]').live('click', function() {
 			if (!$(this).hasClass('no-rel')) {
-				if ($(this).hasClass('erase-content')) {
+				/*if ($(this).hasClass('erase-content')) {
 					FB.Canvas.setSize({height: 300});
 					$('.conteudo').html("");
-				}
+				}*/
 				var url = $(this).attr('rel');
-				if(cached_pages[url] == undefined || cached_pages[url] == null){
+				if(cached_pages[url] == undefined || cached_pages[url] == null){ // caso a imagem não esteja no cache
+
+					// mostra a imagem de carregando
 					$('.carregando').show();
 					$('.carregando').css({'opacity': '0'});
 					$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
 					$('.carregando').animate({'opacity': '0.5'});
-					carregando_timeout = setTimeout(function(){
+					carregando_timeout = setTimeout(function(){ // caso não carregue, esconde o carregando pro usuário clicar no link de novo (solução FAIL)
 						$('.carregando').fadeOut();
 					}, 10000);
+					// faz um get
 					$.get(url, function(data){
 						clearTimeout(carregando_timeout);
+						// para a luta, caso haja uma em andamento
 						parar_luta();
+						// carrega o conteudo
 						$('.conteudo').html(data);
+						// esconde o carregando na tela
 						$('.carregando').fadeOut();
+						// 'ajaxiza' os links de novo
 						ajaxizar_links();
+						// cacheia a página
 						cache_page(url, data);
 					});
 				}else{
+					// para a luta, caso haja uma em andamento
 					parar_luta();
+					// substitui o conteúdo pela página cacheada
 					$('.conteudo').html(cached_pages[url]);
+					// 'ajaxiza' os links de novo
 					ajaxizar_links();
 				}
 			
-				if(atualizar_social > 0){
+				/*if(atualizar_social > 0){
 					$.post('_atualizar_social', {luta_id: atualizar_social, tweetou: (tweetou ? 1 : 0)});
 					atualizar_social = 0;
 					tweetou = false;
-				}
+				}*/
 			
 				return false;
 			}
 		});
 		
+		// clica no link para convidar amigos
 		$('.convidar-amigos').live('click', function() {
-			sendRequestToManyRecipients();
+			sendRequestToManyRecipients(); // abre uma tela com todos os amigos
 			return false;
 		});
+		// clica em alguém que ainda não joga
 		$('.quem-deveria li a').live('click', function() {
-			sendRequestToOneRecipient($(this).attr('uid'));
+			sendRequestToOneRecipient($(this).attr('uid')); // abre um box para convidar aquele amigo
 			return false;
 		});
 		
+		// efeito carousel nas armas do personagem
 		$('.seta').live('click', function() {
 			var wrapper = $('.carousel .wrapper');
 			var pos = wrapper.position().left;
@@ -395,6 +404,7 @@
 			wrapper.animate({left: pos + 'px'});
 		});
 
+		// google analytics track do anúnio
 		$('.ad').click(function() {
 			console.log('anuncio!');
 			_gaq.push(['_trackEvent', 'Cantadas', '<%= ["Barney", "Pedreiro"][rand_pic] %>', '<%= frases[rand_frase] %>' ]);
@@ -406,10 +416,10 @@
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 <script type="text/javascript">
 
+	// google analytics
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-26500030-1']);
   _gaq.push(['_trackPageview']);
-  //_gaq.push(['_trackSocial(network, socialAction, opt_target, opt_pagePath)']);
 
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -417,6 +427,7 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
+  // social track do facebook
 	FB.Event.subscribe('edge.create', function(targetUrl) {
 		_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
 	});
@@ -453,7 +464,8 @@
 	    }
 	  }
 	}
-	
+
+	// social track do twitter
 	twttr.events.bind('tweet', function(event) {
 	  if (event) {
 	    var targetUrl;

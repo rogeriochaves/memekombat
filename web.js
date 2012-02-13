@@ -1,4 +1,18 @@
 
+/*
+
+© 2012 by Rogério Chaves
+
+Este é o código do aplicativo para facebook Meme Kombat
+http://apps.facebook.com/meme_kombat
+
+Este é o arquivo principal, que faz requisições dos outros, na pastas controller e struct
+O html está na pasta views
+Os arquivos estáticos em public
+O esquema do banco em schema.js
+
+*/
+
 require.paths.unshift(__dirname + '/lib');
 
 var everyauth = require('everyauth'); // módulo para autenticação do facebook

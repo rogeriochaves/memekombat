@@ -1,3 +1,7 @@
+/*
+	Arquivo para rodar o servidor do node utilizando Forever
+*/
+
 var forever = require('forever');
 
 var child = new (forever.Monitor)('web.js', {
