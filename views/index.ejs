@@ -43,13 +43,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
   <script type="text/javascript" charset="utf-8" src="<%= process.env.CDN %>js/jquery.backgroundPosition.min.js"></script>
 
   	<script type="text/javascript">
-		window.fbAsyncInit = function() {
-			FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true, channelUrl : '<%= process.env.FACEBOOK_APP_HOME %>channel.html'});
-		  FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
-		  FB_RequireFeatures(["CanvasUtil"], function(){ FB.XdComm.Server.init("xd_receiver.htm");
-                FB.CanvasClient.startTimerToSizeToContent(); });
-               FB.Canvas.setAutoResize(true,500);
-		}
       function popup(pageURL, title,w,h) {
         var left = (screen.width/2)-(w/2);
         var top = (screen.height/2)-(h/2);
@@ -232,16 +225,12 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 
 <div id="fb-root"></div>
 
-<!--script src="//connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= process.env.FACEBOOK_APP_ID %>&xfbml=1"></script-->
+<script src="//connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= process.env.FACEBOOK_APP_ID %>&xfbml=1"></script>
 <script>
 
-	(function() {
-   var e = document.createElement('script'); e.async = true;
-   e.src = document.location.protocol + '//connect.facebook.net/<%= portugues ? 'pt_BR' : 'en_US' %>/all.js#appId=<%= process.env.FACEBOOK_APP_ID %>&xfbml=1';
-   document.getElementById('fb-root').appendChild(e);
-    }());
 	//FB._https = true;
-	
+	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true, channelUrl : '<%= process.env.FACEBOOK_APP_HOME %>channel.html'});
+	FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
 
 	function requestCallback(response) {
 	        // Handle callback here
