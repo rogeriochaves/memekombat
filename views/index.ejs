@@ -411,11 +411,13 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			wrapper.animate({left: pos + 'px'});
 		});
 
-		// google analytics track do anúnio
-		$('.ad').click(function() {
-			console.log('anuncio!');
-			_gaq.push(['_trackEvent', 'Cantadas', '<%= ["Barney", "Pedreiro", "Charlie Sheen"][rand_pic] %>', '<%= frases[rand_frase] %>' ]);
-		});
+		<% if(anuncio == 1){ %>
+			// google analytics track do anúnio
+			$('.ad').click(function() {
+				console.log('anuncio!');
+				_gaq.push(['_trackEvent', 'Cantadas', '<%= ["Barney", "Pedreiro", "Charlie Sheen"][rand_pic] %>', '<%= frases[rand_frase] %>' ]);
+			});
+		<% } %>
 		
 	})();
 </script>
