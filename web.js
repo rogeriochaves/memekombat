@@ -80,6 +80,15 @@ everyauth.everymodule.moduleErrback( function (err) {
   console.log(err);
 });
 
+var redis_url = process.env.REDISTOGO_URL
+var redis = {
+	host: (redis_url.split('@')[1] + redis_url.split(':')[0]),
+	port: redis_url.split(':')[3].replace('/', ''),
+	pass: redis_url.split(':')[2].split('@')[0],
+	db: redis_url.split(':')[1],
+	cookie: {maxAge: 60000 * 5}
+}
+
 var oneYear = 31557600000; // expiração dos arquivos estáticos
 // create an express webserver
 global.app = express.createServer(
@@ -88,13 +97,10 @@ global.app = express.createServer(
   express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
   express.cookieParser(), // utilizar cookires
   // configuração da session, conectando com Redis
-	express.session({ secret: '***REMOVED***', store: ((process.env.NODE_ENV == 'production') ? new RedisStore({
-		  host: 'barracuda.redistogo.com',
-		  port: '9210',
-		  pass: '43c56adf34497a80bf6cfbc4c3052dd5',
-		  db: 'redistogo',
-		  cookie: {maxAge: 60000 * 5}
-	  }) : new MemoryStore())}),
+	express.session({
+		secret: '***REMOVED***',
+		store: process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
+	}),
 
   // insert a middleware to set the facebook redirect hostname to http/https dynamically
   function(request, response, next) {
