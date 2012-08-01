@@ -170,33 +170,33 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 	<!--iframe width='468' height='60' style="margin-left:156px" frameborder='no' framespacing='0' scrolling='no' src='//ads.lfstmedia.com/slot/slot27031?ad_size=468x60&adkey=796'></iframe-->
 	<!-- End of Ad Call Tag -->
 
-	<% var anuncio = +(Math.random() * 2) %>
-	<%
-
-		var rand_pic = parseInt(Math.random() * 3);
-		var rand_frase = parseInt(Math.random() * 7);
-		var frases = [
-			'Conheça o aplicativo que te mostra as melhores <b>cantadas</b>, envie suas próprias e compartilhe com seus amigos',
-			'Gata, você gosta de música? Então vamos ali pro <b>canto</b>, sua linda!',
-			'Não estou olhando pros seus peitos, estou olhando pro seu coração, sua linda!',
-			'Posso te pagar um drink ou você quer só a grana?',
-			'Sabe o que cairia bem agora? Você nos meus braços, sua linda!',
-			'Me chama de Jedi que eu mostro meu sabre de luz!',
-			'Me chama de videogame e me joga no sofá, sua linda!'
-		];
-
-	%>
+	<% var anuncio = ~~(Math.random() * 2); %>
 	<center>
-		<% if anuncio == 0 %>
+		<% if(anuncio == 0){ %>
+			<%
+
+				var rand_pic = parseInt(Math.random() * 3);
+				var rand_frase = parseInt(Math.random() * 7);
+				var frases = [
+					'Conheça o aplicativo que te mostra as melhores <b>cantadas</b>, envie suas próprias e compartilhe com seus amigos',
+					'Gata, você gosta de música? Então vamos ali pro <b>canto</b>, sua linda!',
+					'Não estou olhando pros seus peitos, estou olhando pro seu coração, sua linda!',
+					'Posso te pagar um drink ou você quer só a grana?',
+					'Sabe o que cairia bem agora? Você nos meus braços, sua linda!',
+					'Me chama de Jedi que eu mostro meu sabre de luz!',
+					'Me chama de videogame e me joga no sofá, sua linda!'
+				];
+
+			%>
 			<a href='http://cantad.as/' target="_blank" class="ad no-follow" style="text-decoration: none; display: block; height: 98px;">
 				<p style="font-family: sans-serif; position: absolute; width: 340px; font-size: 18px; margin: 15px 0 0 280px; text-align: left; <%= rand_pic == 0 ? 'color: #333; text-shadow: #FFF 1px 1px;' : 'color: #fff; text-shadow: #333 1px 1px;' %>" class="num<%= rand_pic + 1 %>"><%- frases[rand_frase] %></p>
 				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad<%= rand_pic + 1 %>.jpg" alt="" border="0" />
 			</a>
-		<% else %> 
+		<% }else{ %> 
 			<a href="http://www.superdown.com.br" target="_blank" style="text-decoration: none; display: block; height: 98px;">
 				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad_superdown.jpg" alt="" border="0" />
 			</a>
-		<% end %>
+		<% } %>
 	</center>
 
 	
