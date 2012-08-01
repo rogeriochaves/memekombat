@@ -13,8 +13,6 @@ O esquema do banco em schema.js
 
 */
 
-require.paths.unshift(__dirname + '/lib');
-
 var everyauth = require('everyauth'); // módulo para autenticação do facebook
 var express   = require('express'); // framework pra tratar as requisições do node, gerenciar cookies, sessions, etc
 var RedisStore = require('connect-redis')(express); // conexão com redis para armazenar sessions
@@ -80,13 +78,15 @@ everyauth.everymodule.moduleErrback( function (err) {
   console.log(err);
 });
 
-var redis_url = process.env.REDISTOGO_URL;
-var redis = {
-	host: (redis_url.split('@')[1].split(':')[0]),
-	port: redis_url.split(':')[3].replace('/', ''),
-	pass: redis_url.split(':')[2].split('@')[0],
-	db: redis_url.split(':')[1].replace('//', ''),
-	cookie: {maxAge: 60000 * 5}
+if(process.env.NODE_ENV == 'production'){
+	var redis_url = process.env.REDISTOGO_URL
+	  , redis = {
+			host: (redis_url.split('@')[1].split(':')[0]),
+			port: redis_url.split(':')[3].replace('/', ''),
+			pass: redis_url.split(':')[2].split('@')[0],
+			db: redis_url.split(':')[1].replace('//', ''),
+			cookie: {maxAge: 60000 * 5}
+		}
 }
 
 var oneYear = 31557600000; // expiração dos arquivos estáticos

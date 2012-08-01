@@ -35,7 +35,7 @@ a:hover{text-decoration: none; color: #333!important;}
 			.menu li a:hover{text-decoration:underline;}
 		.menu li.last{margin-right:0;}
 		
-.megusta_button{position:absolute; margin:13px 0 0 640px; width:110px; height:50px; background: url(../img/topo-megusta.png) no-repeat 8px 0; padding-top:42px;}
+.megusta_button{position:absolute; margin:13px 0 0 630px; width:110px; height:50px; background: url(../img/topo-megusta.png) no-repeat 8px 0; padding-top:42px;}
 
 .meme{background:url(../img/memes.png); width:111px; height:111px;}
 	.meme.small{background:url(../img/memes_small.png); width:50px; height:50px;}
