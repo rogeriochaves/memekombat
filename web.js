@@ -80,12 +80,12 @@ everyauth.everymodule.moduleErrback( function (err) {
   console.log(err);
 });
 
-var redis_url = process.env.REDISTOGO_URL
+var redis_url = process.env.REDISTOGO_URL;
 var redis = {
-	host: (redis_url.split('@')[1] + redis_url.split(':')[0]),
+	host: (redis_url.split('@')[1].split(':')[0]),
 	port: redis_url.split(':')[3].replace('/', ''),
 	pass: redis_url.split(':')[2].split('@')[0],
-	db: redis_url.split(':')[1],
+	db: redis_url.split(':')[1].replace('//', ''),
 	cookie: {maxAge: 60000 * 5}
 }
 
