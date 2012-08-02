@@ -62,7 +62,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 							luta_id: l._id,
 							personagem2_id: perdedor._id,
 							texto: "Você " + palavras_win[palavra] + " o meme de " + perdedor.nome + (vencedor._id == p1._id ? ". EXP +" + exp_ganha : ""),
-							texto_en: "You " + palavras_win_en[palavra] + " " + perdedor.nome + "'s meme" + (vencedor._id == p1._id ? ". EXP +" . exp_ganha : "")
+							texto_en: "You " + palavras_win_en[palavra] + " " + perdedor.nome + "'s meme" + (vencedor._id == p1._id ? ". EXP +" + exp_ganha : "")
 						});
 						n.save();
 						
