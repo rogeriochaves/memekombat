@@ -6,14 +6,16 @@ module.exports.lutas_restantes = function(personagem_id, fn) {
 			total += result.quantidade;
 		});
 
-		hoje = new Date();
+		var hoje = new Date();
 		hoje.setHours(0);
 		hoje.setMinutes(0);
 		hoje.setSeconds(0);
+
+		var amanha = new Date(hoje.getTime() + 24 * 60 * 60 * 1000);
 		
 		Luta.find()
 			.or([{personagem1_id: personagem_id, campeonato: false, credito: true},
-				{personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje }}])
+				{personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje, $lt: amanha }}])
 			.select('_id')
 			.count(function(err, total_gratis){
 				fn(total - total_gratis + 3);
