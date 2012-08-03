@@ -27,12 +27,14 @@ module.exports.lutas_restantes = function(personagem_id, fn) {
 
 module.exports.lutas_comuns_restantes = function(personagem_id, fn) {
 
-	hoje = new Date();
+	var hoje = new Date();
 	hoje.setHours(0);
 	hoje.setMinutes(0);
 	hoje.setSeconds(0);
 
-	Luta.find({personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje }})
+	var amanha = new Date(hoje.getTime() + 24 * 60 * 60 * 1000);
+
+	Luta.find({personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje, $lt: amanha }})
 		.count(function(err, total){
 			fn(3 - total);
 		});
