@@ -99,7 +99,7 @@ global.app = express.createServer(
   // configuração da session, conectando com Redis
 	express.session({
 		secret: '***REMOVED***',
-		store: process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
+		store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
 	}),
 
   // insert a middleware to set the facebook redirect hostname to http/https dynamically
