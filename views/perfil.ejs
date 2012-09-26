@@ -250,14 +250,15 @@
 			</a>
 		<% }else{ %>
 			
-			<a class="lutar" href="campeonato">
+			<a class="lutar" href="#">
+				<!- href="campeonato">
 				<div style="margin-top:5px">
 					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
 					<% if (campeonato && campeonato != null){ %>
-						<span><%= portugues ? "Ver Campeonato" : "View Championship" %></span>
+						<span><%= portugues ? "Campeonato em Manutenção" : "Championship in maintenance" %></span>
 						<!- (Cima) Ver Campeonato/View Championist -- (baixo) Entrar no campeonato/Enter the Championist>
 					<% }else{ %>	
-						<span><%= portugues ? "Entrar no campeonato" : "Enter the Championist" %></span>
+						<span><%= portugues ? "Campeonato em Manutenção" : "Championship in maintenance" %></span>
 					<% } %>
 				</div>
 			</a>
