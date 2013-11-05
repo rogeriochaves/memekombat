@@ -15,7 +15,7 @@
     "b64url": "latest"
   },
   "engines": {
-    "node": "0.6.x"
+    "node": "0.10.21"
   },
   "subdomain": "memekombat.MemeKombat",
   "scripts": {

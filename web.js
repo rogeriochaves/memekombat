@@ -23,8 +23,9 @@ global.facebook = new FacebookClient();
 var https = require('https');
 var fs = require('fs');
 var https_options = {
-  key: fs.readFileSync('ssl/ssl.key'),
-  cert: fs.readFileSync('ssl/ssl.csr')
+  ca:   fs.readFileSync('ssl/sub.class1.server.ca.pem'),
+  key:  fs.readFileSync('ssl/ssl.key'),
+  cert: fs.readFileSync('ssl/ssl.crt')
 };
 
 global.mongoose = require('mongoose'); // conexão com MongoDB
@@ -94,11 +95,16 @@ if(process.env.NODE_ENV == 'production'){
 			db: redis_url.split(':')[1].replace('//', ''),
 			cookie: {maxAge: 60000 * 5}
 		}
+	var ssl_keys = {};
+}else{
+	var ssl_keys = {key:  fs.readFileSync('ssl/ssl.key'),
+     cert: fs.readFileSync('ssl/ssl.crt')};
 }
 
 var oneYear = 31557600000; // expiração dos arquivos estáticos
 // create an express webserver
 global.app = express.createServer(
+	ssl_keys,
   //express.logger(), // logga tudo
   express.errorHandler(), // lida com erros tentando não travar o processo
   express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
@@ -150,7 +156,6 @@ var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
-//http.createServer(app).listen(port);
 //https.createServer(https_options, app).listen(port);
 //console.log("Listening on " + port);
 
