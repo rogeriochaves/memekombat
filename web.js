@@ -20,6 +20,13 @@ var MemoryStore = express.session.MemoryStore; // memória local para armazenar 
 var FacebookClient = require('facebook-client').FacebookClient;
 global.facebook = new FacebookClient();
 
+var https = require('https');
+var fs = require('fs');
+var https_options = {
+  key: fs.readFileSync('ssl/ssl.key'),
+  cert: fs.readFileSync('ssl/ssl.csr')
+};
+
 global.mongoose = require('mongoose'); // conexão com MongoDB
 // objetos do MongoDB
 global.Schema = mongoose.Schema;
@@ -124,7 +131,7 @@ global.app = express.createServer(
 		}
 
 		// autentica o usuário
-	    var method = request.headers['x-forwarded-proto'] || 'http';
+	    var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
 	    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 	    next();
 	
@@ -143,6 +150,9 @@ var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
+//http.createServer(app).listen(port);
+//https.createServer(https_options, app).listen(port);
+//console.log("Listening on " + port);
 
 // redireciona usuário para autenticação do facebook
 app.post('/game', function(request, response){
