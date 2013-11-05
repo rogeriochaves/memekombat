@@ -17,9 +17,9 @@
 	</div>
 	<div class="busca">
 		<form id="frmBusca" action="arena">
-			<%= portugues ? "Buscar" : "Search" %>:<br />
-			<input type="text" name="busca" value="<%= (typeof busca != 'undefined') ? busca : '' %>" />
-			<input type="image" src="<%= process.env.CDN %>img/icons/magnifier.png" />
+			<%= portugues ? "Módulo de busca em manutenção" : "Search module in maintenance" %>:<br />
+			<input type="text" name="busca" value="<%= (typeof busca != 'undefined') ? busca : '' %>" disabled="disabled" readyonly/>
+			<!-input type="image" src="<%= process.env.CDN %>img/icons/magnifier.png" />
 		</form>
 	</div>
 </div>

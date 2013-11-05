@@ -20,7 +20,7 @@
 		<% if (lutas_restantes && lutas_restantes > 0){ %>
 			<div class="notice">
 				<%- portugues ? 'Você tem ' + lutas_restantes + (lutas_restantes == 1 ? ' luta restante' : ' lutas restantes' ) + '. <a href="arena">Ir para a arena</a>' : 'You have ' + lutas_restantes + (lutas_restantes == 1 ? ' fight' : ' fights' ) + ' remaining. <a href="arena">Go to arena</a>' %>
-			</div>
+
 		<% }else{ %>
 			<%- portugues ? 'Seu meme está cansado, volte amanhã.<br /> Quer mais lutas? <a href="loja">Clique aqui</a>' : 'Your meme is tired, come back tomorrow.<br /> Want more? <a href="loja">Clique here</a>' %>
 		<% } %>
@@ -115,11 +115,11 @@
 								<tr>
 									<td align="right">
 										<span class="num">
-											<%= personagem.derrotas %>
+											<!-%= personagem.derrotas %>
 										</span>
 									</td>
 									<td>
-										<%= personagem.derrotas != 1 ? (portugues ? "derrotas" : "defeats") : (portugues ? "derrota" : "defeat") %>
+										<!-%= personagem.derrotas != 1 ? (portugues ? "derrotas" : "defeats") : (portugues ? "derrota" : "defeat") %>
 									</td>
 								</tr>
 							</table>
@@ -250,13 +250,15 @@
 			</a>
 		<% }else{ %>
 			
-			<a class="lutar" href="campeonato">
+			<a class="lutar" href="#">
+				<!- href="campeonato">
 				<div style="margin-top:5px">
 					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
 					<% if (campeonato && campeonato != null){ %>
-						<span><%= portugues ? "Ver Campeonato" : "View Championist" %></span>
+						<span><%= portugues ? "Campeonato em Manutenção" : "Championship in maintenance" %></span>
+						<!- (Cima) Ver Campeonato/View Championist -- (baixo) Entrar no campeonato/Enter the Championist>
 					<% }else{ %>	
-						<span><%= portugues ? "Entrar no Campeonato" : "Enter the Championist" %></span>
+						<span><%= portugues ? "Campeonato em Manutenção" : "Championship in maintenance" %></span>
 					<% } %>
 				</div>
 			</a>
