@@ -149,7 +149,7 @@ app.post('/game', function(request, response){
 	if (request.session.auth && request.session.logged){
 		response.redirect('/index');
 	}else{
-		var method = request.headers['x-forwarded-proto'] || 'http';
+		var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
 		var host = method + '://' + request.headers.host;
 		request.session.logged = true;
 		response.send('<script type="text/javascript">top.location.href = "'+host+'/game";</script>');
