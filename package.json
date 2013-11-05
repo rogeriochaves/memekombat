@@ -1,6 +1,6 @@
 {
   "name": "meme-kombat",
-  "version": "0.0.2-2",
+  "version": "0.0.2-3",
   "description": "Meme facebook game, Node.js language",
   "dependencies": {
     "ejs": "latest",
@@ -11,7 +11,7 @@
     "node-uuid": "1.2.0",
     "mongoose": "latest",
     "date-utils": "1.2.5",
-    "connect-redis": "latest",
+    "connect-redis": "1.4.0",
     "b64url": "latest"
   },
   "engines": {
