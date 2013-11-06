@@ -13,10 +13,10 @@
     "date-utils": "1.2.5",
     "connect-redis": "1.4.0",
     "b64url": "latest",
-    "base64": "latest"
+    "base64": "2.0.6"
   },
   "engines": {
-    "node": "0.8.x"
+    "node": "0.10.21"
   },
   "subdomain": "memekombat.MemeKombat",
   "scripts": {
