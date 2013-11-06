@@ -12,7 +12,8 @@
     "mongoose": "latest",
     "date-utils": "1.2.5",
     "connect-redis": "1.4.0",
-    "b64url": "latest"
+    "b64url": "latest",
+    "base64": "latest"
   },
   "engines": {
     "node": "0.10.21"
