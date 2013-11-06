@@ -177,11 +177,11 @@ app.listen(port, function() {
 
 // redireciona usuário para autenticação do facebook
 app.post('/game', function(request, response){
+	var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
+	var host = method + '://' + request.headers.host;
 	if (request.session.auth && request.session.logged){
-		response.redirect('/index');
+		response.redirect(host + '/index');
 	}else{
-		var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
-		var host = method + '://' + request.headers.host;
 		request.session.logged = true;
 		response.send('<script type="text/javascript">top.location.href = "'+host+'/game";</script>');
 	}
