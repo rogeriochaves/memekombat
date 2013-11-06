@@ -10,7 +10,7 @@
     "facebook-client": "latest",
     "facebook": "latest",
     "node-uuid": "1.2.0",
-    "mongoose": "latest",
+    "mongoose": "2.8.0",
     "date-utils": "1.2.5",
     "connect-redis": "1.4.0",
     "b64url": "latest",
