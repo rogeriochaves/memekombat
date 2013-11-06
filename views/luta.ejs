@@ -28,7 +28,7 @@
 	$(document).ready(function() {
 		preload(function(){
 			iniciar();
-			$('#luta').css("background-image", "url(<%= process.env.CDN %>img/backgrounds/BG" + randomNumber + ".jpg)");
+			//$('#luta').css("background-image", "url(<%= process.env.CDN %>img/backgrounds/BG" + randomNumber + ".jpg)");
 		});
 		$('.bttOk').click(function() {
 			$('.personagem[rel="0"]').attr("sprite", $('#slPersonagem1').val());

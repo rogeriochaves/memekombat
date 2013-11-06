@@ -396,7 +396,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			var wrapper = $('.carousel .wrapper');
 			var pos = wrapper.position().left;
 			var max = $('.carousel ul').length - 1;
-			console.log(pos);
 			if($(this).hasClass('dir')){
 				pos -= 178;
 			}else{
@@ -407,7 +406,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			}else if(pos > 0){
 				pos = -178 * max;
 			}
-			console.log(pos);
 			wrapper.animate({left: pos + 'px'});
 		});
 

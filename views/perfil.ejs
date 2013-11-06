@@ -251,14 +251,13 @@
 		<% }else{ %>
 			
 			<a class="lutar" href="#">
-				<!- href="campeonato">
+				<!--a href="campeonato" -->
 				<div style="margin-top:5px">
 					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
 					<% if (campeonato && campeonato != null){ %>
-						<span><%= portugues ? "Campeonato em Manutenção" : "Championship in maintenance" %></span>
-						<!- (Cima) Ver Campeonato/View Championist -- (baixo) Entrar no campeonato/Enter the Championist>
+						<span><%= portugues ? "Campeonato Fechado" : "Championship Closed" %></span>
 					<% }else{ %>	
-						<span><%= portugues ? "Campeonato em Manutenção" : "Championship in maintenance" %></span>
+						<span><%= portugues ? "Campeonato Fechado" : "Championship Closed" %></span>
 					<% } %>
 				</div>
 			</a>

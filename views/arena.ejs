@@ -17,9 +17,8 @@
 	</div>
 	<div class="busca">
 		<form id="frmBusca" action="arena">
-			<%= portugues ? "Módulo de busca em manutenção" : "Search module in maintenance" %>:<br />
-			<input type="text" name="busca" value="<%= (typeof busca != 'undefined') ? busca : '' %>" disabled="disabled" readyonly/>
-			<!-input type="image" src="<%= process.env.CDN %>img/icons/magnifier.png" />
+			<input type="text" name="busca" value="<%= (typeof busca != 'undefined') ? busca : '' %>" />
+			<input type="image" src="<%= process.env.CDN %>img/icons/magnifier.png" />
 		</form>
 	</div>
 </div>
@@ -68,11 +67,11 @@
 		
 		if(typeof arena_uids == 'undefined') arena_uids = [];
 		
-		$('form#frmBusca').live('submit', function() {
+		$('form#frmBusca').submit(function() {
 			if($('.arena-loading').length == 0){
 				$('.memes-arena').html('<center><img src="<%= process.env.CDN %>img/loading.gif" class="arena-loading" /></center>');
 			
-				$.get('arena', $(this).serialize() + '&socket_id=' + socket_id, function(data){
+				$.get('arena', $(this).serialize(), function(data){
 					$('.conteudo').html(data);
 					ajaxizar_links();
 				});
