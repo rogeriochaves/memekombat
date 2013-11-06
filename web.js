@@ -63,7 +63,7 @@ if(process.env.NODE_ENV == 'production'){
 	process.env.FACEBOOK_APP_ID = '130619640386826';
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
-	process.env.FACEBOOK_APP_HOME = 'http://localhost:3000/';
+	process.env.FACEBOOK_APP_HOME = 'https://localhost:3000/';
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;
 	mongoose.connect('mongodb://localhost/memekombat'); // db local
 	
@@ -95,64 +95,72 @@ if(process.env.NODE_ENV == 'production'){
 			db: redis_url.split(':')[1].replace('//', ''),
 			cookie: {maxAge: 60000 * 5}
 		}
-	var ssl_keys = null;
+	var oneYear = 31557600000; // expiração dos arquivos estáticos
+	// create an express webserver
+	global.app = express.createServer(
+		//express.logger(), // logga tudo
+		express.errorHandler(), // lida com erros tentando não travar o processo
+		express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
+		express.cookieParser(), // utilizar cookires
+		// configuração da session, conectando com Redis
+		express.session({
+			secret: '***REMOVED***',
+			store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
+		}),
+
+		// insert a middleware to set the facebook redirect hostname to http/https dynamically
+		function(request, response, next) {
+			// caso o jogador entre em um link de indicação de amigos
+			if(request.param('request_ids')){
+				// salva os parametros na session e faz a autenticação normalmente
+				request.session.request_ids = request.param('request_ids').split(',');
+			}
+			// cada jogador recebe um link de indicação, que passa um parâmetro i com o uid da pessoa
+			if(request.param('i')){
+				// salva os parametros na session e faz a autenticação normalmente
+				request.session.indicacao_uid = request.param('i');
+			}
+			// o link das lutas passa um parâmetro fight com o id da luta
+			if(request.param('fight')){
+				// salva os parametros na session e faz a autenticação normalmente
+				request.session.fight = request.param('fight');
+			}
+
+			// autentica o usuário
+		    var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
+		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
+		    next();
+		},
+		everyauth.middleware(),
+		require('facebook').Facebook()
+	);
 }else{
 	var ssl_keys = {
 		key:  fs.readFileSync('ssl/ssl.key'),
 	    cert: fs.readFileSync('ssl/ssl.crt')
 	};
+
+	global.app = express.createServer(ssl_keys,express.errorHandler(),express.static(__dirname + '/public', { maxAge: oneYear }),express.cookieParser(),express.session({
+			secret: '***REMOVED***',
+			store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
+		}),function(request, response, next) {
+			if(request.param('request_ids')){
+				request.session.request_ids = request.param('request_ids').split(',');
+			}
+			if(request.param('i')){
+				request.session.indicacao_uid = request.param('i');
+			}
+			if(request.param('fight')){
+				request.session.fight = request.param('fight');
+			}
+		    var method = 'https';
+		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
+		    next();
+		},
+		everyauth.middleware(),
+		require('facebook').Facebook()
+	);
 }
-var oneYear = 31557600000; // expiração dos arquivos estáticos
-// create an express webserver
-global.app = express.createServer(
-	//ssl_keys,
-	//express.logger(), // logga tudo
-	express.errorHandler(), // lida com erros tentando não travar o processo
-	express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
-	express.cookieParser(), // utilizar cookires
-	// configuração da session, conectando com Redis
-	express.session({
-		secret: '***REMOVED***',
-		store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
-	}),
-
-	// insert a middleware to set the facebook redirect hostname to http/https dynamically
-	function(request, response, next) {
-
-		console.log(request.url + " - Memory: "+process.memoryUsage().heapUsed);
-
-		// caso o jogador entre em um link de indicação de amigos
-		if(request.param('request_ids')){
-			// salva os parametros na session e faz a autenticação normalmente
-			request.session.request_ids = request.param('request_ids').split(',');
-		}
-		// cada jogador recebe um link de indicação, que passa um parâmetro i com o uid da pessoa
-		if(request.param('i')){
-			// salva os parametros na session e faz a autenticação normalmente
-			request.session.indicacao_uid = request.param('i');
-		}
-		// o link das lutas passa um parâmetro fight com o id da luta
-		if(request.param('fight')){
-			// salva os parametros na session e faz a autenticação normalmente
-			request.session.fight = request.param('fight');
-		}
-
-		// autentica o usuário
-	    var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
-	    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-	    next();
-
-	},
-	everyauth.middleware(),
-	require('facebook').Facebook()
-);
-//express_options = ssl_keys.concat(express_options);
-//console.log(express_options);
-//global.app = express.createServer.apply(express_options);
-/*global.app = express.createServer(
-	ssl_keys,
-  
-);*/
 
 if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar (muita) performance
 	app.enable('view cache');
@@ -170,7 +178,7 @@ app.listen(port, function() {
 // redireciona usuário para autenticação do facebook
 app.post('/game', function(request, response){
 	if (request.session.auth && request.session.logged){
-		response.redirect('/index');
+		response.redirect('/xD');
 	}else{
 		var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
 		var host = method + '://' + request.headers.host;
