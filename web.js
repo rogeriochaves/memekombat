@@ -178,7 +178,7 @@ app.listen(port, function() {
 // redireciona usuário para autenticação do facebook
 app.post('/game', function(request, response){
 	if (request.session.auth && request.session.logged){
-		response.redirect('/xD');
+		response.redirect('/index');
 	}else{
 		var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
 		var host = method + '://' + request.headers.host;
