@@ -16,7 +16,7 @@
     "base64": "latest"
   },
   "engines": {
-    "node": "0.10.21"
+    "node": "0.10.x"
   },
   "subdomain": "memekombat.MemeKombat",
   "scripts": {
