@@ -95,29 +95,30 @@ if(process.env.NODE_ENV == 'production'){
 			db: redis_url.split(':')[1].replace('//', ''),
 			cookie: {maxAge: 60000 * 5}
 		}
-	var ssl_keys = {};
+	var ssl_keys = null;
 }else{
-	var ssl_keys = {key:  fs.readFileSync('ssl/ssl.key'),
-     cert: fs.readFileSync('ssl/ssl.crt')};
+	var ssl_keys = {
+		key:  fs.readFileSync('ssl/ssl.key'),
+	    cert: fs.readFileSync('ssl/ssl.crt')
+	};
 }
-
 var oneYear = 31557600000; // expiração dos arquivos estáticos
 // create an express webserver
 global.app = express.createServer(
-	ssl_keys,
-  //express.logger(), // logga tudo
-  express.errorHandler(), // lida com erros tentando não travar o processo
-  express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
-  express.cookieParser(), // utilizar cookires
-  // configuração da session, conectando com Redis
+	//ssl_keys,
+	//express.logger(), // logga tudo
+	express.errorHandler(), // lida com erros tentando não travar o processo
+	express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
+	express.cookieParser(), // utilizar cookires
+	// configuração da session, conectando com Redis
 	express.session({
 		secret: '***REMOVED***',
 		store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
 	}),
 
-  // insert a middleware to set the facebook redirect hostname to http/https dynamically
-  function(request, response, next) {
-	
+	// insert a middleware to set the facebook redirect hostname to http/https dynamically
+	function(request, response, next) {
+
 		console.log(request.url + " - Memory: "+process.memoryUsage().heapUsed);
 
 		// caso o jogador entre em um link de indicação de amigos
@@ -140,11 +141,18 @@ global.app = express.createServer(
 	    var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
 	    everyauth.facebook.myHostname(method + '://' + request.headers.host);
 	    next();
-	
-  },
-  everyauth.middleware(),
-  require('facebook').Facebook()
+
+	},
+	everyauth.middleware(),
+	require('facebook').Facebook()
 );
+//express_options = ssl_keys.concat(express_options);
+//console.log(express_options);
+//global.app = express.createServer.apply(express_options);
+/*global.app = express.createServer(
+	ssl_keys,
+  
+);*/
 
 if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar (muita) performance
 	app.enable('view cache');
