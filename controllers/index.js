@@ -129,7 +129,7 @@ var criar_personagem = function(request, response, session, mestre_id){
 // rota para index
 app.all('/index', function(request, response) {
 
-	var method = request.headers['x-forwarded-proto'] || 'http';
+	var method = 'https';// request.headers['x-forwarded-proto'] || 'http';
 
 	delete request.session.logged;
 	if (request.session.auth){ // caso esteja logado

@@ -1,6 +1,6 @@
 app.all('/_arena', function(request, response) {
 
-	var method = request.headers['x-forwarded-proto'] || 'http';
+	var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
 

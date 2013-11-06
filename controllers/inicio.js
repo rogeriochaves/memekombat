@@ -7,7 +7,7 @@ ele será redirecionado para esta página
 
 app.all('/inicio', function(request, response) {
 
-	var method = request.headers['x-forwarded-proto'] || 'http';
+	var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) { // caso tenha sido autenticado
 

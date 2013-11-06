@@ -15,7 +15,7 @@ var get_campeonato = function(personagem, fn){
 app.all('/sair_campeonato', function(request, response) {
 
 	//try{
-	var method = request.headers['x-forwarded-proto'] || 'http';
+	var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
 
@@ -42,7 +42,7 @@ app.all('/sair_campeonato', function(request, response) {
 app.all('/perfil', function(request, response) {
 
 	//try{
-	var method = request.headers['x-forwarded-proto'] || 'http';
+	var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) {
 
