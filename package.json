@@ -3,6 +3,7 @@
   "version": "0.0.2-3",
   "description": "Meme facebook game, Node.js language",
   "dependencies": {
+    "sys": "latest",
     "ejs": "latest",
     "everyauth": "latest",
     "express": "2.5.8",
