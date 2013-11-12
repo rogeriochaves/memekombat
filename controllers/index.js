@@ -205,7 +205,9 @@ app.all('/index', function(request, response) {
 						criar_personagem(request, response, session); // cria personagem normalmente
 					}
 				}else if(data == null){
-					response.redirect('/inicio'); // redireciona para a tela de seleção de memes
+					var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
+					var host = method + '://' + request.headers.host;
+					response.redirect(host + '/inicio'); // redireciona para a tela de seleção de memes
 				}else{
 					
 					p = data;
