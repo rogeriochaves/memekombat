@@ -231,10 +231,10 @@
     }
 
 	function comprar_arma(id){
-		var order_info = { "tipo":1,
-	                         "arma":parseInt(id),
-							 "language": '<%= portugues ? "pt" : "en" %>'
-	                       };
+		var order_info = { "tipo": 1,
+	                        "arma": parseInt(id),
+							"language": '<%= portugues ? "pt" : "en" %>'
+	                    };
 
 	      window.top.location = 'https://www.facebook.com/dialog/pay?app_id=<%= process.env.FACEBOOK_APP_ID %>&redirect_uri=<%= process.env.FACEBOOK_APP_HOME %>&credits_purchase=false&purchase_type=item&order_info='+encodeURI(JSON.stringify(order_info))
 

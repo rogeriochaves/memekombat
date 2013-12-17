@@ -238,4 +238,4 @@ require('./controllers/ranking.js');
 require('./controllers/campeonato.js');
 require('./controllers/offline.js');
 require('./controllers/tos_pp.js');
-//require('./controllers/testando.js');
+require('./controllers/testando.js');

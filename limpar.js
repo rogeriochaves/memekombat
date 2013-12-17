@@ -7,7 +7,7 @@ global.ObjectId = Schema.ObjectId;
 require('./schema.js');
 
 global.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-if(environment == 'edevelopment'){
+if(environment == 'development'){
 	process.env.FACEBOOK_APP_ID = '130619640386826';
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
