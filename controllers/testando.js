@@ -1,4 +1,4 @@
-app.all('/testando', function(request, response) {
+app.all('/game/testando', function(request, response) {
 	
 	response.render('testando.ejs', {
 	      layout:   false
