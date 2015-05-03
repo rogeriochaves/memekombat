@@ -1,7 +1,5 @@
-require.paths.unshift(__dirname + '/lib');
-
-global.mongoose = require('mongoose')  
-global.Schema = mongoose.Schema
+global.mongoose = require('mongoose');
+global.Schema = mongoose.Schema;
 global.ObjectId = Schema.ObjectId;
 
 require('./schema.js');
@@ -21,6 +19,7 @@ if(environment == 'development'){
 	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
 }
 
+console.log('Começou limpeza');
 Luta.find({
 
 	fb_total_count: {$lt: 3},
