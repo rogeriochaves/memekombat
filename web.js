@@ -85,8 +85,8 @@ everyauth.everymodule.moduleErrback( function (err) {
   console.log(err);
 });
 
-if(process.env.NODE_ENV == 'production'){
-	var redis_url = process.env.REDISTOGO_URL
+if(true || process.env.NODE_ENV == 'production'){
+	var redis_url = 'redis://redistogo:a6ba3129cf0ff9433f3fb6ad13108649@carp.redistogo.com:9596/'
 	  , redis = {
 			host: (redis_url.split('@')[1].split(':')[0]),
 			port: redis_url.split(':')[3].replace('/', ''),
