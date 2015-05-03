@@ -212,7 +212,7 @@ global.amigos_usando = function(request, response, fn){
 			var token = request.session.auth.facebook.accessToken;
 			facebook.getSessionByAccessToken(token)(function(session) { // consulta à API do facebook
 				session.restCall('fql.query', {
-					query: 'SELECT uid, name, username, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
+					query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
 					format: 'json'
 				})(function(amigos) {
 					request.session.amigos = amigos;
