@@ -7,16 +7,16 @@ nele é carregado o personagem do jogador, ou criado um novo, caso ainda não ex
 
 // renderiza o index.ejs, esta função é chamada após encontrar / criar novo personagem do usuário
 var render_index = function(req, res, session, novo_personagem){
-	
+
 	var token = req.session.auth.facebook.accessToken;
 	var user = req.session.auth.facebook.user;
-	
+
 	require('date-utils');
 	var hora_servidor = (new Date()).toFormat('HH24:MI:SS'); // hora do servidor que aparece no rodapé
 
 		// Amigos que jogam
 		amigos_usando(req, res, function(fu){
-			
+
 			friends_using = [];
 			if(fu && fu.forEach){
 				fu.forEach(function (f){
@@ -34,7 +34,7 @@ var render_index = function(req, res, session, novo_personagem){
 					// caso seja um link de uma luta, vai direto pra luta e o id é deletado da sessão
 					session_fight = req.session.fight;
 					delete req.session.fight;
-					
+
 					// render the home page
 			        res.render('index.ejs', {
 			          layout:   false,
@@ -47,7 +47,7 @@ var render_index = function(req, res, session, novo_personagem){
 					  friends_not_using: friends_not_using,
 					  portugues: (user.locale.indexOf('pt') >= 0)
 			        });
-					
+
 					// garbage collect
 					user = null;
 					//friends_using = null;
@@ -57,8 +57,8 @@ var render_index = function(req, res, session, novo_personagem){
 			});
 
 		});
-		
-        
+
+
 
     //});
 
@@ -66,9 +66,9 @@ var render_index = function(req, res, session, novo_personagem){
 
 // cria o personagem do usuário
 var criar_personagem = function(request, response, session, mestre_id){
-	
+
 	var user = request.session.auth.facebook.user;
-	
+
 	var p = new Personagem();
 	p.uid = user.id;
 	p.indicacao_id = mestre_id; // caso ele tenha entrado por indicação
@@ -91,9 +91,9 @@ var criar_personagem = function(request, response, session, mestre_id){
 	p.equipamentos = [];
 	p.habilidades = [];
 	p.atributos = [];
-	
+
 	p.save(function(){
-		
+
 		// notificação de boas vindas
 		var n = new Notificacao({
 			personagem_id: p._id,
@@ -102,7 +102,7 @@ var criar_personagem = function(request, response, session, mestre_id){
 			texto_en: "Welcome to le Meme Kombat"
 		});
 		n.save();
-		
+
 		// caso o personagem tenha um mestre, este ganha +1 de EXP por ter convidado um pupilo
 		if(typeof mestre_id != 'undefined'){
 			Personagem.findOne({_id: mestre_id}, function(err, mestre){
@@ -138,32 +138,17 @@ app.all('/index', function(request, response) {
 		facebook.getSessionByAccessToken(token)(function(session) { // pega session autorizada
 
 			var user = request.session.auth.facebook.user; // pega o usuário logado no facebook
-			
+
 			Personagem.findOne({uid: user.id}, function(err, data){ // encontra o personagem dele
 				if(data == null && request.param('meme')){ // caso não tenha nenhum personagem com esse uid e ele tenha selecionado um meme
-					
+
 					var portugues = (user.locale.indexOf('pt') >= 0);
-					
-					// define uma mensagem para ser postada no mural do jogador
-					var message = {
-						message: (portugues ? "Estou jogando Meme Kombat! Venha me desafiar!" : "I'm playing Meme Kombat, challenge me, I dare you!"),
-						picture: process.env.FACEBOOK_APP_HOME + 'img/logo_post.png',
-						link: process.env.FACEBOOK_APP_HOME,
-						name: 'Meme Kombat',
-						caption: (portugues ? 'Ui! Estou jogando Meme Kombat' : 'Y U NO PLAYING MEME KOMBAT YET?'),
-						description: (portugues ? "O jogo mais Fuck Yea já feito" : "The most Fuck Yea game ever made"),
-						source: process.env.FACEBOOK_APP_HOME
-					}
-					// posta no mural que ele está jogando
-					session.graphCall('/' + user.id + '/feed', message, 'POST')(function(result){
-						// callback
-					});
-					
+
 					var indicacao;
 					var pe = data;
 					if(request.session.request_ids){ // verifica se há um convite pelo facebook
 						var mestre_request_id = request.session.request_ids[0];
-						
+
 						// requisita o objeto de convite
 						var http = require('https');
 						var options = {
@@ -172,9 +157,9 @@ app.all('/index', function(request, response) {
 						  path: '/' + mestre_request_id + "_" + user.id + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
 						  method: 'GET'
 						};
-						
+
 						session.graphCall('/' + mestre_request_id)(function(result){
-							
+
 							if(result && result != null && result.from){ // caso haja este convite
 								Personagem.findOne({uid: result.from.id}, function(err, data){ // encontra o personagem que o convidou
 									if(data != null){
@@ -187,11 +172,11 @@ app.all('/index', function(request, response) {
 										// callback
 									});
 								});
-								
+
 							}else{
 								criar_personagem(request, response, session); // cria o personagem sem mestre
 							}
-							
+
 						});
 					}else if(request.session.indicacao_uid){ // caso seja por link de indicação
 						Personagem.findOne({uid: request.session.indicacao_uid}, function(err, data){
@@ -209,14 +194,14 @@ app.all('/index', function(request, response) {
 					var host = method + '://' + request.headers.host;
 					response.redirect(host + '/inicio'); // redireciona para a tela de seleção de memes
 				}else{
-					
+
 					p = data;
 					render_index(request, response, session); // renderiza a index
-					
+
 				}
 			});
-			
-			
+
+
 		});
 	}else{ // usuário não está logado
 		response.redirect('/'); // redireciona para a página inicial para autenticação

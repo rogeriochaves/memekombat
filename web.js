@@ -38,7 +38,7 @@ require('./schema.js');
 
 // definindo valores de configuração
 if(process.env.NODE_ENV == 'production'){
-	
+
 	// Configurações do app do facebook
 	/*process.env.FACEBOOK_APP_ID = '282893221758514';
 	process.env.FACEBOOK_SECRET = '***REMOVED***';
@@ -54,10 +54,10 @@ if(process.env.NODE_ENV == 'production'){
 
 	// Conexão com o banco
 	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
-	
-	
+
+
 }else{
-	
+
 	//require("v8-profiler"); // para tentar detectar memory leaks
 	// Configurações do app do facebook de teste
 	process.env.FACEBOOK_APP_ID = '130619640386826';
@@ -66,7 +66,7 @@ if(process.env.NODE_ENV == 'production'){
 	process.env.FACEBOOK_APP_HOME = 'https://localhost:3000/';
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;
 	mongoose.connect('mongodb://localhost/memekombat'); // db local
-	
+
 }
 
 
@@ -74,7 +74,6 @@ if(process.env.NODE_ENV == 'production'){
 everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
   .appSecret(process.env.FACEBOOK_SECRET)
-  .scope('publish_stream,publish_actions') // permissões para publicar na linha do tempo do usuário
   .entryPath('/game') // path que direcionará para autenticação
   .redirectPath(process.env.FACEBOOK_APP_URL) // após autenticação, retornar para url do jogo
   .findOrCreateUser(function() {
