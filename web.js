@@ -74,6 +74,7 @@ if(process.env.NODE_ENV == 'production'){
 everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
   .appSecret(process.env.FACEBOOK_SECRET)
+  .scope('user_friends')
   .entryPath('/game') // path que direcionará para autenticação
   .redirectPath(process.env.FACEBOOK_APP_URL) // após autenticação, retornar para url do jogo
   .findOrCreateUser(function() {
