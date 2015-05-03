@@ -3,17 +3,17 @@
   "version": "0.0.2-3",
   "description": "Meme facebook game, Node.js language",
   "dependencies": {
-    "sys": "latest",
-    "ejs": "latest",
-    "everyauth": "latest",
+    "sys": "0.0.1",
+    "ejs": "0.8.5",
+    "everyauth": "0.4.5",
     "express": "2.5.8",
-    "facebook-client": "latest",
-    "facebook": "latest",
+    "facebook-client": "1.6.1",
+    "facebook": "0.0.3",
     "node-uuid": "1.2.0",
     "mongoose": "2.8.0",
     "date-utils": "1.2.5",
     "connect-redis": "1.4.0",
-    "b64url": "latest",
+    "b64url": "1.0.3",
     "base64": "2.0.7"
   },
   "engines": {
