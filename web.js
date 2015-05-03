@@ -85,8 +85,8 @@ everyauth.everymodule.moduleErrback( function (err) {
   console.log(err);
 });
 
-if(true || process.env.NODE_ENV == 'production'){
-	var redis_url = 'redis://redistogo:a6ba3129cf0ff9433f3fb6ad13108649@carp.redistogo.com:9596/'
+if(process.env.NODE_ENV == 'production'){
+	var redis_url = process.env.REDISTOGO_URL
 	  , redis = {
 			host: (redis_url.split('@')[1].split(':')[0]),
 			port: redis_url.split(':')[3].replace('/', ''),
@@ -104,7 +104,7 @@ if(true || process.env.NODE_ENV == 'production'){
 		// configuração da session, conectando com Redis
 		express.session({
 			secret: '***REMOVED***',
-			store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
+			store: new MemoryStore()
 		}),
 
 		// insert a middleware to set the facebook redirect hostname to http/https dynamically
