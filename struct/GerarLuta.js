@@ -75,7 +75,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 							texto_en: "You " + palavras_lost_en[palavra] + " by " + vencedor.nome + "'s meme" + (perdedor._id == p1._id ? ". EXP +" + exp_ganha : "")
 						});
 						n2.save();
-						if(false){
+
 						//console.log("====================");
 						//console.log(p1.notificacoes.length);
 
@@ -101,10 +101,10 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 						//p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
 						//p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
 
-
 						p1.save(function(err){
 							//console.log(err);
 							p2.save(function(err){
+								return false;
 								//console.log(err);
 								Upar.subir_level(p1);
 
@@ -138,13 +138,9 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 
 						});
 					}
-
-					var short_url = null;
-				}
 				}
 
-				fn(luta, l._id, vencedor, perdedor, short_url);
-
+				fn(luta, l._id, vencedor, perdedor, null);
 
 			});
 		});
