@@ -107,7 +107,7 @@ if(process.env.NODE_ENV == 'production'){
 	// configuração da session, conectando com Redis
 	app.use(express.session({
 		secret: '***REMOVED***',
-		store: new RedisStore(redis)
+		store: new MemoryStore()
 	}));
 	// insert a middleware to set the facebook redirect hostname to http/https dynamically
 	app.use(function(request, response, next) {
