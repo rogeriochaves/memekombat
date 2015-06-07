@@ -32,7 +32,6 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 				campeonato: (campeonato ? true : false),
 				movimentos: Randomize.imprimir_movimentos(luta.movimentos)
 			});
-			return false;
 			l.save(function(err){
 				if(err != null){
 					console.log(err);
@@ -40,7 +39,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 					vencedor.vitorias++;
 					perdedor.derrotas++;
 
-					if(!campeonato){
+					if(false && !campeonato){
 						var exp_ganha = (vencedor._id == p1._id ? 2 : 1);
 						if(p1.level - 3 > p2.level){
 							exp_ganha = 0;
