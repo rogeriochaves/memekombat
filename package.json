@@ -9,13 +9,13 @@
     "express": "2.5.8",
     "facebook-client": "1.6.1",
     "node-uuid": "1.2.0",
-    "mongoose": "3.0.0",
+    "mongoose": "4.0.5",
     "date-utils": "1.2.5",
     "connect-redis": "1.4.5",
     "b64url": "1.0.3"
   },
   "engines": {
-    "node": "0.10.21"
+    "node": "0.12.4"
   },
   "subdomain": "memekombat.MemeKombat",
   "scripts": {
