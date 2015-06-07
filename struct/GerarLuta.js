@@ -104,8 +104,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 						p1.save(function(err){
 							//console.log(err);
 							p2.save(function(err){
-								Upar.subir_level(p1);
-								return false;
+								// Upar.subir_level(p1);
 
 								// Arquivamentos
 
