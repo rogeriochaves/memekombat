@@ -12,11 +12,7 @@ var sl = function subir_level(personagem, fn) {
 		personagem.crit += parseInt(Math.random() * 2);
 		personagem.exp -= prox_level;
 		prox_level = Characters.exp_necessaria(personagem.level);
-		console.log('personagem.exp', personagem.exp);
-		console.log('prox_level', prox_level);
 	}
-
-	return false;
 
 	var n = new Notificacao({
 		personagem_id: personagem._id,
@@ -80,6 +76,7 @@ var sl = function subir_level(personagem, fn) {
 			if(typeof fn != 'undefined') fn();
 		});
 	}
+	return false;
 
 	if(typeof personagem.indicacao_id != 'undefined' && personagem.indicacao_id != null){
 		Personagem.findOne({_id: personagem.indicacao_id}, function(err, mestre){
