@@ -55,6 +55,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 						var palavras_lost_en = ['were massacred', 'have been annihilated', 'have been humiliated', 'have been destroyed', 'have been blown', 'were crumbled'];
 
 						var palavra = parseInt(Math.random() * 6);
+						return false;
 
 						var n = new Notificacao({
 							personagem_id: vencedor._id,

@@ -6,20 +6,6 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 	Arquivamento.findOne({url: arquivamento_url}, function(err, arquivamento){
 		if(arquivamento != null && personagem.arquivamentos.indexOf(arquivamento._id) == -1){
 
-			personagem.arquivamentos.push(arquivamento._id);
-			var n = new Notificacao({
-				personagem_id: personagem._id,
-				texto: "Você conseguiu a insígnia <b>" + arquivamento.titulo + "</b>",
-				texto_en: "You achieved the <b>" + arquivamento.titulo + "</b> badge",
-				tipo: 1
-			});
-			n.save();
-			personagem.save(function(err){
-				if(typeof fn != 'undefined') fn();
-			});
-
-			return false;
-
 			var http = require('https');
 			var options = {
 			  host: 'graph.facebook.com',
