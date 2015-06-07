@@ -32,6 +32,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 				campeonato: (campeonato ? true : false),
 				movimentos: Randomize.imprimir_movimentos(luta.movimentos)
 			});
+			return false;
 			l.save(function(err){
 				if(err != null){
 					console.log(err);
