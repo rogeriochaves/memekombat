@@ -13,24 +13,24 @@ app.all('/_arena', function(request, response) {
 
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
-				
+
 				Personagem.findOne({uid: user.id}, function(err, personagem){
 					if(personagem != null){
 						session.restCall('fql.query', {
 							query: 'SELECT uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
 							format: 'json'
 						})(function(result) {
-							
+
 							var amigos_uids = [];
-							
+
 							if(result && result.forEach){
 								result.forEach(function(friend) {
 									amigos_uids.push(friend.uid);
 								});
 							}
-							
-							
-							
+
+
+
 							var requisicoes = parseInt(arena_uids.length / 8);
 
 							Personagem
@@ -65,7 +65,7 @@ app.all('/_arena', function(request, response) {
 												token:    token,
 												user:     user,
 												players:  amigos.concat(outros_jogadores),
-												portugues: (user.locale.indexOf('pt') >= 0)/*,
+												portugues: (user.locale && user.locale.indexOf('pt') >= 0)/*,
 												socket_id: socket_id*/
 											});
 
@@ -75,8 +75,8 @@ app.all('/_arena', function(request, response) {
 
 
 						});
-						
-						
+
+
 					}
 				});
 

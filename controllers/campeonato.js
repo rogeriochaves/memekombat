@@ -12,7 +12,7 @@ function posicao(x, y, chaves, levels, personagem, portugues, fn){
 			ml -= 40;
 			img = 'background-image:url(img/balao-perfil-r.png)';
 		}
-		
+
 		Personagem.findOne({_id: chaves[x][y].personagem_id}, function(err, p){
 			if(p != null){
 				var html = '<a class="player '+(p.uid == personagem.uid ? 'me' : '')+'" href="perfil?uid='+chaves[x][y].uid+'">';
@@ -71,17 +71,17 @@ function coluna_campeonato_html(i, k, m, max, lutas, personagem_perdeu, personag
 	//console.log("===k==="+k+"========");
 	posicao(i, m, chaves, levels, personagem, portugues, function(h){
 		html += '<td class="l">'+h+'</td>';
-		
+
 		res = ver_se_perdeu(i, m, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem);
 		personagem_perdeu = res[0];
 		ultimo_lv = res[1];
 		personagem_ultima_vit = res[2];
-		
+
 		m++;
 		for(c = 0; c < Math.max(0, Math.pow(2, i) - 1); c++){
 			html += '<td class="h">&nbsp;</td>';
 		}
-		
+
 		html += '<td class="t">'+luta(i, (m - 1) / 2, lutas, levels)+'</td>';
 		for(c = 0; c < Math.max(0, Math.pow(2, i) - 1); c++){
 			html += '<td class="h">&nbsp;</td>';
@@ -96,18 +96,18 @@ function coluna_campeonato_html(i, k, m, max, lutas, personagem_perdeu, personag
 			if(k < max - 1){
 				html += '<td colspan="' + (Math.pow(2, i + 1) - 1) + '">&nbsp;</td>';
 			}
-			
+
 			k++;
 			if(k < max){
 				coluna_campeonato_html(i, k, m, max, lutas, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem, levels, portugues, html, fn);
 			}else{
 				fn(html, personagem_perdeu, personagem_ultima_vit, ultimo_lv);
 			}
-			
+
 		});
-		
+
 	});
-	
+
 }
 
 function linha_campeonato_html(i, html, levels, num_chaves, lutas, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem, portugues, fn){
@@ -120,11 +120,11 @@ function linha_campeonato_html(i, html, levels, num_chaves, lutas, personagem_pe
 			personagem_perdeu = res[0];
 			ultimo_lv = res[1];
 			personagem_ultima_vit = res[2];
-			
+
 			posicao(i, 0, chaves, levels, personagem, portugues, function(h){
 				var vencedor = (h != "&nbsp;");
 				espacos -= 2;
-				
+
 				html += '<td colspan="'+espacos+'">&nbsp;</td> <td class="v" colspan="5">'+(vencedor ? h : '<img src="img/vencedor-campeonato.gif" />')+'</td> <td colspan="'+espacos+'">&nbsp;</td></tr>';
 				i--;
 				if(i >= 0){
@@ -132,13 +132,13 @@ function linha_campeonato_html(i, html, levels, num_chaves, lutas, personagem_pe
 				}else{
 					fn(html, personagem_perdeu);
 				}
-				
+
 			});
-			
+
 		}else{
 			if(espacos > 0) html += '<td colspan="'+espacos+'">&nbsp;</td>';
 			var chaves_level = parseInt(num_chaves / Math.pow(2, i));
-			
+
 			coluna_campeonato_html(i, 0, 0, chaves_level, lutas, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem, levels, portugues, html, function(html, personagem_perdeu, personagem_ultima_vit, ultimo_lv){
 				i--;
 				if(espacos > 0) html += '<td colspan="'+espacos+'">&nbsp;</td>';
@@ -149,7 +149,7 @@ function linha_campeonato_html(i, html, levels, num_chaves, lutas, personagem_pe
 				}
 			});
 		}
-	
+
 }
 
 function campeonato_html(levels, num_chaves, lutas, chaves, personagem, portugues, fn){
@@ -162,7 +162,7 @@ function campeonato_html(levels, num_chaves, lutas, chaves, personagem, portugue
 	linha_campeonato_html(i, html, levels, num_chaves, lutas, personagem_perdeu, personagem_ultima_vit, ultimo_lv, chaves, personagem, portugues, function(html, personagem_perdeu){
 		fn(html + '</table>', personagem_perdeu);
 	});
-	
+
 }
 
 
@@ -174,10 +174,10 @@ function render_campeonato(request, response, user, personagem, campeonato){
 	  , lutas = campeonato_info.lutas
 	  , proxima_luta = campeonato_info.proxima_luta
 	  , levels = parseInt(Math.log(num_chaves) / Math.log(2)) + 1
-	  , portugues = (user.locale.indexOf('pt') >= 0);
-	
+	  , portugues = (user.locale && user.locale.indexOf('pt') >= 0);
+
 	campeonato_html(levels, num_chaves, lutas, chaves, personagem, portugues, function(html, personagem_perdeu){
-		
+
 		if(request.param('finalizar') && personagem_perdeu){
 			var GerarCampeonato = require('./../struct/GerarCampeonato.js');
 			GerarCampeonato.exp_ganha(personagem, personagem.chave_lv, function(personagem){
@@ -190,7 +190,7 @@ function render_campeonato(request, response, user, personagem, campeonato){
 				});
 			});
 		}else{
-			
+
 			Ranking.findOne({pos: campeonato.ranking_pos}, function(err, rank){
 				try{
 					response.render('campeonato.ejs', {
@@ -219,12 +219,12 @@ function render_campeonato(request, response, user, personagem, campeonato){
 				}catch(e){}
 
 			});
-			
+
 		}
-		
+
 	});
-	
-	
+
+
 }
 
 app.all('/campeonato', function(request, response) {
@@ -236,7 +236,7 @@ app.all('/campeonato', function(request, response) {
 		facebook.getSessionByAccessToken(token)(function(session) {
 
 			var user = request.session.auth.facebook.user;
-			
+
 			Personagem.findOne({uid: user.id}, function(err, personagem){
 				if(personagem == null){
 					response.redirect('inicio');
@@ -253,15 +253,15 @@ app.all('/campeonato', function(request, response) {
 					}else{
 						var chave_lv = personagem.chave_lv;
 						Campeonato.findOne({_id: personagem.campeonato_id}, function(err, campeonato){
-							
+
 							if(request.param('finalizar') && campeonato.vencedor_id && campeonato.vencedor_id.toString() == personagem._id.toString()){
 								var novo_ranking = Math.min(8, campeonato.ranking_pos + 1);
 								Ranking.findOne({pos: novo_ranking}, function(err, rank){
-									
+
 									var GerarCampeonato = require('./../struct/GerarCampeonato.js');
 									GerarCampeonato.exp_ganha(personagem, personagem.chave_lv, function(personagem){
 										if(personagem.ranking_pos != novo_ranking){
-											
+
 											var n = new Notificacao({
 												personagem_id: personagem._id,
 												tipo: 1,
@@ -269,10 +269,10 @@ app.all('/campeonato', function(request, response) {
 												texto_en: "Congratulations! You won the championist and became a <b>"+rank.nome_en+"</b>"
 											});
 											n.save();
-											
+
 											personagem.ranking_pos = novo_ranking;
 										}else{
-											
+
 											var n = new Notificacao({
 												personagem_id: personagem._id,
 												tipo: 1,
@@ -283,16 +283,16 @@ app.all('/campeonato', function(request, response) {
 										}
 										personagem.chave_lv = 0;
 										personagem.campeonato_id = null;
-										
+
 										personagem.save(function(err){
 											var Upar = require('./../struct/Upar.js');
 											Upar.subir_level(personagem);
 											response.redirect('/perfil');
 										});
 									});
-									
-									
-									
+
+
+
 								});
 							}else if(request.param('proxima_luta')){
 								Chave.findOne({campeonato_id: campeonato._id, data_liberacao: {$lte: (new Date())}, level: personagem.chave_lv, $or: [{personagem1_id: personagem._id}, {personagem2_id: personagem._id}]}, function(err, chave){
@@ -310,10 +310,10 @@ app.all('/campeonato', function(request, response) {
 									render_campeonato(request, response, user, personagem, camp);
 								});
 							}
-							
-							
+
+
 						});
-						
+
 					}
 				}
 			});

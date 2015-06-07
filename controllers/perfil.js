@@ -22,18 +22,18 @@ app.all('/sair_campeonato', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-				
+
 				var user = request.session.auth.facebook.user;
-				
+
 				Personagem.findOne({uid: user.id}, function(err, personagem){
-					
+
 					personagem.campeonato_id = null;
 					personagem.save(function(err){
 						response.redirect('/perfil');
 					});
-					
+
 				});
-				
+
 		});
 	}
 });
@@ -50,11 +50,11 @@ app.all('/perfil', function(request, response) {
 		facebook.getSessionByAccessToken(token)(function(session) {
 
 			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
-				
+
 				var user = request.session.auth.facebook.user;
-				
+
 				var uid = request.param('uid') ? request.param('uid') : user.id;
-				
+
 				Personagem.findOne({uid: uid}, function(err, personagem){
 					if(personagem == null && request.params.uid){
 						response.redirect('perfil');
@@ -64,19 +64,19 @@ app.all('/perfil', function(request, response) {
 						var Characters = require('./../struct/Characters.js');
 						var session_erro = request.session.erro;
 						var prox_nivel = Characters.exp_necessaria(personagem.level);
-						
+
 						if(request.session.erro) delete request.session.erro;
-						
-						
-						
-							
+
+
+
+
 							Arquivamento
 								.where('_id')
 								.in(personagem.arquivamentos)
 								.select('img', 'texto_cima', 'texto_baixo', 'texto_cima_en', 'texto_baixo_en')
 								.find(function(err, arquivamentos){
-								
-								
+
+
 									if(uid == user.id){
 										Personagem.where().select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 
@@ -84,10 +84,10 @@ app.all('/perfil', function(request, response) {
 											if(quant_pupilos > 6){
 												pupilos = pupilos.splice(0, 6);
 											}
-											
+
 											get_campeonato(personagem, function(campeonato){
 												Characters.lutas_restantes(personagem._id, function(quant){
-													
+
 													Notificacao.find({personagem_id: personagem._id}).sort('data', -1).limit(8).run(function(err, notificacoes){
 														response.render('perfil.ejs', {
 												          layout:   false,
@@ -101,7 +101,7 @@ app.all('/perfil', function(request, response) {
 														  notificacoes: notificacoes,
 														  quant_pupilos: quant_pupilos,
 														  session_erro: session_erro,
-														  portugues: (user.locale.indexOf('pt') >= 0),
+														  portugues: (user.locale && user.locale.indexOf('pt') >= 0),
 												          campeonato: campeonato
 												        });
 
@@ -117,9 +117,9 @@ app.all('/perfil', function(request, response) {
 													});
 												});
 											});
-											
-											
-											
+
+
+
 										});
 									}else{
 										Personagem.find({indicacao_id: personagem._id}).count(function(err, quant_pupilos){
@@ -132,7 +132,7 @@ app.all('/perfil', function(request, response) {
 											  quant_pupilos: quant_pupilos,
 											  arquivamentos: arquivamentos,
 											  session_erro: session_erro,
-											  portugues: (user.locale.indexOf('pt') >= 0)
+											  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 									        });
 
 									        // garbage collect
@@ -145,10 +145,10 @@ app.all('/perfil', function(request, response) {
 									        session = null;
 										});
 									}
-								
+
 							});
-						
-						
+
+
 						/*Arquivamento
 							.where('_id')
 							.in(personagem.arquivamentos)
@@ -158,23 +158,23 @@ app.all('/perfil', function(request, response) {
 									socket_manager.send(socket_id, 'arquivamento', arquiv);
 								});
 						});*/
-						
+
 						/*Personagem.where().limit(6).select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 							pupilos.forEach(function(pupilo){
 								socket_manager.send(socket_id, 'pupilo', pupilo);
 							});
 						});*/
-						
+
 						/*Personagem.find({indicacao_id: personagem._id}).count(function(err, quant){
 							socket_manager.send(socket_id, 'quant_pupilos', quant);
 						});*/
-						
-						
+
+
 					}
 				});
 
 		    //});
-			
+
 		});
 
 	}else{

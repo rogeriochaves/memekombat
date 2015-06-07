@@ -34,7 +34,7 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 								p.random = Math.random();
 								p.save();
 							});
-						
+
 							var Characters = require('./../struct/Characters.js');
 							Characters.lutas_restantes(personagem._id, function(quant){
 								response.render('arena.ejs', {
@@ -43,7 +43,7 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 								  busca: '',
 								  players: amigos.concat(outros_jogadores),
 								  lutas_restantes: quant,
-								  portugues: (user.locale.indexOf('pt') >= 0)
+								  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 						        });
 
 						        // garbage collect
@@ -80,7 +80,7 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 				amigos_uids.push(friend.uid);
 			});
 		}
-		
+
 		Personagem
 			.where('uid').in(amigos_uids)
 			.sort('level', -1, 'random', 1).limit(10)
@@ -96,7 +96,7 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 				if(limite > 0){
 					amigos_uids.push(user.id);
 					var IgnoraAcentos = require('./../lib/ignora_acentos.js');
-				
+
 					Personagem
 						.where('uid').nin(amigos_uids)
 						.sort('level', -1, 'random', 1).limit(limite)
@@ -107,7 +107,7 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 								p.random = parseInt(Math.random() * 100);
 								p.save();
 							});
-							
+
 							var Characters = require('./../struct/Characters.js');
 							Characters.lutas_restantes(personagem._id, function(quant){
 								response.render('arena.ejs', {
@@ -116,7 +116,7 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 								  busca:   busca,
 								  players: amigos.concat(outros_jogadores),
 								  lutas_restantes: quant,
-								  portugues: (user.locale.indexOf('pt') >= 0)
+								  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 						        });
 						        // garbage collect
 								user = null;
@@ -132,9 +132,9 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 
 						});
 				  }
-				
+
 			});
-		
+
 	});
 }
 
@@ -150,24 +150,24 @@ app.all('/arena', function(request, response) {
 
 			//var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
-				
+
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
-				
+
 				Personagem.findOne({uid: user.id}, function(err, personagem){
 					if(personagem != null){
-						
+
 						if(busca && busca.length > 0){
 							busca_jogadores_arena(user, session, personagem, busca, request, response, user);
 						}else{
 							jogadores_arena(user, session, personagem, request, response, user);
 						}
-						
+
 					}
 				});
 
 		    //});
-			
+
 		});
 
 	}else{

@@ -14,7 +14,7 @@ app.all('/ranking', function(request, response) {
 		facebook.getSessionByAccessToken(token)(function(session) {
 
 			var user = request.session.auth.facebook.user;
-				
+
 			// lista de amigos jogando o jogo
 			amigos_usando(request, response, function(result){
 
@@ -25,7 +25,7 @@ app.all('/ranking', function(request, response) {
 						amigos_uids.push(friend.uid);
 					});
 				}
-				
+
 				// inclui o próprio personagem na lista de amigos
 				amigos_uids.push(user.id);
 
@@ -39,7 +39,7 @@ app.all('/ranking', function(request, response) {
 					          user:     user,
 							  amigos: amigos,
 							  jogadores: jogadores,
-							  portugues: (user.locale.indexOf('pt') >= 0)
+							  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 					    });
 
 					    // garbage collect
@@ -49,7 +49,7 @@ app.all('/ranking', function(request, response) {
 						jogadores = null;
 					});
 				});
-				
+
 			});
 
 		});

@@ -45,7 +45,7 @@ var render_index = function(req, res, session, novo_personagem){
 					  novo_personagem: (novo_personagem ? true : false),
 					  friends_using: friends_using,
 					  friends_not_using: friends_not_using,
-					  portugues: (user.locale.indexOf('pt') >= 0)
+					  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 			        });
 
 					// garbage collect
@@ -82,7 +82,7 @@ var criar_personagem = function(request, response, session, mestre_id){
 	p.crit = parseInt(Math.random() * 3) + 2;
 	p.nome = user.name;
 	p.exp = 0;
-	p.idioma = user.locale;
+	p.idioma = user.locale && user.locale;
 	p.genero = user.gender;
 	p.username = user.username;
 	p.ranking_pos = 1; // pintinho
@@ -142,7 +142,7 @@ app.all('/index', function(request, response) {
 			Personagem.findOne({uid: user.id}, function(err, data){ // encontra o personagem dele
 				if(data == null && request.param('meme')){ // caso não tenha nenhum personagem com esse uid e ele tenha selecionado um meme
 
-					var portugues = (user.locale.indexOf('pt') >= 0);
+					var portugues = (user.locale && user.locale.indexOf('pt') >= 0);
 
 					var indicacao;
 					var pe = data;
