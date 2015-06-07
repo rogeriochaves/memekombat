@@ -30,9 +30,9 @@ app.all('/ranking', function(request, response) {
 				amigos_uids.push(user.id);
 
 				// seleciona os top 10 amigos
-				Personagem.where('uid').in(amigos_uids).sort('level', -1).select('nome', 'uid', 'ranking_pos', 'level').limit(10).run(function(err, amigos){
+				Personagem.where('uid').in(amigos_uids).sort('-level').select('nome uid ranking_pos level').limit(10).exec(function(err, amigos){
 					// seleciona os top 10 personagens
-					Personagem.where().sort('level', -1).select('nome', 'uid', 'ranking_pos', 'level', 'meme_src').limit(10).run(function(err, jogadores){
+					Personagem.where().sort('-level').select('nome uid ranking_pos level meme_src').limit(10).exec(function(err, jogadores){
 						response.render('ranking.ejs', {
 							layout:   false,
 					          token:    token,

@@ -73,12 +73,12 @@ app.all('/perfil', function(request, response) {
 							Arquivamento
 								.where('_id')
 								.in(personagem.arquivamentos)
-								.select('img', 'texto_cima', 'texto_baixo', 'texto_cima_en', 'texto_baixo_en')
+								.select('img texto_cima texto_baixo texto_cima_en texto_baixo_en')
 								.find(function(err, arquivamentos){
 
 
 									if(uid == user.id){
-										Personagem.where().select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
+										Personagem.where().select('nome uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 
 											var quant_pupilos = pupilos.length;
 											if(quant_pupilos > 6){
@@ -88,7 +88,7 @@ app.all('/perfil', function(request, response) {
 											get_campeonato(personagem, function(campeonato){
 												Characters.lutas_restantes(personagem._id, function(quant){
 
-													Notificacao.find({personagem_id: personagem._id}).sort('data', -1).limit(8).run(function(err, notificacoes){
+													Notificacao.find({personagem_id: personagem._id}).sort('-data').limit(8).exec(function(err, notificacoes){
 														response.render('perfil.ejs', {
 												          layout:   false,
 												          token:    token,
@@ -152,14 +152,14 @@ app.all('/perfil', function(request, response) {
 						/*Arquivamento
 							.where('_id')
 							.in(personagem.arquivamentos)
-							.select('img', 'texto_cima', 'texto_baixo', 'texto_cima_en', 'texto_baixo_en')
+							.select('img texto_cima texto_baixo texto_cima_en texto_baixo_en')
 							.find(function(err, arquivs){
 								arquivs.forEach(function(arquiv){
 									socket_manager.send(socket_id, 'arquivamento', arquiv);
 								});
 						});*/
 
-						/*Personagem.where().limit(6).select('nome', 'uid').find({indicacao_id: personagem._id}, function(err, pupilos){
+						/*Personagem.where().limit(6).select('nome uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 							pupilos.forEach(function(pupilo){
 								socket_manager.send(socket_id, 'pupilo', pupilo);
 							});

@@ -10,9 +10,9 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 			Personagem
 				.where('uid').in(amigos_uids)
 				.where('level').lt(personagem.level + 3)
-				.sort('level', -1, 'random', 1).limit(5)
-				.select('uid', 'level', 'nome', 'meme_src', 'genero')
-				.run(function(err, amigos){
+				.sort('-level random').limit(5)
+				.select('uid level nome meme_src genero')
+				.exec(function(err, amigos){
 					amigos.forEach(function(p){
 						//socket_manager.send(socket_id, 'player_arena', p);
 						p.random = parseInt(Math.random() * 100);
@@ -26,9 +26,9 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 						.where('uid').nin(amigos_uids)
 						.where('level').lt(personagem.level + 2)
 						.where('level').gt(personagem.level - 1)
-						.sort('random', 1, 'level', -1).limit(limite)
-						.select('uid', 'level', 'nome', 'meme_src', 'genero')
-						.run(function(err, outros_jogadores){
+						.sort('random -level').limit(limite)
+						.select('uid level nome meme_src genero')
+						.exec(function(err, outros_jogadores){
 							outros_jogadores.forEach(function(p){
 								//socket_manager.send(socket_id, 'player_arena', p);
 								p.random = Math.random();
@@ -83,9 +83,9 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 
 		Personagem
 			.where('uid').in(amigos_uids)
-			.sort('level', -1, 'random', 1).limit(10)
-			.select('uid', 'level', 'nome', 'meme_src', 'genero')
-			.run(function(err, amigos){
+			.sort('-level random').limit(10)
+			.select('uid level nome meme_src genero')
+			.exec(function(err, amigos){
 				amigos.forEach(function(p){
 					//socket_manager.send(socket_id, 'player_arena', p);
 					p.random = parseInt(Math.random() * 100);
@@ -99,8 +99,8 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 
 					Personagem
 						.where('uid').nin(amigos_uids)
-						.sort('level', -1, 'random', 1).limit(limite)
-						.select('uid', 'level', 'nome', 'meme_src', 'genero')
+						.sort('-level random').limit(limite)
+						.select('uid level nome meme_src genero')
 						.find({nome: new RegExp(".*"+IgnoraAcentos.ignora_acentos(busca.replace(' ','.*'))+".*", 'i')}, function(err, outros_jogadores){
 
 							outros_jogadores.forEach(function(p){

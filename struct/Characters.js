@@ -1,6 +1,6 @@
 module.exports.lutas_restantes = function(personagem_id, fn) {
 
-	Credito.find({personagem_id: personagem_id}).select('quantidade').run(function(err, results){
+	Credito.find({personagem_id: personagem_id}).select('quantidade').exec(function(err, results){
 		var total = 0;
 		results.forEach(function(result){
 			total += result.quantidade;
@@ -12,7 +12,7 @@ module.exports.lutas_restantes = function(personagem_id, fn) {
 		hoje.setSeconds(0);
 
 		var amanha = new Date(hoje.getTime() + 24 * 60 * 60 * 1000);
-		
+
 		Luta.find()
 			.or([{personagem1_id: personagem_id, campeonato: false, credito: true},
 				{personagem1_id: personagem_id, campeonato: false, credito: false, data: { $gt: hoje, $lt: amanha }}])
@@ -103,13 +103,13 @@ var chance_ganhar_habilidade_nova = function(quant_habilidades, level){
 module.exports.chance_ganhar_habilidade_nova = chance_ganhar_habilidade_nova;
 
 module.exports.consulta_habilidades = function(habilidades, fn){
-	Habilidade.where('num').in(habilidades).run(function(err, data){
+	Habilidade.where('num').in(habilidades).exec(function(err, data){
 		fn(data);
 	});
 }
 
 module.exports.consulta_armas = function(armas, fn){
-	Equipamento.where('num').in(armas).run(function(err, data){
+	Equipamento.where('num').in(armas).exec(function(err, data){
 		fn(data);
 	});
 }

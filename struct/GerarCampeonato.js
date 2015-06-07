@@ -4,15 +4,15 @@ module.exports.get_campeonato = function(campeonato, chave_lv, fn){
 			var chaves = []
 			  , lutas = []
 			  , prox_luta = 0;
-			
+
 			Chave.find({
 				campeonato_id: campeonato._id,
 				$or: [
 					{data_liberacao: {$lte: (new Date())}},
 					{data_liberacao: undefined}
 				],
-				level: {$lte: chave_lv}}).sort('level', 1, 'num', 1).run(function(err, data){
-				
+				level: {$lte: chave_lv}}).sort('level num').exec(function(err, data){
+
 				for(var i = 0, max = data.length; i < max; i++){
 					var chave = data[i];
 					var x = chave.level;
@@ -20,7 +20,7 @@ module.exports.get_campeonato = function(campeonato, chave_lv, fn){
 					if(typeof chaves[x] == "undefined") chaves[x] = [];
 					chaves[x][y * 2] = {uid: chave.uid1, personagem_id: chave.personagem1_id};
 					chaves[x][y * 2 + 1] = {uid: chave.uid2, personagem_id: chave.personagem2_id};
-					
+
 					var dt = chave.data_liberacao
 					  , prox_luta;
 
@@ -32,18 +32,18 @@ module.exports.get_campeonato = function(campeonato, chave_lv, fn){
 
 					if(chave_lv > chave.level){
 						if(typeof lutas[x] == "undefined") lutas[x] = [];
-						
+
 						lutas[x][y] = {id: chave.luta_id};
 						if(typeof lutas[x+1] == "undefined") chaves[x+1] = [];
 						chaves[x + 1][y] = {uid: chave.vencedor_uid, personagem_id: chave.vencedor_id};
 						prox_luta += 3 * 60 * 60;
 					}
 				};
-				
+
 				fn({campeonato: campeonato, chaves: chaves, lutas: lutas, proxima_luta: prox_luta});
-				
+
 			});
-			
+
 		}
 	//});
 };
@@ -112,7 +112,7 @@ module.exports.inserir_personagem_no_campeonato = function(personagem, campeonat
 };
 
 function gerar_chaves_lutas_i(i, levels, qtd_chaves, campeonato, fn){
-	
+
 	var num_chaves = parseInt(qtd_chaves / Math.pow(2, i));
 	gerar_chaves_lutas_k(i, 0, num_chaves, campeonato, levels, function(err){
 		//if(err == null){
@@ -125,15 +125,15 @@ function gerar_chaves_lutas_i(i, levels, qtd_chaves, campeonato, fn){
 				fn();
 			}
 		//}
-		
-		
+
+
 	});
-	
-	
+
+
 }
 
 function gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn){
-	
+
 	criar_luta_campeonato(campeonato, i, k, function(vencedor1, i2, k2){
 		//if(vencedor1 == null){
 		//	fn(null);
@@ -153,14 +153,14 @@ function gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn){
 							level: i3 + 1
 						});
 						chave.save(function(err){
-							
+
 							if(k + 2 < max_k){
 								k+=2;
 								gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn);
 							}else{
 								fn();
 							}
-							
+
 						});
 					//}
 				});
@@ -168,31 +168,31 @@ function gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn){
 				campeonato.vencedor_id = vencedor1._id,
 				campeonato.vencedor_uid = vencedor1.uid
 				campeonato.save(function(err){
-					
+
 					if(k + 2 < max_k){
 						k+=2;
 						gerar_chaves_lutas_k(i, k, max_k, campeonato, levels, fn);
 					}else{
 						fn();
 					}
-					
+
 				});
 			}
 		//}
 	});
-	
-	
+
+
 }
 
 
 var gerar_lutas_campeonato = function(campeonato, fn){
 	var qtd_chaves = campeonato.qtd_chaves
 	  , levels = parseInt(Math.log(qtd_chaves) / Math.log(2) + 1);
-	
-	
+
+
 	gerar_chaves_lutas_i(0, levels, qtd_chaves, campeonato, fn);
-	
-	
+
+
 };
 module.exports.gerar_lutas_campeonato = gerar_lutas_campeonato;
 
@@ -217,7 +217,7 @@ var criar_luta_campeonato = function(campeonato, i, k, fn){
 			//}else{
 			//	fn(null);
 			//}
-			
+
 		});
 	}catch(e){
 		console.log(e);

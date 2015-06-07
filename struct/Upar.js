@@ -1,8 +1,8 @@
 var sl = function subir_level(personagem, fn) {
-	
+
 	var Characters = require('./Characters.js');
 	var prox_level = Characters.exp_necessaria(personagem.level);
-	
+
 	while(personagem.exp >= prox_level){
 		personagem.level++;
 		personagem.hp += parseInt(Math.random() * 4) + 2;
@@ -11,7 +11,7 @@ var sl = function subir_level(personagem, fn) {
 		personagem.def += parseInt(Math.random() * 6);
 		personagem.crit += parseInt(Math.random() * 2);
 		personagem.exp -= prox_level;
-		
+
 		var n = new Notificacao({
 			personagem_id: personagem._id,
 			tipo: 1,
@@ -19,19 +19,19 @@ var sl = function subir_level(personagem, fn) {
 			texto_en: "Congratulations, you are now level "+personagem.level
 		});
 		n.save();
-		
-		Personagem.where('level').gt(personagem.level - 1).run(function(err, data){
+
+		Personagem.where('level').gt(personagem.level - 1).exec(function(err, data){
 			if(data == null || data.length <= 1){
 				var Arquivamentos = require('./Arquivamentos.js');
 				Arquivamentos.postar_arquivamento('first_rank', personagem);
 			}
 		});
-		
+
 		var rand_ganhar = parseInt(Math.random() * 101);
 		var nada = 0;
 		if(rand_ganhar <= Characters.chance_ganhar_habilidade_nova(personagem.habilidades.length, personagem.level)){
-			
-			Habilidade.where('num').nin(personagem.habilidades).run(function(err, habils){
+
+			Habilidade.where('num').nin(personagem.habilidades).exec(function(err, habils){
 				if(habils != null && habils.length > 0){
 					habils_rand = [];
 					habils.forEach(function(habil){
@@ -46,12 +46,12 @@ var sl = function subir_level(personagem, fn) {
 					if(typeof fn != 'undefined') fn();
 				});
 			});
-		
+
 		}else{
 			nada++;
 		}
 		if(rand_ganhar <= Characters.chance_ganhar_arma_nova(personagem.equipamentos.length, personagem.level)){
-			Equipamento.where('num').nin(personagem.equipamentos).run(function(err, armas){
+			Equipamento.where('num').nin(personagem.equipamentos).exec(function(err, armas){
 				if(armas != null && armas.length > 0){
 					armas_rand = [];
 					armas.forEach(function(arma){
@@ -74,7 +74,7 @@ var sl = function subir_level(personagem, fn) {
 				if(typeof fn != 'undefined') fn();
 			});
 		}
-		
+
 		if(typeof personagem.indicacao_id != 'undefined' && personagem.indicacao_id != null){
 			Personagem.findOne({_id: personagem.indicacao_id}, function(err, mestre){
 				if(mestre != null){
@@ -91,13 +91,13 @@ var sl = function subir_level(personagem, fn) {
 				}
 			});
 		}
-		
+
 		prox_level = Characters.exp_necessaria(personagem.level)
-		
-		
+
+
 	}
-	
-	
+
+
 };
 
 module.exports.subir_level = sl;

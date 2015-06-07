@@ -1,23 +1,23 @@
 module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
-	
+
 	var Randomize = require('./Randomize.js');
 	var Arquivamentos = require('./Arquivamentos.js');
 	var Characters = require('./Characters.js');
 	var Upar = require('./Upar.js');
-	
+
 	Randomize.gerar_luta(p1, p2, function(luta){
 		var luta = luta;
-		
+
 		var vencedor = luta.vencedor == 0 ? p1 : p2;
 		var perdedor = luta.vencedor == 0 ? p2 : p1;
-		
+
 		/*var vencedor_id = luta.vencedor == 0 ? p1._id : p2._id;
 		var vencedor_nome = luta.vencedor == 0 ? p1.nome : p2.nome;
 		var vencedor_uid = luta.vencedor == 0 ? p1.uid : p2.uid;
 		var perdedor_id = luta.vencedor == 0 ? p2._id : p1._id;
 		var perdedor_nome = luta.vencedor == 0 ? p2.nome : p1.nome;
 		var perdedor_uid = luta.vencedor == 0 ? p2.uid : p1.uid;*/
-		
+
 		Characters.lutas_comuns_restantes(p1._id, function(quant){
 			var l = new Luta({
 				personagem1_id: p1._id,
@@ -38,7 +38,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 				}else{
 					vencedor.vitorias++;
 					perdedor.derrotas++;
-					
+
 					if(!campeonato){
 						var exp_ganha = (vencedor._id == p1._id ? 2 : 1);
 						if(p1.level - 3 > p2.level){
@@ -65,7 +65,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 							texto_en: "You " + palavras_win_en[palavra] + " " + perdedor.nome + "'s meme" + (vencedor._id == p1._id ? ". EXP +" + exp_ganha : "")
 						});
 						n.save();
-						
+
 						var n2 = new Notificacao({
 							personagem_id: perdedor._id,
 							tipo: 2,
@@ -78,7 +78,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 
 						//console.log("====================");
 						//console.log(p1.notificacoes.length);
-						
+
 						/*if(p1.notificacoes.length > 8){
 							for(var i = 8; i < p1.notificacoes.length; i++){
 								if(p1.notificacoes.reverse()[i] && typeof p1.notificacoes.reverse()[i]._id != 'undefined'){
@@ -97,10 +97,10 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 								}
 							}
 						}*/
-						
+
 						//p1.notificacoes.reverse().splice(8, p1.notificacoes.length);
 						//p2.notificacoes.reverse().splice(8, p2.notificacoes.length);
-						
+
 
 						p1.save(function(err){
 							//console.log(err);
@@ -118,7 +118,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 									}
 								});
 
-								Luta.where().or({ganhador_id: vencedor._id}, {perdedor_id: vencedor._id}).limit(4).run(function(err, data){
+								Luta.where().or({ganhador_id: vencedor._id}, {perdedor_id: vencedor._id}).limit(4).exec(function(err, data){
 									var cont = 1;
 									data.forEach(function(l){
 										if(l.ganhador_id == vencedor._id) cont++;
@@ -126,7 +126,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 									if(cont == 5) Arquivamentos.postar_arquivamento('win_5_row', vencedor);
 								});
 
-								Luta.where().or({ganhador_id: perdedor._id}, {perdedor_id: perdedor._id}).limit(4).run(function(err, data){
+								Luta.where().or({ganhador_id: perdedor._id}, {perdedor_id: perdedor._id}).limit(4).exec(function(err, data){
 									var cont = 1;
 									data.forEach(function(l){
 										if(l.perdedor_id == vencedor._id) cont++;
@@ -138,20 +138,20 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 
 						});
 					}
-					
+
 					var short_url = null;
 				}
-				
+
 				fn(luta, l._id, vencedor, perdedor, short_url);
-				
-				
+
+
 			});
 		});
-		
-		
-		
-		
-		
+
+
+
+
+
 	});
 
 

@@ -107,9 +107,9 @@ app.all('/luta/:id?', function(request, response) {
 									response.redirect('/perfil');
 								}else{
 									// seleciona o player1 e o player2 da luta
-									Personagem.findById(luta.personagem1_id).select('_id', 'nome', 'uid', 'hp', 'genero', 'level', 'meme_src').run(function(err, p1){
+									Personagem.findById(luta.personagem1_id).select('_id nome uid hp genero level meme_src').exec(function(err, p1){
 
-										Personagem.findById(luta.personagem2_id).select('_id', 'nome', 'uid', 'hp', 'genero', 'level', 'meme_src').run(function(err, p2){
+										Personagem.findById(luta.personagem2_id).select('_id nome uid hp genero level meme_src').exec(function(err, p2){
 
 											if(p1 == null || p2 == null){ // caso um dos dois não exista, redireciona
 												response.redirect('/perfil');
