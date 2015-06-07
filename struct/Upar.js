@@ -4,7 +4,6 @@ var sl = function subir_level(personagem, fn) {
 	var prox_level = Characters.exp_necessaria(personagem.level);
 	console.log('personagem.exp', personagem.exp);
 	console.log('prox_level', prox_level);
-	return false;
 
 	while(personagem.exp >= prox_level){
 		personagem.level++;
@@ -14,6 +13,7 @@ var sl = function subir_level(personagem, fn) {
 		personagem.def += parseInt(Math.random() * 6);
 		personagem.crit += parseInt(Math.random() * 2);
 		personagem.exp -= prox_level;
+		prox_level = Characters.exp_necessaria(personagem.level);
 
 		var n = new Notificacao({
 			personagem_id: personagem._id,
@@ -94,9 +94,6 @@ var sl = function subir_level(personagem, fn) {
 				}
 			});
 		}
-
-		prox_level = Characters.exp_necessaria(personagem.level)
-
 
 	}
 
