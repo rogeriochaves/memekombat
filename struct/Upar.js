@@ -22,12 +22,13 @@ var sl = function subir_level(personagem, fn) {
 	});
 	n.save();
 
-	// Personagem.where('level').gt(personagem.level - 1).exec(function(err, data){
-	// 	if(data == null || data.length <= 1){
-	// 		var Arquivamentos = require('./Arquivamentos.js');
-	// 		Arquivamentos.postar_arquivamento('first_rank', personagem);
-	// 	}
-	// });
+	Personagem.where('level').gt(personagem.level - 1).exec(function(err, data){
+		return false;
+		if(data == null || data.length <= 1){
+			var Arquivamentos = require('./Arquivamentos.js');
+			Arquivamentos.postar_arquivamento('first_rank', personagem);
+		}
+	});
 
 	var rand_ganhar = parseInt(Math.random() * 101);
 	var nada = 0;
