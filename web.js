@@ -132,7 +132,7 @@ if(process.env.NODE_ENV == 'production'){
 		    next();
 		},
 		everyauth.middleware(),
-		require('facebook').Facebook()
+		require('./lib/facebook.js').Facebook()
 	);
 }else{
 	var ssl_keys = {
@@ -158,7 +158,7 @@ if(process.env.NODE_ENV == 'production'){
 		    next();
 		},
 		everyauth.middleware(),
-		require('facebook').Facebook()
+		require('./lib/facebook.js').Facebook()
 	);
 }
 
