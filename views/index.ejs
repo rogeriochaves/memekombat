@@ -16,7 +16,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
   <title>Meme Kombat</title>
   <meta name="description" content="">
   <meta name="author" content="">
-  
+
   <meta property="og:title" content="Meme Kombat" />
   <meta property="og:type" content="game" />
   <meta property="og:url" content="<%= process.env.FACEBOOK_APP_URL %>" />
@@ -131,7 +131,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 <hr class="pessoas" />
 <div class="rodape">
 	<div class="pessoas clearfix">
-			<% if(friends_using.length > 0){ %>
+			<% if(friends_not_using && friends_using.length > 0){ %>
 				<div class="quem-mais">
 					<%= portugues ? "Amigos que já jogam" : "Friends on Meme Kombat" %> <br />
 			    	<ul class="clearfix">
@@ -146,7 +146,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 					<small><%= portugues ? "Clique para desafiá-los" : "Click to fight them" %></small>
 				</div>
 			<% } %>
-			<% if(friends_not_using.length > 0){ %>
+			<% if(friends_not_using && friends_not_using.length > 0){ %>
 				<div class="quem-deveria">
 					<%= portugues ? "Quem pode ser seu pupilo" : "They can be your pupil" %><br />
 			    	<ul class="clearfix">
@@ -164,7 +164,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 				</div>
 			<% } %>
 	</div>
-	
+
 	<hr />
 	<!-- Begin Ad Call Tag - Do not Modify -->
 	<!--iframe width='468' height='60' style="margin-left:156px" frameborder='no' framespacing='0' scrolling='no' src='//ads.lfstmedia.com/slot/slot27031?ad_size=468x60&adkey=796'></iframe-->
@@ -192,14 +192,14 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 				<p style="font-family: sans-serif; position: absolute; width: 340px; font-size: 18px; margin: 15px 0 0 280px; text-align: left; <%= rand_pic == 0 ? 'color: #333; text-shadow: #FFF 1px 1px;' : 'color: #fff; text-shadow: #333 1px 1px;' %>" class="num<%= rand_pic + 1 %>"><%- frases[rand_frase] %></p>
 				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad<%= rand_pic + 1 %>.jpg" alt="" border="0" />
 			</a>
-		<% }else{ %> 
+		<% }else{ %>
 			<a href="http://www.superdown.com.br" class="no-follow" target="_blank" style="text-decoration: none; display: block; height: 98px;">
 				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad_superdown.jpg" alt="" border="0" />
 			</a>
 		<% } %>
 	</center>
 
-	
+
 	<div class="creditos">
 		<hr />
 		<p>© <%= (new Date()).getFullYear() %> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc. <%= (portugues ? "Hora no servidor " : "Server's time ") + hora_servidor %>. <a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><%= portugues ? "Como jogar" : "How to play" %></a>. <br />
@@ -207,13 +207,13 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 		<?php #print_r(find("SELECT now()")) ?>
 		</p>
 	</div>
-	
+
 	<!--hr />
 	<?php
-	
+
 	#$info = FBUtils::fetchFromFBGraph("me?fields=third_party_id&access_token=$token");
 	#$third_party_id = $info->third_party_id;
-	
+
 	?>
 	<div id="applifier_bar"></div>
 	<script type="text/javascript">
@@ -227,7 +227,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
 	})();
 	</script-->
-	
+
 </div>
 
 <div id="fb-root"></div>
@@ -256,7 +256,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 	    message: '<%= portugues ? "Seja meu pupilo" : "Be my pupil" %>'
 	  }, requestCallback);
 	}
-	
+
 	function atualizar_twitter(){
 		try{
 			twttr.widgets.load();
@@ -326,7 +326,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			$('.carregando').fadeOut();
 			cache_page('perfil', $('.conteudo').html()); // faz cache da página
 		<% } %>
-		
+
 		ajaxizar_links(); // faz os links passarem a abrir por ajax
 
 		// carrega os links 'ajaxsarizados'
@@ -369,17 +369,17 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 					// 'ajaxiza' os links de novo
 					ajaxizar_links();
 				}
-			
+
 				/*if(atualizar_social > 0){
 					$.post('_atualizar_social', {luta_id: atualizar_social, tweetou: (tweetou ? 1 : 0)});
 					atualizar_social = 0;
 					tweetou = false;
 				}*/
-			
+
 				return false;
 			}
 		});
-		
+
 		// clica no link para convidar amigos
 		$('.convidar-amigos').live('click', function() {
 			sendRequestToManyRecipients(); // abre uma tela com todos os amigos
@@ -390,7 +390,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			sendRequestToOneRecipient($(this).attr('uid')); // abre um box para convidar aquele amigo
 			return false;
 		});
-		
+
 		// efeito carousel nas armas do personagem
 		$('.seta').live('click', function() {
 			var wrapper = $('.carousel .wrapper');
@@ -416,7 +416,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 				_gaq.push(['_trackEvent', 'Cantadas', '<%= ["Barney", "Pedreiro", "Charlie Sheen"][rand_pic] %>', '<%= frases[rand_frase] %>' ]);
 			});
 		<% } %>
-		
+
 	})();
 </script>
 </script>
@@ -438,7 +438,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
   	//FB._https = true;
 	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true});
 	FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
-    
+
     // social track do facebook
 	FB.Event.subscribe('edge.create', function(targetUrl) {
 		_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
@@ -456,7 +456,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 		_gaq.push(['_trackSocial','Facebook','uncomment',response]);
 	});
 }
-	
+
 	function extractParamFromUri(uri, paramName) {
 	  if (!uri) {
 	    return;
