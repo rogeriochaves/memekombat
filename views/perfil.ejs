@@ -199,7 +199,7 @@
 					<% personagem.habilidades.forEach(function(habilidade) { %>
 						<% var linha = Math.floor((habilidade - 1) / 4) %>
 						<li style="background-position:<%= "-" + ((habilidade - 1) * 42 - linha * 42 * 4) + "px -"+(linha * 42)+"px" %>">
-							
+
 						</li>
 					<% }) %>
 				</ul>
@@ -228,7 +228,7 @@
 							<% }) %>
 						</ul>
 						<!--% if (pupilos.length > 6){ %>
-							
+
 						< % } %>-->
 					<% }else{ %>
 						<%= portugues ? 'Você ainda não tem nenhum pupilo' : "You don't have any pupils yet" %><br><br><br>
@@ -245,18 +245,18 @@
 			<a class="lutar" href="luta?vs=<%= personagem.uid %>">
 				<div>
 					<img src="<%= process.env.CDN %>img/icons/sword.png" border="0" />
-					<span><%= portugues ? "Lutar contra" : "Fight" %> <%= personagem.nome.split(" ")[0] %></span>
+					<span><%= portugues ? "Lutar contra" : "Fight" %> <%= personagem.nome ? personagem.nome.split(" ")[0] : "" %></span>
 				</div>
 			</a>
 		<% }else{ %>
-			
+
 			<a class="lutar" href="#">
 				<!--a href="campeonato" -->
 				<div style="margin-top:5px">
 					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
 					<% if (campeonato && campeonato != null){ %>
 						<span><%= portugues ? "Campeonato Fechado" : "Championship Closed" %></span>
-					<% }else{ %>	
+					<% }else{ %>
 						<span><%= portugues ? "Campeonato Fechado" : "Championship Closed" %></span>
 					<% } %>
 				</div>
@@ -264,7 +264,7 @@
 			<% if (campeonato && campeonato != null && campeonato.chaves_livres <= 0){ %>
 				<div style="text-align:center; margin:-20px 0 20px 0"><a href="sair_campeonato" onclick="cached_pages['campeonato'] = null;">Sair do campeonato</a></div>
 			<% } %>
-			
+
 			<ul class="stream">
 				<% var i = 0; %>
 				<% notificacoes.forEach(function(notificacao) { %>
