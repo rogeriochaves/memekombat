@@ -6,7 +6,7 @@ caso seja um parâmetro VS, é pq está desafiando alguém
 */
 
 app.all('/luta/:id?', function(request, response) {
-	return false;
+
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) { // se o usuário estiver logado
@@ -101,7 +101,7 @@ app.all('/luta/:id?', function(request, response) {
 
 
 						}else if(luta_id){ // caso esteja revendo uma luta que já aconteceu
-
+							return false;
 							Luta.findOne({_id: luta_id}, function(err, luta){ // busca a luta
 								if(luta == null){ // redireciona para o perfil caso ela não exista
 									response.redirect('/perfil');
