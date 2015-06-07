@@ -15,6 +15,8 @@ O esquema do banco em schema.js
 
 var everyauth = require('everyauth'); // módulo para autenticação do facebook
 var express   = require('express'); // framework pra tratar as requisições do node, gerenciar cookies, sessions, etc
+var http = require('http');
+var https = require('https');
 var RedisStore = require('connect-redis')(express); // conexão com redis para armazenar sessions
 var MemoryStore = express.session.MemoryStore; // memória local para armazenar sessions, caso esteja em development
 var FacebookClient = require('facebook-client').FacebookClient;
@@ -97,69 +99,73 @@ if(process.env.NODE_ENV == 'production'){
 		}
 	var oneYear = 31557600000; // expiração dos arquivos estáticos
 	// create an express webserver
-	global.app = express.createServer(
-		//express.logger(), // logga tudo
-		express.errorHandler(), // lida com erros tentando não travar o processo
-		express.static(__dirname + '/public', { maxAge: oneYear }), // onde ficam os arquivos estáticos e seu tempo de expire
-		express.cookieParser(), // utilizar cookires
-		// configuração da session, conectando com Redis
-		express.session({
-			secret: '***REMOVED***',
-			store: new RedisStore(redis)
-		}),
+	global.app = express();
+	app.use(express.errorHandler()); // lida com erros tentando não travar o processo
+	//app.use(express.logger()); // logga tudo
+	app.use(express.static(__dirname + '/public', { maxAge: oneYear })); // onde ficam os arquivos estáticos e seu tempo de expire
+	app.use(express.cookieParser()); // utilizar cookies
+	// configuração da session, conectando com Redis
+	app.use(express.session({
+		secret: '***REMOVED***',
+		store: new RedisStore(redis)
+	}));
+	// insert a middleware to set the facebook redirect hostname to http/https dynamically
+	app.use(function(request, response, next) {
+		// caso o jogador entre em um link de indicação de amigos
+		if(request.param('request_ids')){
+			// salva os parametros na session e faz a autenticação normalmente
+			request.session.request_ids = request.param('request_ids').split(',');
+		}
+		// cada jogador recebe um link de indicação, que passa um parâmetro i com o uid da pessoa
+		if(request.param('i')){
+			// salva os parametros na session e faz a autenticação normalmente
+			request.session.indicacao_uid = request.param('i');
+		}
+		// o link das lutas passa um parâmetro fight com o id da luta
+		if(request.param('fight')){
+			// salva os parametros na session e faz a autenticação normalmente
+			request.session.fight = request.param('fight');
+		}
 
-		// insert a middleware to set the facebook redirect hostname to http/https dynamically
-		function(request, response, next) {
-			// caso o jogador entre em um link de indicação de amigos
-			if(request.param('request_ids')){
-				// salva os parametros na session e faz a autenticação normalmente
-				request.session.request_ids = request.param('request_ids').split(',');
-			}
-			// cada jogador recebe um link de indicação, que passa um parâmetro i com o uid da pessoa
-			if(request.param('i')){
-				// salva os parametros na session e faz a autenticação normalmente
-				request.session.indicacao_uid = request.param('i');
-			}
-			// o link das lutas passa um parâmetro fight com o id da luta
-			if(request.param('fight')){
-				// salva os parametros na session e faz a autenticação normalmente
-				request.session.fight = request.param('fight');
-			}
-
-			// autentica o usuário
-		    var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
-		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-		    next();
-		},
-		everyauth.middleware(),
-		require('./lib/facebook.js').Facebook()
-	);
+		// autentica o usuário
+	    var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
+	    everyauth.facebook.myHostname(method + '://' + request.headers.host);
+	    next();
+	});
+	app.use(everyauth.middleware());
+	app.use(require('./lib/facebook.js').Facebook());
+	global.server = http.createServer(app);
 }else{
 	var ssl_keys = {
 		key:  fs.readFileSync('ssl/ssl.key'),
-	    cert: fs.readFileSync('ssl/ssl.crt')
+	  cert: fs.readFileSync('ssl/ssl.crt')
 	};
 
-	global.app = express.createServer(ssl_keys,express.errorHandler(),express.static(__dirname + '/public', { maxAge: oneYear }),express.cookieParser(),express.session({
-			secret: '***REMOVED***',
-			store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
-		}),function(request, response, next) {
-			if(request.param('request_ids')){
-				request.session.request_ids = request.param('request_ids').split(',');
-			}
-			if(request.param('i')){
-				request.session.indicacao_uid = request.param('i');
-			}
-			if(request.param('fight')){
-				request.session.fight = request.param('fight');
-			}
-		    var method = 'https';
-		    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-		    next();
-		},
-		everyauth.middleware(),
-		require('./lib/facebook.js').Facebook()
-	);
+	global.app = express();
+	app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
+	app.use(express.logger()); // logga tudo
+	app.use(express.cookieParser());
+	app.use(express.session({
+		secret: '***REMOVED***',
+		store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
+	}));
+	app.use(function(request, response, next) {
+		if(request.param('request_ids')){
+			request.session.request_ids = request.param('request_ids').split(',');
+		}
+		if(request.param('i')){
+			request.session.indicacao_uid = request.param('i');
+		}
+		if(request.param('fight')){
+			request.session.fight = request.param('fight');
+		}
+    var method = 'https';
+    everyauth.facebook.myHostname(method + '://' + request.headers.host);
+    next();
+	});
+	app.use(everyauth.middleware());
+	app.use(require('./lib/facebook.js').Facebook());
+	global.server = https.createServer(ssl_keys, app);
 }
 
 if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar (muita) performance
@@ -169,7 +175,7 @@ if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar (mu
 // listen to the PORT given to us in the environment
 var port = process.env.PORT || 3000;
 
-app.listen(port, function() {
+server.listen(port, function() {
   console.log("Listening on " + port);
 });
 //https.createServer(https_options, app).listen(port);

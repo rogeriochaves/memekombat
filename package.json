@@ -6,7 +6,7 @@
     "sys": "0.0.1",
     "ejs": "0.8.5",
     "everyauth": "0.4.5",
-    "express": "2.5.8",
+    "express": "3.0.0",
     "facebook-client": "1.6.1",
     "node-uuid": "1.2.0",
     "mongoose": "4.0.5",
