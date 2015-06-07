@@ -42,7 +42,6 @@ app.all('/luta/:id?', function(request, response) {
 
 												// gera a luta entre o jogador e o player desafiado
 												GerarLuta.gerar_luta(personagem, p2, false, function(luta, luta_id, vencedor, perdedor, short_url){
-													return false;
 													var Randomize = require('./../struct/Randomize.js');
 													// transforma a array de movimentos em uma string para repassar ao client
 													var movimentos = Randomize.imprimir_movimentos(luta.movimentos);
