@@ -42,6 +42,7 @@ app.all('/luta/:id?', function(request, response) {
 												// gera a luta entre o jogador e o player desafiado
 												GerarLuta.gerar_luta(personagem, p2, false, function(luta, luta_id, vencedor, perdedor, short_url){
 													var Randomize = require('./../struct/Randomize.js');
+													return false;
 													// transforma a array de movimentos em uma string para repassar ao client
 													var movimentos = Randomize.imprimir_movimentos(luta.movimentos);
 
@@ -101,7 +102,6 @@ app.all('/luta/:id?', function(request, response) {
 
 
 						}else if(luta_id){ // caso esteja revendo uma luta que já aconteceu
-							return false;
 							Luta.findOne({_id: luta_id}, function(err, luta){ // busca a luta
 								if(luta == null){ // redireciona para o perfil caso ela não exista
 									response.redirect('/perfil');
