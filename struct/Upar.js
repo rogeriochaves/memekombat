@@ -29,6 +29,8 @@ var sl = function subir_level(personagem, fn) {
 		}
 	});
 
+	return false;
+
 	var rand_ganhar = parseInt(Math.random() * 101);
 	var nada = 0;
 	if(rand_ganhar <= Characters.chance_ganhar_habilidade_nova(personagem.habilidades.length, personagem.level)){
@@ -76,7 +78,6 @@ var sl = function subir_level(personagem, fn) {
 			if(typeof fn != 'undefined') fn();
 		});
 	}
-	return false;
 
 	if(typeof personagem.indicacao_id != 'undefined' && personagem.indicacao_id != null){
 		Personagem.findOne({_id: personagem.indicacao_id}, function(err, mestre){
