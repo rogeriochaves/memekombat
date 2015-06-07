@@ -6,7 +6,7 @@ caso seja um parâmetro VS, é pq está desafiando alguém
 */
 
 app.all('/luta/:id?', function(request, response) {
-
+	return false;
 	var method = request.headers['x-forwarded-proto'] || 'http';
 
 	if (request.session.auth) { // se o usuário estiver logado
