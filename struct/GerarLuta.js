@@ -56,7 +56,6 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 
 						var palavra = parseInt(Math.random() * 6);
 
-						if(false){
 						var n = new Notificacao({
 							personagem_id: vencedor._id,
 							tipo: 1,
@@ -76,7 +75,7 @@ module.exports.gerar_luta = function(p1, p2, campeonato, fn) {
 							texto_en: "You " + palavras_lost_en[palavra] + " by " + vencedor.nome + "'s meme" + (perdedor._id == p1._id ? ". EXP +" + exp_ganha : "")
 						});
 						n2.save();
-
+						if(false){
 						//console.log("====================");
 						//console.log(p1.notificacoes.length);
 
