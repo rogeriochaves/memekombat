@@ -22,9 +22,8 @@ var sl = function subir_level(personagem, fn) {
 	});
 	n.save();
 
-	Personagem.where('level').gt(personagem.level - 1).exec(function(err, data){
-		return false;
-		if(data == null || data.length <= 1){
+	Personagem.where('level').gt(personagem.level - 1).count(function(err, quant){
+		if(quant === 0){
 			var Arquivamentos = require('./Arquivamentos.js');
 			Arquivamentos.postar_arquivamento('first_rank', personagem);
 		}
