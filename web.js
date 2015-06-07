@@ -87,7 +87,7 @@ everyauth.everymodule.moduleErrback( function (err) {
 });
 
 if(process.env.NODE_ENV == 'production'){
-	var redis_url = process.env.REDISCLOUD_URL
+	var redis_url = process.env.REDISTOGO_URL
 	  , redis = {
 			host: (redis_url.split('@')[1].split(':')[0]),
 			port: redis_url.split(':')[3].replace('/', ''),
