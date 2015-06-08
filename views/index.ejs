@@ -193,7 +193,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad<%= rand_pic + 1 %>.jpg" alt="" border="0" />
 			</a>
 		<% }else{ %>
-			<a href="http://www.superdown.com.br" class="no-follow" target="_blank" style="text-decoration: none; display: block; height: 98px;">
+			<a href="http://www.superdown.com.br" class="sdlink no-follow" target="_blank" style="text-decoration: none; display: block; height: 98px;">
 				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad_superdown.jpg" alt="" border="0" />
 			</a>
 		<% } %>
@@ -414,6 +414,11 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			$('.cantadas').click(function() {
 				console.log('anuncio!');
 				_gaq.push(['_trackEvent', 'Cantadas', '<%= ["Barney", "Pedreiro", "Charlie Sheen"][rand_pic] %>', '<%= frases[rand_frase] %>' ]);
+			});
+		<% } else { %>
+			$('.sdlink').click(function() {
+				console.log('anuncio!');
+				_gaq.push(['_trackEvent', 'Superdown', 'Click', 'Superdown Banner' ]);
 			});
 		<% } %>
 
