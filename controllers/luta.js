@@ -102,7 +102,6 @@ app.all('/luta/:id?', function(request, response) {
 
 
 						}else if(luta_id){ // caso esteja revendo uma luta que já aconteceu
-							return false;
 							Luta.findOne({_id: luta_id}, function(err, luta){ // busca a luta
 								if(luta == null){ // redireciona para o perfil caso ela não exista
 									response.redirect('/perfil');
