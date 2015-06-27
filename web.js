@@ -20,6 +20,7 @@ var https = require('https');
 var RedisStore = require('connect-redis')(express); // conexão com redis para armazenar sessions
 var MemoryStore = express.session.MemoryStore; // memória local para armazenar sessions, caso esteja em development
 var FacebookClient = require('facebook-client').FacebookClient;
+var bodyParser = require('body-parser');
 global.facebook = new FacebookClient();
 
 var https = require('https');
@@ -134,6 +135,7 @@ if(process.env.NODE_ENV == 'production'){
 	});
 	app.use(everyauth.middleware());
 	app.use(require('./lib/facebook.js').Facebook());
+	app.use(bodyParser.json());
 	global.server = http.createServer(app);
 }else{
 	var ssl_keys = {
@@ -165,6 +167,7 @@ if(process.env.NODE_ENV == 'production'){
 	});
 	app.use(everyauth.middleware());
 	app.use(require('./lib/facebook.js').Facebook());
+	app.use(bodyParser.json());
 	global.server = https.createServer(ssl_keys, app);
 }
 
