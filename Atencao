@@ -1,4 +1,0 @@
-Esse base64 é um problema, pra usar ele tem q usar o node 0.6.20
-
-no heroku:
-BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-nodejs#legacy
