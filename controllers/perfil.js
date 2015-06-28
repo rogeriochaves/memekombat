@@ -101,6 +101,7 @@ app.all('/perfil', function(request, response) {
 														  notificacoes: notificacoes,
 														  quant_pupilos: quant_pupilos,
 														  session_erro: session_erro,
+														  message: request.param('message'),
 														  portugues: (user.locale && user.locale.indexOf('pt') >= 0),
 												          campeonato: campeonato
 												        });
@@ -132,6 +133,7 @@ app.all('/perfil', function(request, response) {
 											  quant_pupilos: quant_pupilos,
 											  arquivamentos: arquivamentos,
 											  session_erro: session_erro,
+											  message: request.param('message'),
 											  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 									        });
 

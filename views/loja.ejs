@@ -9,33 +9,33 @@
 </div>
 
 <ul class="mais_lutas clearfix lutas">
-	<li class="mais um" order="1">
+	<li class="mais um" order="https://memekombat.herokuapp.com/1-extra-fight.html">
 		<div class="num <%= portugues ? '' : "en" %>"></div>
 		<div class="custo_creditos">
 			<div class="quant">
-				1
+				<%= portugues ? "0,49" : "0.49" %>
 			</div>
 			<div class="fb_coin">
 				<img src="<%= process.env.CDN %>img/fb-coin.png" border="0" />
 			</div>
 		</div>
 	</li>
-	<li class="mais tres" order="3">
+	<li class="mais tres" order="https://memekombat.herokuapp.com/3-extra-fights.html">
 		<div class="num <%= portugues ? '' : "en" %>"></div>
 		<div class="custo_creditos">
 			<div class="quant">
-				2
+				<%= portugues ? "0,99" : "0.99" %>
 			</div>
 			<div class="fb_coin">
 				<img src="<%= process.env.CDN %>img/fb-coin.png" border="0" />
 			</div>
 		</div>
 	</li>
-	<li class="mais cinco" order="5">
+	<li class="mais cinco" order="https://memekombat.herokuapp.com/5-extra-fights.html">
 		<div class="num <%= portugues ? '' : "en" %>"></div>
 		<div class="custo_creditos clearfix">
 			<div class="quant">
-				3
+				<%= portugues ? "1,49" : "1.49" %>
 			</div>
 			<div class="fb_coin">
 				<img src="<%= process.env.CDN %>img/fb-coin.png" border="0" />
@@ -43,131 +43,6 @@
 		</div>
 	</li>
 </ul>
-
-<div style="font-size:18px; color:#474747; margin:30px 30px;">
-	<%= portugues ? "Espadas elementais. Você pode escolher apenas uma delas:" : "Elemental Swords. You can pick only one of these:" %>
-</div>
-
-<ul class="mais_lutas clearfix arma_vip">
-	<li class="mais cinco <%= espadas_elementais ? "disabled" : '' %>" order="13">
-		<div class="clearfix fire_sword <%= portugues ? '' : "en" %>">
-			<div class="icon"></div>
-			<div class="text"></div>
-		</div>
-		<div class="custo_creditos">
-			<div class="quant">
-				10
-			</div>
-			<div class="fb_coin">
-				<img src="<%= process.env.CDN %>img/fb-coin<%= espadas_elementais ? "-disabled" : '' %>.png" border="0" />
-			</div>
-		</div>
-	</li>
-	<li class="azul <%= espadas_elementais ? "disabled" : '' %>" order="18">
-		<div class="clearfix ice_sword <%= portugues ? '' : "en" %>">
-			<div class="icon"></div>
-			<div class="text"></div>
-		</div>
-		<div class="custo_creditos">
-			<div class="quant">
-				10
-			</div>
-			<div class="fb_coin">
-				<img src="<%= process.env.CDN %>img/fb-coin<%= espadas_elementais ? "-disabled" : '' %>.png" border="0" />
-			</div>
-		</div>
-	</li>
-	<li class="roxo <%= espadas_elementais ? "disabled" : '' %>" order="19">
-		<div class="clearfix thunder_sword <%= portugues ? '' : "en" %>">
-			<div class="icon"></div>
-			<div class="text"></div>
-		</div>
-		<div class="custo_creditos">
-			<div class="quant">
-				10
-			</div>
-			<div class="fb_coin">
-				<img src="<%= process.env.CDN %>img/fb-coin<%= espadas_elementais ? "-disabled" : '' %>.png" border="0" />
-			</div>
-		</div>
-	</li>
-
-</ul>
-
-<% if(espadas_elementais){ %>
-	<div style="font-size:14px; color:#474747; margin:30px 30px;">
-		<%= portugues ? "Você já comprou sua espada elemental" : "You already bought you elemental sword" %>
-	</div>
-<% } %>
-
-<br />
-<!--div style="font-size:18px; color:#474747; margin:30px 30px;">
-	<% if (portugues){ %>
-		<div class="clearfix">
-			<div style="float:left">
-				Armas para
-			</div>
-			<div class="rank" style="background-position:-135px 0; float:left; margin:-20px 10px 0 0"></div>
-			<div style="float:left">
-				e acima
-			</div>
-		</div>
-	<% }else{ %>
-		<div class="clearfix">
-			<div style="float:left">
-				Weapons for
-			</div>
-			<div class="rank" style="background-position:-135px 0; float:left; margin:-20px 10px 0 0"></div>
-			<div style="float:left">
-				and above
-			</div>
-		</div>
-	<% } %>
-</div>
-<ul class="mais_lutas clearfix arma_vip">
-		<li class="dark <%= (darkness_sword || !rank) ? "disabled" : '' %>" order="33">
-		<div class="clearfix darkness_sword <%= portugues ? '' : "en" %>">
-			<div class="icon"></div>
-			<div class="text"></div>
-		</div>
-		<div class="custo_creditos">
-			<div class="quant">
-				15
-			</div>
-			<div class="fb_coin">
-				<img src="img/fb-coin<%= (darkness_sword || !rank) ? "-disabled" : '' %>.png" border="0" />
-			</div>
-		</div>
-	</li>
-	<li class="knight <%= (knigt_sword || !rank) ? "disabled" : '' %>" order="36">
-		<div class="clearfix knight_sword <%= portugues ? '' : "en" %>">
-			<div class="icon"></div>
-			<div class="text"></div>
-		</div>
-		<div class="custo_creditos">
-			<div class="quant">
-				20
-			</div>
-			<div class="fb_coin">
-				<img src="img/fb-coin<%= (knigt_sword || !rank) ? "-disabled" : '' %>.png" border="0" />
-			</div>
-		</div>
-	</li>
-	<li class="dragun <%= (dragun_sword || !rank) ? "disabled" : '' %>" order="31">
-		<div class="clearfix dragun_sword <%= portugues ? '' : "en" %>">
-			<div class="icon"></div>
-			<div class="text"></div>
-		</div>
-		<div class="custo_creditos">
-			<div class="quant">
-				20
-			</div>
-			<div class="fb_coin">
-				<img src="img/fb-coin<%= (dragun_sword || !rank) ? "-disabled" : '' %>.png" border="0" />
-			</div>
-		</div>
-	</li>
-</ul-->
 
 
 <div id="fb-root"></div>
@@ -207,27 +82,41 @@
 		});
 	 }
 
-    function comprar(quant) {
-	
-      var order_info = { "tipo":0,
-                         "quantidade":parseInt(quant),
-						 "language": '<%= portugues ? "pt" : "en" %>'
-                       };
+    function comprar(productUrl) {
 
-      /*try{
-      	
-      	var obj = {
-		    method: 'pay',
-		    order_info: order_info,
-		    purchase_type: 'item'
-	    };
+    	FB.ui({
+	      method: 'pay',
+	      action: 'purchaseitem',
+	      product: productUrl
+	    },
+	    function (res) {
+	    	console.log(res);
+	    	if(!res.error_message) {
+	    		$('.carregando').show();
+				  $('.carregando').css({'opacity': '0'});
+		  	  $('.carregando').animate({'opacity': '0.5'});
+				  cached_pages['loja'] = null;
+				  cached_pages['arena'] = null;
+				  cached_pages['perfil'] = null;
+					pagina_atual = 'perfil';
+					carregando_timeout = setTimeout(function(){
+						$('.carregando').fadeOut();
+					}, 5000);
 
-	    FB.ui(obj, callback);
+					var message = {message: '<%= portugues ? "Compra confirmada, aproveite!" : "Payment confirmed, enjoy!" %>'};
+					if (res.status && res.status === 'initiated') {
+						message = {message: '<%= portugues ? "Processo de pagamento iniciado, aguarde confirmação." : "Payment initiated, please wait for confirmation." %>'};
+					}
 
-      }catch(e){*/
-      	window.top.location = 'https://www.facebook.com/dialog/pay?app_id=<%= process.env.FACEBOOK_APP_ID %>&redirect_uri=<%= process.env.FACEBOOK_APP_HOME %>&credits_purchase=false&purchase_type=item&order_info='+encodeURI(JSON.stringify(order_info))
-      //}
-      
+					$.get('perfil', message, function(data){
+						clearInterval(carregando_timeout);
+				  	$('.conteudo').html(data);
+				  	$('.carregando').fadeOut();
+				  	ajaxizar_links();
+				  });
+	    	}
+	    });
+
     }
 
 	function comprar_arma(id){
@@ -246,7 +135,7 @@
 
 	      FB.ui(obj, callback);*/
 	}
-    
+
     var callback = function(data) {
       if (data['order_id']) {
 		  $('.carregando').show();
@@ -272,7 +161,7 @@
 			  	ajaxizar_links();
 			  });
 		  //}
-		  
+
       } else if (data['error_code']) {
       	// erro na transação
       } else {
