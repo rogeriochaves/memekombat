@@ -13,11 +13,11 @@
     "date-utils": "1.2.5",
     "connect-redis": "1.4.5",
     "b64url": "1.0.3",
-    "body-parser": "~1.13.1"
+    "body-parser": "~1.13.1",
+    "request": "latest"
   },
   "devDependencies": {
-    "jasmine-node": "latest",
-    "request": "latest"
+    "jasmine-node": "latest"
   },
   "engines": {
     "node": "0.12.4"
