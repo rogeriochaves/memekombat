@@ -30,12 +30,12 @@ describe('realtime verification', function () {
 });
 
 describe('realtime post', function () {
-  it('bla', function () {
+  it('updates a payment object', function () {
     var payload = {
       "object": "payments",
       "entry": [
         {
-          "id": "296989303750203",
+          "id": "679477058849455",
           "time": 1347996346,
           "changed_fields": [
             "actions"

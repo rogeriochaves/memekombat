@@ -64,6 +64,7 @@ var CreditoSchema = new Schema({
   , data: { type: Date, default: Date.now }
   , pedido_id: ObjectId
   , quantidade: Number
+  , payment_id: String
 });
 mongoose.model('Creditos', CreditoSchema);
 
