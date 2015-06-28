@@ -101,19 +101,21 @@
 					pagina_atual = 'perfil';
 					carregando_timeout = setTimeout(function(){
 						$('.carregando').fadeOut();
-					}, 5000);
+					}, 10000);
 
 					var message = {message: '<%= portugues ? "Compra confirmada, aproveite!" : "Payment confirmed, enjoy!" %>'};
 					if (res.status && res.status === 'initiated') {
 						message = {message: '<%= portugues ? "Processo de pagamento iniciado, aguarde confirmação." : "Payment initiated, please wait for confirmation." %>'};
 					}
 
-					$.get('perfil', message, function(data){
-						clearInterval(carregando_timeout);
-				  	$('.conteudo').html(data);
-				  	$('.carregando').fadeOut();
-				  	ajaxizar_links();
-				  });
+					setTimeout(function(){
+						$.get('perfil', message, function(data){
+							clearInterval(carregando_timeout);
+					  	$('.conteudo').html(data);
+					  	$('.carregando').fadeOut();
+					  	ajaxizar_links();
+					  });
+					}, 5000);
 	    	}
 	    });
 
