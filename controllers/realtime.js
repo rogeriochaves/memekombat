@@ -1,8 +1,8 @@
 var httpRequest = require('request');
 var itemList = {
-  "https://memekombat.herokuapp.com/1-extra-fight.html": {extraFights: 1, price: 0.49},
-  "https://memekombat.herokuapp.com/3-extra-fights.html": {extraFights: 3, price: 0.99},
-  "https://memekombat.herokuapp.com/5-extra-fights.html": {extraFights: 5, price: 1.49}
+  "https://memekombat.herokuapp.com/1-extra-fight.html": {extraFights: 1, price: 0.29},
+  "https://memekombat.herokuapp.com/3-extra-fights.html": {extraFights: 3, price: 0.49},
+  "https://memekombat.herokuapp.com/5-extra-fights.html": {extraFights: 5, price: 1.79}
 }
 
 app.get('/realtime', function(request, response) {
