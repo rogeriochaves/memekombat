@@ -70,16 +70,12 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 }
 
 var busca_jogadores_arena = function(user, session, personagem, busca, request, response, user){
-	session.restCall('fql.query', {
-		query: 'SELECT uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 AND strpos(lower(name), lower("'+busca.replace("'", "\\'")+'")) >= 0 ORDER BY rand() LIMIT 10',
-		format: 'json'
-	})(function(result) {
-		var amigos_uids = [];
-		if(result && result.forEach){
-			result.forEach(function(friend) {
-				amigos_uids.push(friend.uid);
-			});
-		}
+	amigos_usando(request, response, function(friends){
+		var amigos_uids = friends.filter(function (friend) {
+			return friend.name.indexOf(busca) >= 0
+		}).map(function (friend) {
+			return friends.id
+		}).slice(0, 10);
 
 		Personagem
 			.where('uid').in(amigos_uids)
