@@ -1,54 +1,6 @@
 <style type="text/css" media="screen">
 	.pessoas{display: none;}
 </style>
-<script type="text/javascript" charset="utf-8">
-
-	var randomNumber = Math.floor(Math.random()*24);
-
-	atualizar_social = '<%= luta_id %>';
-
-	lingua = '<%= portugues ? "pt_BR" : "en_US" %>';
-	players = [
-		{
-			hp: <%= p1.hp %>,
-			hp_max: <%= p1.hp %>
-		},
-		{
-			hp: <%= p2.hp %>,
-			hp_max: <%= p2.hp %>
-		}
-	];
-	// [jogador, tipo, equipamento_id, habilidade_id, evento_id, dano]
-	// 0 - ataque normal // 1 - contra ataque // 2 - esquivou // 3 - defendeu // 4 - pegar equipamento // 5 - habilidade // 6 - jogar equipamento fora // 7 - evento
-	
-	movimentos = [
-		<%= movimentos %>
-	];
-	
-	$(document).ready(function() {
-		preload(function(){
-			iniciar();
-			//$('#luta').css("background-image", "url(<%= process.env.CDN %>img/backgrounds/BG" + randomNumber + ".jpg)");
-		});
-		$('.bttOk').click(function() {
-			$('.personagem[rel="0"]').attr("sprite", $('#slPersonagem1').val());
-			$('.personagem[rel="1"]').attr("sprite", $('#slPersonagem2').val());
-			movs = $("#txtMovimentos").val().split("],");
-			movimentos = [];
-			for(i = 0; i < movs.length; i++){
-				movimentos[i] = eval(movs[i] + (movs[i].indexOf("]") < 0 ? "]" : ""));
-			}
-			preload(function(){
-				iniciar();
-			});
-		});
-		$('.lnkReplay').click(function() {
-			$('.venceu').fadeOut();
-			iniciar();
-			return false;
-		});
-	});
-</script>
 <div id="sounds">
 	<div class="sound" name="hit"></div>
 	<div class="sound" name="esquiva"></div>
@@ -149,7 +101,7 @@
 					return false;
 				});
 			});
-			
+
 		</script>
 		<div class="fb-comments" data-href="<%= app_home %>luta/<%= luta_id %>" data-num-posts="5" data-width="500"></div>
 	</div>
@@ -174,4 +126,50 @@
 </div>
 <script type="text/javascript" charset="utf-8">
 	FB.XFBML.parse();
+</script>
+<script type="text/javascript" charset="utf-8">
+
+	var randomNumber = Math.floor(Math.random()*24);
+
+	atualizar_social = '<%= luta_id %>';
+
+	lingua = '<%= portugues ? "pt_BR" : "en_US" %>';
+	players = [
+		{
+			hp: <%= p1.hp %>,
+			hp_max: <%= p1.hp %>
+		},
+		{
+			hp: <%= p2.hp %>,
+			hp_max: <%= p2.hp %>
+		}
+	];
+	// [jogador, tipo, equipamento_id, habilidade_id, evento_id, dano]
+	// 0 - ataque normal // 1 - contra ataque // 2 - esquivou // 3 - defendeu // 4 - pegar equipamento // 5 - habilidade // 6 - jogar equipamento fora // 7 - evento
+
+	movimentos = [
+		<%= movimentos %>
+	];
+
+	preload(function(){
+		iniciar();
+		//$('#luta').css("background-image", "url(<%= process.env.CDN %>img/backgrounds/BG" + randomNumber + ".jpg)");
+	});
+	$('.bttOk').click(function() {
+		$('.personagem[rel="0"]').attr("sprite", $('#slPersonagem1').val());
+		$('.personagem[rel="1"]').attr("sprite", $('#slPersonagem2').val());
+		movs = $("#txtMovimentos").val().split("],");
+		movimentos = [];
+		for(i = 0; i < movs.length; i++){
+			movimentos[i] = eval(movs[i] + (movs[i].indexOf("]") < 0 ? "]" : ""));
+		}
+		preload(function(){
+			iniciar();
+		});
+	});
+	$('.lnkReplay').click(function() {
+		$('.venceu').fadeOut();
+		iniciar();
+		return false;
+	});
 </script>
