@@ -188,11 +188,13 @@ function mostrar_dano(jogador, qtd, defesa, s, critical){
 
 }
 
-
+fight_interval = null;
 acao_atual = 0;
 finalizou = false;
-setTimeout(function(){
-	setInterval(function(){
+
+function start_fight_interval() {
+	if (fight_interval) return false;
+	fight_interval = setInterval(function(){
 		if(acoes.length <= 0) return false;
 
 		$('.personagem').each(function() {
@@ -356,4 +358,8 @@ setTimeout(function(){
 		}
 		frame_atual += 25;
 	}, fps);
+}
+
+setTimeout(function(){
+	start_fight_interval();
 }, 1000);

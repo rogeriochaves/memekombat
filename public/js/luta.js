@@ -199,6 +199,8 @@ function iniciar(){
 			}
 		}
 	}
+
+	start_fight_interval();
 }
 
 function preload(callback){
