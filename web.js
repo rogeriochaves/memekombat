@@ -221,7 +221,7 @@ global.amigos_usando = function(request, response, fn){
 		}else{
 			var token = request.session.auth.facebook.accessToken;
 			facebook.getSessionByAccessToken(token)(function(session) { // consulta à API do facebook
-        session.graphCall('/me/friends', { fields: ['uid', 'name'] })(function(amigos) {
+        session.graphCall('/me/friends', { fields: ['uid', 'name'], limit: 800 })(function(amigos) {
 					request.session.amigos = shuffle(amigos.data);
 					fn(amigos);
 				});

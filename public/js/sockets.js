@@ -9,25 +9,25 @@ socket.on('connect', function() {
 	socket.on('friend_using_app', function(friend) {
 		$('.quem-mais').show().children('ul').append('          							  					         \
 		<li>             						                                                                     \
-		<a href="#" uid="'+friend.uid+'" class="no-follow"> \
-		<img src="https://graph.facebook.com/'+friend.uid+'/picture?type=square" alt="' + friend.name + '" />      \
+		<a href="#" uid="'+friend.id+'" class="no-follow"> \
+		<img src="https://graph.facebook.com/'+friend.id+'/picture?type=square" alt="' + friend.name + '" />      \
 		</a> \
 		</li>                                                                               						 \
 		');
 		$('.quem-mais').css({width: 55 * Math.max(3, $('.quem-mais ul li').length) });
 	});
-	
+
 	socket.on('friend_not_using_app', function(friend) {
 		$('.quem-deveria').show().children('ul').append('          							  					         \
 		<li>             						                                                                     \
-		<a href="#" uid="'+friend.uid+'" class="no-follow"> \
-		<img src="https://graph.facebook.com/'+friend.uid+'/picture?type=square" alt="' + friend.name + '" />      \
+		<a href="#" uid="'+friend.id+'" class="no-follow"> \
+		<img src="https://graph.facebook.com/'+friend.id+'/picture?type=square" alt="' + friend.name + '" />      \
 		</a> \
 		</li>                                                                               						 \
 		');
 		$('.quem-deveria').css({width: 55 * Math.max(4, $('.quem-deveria ul li').length) });
 	});
-	
+
 	/*socket.on('lutas_restantes', function(lutas_restantes){
 		var notice = $('.notice');
 		if(!notice.is(':visible')){
@@ -36,7 +36,7 @@ socket.on('connect', function() {
 		ajaxizar_links();
 		cache_page(pagina_atual, $('.conteudo').html());
 	});*/
-	
+
 	socket.on('quant_pupilos', function(quant_pupilos){
 		$('.quant_pupilos').html(quant_pupilos);
 		$('.texto_quant_pupilos').html(quant_pupilos != 1 ? (portugues ? "pupilos" : "pupils") : (portugues ? "pupilo" : "pupil"));
@@ -46,7 +46,7 @@ socket.on('connect', function() {
 		ajaxizar_links();
 		cache_page(pagina_atual, $('.conteudo').html());
 	});
-	
+
 	socket.on('arquivamento', function(arquivamento){
 		$('.armas_habilidades .badges ul').append(
 			$('<li>').html(
@@ -62,7 +62,7 @@ socket.on('connect', function() {
 		);
 		cache_page(pagina_atual, $('.conteudo').html());
 	});
-	
+
 	socket.on('pupilo', function(pupilo){
 		$('.armas_habilidades .pupilos ul').append(
 			$('<li>').html(
@@ -74,11 +74,11 @@ socket.on('connect', function() {
 		ajaxizar_links();
 		cache_page(pagina_atual, $('.conteudo').html());
 	});
-	
+
 	socket.on('lutas_restantes_arena', function(lutas_restantes){
-		
+
 	});
-	
+
 	socket.on('nenhum_encontrado', function(){
 		if($('.memes-arena').length > 0){
 			$('.arena-loading').remove();
@@ -89,7 +89,7 @@ socket.on('connect', function() {
 			delete cached_pages['arena'];
 		}
 	});
-	
+
 	socket.on('player_arena', function(player){
 		if($('.memes-arena').length > 0){
 			$('.arena-loading').remove();
@@ -119,7 +119,7 @@ socket.on('connect', function() {
 		}else{
 			delete cached_pages['arena'];
 		}
-		
+
 	});
-	
+
 });

@@ -22,7 +22,7 @@ app.all('/ranking', function(request, response) {
 				var amigos_uids = [];
 				if(result && result.forEach){
 					result.forEach(function(friend) {
-						amigos_uids.push(friend.uid);
+						amigos_uids.push(friend.id);
 					});
 				}
 

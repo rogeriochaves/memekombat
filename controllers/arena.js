@@ -3,7 +3,7 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 		var amigos_uids = [];
 		if(result && result.forEach){
 			result.forEach(function(friend) {
-				amigos_uids.push(friend.uid);
+				amigos_uids.push(friend.id);
 			});
 		}
 
