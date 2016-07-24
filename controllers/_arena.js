@@ -7,29 +7,17 @@ app.all('/_arena', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			//var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
 			var arena_uids = request.param('arena_uids') ? request.param('arena_uids').replace("'", '').split(',') : [];
-			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 
 				var user = request.session.auth.facebook.user;
 				var busca = request.param('busca');
 
 				Personagem.findOne({uid: user.id}, function(err, personagem){
 					if(personagem != null){
-						session.restCall('fql.query', {
-							query: 'SELECT uid FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
-							format: 'json'
-						})(function(result) {
-
-							var amigos_uids = [];
-
-							if(result && result.forEach){
-								result.forEach(function(friend) {
-									amigos_uids.push(friend.uid);
-								});
-							}
-
-
+						amigos_usando(request, response, function(friends){
+							var amigos_uids = friends.map(function (friend) {
+								return friend.id;
+							});
 
 							var requisicoes = parseInt(arena_uids.length / 8);
 
@@ -79,8 +67,6 @@ app.all('/_arena', function(request, response) {
 
 					}
 				});
-
-			//});
 		});
 	}else{
 		response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
