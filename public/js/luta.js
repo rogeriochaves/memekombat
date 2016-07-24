@@ -33,12 +33,12 @@ function set_sprite(elem){
 		sprite_img = armas[$(elem).attr('sprite')];
 		sprite = sprite['default'] == true ? sprites['default'] : sprite;
 	}
-	
+
 	mirror = $(elem).hasClass("mirror");
-	img = mirror ? sprite_img['image'].split(".")[0] + "_mirror." + sprite_img['image'].split(".")[1] : sprite_img['image']; 
+	img = mirror ? sprite_img['image'].split(".")[0] + "_mirror." + sprite_img['image'].split(".")[1] : sprite_img['image'];
 	$(elem).css({
 		backgroundImage: 'url('+cdn+'img/'+(tipo == 0 ? "personagens" : "armas")+'/'+img+')',
-		backgroundPosition: (mirror ? ((sprite['width'] - sprite['size'][0]) * -1) + "px 0px" : "0px 0px"), 
+		backgroundPosition: (mirror ? ((sprite['width'] - sprite['size'][0]) * -1) + "px 0px" : "0px 0px"),
 		width: sprite['size'][0],
 		height: sprite['size'][1]
 	});
@@ -96,7 +96,7 @@ function iniciar(){
 		marginLeft: "22px",
 		backgroundPosition: "0 0"
 	});
-	
+
 	$('.personagem').each(function() {
 		$(this).stop();
 
@@ -113,14 +113,14 @@ function iniciar(){
 	acao_atual = 0;
 	arma_atual = [];
 	finalizou = false;
-	
+
 	for(i = 0; i <= movimentos.length; i++){
-		
+
 		if (i == movimentos.length) {
 			acoes.push([delay, "acabar luta"]);
 			continue;
 		}
-		
+
 		var movimento = movimentos[i];
 		if(movimento[1] == 2 || movimento[1] == 3 || (movimento[1] == 7 && eventos[ordem_eventos[movimento[4]]]['antes'] == true)) continue;
 		var prox_movimento = undefined;
@@ -143,18 +143,18 @@ function iniciar(){
 			delay += tempo_corrida;
 		}
 		tipo = ["atacar", "contra-atacar", "esquivar", "defender", "pegar equipamento", "habilidade", "jogar equipamento fora", "evento"][movimento[1]]
-		
+
 		/*if(movimento[1] == 4){
 			arma = true;
 		}else if(movimento[1] == 6){
 			arma = false;
 		}*/
 		acoes.push([delay, tipo, movimento[0], movimento, prox_movimento]);
-		
+
 		if(prox_movimento != undefined && prox_movimento[1] == 7 && eventos[ordem_eventos[prox_movimento[4]]]['antes'] == true){
 			acoes.push([delay, "evento", prox_movimento[0], prox_movimento]);
 		}
-		
+
 		if(tipo == "pegar equipamento"){
 			arma_atual[movimento[0]] = movimento[2];
 			delay += 300;
@@ -199,7 +199,6 @@ function iniciar(){
 			}
 		}
 	}
-	
 }
 
 function preload(callback){
@@ -253,8 +252,8 @@ function preload(callback){
 					}
 				}
 			}
-			
-			
+
+
 		}else if(movimento[4] > 0){
 			var sprite = eventos[ordem_eventos[movimento[4]]];
 			var images = sprite['images'];
@@ -276,33 +275,12 @@ function preload(callback){
 					}
 				}
 			}
-			
-			
 		}
 	}
-	var carregados = 0;
-	//var cache = [];
-	/*for(i = 0; i < preloads.length; i++){
-		var cacheImage = document.createElement('img');
-	    cacheImage.src = preloads[i];
-	    cache.push(cacheImage);
-		$.get(preloads[i], function(){
-			carregados += 1;
-			if(carregados == preloads.length){
-				$('#luta .loading').hide();
-				for(p = 0; p < cache.length; p++){
-					$(cache[p]).remove();
-				}
-				callback();
-			}
-		});
-	}*/
-	$.preLoadImages(
-	     preloads, function(){
-			$('#luta .loading').hide();
-	     	callback();
-	     }
-	);
+	$.preLoadImages(preloads, function(){
+		$('#luta .loading').hide();
+   	callback();
+  });
 	$('.sound').each(function(){
 		carrega_som(this);
 	});

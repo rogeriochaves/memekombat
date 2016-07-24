@@ -2,7 +2,7 @@ function andar(p, aproximar, callback){
 	var player = $('.personagem[rel="'+p+'"]');
 	var enemy = $('.personagem[rel="'+(p == 0 ? 1 : 0)+'"]');
 	var arma = $('.arma[rel="'+p+'"]');
-	
+
 	var sprite_player = get_sprite(player);
 	var sprite_enemy = get_sprite(enemy);
 	var nao_mover = false;
@@ -10,12 +10,12 @@ function andar(p, aproximar, callback){
 		var sprite_arma = get_sprite(arma);
 		nao_mover = sprite_arma['distancia'] == true;
 	}
-	
+
 	x_player = parseInt($(player).css('margin-left').split("px")[0]);
 	x_enemy = parseInt($(enemy).css('margin-left').split("px")[0]);
 	y_player = parseInt($(player).css('margin-top').split("px")[0]);
 	y_enemy = parseInt($(enemy).css('margin-top').split("px")[0]);
-	
+
 	if(aproximar){
 		x = x_enemy + (p == 0 ? 0 - (sprite_player['size'][0] / 2) : sprite_enemy['size'][0] / 2);
 		y = y_enemy;
@@ -29,7 +29,7 @@ function andar(p, aproximar, callback){
 	}
 	y = y > 140 ? 140 : y < 70 ? 70 : y;
 	distancia = x_player - x;
-	
+
 	if(aproximar){
 		mover_ate(player, x, y, callback);
 		if(arma.length > 0 && !nao_mover){
@@ -49,15 +49,15 @@ function andar(p, aproximar, callback){
 
 function mover(movimento){
 	tipo = movimento[1];
-	
+
 	var player = $('.personagem[rel="'+movimento[0]+'"]');
 	var enemy = $('.personagem[rel="'+(movimento[0] == 0 ? 1 : 0)+'"]');
 	arma = $('.arma[rel="'+movimento[0]+'"]');
-	
+
 	sprite_player = get_sprite(player);
 	sprite_enemy = get_sprite(enemy);
 	if(arma.length > 0) sprite_arma = get_sprite(arma);
-	
+
 	if((tipo == 0 || tipo == 1) && arma.length > 0){
 		movimentar(player, sprite_arma['tipo'] > 0 ? ("arma" + sprite_arma['tipo']) : "soco1");
 		movimentar(arma, "batendo");
@@ -74,7 +74,7 @@ function mover(movimento){
 
 function inverter(elem){
 	$(elem).toggleClass("mirror");
-	
+
 	set_sprite(elem);
 }
 
@@ -88,13 +88,13 @@ function mover_ate(elem, x, y, callback){
 		marginLeft: movimento,
 		marginTop: y
 	}, tempo_corrida, callback);
-	
+
 }
 
 function mudar_posicao(elem, st){
 	if($(elem).length <= 0) return false;
 	var sprite = get_sprite(elem);
-	
+
 	var status = sprite[st];
 	if(st != $(elem).attr("status")){
 		$(elem).attr('pos', 0);
@@ -114,7 +114,7 @@ function mudar_posicao(elem, st){
 	$(elem).css({
 		backgroundPosition: x + "px " + y + "px"
 	});
-	
+
 }
 
 function movimentar(elem, st, callback){
@@ -130,7 +130,7 @@ function mostrar_dano(jogador, qtd, defesa, s, critical){
 	var marginLeft = parseInt($(player).css("margin-left").split("px")[0]);
 	var marginTop = parseInt($(player).css("margin-top").split("px")[0]);
 	var critical = critical == undefined ? false : critical;
-	
+
 	if (critical) {
 		$("#luta").append('<div class="dano"><small>'+(lingua.indexOf("pt") < 0 ? "Critical" : "Crítico")+'</small><br />'+qtd+'</div>');
 	}else{
@@ -163,7 +163,7 @@ function mostrar_dano(jogador, qtd, defesa, s, critical){
 	}else{
 		sound("esquiva");
 	}
-	
+
 	if(!isNaN(qtd)){
 		players[jogador]['hp'] -= qtd
 		var p = players[jogador];
@@ -176,7 +176,7 @@ function mostrar_dano(jogador, qtd, defesa, s, critical){
 		if(jogador == 1){
 			$('.hp[rel="1"] .bar').css({
 				marginLeft: 258 - width + 22 + "px",
-				backgroundPosition: "-" + (258 - width) + "px 0" 
+				backgroundPosition: "-" + (258 - width) + "px 0"
 			});
 		}
 	}
@@ -185,13 +185,16 @@ function mostrar_dano(jogador, qtd, defesa, s, critical){
 			mudar_posicao(".personagem[rel='"+jogador+"']", "caido");
 		}
 	}, 400);*/
-	
+
 }
+
 
 acao_atual = 0;
 finalizou = false;
 setTimeout(function(){
 	setInterval(function(){
+		if(acoes.length <= 0) return false;
+
 		$('.personagem').each(function() {
 			sprite = sprites[$(this).attr('sprite')];
 			sprite = sprite['default'] == true ? sprites['default'] : sprite;
@@ -231,7 +234,7 @@ setTimeout(function(){
 				}
 			}
 		});
-		
+
 		if(!finalizou){
 			for(i = acao_atual; i < acoes.length; i++){
 				acao = acoes[i];
