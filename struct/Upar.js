@@ -3,6 +3,10 @@ var sl = function subir_level(personagem, fn) {
 	var Characters = require('./Characters.js');
 	var prox_level = Characters.exp_necessaria(personagem.level);
 
+	if (personagem.exp < prox_level) {
+		if(typeof fn != 'undefined') fn();
+		return false;
+	}
 	while(personagem.exp >= prox_level){
 		personagem.level++;
 		personagem.hp += parseInt(Math.random() * 4) + 2;
