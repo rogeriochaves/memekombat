@@ -152,8 +152,8 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			    	<ul class="clearfix">
 			    		<% friends_not_using.forEach(function(friend){ %>
 							<li>
-								<a href="#" uid="<%= friend.uid %>" class="no-follow">
-									<img src="https://graph.facebook.com/<%= friend.uid %>/picture?type=square" alt="<%= friend.nome %>" />
+								<a href="#" uid="<%= friend.id %>" class="no-follow">
+									<img src="<%= friend.picture.data.url %>" alt="<%= friend.nome %>" />
 								</a>
 							</li>
 						<% }); %>

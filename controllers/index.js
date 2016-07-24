@@ -26,10 +26,8 @@ var render_index = function(req, res, session, novo_personagem){
 			var limit = 12 - Math.max(3, friends_using.length);
 
 			// Busca amigos que ainda não jogam
-			session.restCall('fql.query', {
-				query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 0 ORDER BY rand() LIMIT '+limit,
-				format: 'json'
-			})(function(friends_not_using) {
+			session.graphCall('/me/invitable_friends', { fields: ['id', 'name', 'picture'] })(function(result) {
+					var friends_not_using = result.data.slice(0, limit);
 
 					// caso seja um link de uma luta, vai direto pra luta e o id é deletado da sessão
 					session_fight = req.session.fight;

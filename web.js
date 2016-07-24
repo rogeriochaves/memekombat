@@ -21,6 +21,7 @@ var RedisStore = require('connect-redis')(express); // conexão com redis para a
 var MemoryStore = express.session.MemoryStore; // memória local para armazenar sessions, caso esteja em development
 var FacebookClient = require('facebook-client').FacebookClient;
 var bodyParser = require('body-parser');
+var shuffle = require('knuth-shuffle').knuthShuffle;
 global.facebook = new FacebookClient();
 
 var https = require('https');
@@ -220,13 +221,9 @@ global.amigos_usando = function(request, response, fn){
 		}else{
 			var token = request.session.auth.facebook.accessToken;
 			facebook.getSessionByAccessToken(token)(function(session) { // consulta à API do facebook
-				session.restCall('fql.query', {
-					query: 'SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()',
-					format: 'json'
-				})(function(amigos) {
-					request.session.amigos = amigos;
+        session.graphCall('/me/friends', { fields: ['uid', 'name'] })(function(amigos) {
+					request.session.amigos = shuffle(amigos.data);
 					fn(amigos);
-					//amigos = null;
 				});
 			});
 		}

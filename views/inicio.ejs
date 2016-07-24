@@ -10,7 +10,7 @@
   <title>Meme Kombat</title>
   <meta name="description" content="">
   <meta name="author" content="">
-  
+
   <meta property="og:title" content=""/>
   <meta property="og:type" content=""/>
   <meta property="og:url" content=""/>
@@ -136,16 +136,6 @@
 	<li class="cereal_guy"></li>
 </ul>
 </div>
-<!--?php
-
-	require_once('FBUtils.php');
-
-	$amigos_que_jogam = FBUtils::fql(
-	  "SELECT uid, name, is_app_user FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1 ORDER BY rand()",
-	  $token
-	);
-
-?-->
 <hr />
 <div class="rodape">
 	<div class="clearfix">
@@ -173,7 +163,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
   <![endif]-->
-  
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
