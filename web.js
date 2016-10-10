@@ -90,6 +90,11 @@ everyauth.everymodule.moduleErrback( function (err) {
   console.log(err);
 });
 
+everyauth.everymodule
+    .performRedirect( function (response, location) {
+		    response.send('<script type="text/javascript">top.location.href = "'+location+'";</script>');
+    });
+
 if(process.env.NODE_ENV == 'production'){
 	var redis_url = process.env.REDISTOGO_URL
 	  , redis = {
@@ -190,7 +195,7 @@ var auth = function (request, response) {
 	  if (request.session.auth){
 		    response.redirect(host + '/index');
 	  }else{
-		    response.send('<script type="text/javascript">top.location.href = "'+host+'/auth";</script>');
+		    response.send('<script type="text/javascript">location.href = "'+host+'/auth";</script>');
 	  }
 }
 
