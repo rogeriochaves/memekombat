@@ -463,8 +463,13 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
   	//FB._https = true;
 	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true});
 	FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
+  FB.getLoginStatus(function(response) {
+    if (response.status !== 'connected') {
+      location = '/';
+    }
+  });
 
-    // social track do facebook
+  // social track do facebook
 	FB.Event.subscribe('edge.create', function(targetUrl) {
 		_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
 	});
