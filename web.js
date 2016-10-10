@@ -207,7 +207,10 @@ var auth = function (request, response) {
 app.get('/game', auth);
 
 // redireciona usuário para autenticação do facebook
-app.post('/game', auth);
+app.post('/game', function (request, response) {
+  console.log(JSON.stringify(request.body));
+  auth(request, response);
+});
 
 // recomendação do facebook para resolver alguns problemas de js cross-domain
 app.all('/channel.html', function(req, res) {
