@@ -92,7 +92,7 @@ everyauth.everymodule.moduleErrback( function (err) {
 
 everyauth.everymodule
     .performRedirect( function (response, location) {
-		    response.send('<button value="Login to Facebook" onclick=\'top.location.href = "'+location+'"\' />');
+		    response.send('<button onclick=\'top.location.href = "'+location+'"\'>Login with Facebook</button>');
     });
 
 if(process.env.NODE_ENV == 'production'){
