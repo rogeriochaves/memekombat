@@ -27,6 +27,10 @@ var render_index = function(req, res, session, novo_personagem){
 
 			// Busca amigos que ainda não jogam
 			session.graphCall('/me/invitable_friends', { fields: ['id', 'name', 'picture'] })(function(result) {
+        if (!result.data) {
+          res.redirect('/game'); // redireciona para a página inicial para autenticação
+          return false;
+        }
 					var friends_not_using = result.data.slice(0, limit);
 
 					// caso seja um link de uma luta, vai direto pra luta e o id é deletado da sessão
