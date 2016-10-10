@@ -194,7 +194,8 @@ server.listen(port, function() {
 //https.createServer(https_options, app).listen(port);
 //console.log("Listening on " + port);
 
-var auth = function (request, response) {
+// redireciona usuário para autenticação do facebook
+app.all('/game', function (request, response) {
   var host = 'https://' + request.headers.host;
   var redirect = host;
   if (request.session.auth){
@@ -202,14 +203,6 @@ var auth = function (request, response) {
   }
 
   response.send('<script type="text/javascript">location.href = "'+redirect+'";</script>');
-}
-
-app.get('/game', auth);
-
-// redireciona usuário para autenticação do facebook
-app.post('/game', function (request, response) {
-  console.log(JSON.stringify(request.body));
-  auth(request, response);
 });
 
 // recomendação do facebook para resolver alguns problemas de js cross-domain
