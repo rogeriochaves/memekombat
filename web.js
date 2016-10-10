@@ -95,6 +95,7 @@ everyauth.everymodule
     if (location === process.env.FACEBOOK_APP_URL) {
       response.send('<script type="text/javascript">location.href = "'+location+'";</script>');
     } else {
+      delete request.session.auth;
       response.render('home.ejs', {layout: false, location: location});
     }
   });
