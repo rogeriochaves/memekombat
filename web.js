@@ -207,7 +207,7 @@ app.all('/game', function (request, response) {
 
 app.get('/logout', function (request, response) {
   delete request.session.auth;
-  response.redirect('/');
+  response.redirect(302, '/');
 });
 
 // recomendação do facebook para resolver alguns problemas de js cross-domain
