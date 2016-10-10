@@ -127,81 +127,83 @@ var criar_personagem = function(request, response, session, mestre_id){
 // rota para index
 app.all('/index', function(request, response) {
 
-	var method = 'https';// request.headers['x-forwarded-proto'] || 'http';
+  var method = 'https';// request.headers['x-forwarded-proto'] || 'http';
 
-	if (request.session.auth){ // caso esteja logado
+  if (!request.session.auth || !request.session.auth.facebook.accessToken) {
+    response.redirect('/game'); // redireciona para a página inicial para autenticação
+    return false;
+  }
 
-		var token = request.session.auth.facebook.accessToken; // pega token do facebook
-		facebook.getSessionByAccessToken(token)(function(session) { // pega session autorizada
+  var token = request.session.auth.facebook.accessToken; // pega token do facebook
+  facebook.getSessionByAccessToken(token)(function(session) { // pega session autorizada
+    if (!session) {
+      response.redirect('/game'); // redireciona para a página inicial para autenticação
+      return false;
+    }
+    var user = request.session.auth.facebook.user; // pega o usuário logado no facebook
 
-			var user = request.session.auth.facebook.user; // pega o usuário logado no facebook
+    Personagem.findOne({uid: user.id}, function(err, data){ // encontra o personagem dele
+      if(data == null && request.param('meme')){ // caso não tenha nenhum personagem com esse uid e ele tenha selecionado um meme
 
-			Personagem.findOne({uid: user.id}, function(err, data){ // encontra o personagem dele
-				if(data == null && request.param('meme')){ // caso não tenha nenhum personagem com esse uid e ele tenha selecionado um meme
+        var portugues = (user.locale && user.locale.indexOf('pt') >= 0);
 
-					var portugues = (user.locale && user.locale.indexOf('pt') >= 0);
+        var indicacao;
+        var pe = data;
+        if(request.session.request_ids){ // verifica se há um convite pelo facebook
+          var mestre_request_id = request.session.request_ids[0];
 
-					var indicacao;
-					var pe = data;
-					if(request.session.request_ids){ // verifica se há um convite pelo facebook
-						var mestre_request_id = request.session.request_ids[0];
+          // requisita o objeto de convite
+          var http = require('https');
+          var options = {
+            host: 'graph.facebook.com',
+            port: 443,
+            path: '/' + mestre_request_id + "_" + user.id + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
+            method: 'GET'
+          };
 
-						// requisita o objeto de convite
-						var http = require('https');
-						var options = {
-						  host: 'graph.facebook.com',
-						  port: 443,
-						  path: '/' + mestre_request_id + "_" + user.id + "?access_token=" + token + '&app_id' + process.env.FACEBOOK_APP_ID,
-						  method: 'GET'
-						};
+          session.graphCall('/' + mestre_request_id)(function(result){
 
-						session.graphCall('/' + mestre_request_id)(function(result){
+            if(result && result != null && result.from){ // caso haja este convite
+              Personagem.findOne({uid: result.from.id}, function(err, data){ // encontra o personagem que o convidou
+                if(data != null){
+                  criar_personagem(request, response, session, data._id); // cria o personagem como pupilo de quem o convidou (mestre)
+                }
+              });
+              // deleta o convite
+              request.session.request_ids.forEach(function(req_id){
+                session.graphCall('/' + req_id + '_' + user.id, {}, 'DELETE')(function(){
+                  // callback
+                });
+              });
 
-							if(result && result != null && result.from){ // caso haja este convite
-								Personagem.findOne({uid: result.from.id}, function(err, data){ // encontra o personagem que o convidou
-									if(data != null){
-										criar_personagem(request, response, session, data._id); // cria o personagem como pupilo de quem o convidou (mestre)
-									}
-								});
-								// deleta o convite
-								request.session.request_ids.forEach(function(req_id){
-									session.graphCall('/' + req_id + '_' + user.id, {}, 'DELETE')(function(){
-										// callback
-									});
-								});
+            }else{
+              criar_personagem(request, response, session); // cria o personagem sem mestre
+            }
 
-							}else{
-								criar_personagem(request, response, session); // cria o personagem sem mestre
-							}
+          });
+        }else if(request.session.indicacao_uid){ // caso seja por link de indicação
+          Personagem.findOne({uid: request.session.indicacao_uid}, function(err, data){
+            if(data != null){ // procura o mestre
+              criar_personagem(request, response, session, data._id); // cria o personagem como pupilo deste mestre
+            }else{
+              criar_personagem(request, response, session); // cria personagem normalmente
+            }
+          });
+        }else{
+          criar_personagem(request, response, session); // cria personagem normalmente
+        }
+      }else if(data == null){
+        var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
+        var host = method + '://' + request.headers.host;
+        response.redirect(host + '/inicio'); // redireciona para a tela de seleção de memes
+      }else{
 
-						});
-					}else if(request.session.indicacao_uid){ // caso seja por link de indicação
-						Personagem.findOne({uid: request.session.indicacao_uid}, function(err, data){
-							if(data != null){ // procura o mestre
-								criar_personagem(request, response, session, data._id); // cria o personagem como pupilo deste mestre
-							}else{
-								criar_personagem(request, response, session); // cria personagem normalmente
-							}
-						});
-					}else{
-						criar_personagem(request, response, session); // cria personagem normalmente
-					}
-				}else if(data == null){
-					var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
-					var host = method + '://' + request.headers.host;
-					response.redirect(host + '/inicio'); // redireciona para a tela de seleção de memes
-				}else{
+        render_index(request, response, session); // renderiza a index
 
-					p = data;
-					render_index(request, response, session); // renderiza a index
-
-				}
-			});
+      }
+    });
 
 
-		});
-	}else{ // usuário não está logado
-		response.redirect('/game'); // redireciona para a página inicial para autenticação
-	}
+  });
 
 });
