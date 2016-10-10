@@ -28,7 +28,7 @@ var render_index = function(req, res, session, novo_personagem){
 			// Busca amigos que ainda não jogam
 			session.graphCall('/me/invitable_friends', { fields: ['id', 'name', 'picture'] })(function(result) {
         if (!result.data) {
-          res.redirect('/auth'); // redireciona para a página inicial para autenticação
+          res.redirect('/'); // redireciona para a página inicial para autenticação
           return false;
         }
 					var friends_not_using = result.data.slice(0, limit);
@@ -134,14 +134,14 @@ app.all('/index', function(request, response) {
   var method = 'https';// request.headers['x-forwarded-proto'] || 'http';
 
   if (!request.session.auth || !request.session.auth.facebook.accessToken) {
-    response.redirect('/auth'); // redireciona para a página inicial para autenticação
+    response.redirect('/'); // redireciona para a página inicial para autenticação
     return false;
   }
 
   var token = request.session.auth.facebook.accessToken; // pega token do facebook
   facebook.getSessionByAccessToken(token)(function(session) { // pega session autorizada
     if (!session) {
-      response.redirect('/auth'); // redireciona para a página inicial para autenticação
+      response.redirect('/'); // redireciona para a página inicial para autenticação
       return false;
     }
     var user = request.session.auth.facebook.user; // pega o usuário logado no facebook

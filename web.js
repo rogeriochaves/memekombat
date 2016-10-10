@@ -79,7 +79,7 @@ everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
   .appSecret(process.env.FACEBOOK_SECRET)
   .scope('user_friends')
-  .entryPath('/auth') // path que direcionará para autenticação
+  .entryPath('/') // path que direcionará para autenticação
   .redirectPath(process.env.FACEBOOK_APP_URL) // após autenticação, retornar para url do jogo
   .findOrCreateUser(function() {
     return({});
@@ -91,9 +91,13 @@ everyauth.everymodule.moduleErrback( function (err) {
 });
 
 everyauth.everymodule
-    .performRedirect( function (response, location) {
-		    response.send('<button onclick=\'top.location.href = "'+location+'"\'>Login with Facebook</button>');
-    });
+  .performRedirect( function (response, location) {
+    if (location === process.env.FACEBOOK_APP_URL) {
+      response.send('<script type="text/javascript">location.href = "'+location+'";</script>');
+    } else {
+      response.render('home.ejs', {layout: false, location: location});
+    }
+  });
 
 if(process.env.NODE_ENV == 'production'){
 	var redis_url = process.env.REDISTOGO_URL
@@ -191,12 +195,13 @@ server.listen(port, function() {
 //console.log("Listening on " + port);
 
 var auth = function (request, response) {
-	  var host = 'https://' + request.headers.host;
-	  if (request.session.auth){
-		    response.redirect(host + '/index');
-	  }else{
-		    response.send('<script type="text/javascript">location.href = "'+host+'/auth";</script>');
-	  }
+  var host = 'https://' + request.headers.host;
+  var redirect = host;
+  if (request.session.auth){
+    redirect = host + '/index';
+  }
+
+  response.send('<script type="text/javascript">location.href = "'+redirect+'";</script>');
 }
 
 app.get('/game', auth);
@@ -211,11 +216,6 @@ app.all('/channel.html', function(req, res) {
 	res.header('Cache-Control', 'max-age=' + cache_expire);
 	//res.header('Expires', 'public');
 	res.render('channel.ejs', {layout: false});
-});
-
-// página principal, geralmente o jogador só a vê entrando em memekombat.com
-app.all('/', function(request, response){
-	response.render('home.ejs', {layout: false});
 });
 
 // retorna os amigos que estão jogando (utilizado na página inicial, na arena e no ranking) e salva na session para não ficar retornando à API do Facebook
