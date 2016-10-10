@@ -460,32 +460,32 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
   })();
 
   window.fbAsyncInit = function() {
-  	//FB._https = true;
-	FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true});
-	FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
-  FB.getLoginStatus(function(response) {
-    if (response.status !== 'connected') {
-      location = '/';
-    }
-  });
+    //FB._https = true;
+    FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true});
+    FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
+    FB.getLoginStatus(function(response) {
+      if (response.status !== 'connected') {
+        location = '/';
+      }
+    });
 
-  // social track do facebook
-	FB.Event.subscribe('edge.create', function(targetUrl) {
-		_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
-	});
-	FB.Event.subscribe('edge.remove', function(targetUrl) {
-		_gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
-	});
-	FB.Event.subscribe('message.send', function(targetUrl) {
-		_gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
-	});
-	FB.Event.subscribe('comment.create',function(response) {
-		_gaq.push(['_trackSocial','Facebook','comment',response]);
-	});
-	FB.Event.subscribe('comment.remove',function(response) {
-		_gaq.push(['_trackSocial','Facebook','uncomment',response]);
-	});
-}
+    // social track do facebook
+    FB.Event.subscribe('edge.create', function(targetUrl) {
+      _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+    });
+    FB.Event.subscribe('edge.remove', function(targetUrl) {
+      _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+    });
+    FB.Event.subscribe('message.send', function(targetUrl) {
+      _gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
+    });
+    FB.Event.subscribe('comment.create',function(response) {
+      _gaq.push(['_trackSocial','Facebook','comment',response]);
+    });
+    FB.Event.subscribe('comment.remove',function(response) {
+      _gaq.push(['_trackSocial','Facebook','uncomment',response]);
+    });
+  }
 
 	function extractParamFromUri(uri, paramName) {
 	  if (!uri) {
