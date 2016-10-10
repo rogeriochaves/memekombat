@@ -189,11 +189,10 @@ server.listen(port, function() {
 app.post('/game', function(request, response){
 	var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
 	var host = method + '://' + request.headers.host;
-	if (request.session.auth && request.session.logged){
+	if (request.session.auth){
 		response.redirect(host + '/index');
 	}else{
-		request.session.logged = true;
-		response.send('<script type="text/javascript">top.location.href = "'+host+'/game";</script>');
+		response.redirect(host + '/game');
 	}
 });
 
