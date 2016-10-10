@@ -205,6 +205,11 @@ app.all('/game', function (request, response) {
   response.send('<script type="text/javascript">location.href = "'+redirect+'";</script>');
 });
 
+app.get('/logout', function (request, response) {
+  delete request.session.auth;
+  response.redirect('/');
+});
+
 // recomendação do facebook para resolver alguns problemas de js cross-domain
 app.all('/channel.html', function(req, res) {
 	var cache_expire = 60 * 60 * 24 * 365;
