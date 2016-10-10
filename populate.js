@@ -14,7 +14,7 @@ global.mongoose = require('mongoose')
 global.Schema = mongoose.Schema
 global.ObjectId = Schema.ObjectId;
 if(process.env.NODE_ENV){
-	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
+	mongoose.connect('***REMOVED***');
 }else{
 	mongoose.connect('mongodb://localhost/memekombat');
 }

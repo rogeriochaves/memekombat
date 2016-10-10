@@ -57,7 +57,7 @@ if(process.env.NODE_ENV == 'production'){
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;
 
 	// Conexão com o banco
-	mongoose.connect('mongodb://***REMOVED***/heroku_app2171098');
+	mongoose.connect('***REMOVED***');
 
 
 }else{

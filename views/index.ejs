@@ -197,32 +197,20 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad_superdown.jpg" alt="" border="0" />
 			</a>
 		<% }else{ %>
-<script type='text/javascript'>
-<!--//<![CDATA[
-   document.MAX_ct0 ='';
-   var m3_u = (location.protocol=='https:'?'https://cas.criteo.com/delivery/ajs.php?':'http://cas.criteo.com/delivery/ajs.php?');
-   var m3_r = Math.floor(Math.random()*99999999999);
-   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
-   document.write ("zoneid=244584");document.write("&amp;nodis=1");
-   document.write ('&amp;cb=' + m3_r);
-   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
-   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
-   document.write ("&amp;loc=" + escape(window.location).substring(0,1600));
-   if (document.context) document.write ("&context=" + escape(document.context));
-   if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
-       document.write ("&amp;ct0=" + escape(document.MAX_ct0));
-   }
-   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
-   document.write ("'></scr"+"ipt>");
-//]]>--></script>
-
-		<% } %>
-	</center>
+      <script type="text/javascript" src="//static.criteo.net/js/ld/publishertag.js"></script>
+      <script type="text/javascript">
+        Criteo.DisplayAd({
+          "zoneid": 244584,
+          "async": false
+        });
+      </script>
+    <% } %>
+  </center>
 
 
-	<div class="creditos">
-		<hr />
-		<p>© <%= (new Date()).getFullYear() %> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc. <%= (portugues ? "Hora no servidor " : "Server's time ") + hora_servidor %>. <a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><%= portugues ? "Como jogar" : "How to play" %></a>. <br />
+  <div class="creditos">
+    <hr />
+    <p>© <%= (new Date()).getFullYear() %> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc. <%= (portugues ? "Hora no servidor " : "Server's time ") + hora_servidor %>. <a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><%= portugues ? "Como jogar" : "How to play" %></a>. <br />
         	<!--a href="http://www.facebook.com/LABINC"><img src="http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc7/313183_235786553133974_188185091227454_656018_496740_n.jpg" width="145" height="156"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/apps/application.php?id=183114805092475"><img src="http://profile.ak.fbcdn.net/hprofile-ak-snc4/277035_183114805092475_912185436_n.jpg" width="153" height="142"></a-->
 		<?php #print_r(find("SELECT now()")) ?>
 		</p>
