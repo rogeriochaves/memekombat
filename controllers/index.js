@@ -201,7 +201,7 @@ app.all('/index', function(request, response) {
 
 		});
 	}else{ // usuário não está logado
-		response.redirect('/'); // redireciona para a página inicial para autenticação
+		response.redirect('/game'); // redireciona para a página inicial para autenticação
 	}
 
 });
