@@ -79,7 +79,7 @@ everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
   .appSecret(process.env.FACEBOOK_SECRET)
   .scope('user_friends')
-  .entryPath('/game') // path que direcionará para autenticação
+  .entryPath('/auth') // path que direcionará para autenticação
   .redirectPath(process.env.FACEBOOK_APP_URL) // após autenticação, retornar para url do jogo
   .findOrCreateUser(function() {
     return({});
@@ -185,17 +185,19 @@ server.listen(port, function() {
 //https.createServer(https_options, app).listen(port);
 //console.log("Listening on " + port);
 
+var auth = function (request, response) {
+	  var host = 'https://' + request.headers.host;
+	  if (request.session.auth){
+		    response.redirect(host + '/index');
+	  }else{
+		    response.send('<script type="text/javascript">top.location.href = "'+host+'/auth";</script>');
+	  }
+}
+
+app.get('/game', auth);
+
 // redireciona usuário para autenticação do facebook
-app.post('/game', function(request, response){
-	var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
-	var host = method + '://' + request.headers.host;
-	if (request.session.auth && request.session.logged){
-		response.redirect(host + '/index');
-	}else{
-		request.session.logged = true;
-		response.send('<script type="text/javascript">top.location.href = "'+host+'/game";</script>');
-	}
-});
+app.post('/game', auth);
 
 // recomendação do facebook para resolver alguns problemas de js cross-domain
 app.all('/channel.html', function(req, res) {
