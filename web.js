@@ -205,7 +205,7 @@ app.all('/game', function (request, response) {
   response.send('<script type="text/javascript">location.href = "'+redirect+'";</script>');
 });
 
-app.get('/logout', function (request, response) {
+app.get('/signout', function (request, response) {
   delete request.session.auth;
 
   response.send('<script type="text/javascript">location.href = "/";</script>');
