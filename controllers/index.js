@@ -129,7 +129,6 @@ app.all('/index', function(request, response) {
 
 	var method = 'https';// request.headers['x-forwarded-proto'] || 'http';
 
-	delete request.session.logged;
 	if (request.session.auth){ // caso esteja logado
 
 		var token = request.session.auth.facebook.accessToken; // pega token do facebook
