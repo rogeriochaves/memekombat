@@ -6,7 +6,7 @@ var itemList = {
 }
 
 app.get('/realtime', function(request, response) {
-  if (request.param('hub.verify_token') === '***REMOVED***') {
+  if (request.param('hub.verify_token') === process.env.VERIFY_TOKEN) {
     return response.send(request.param('hub.challenge'));
   }
 
@@ -17,8 +17,8 @@ app.post('/realtime', function(request, response) {
   var payment_id = request.body.entry[0].id;
 
   var credentials = {
-    client_id: '183114805092475',
-    client_secret: '***REMOVED***',
+    client_id: process.env.FACEBOOK_APP_ID,
+    client_secret: process.env.FACEBOOK_SECRET,
     grant_type: 'client_credentials'
   };
 

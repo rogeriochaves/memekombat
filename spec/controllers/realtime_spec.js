@@ -8,7 +8,7 @@ describe('realtime verification', function () {
     params = {
       'hub.mode': 'subscribe',
       'hub.challenge': 'foo',
-      'hub.verify_token': '***REMOVED***'
+      'hub.verify_token': process.env.VERIFY_TOKEN
     }
     request({url: realtimeUrl, qs: params}, function(error, response, body){
       expect(body).toEqual('foo');

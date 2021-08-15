@@ -44,11 +44,8 @@ require('./schema.js');
 if(process.env.NODE_ENV == 'production'){
 
 	// Configurações do app do facebook
-	/*process.env.FACEBOOK_APP_ID = '282893221758514';
-	process.env.FACEBOOK_SECRET = '***REMOVED***';
-	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattwo/';*/
-	process.env.FACEBOOK_APP_ID = '183114805092475';
-	process.env.FACEBOOK_SECRET = '***REMOVED***';
+	// process.env.FACEBOOK_APP_ID = '';
+	// process.env.FACEBOOK_SECRET = '';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/meme_kombat/';
 	process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
 
@@ -57,15 +54,15 @@ if(process.env.NODE_ENV == 'production'){
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;
 
 	// Conexão com o banco
-	mongoose.connect('***REMOVED***');
+	mongoose.connect(process.env.MONGOLAB_URI);
 
 
 }else{
 
 	//require("v8-profiler"); // para tentar detectar memory leaks
 	// Configurações do app do facebook de teste
-	process.env.FACEBOOK_APP_ID = '130619640386826';
-	process.env.FACEBOOK_SECRET = '***REMOVED***';
+	// process.env.FACEBOOK_APP_ID = '';
+	// process.env.FACEBOOK_SECRET = '';
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
 	process.env.FACEBOOK_APP_HOME = 'https://localhost:3000/';
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;

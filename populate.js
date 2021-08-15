@@ -10,11 +10,11 @@ var done = function(){
 
 require.paths.unshift(__dirname + '/lib');
 
-global.mongoose = require('mongoose')  
+global.mongoose = require('mongoose')
 global.Schema = mongoose.Schema
 global.ObjectId = Schema.ObjectId;
 if(process.env.NODE_ENV){
-	mongoose.connect('***REMOVED***');
+	mongoose.connect(process.env.MONGOLAB_URI);
 }else{
 	mongoose.connect('mongodb://localhost/memekombat');
 }
