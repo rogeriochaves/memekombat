@@ -66,7 +66,7 @@ if(process.env.NODE_ENV == 'production'){
 	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
 	process.env.FACEBOOK_APP_HOME = 'https://localhost:3000/';
 	process.env.CDN = process.env.FACEBOOK_APP_HOME;
-	mongoose.connect('mongodb://localhost/memekombat'); // db local
+	mongoose.connect('mongodb://localhost:27017/memekombat'); // db local
 
 }
 
@@ -114,7 +114,7 @@ if(process.env.NODE_ENV == 'production'){
 	app.use(express.cookieParser()); // utilizar cookies
 	// configuração da session, conectando com Redis
 	app.use(express.session({
-		secret: '***REMOVED***',
+		secret: process.env.SESSION_SECRET,
 		store: new RedisStore(redis)
 	}));
 	// insert a middleware to set the facebook redirect hostname to http/https dynamically
@@ -155,7 +155,7 @@ if(process.env.NODE_ENV == 'production'){
 	app.use(express.logger()); // logga tudo
 	app.use(express.cookieParser());
 	app.use(express.session({
-		secret: '***REMOVED***',
+		secret: process.env.SESSION_SECRET,
 		store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
 	}));
 	app.use(function(request, response, next) {
