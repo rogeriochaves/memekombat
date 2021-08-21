@@ -166,45 +166,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 	</div>
 
 	<hr />
-	<!-- Begin Ad Call Tag - Do not Modify -->
-	<!--iframe width='468' height='60' style="margin-left:156px" frameborder='no' framespacing='0' scrolling='no' src='//ads.lfstmedia.com/slot/slot27031?ad_size=468x60&adkey=796'></iframe-->
-	<!-- End of Ad Call Tag -->
 
-	<% var anuncio = 2; %>
-	<center>
-		<% if(anuncio == 0){ %>
-			<%
-
-				var rand_pic = parseInt(Math.random() * 3);
-				var rand_frase = parseInt(Math.random() * 7);
-				var frases = [
-					'Conheça o aplicativo que te mostra as melhores <b>cantadas</b>, envie suas próprias e compartilhe com seus amigos',
-					'Gata, você gosta de música? Então vamos ali pro <b>canto</b>, sua linda!',
-					'Não estou olhando pros seus peitos, estou olhando pro seu coração, sua linda!',
-					'Posso te pagar um drink ou você quer só a grana?',
-					'Sabe o que cairia bem agora? Você nos meus braços, sua linda!',
-					'Me chama de Jedi que eu mostro meu sabre de luz!',
-					'Me chama de videogame e me joga no sofá, sua linda!'
-				];
-
-			%>
-			<a href='http://cantad.as/' target="_blank" class="cantadas no-follow" style="text-decoration: none; display: block; height: 98px;">
-				<p style="font-family: sans-serif; position: absolute; width: 340px; font-size: 18px; margin: 15px 0 0 280px; text-align: left; <%= rand_pic == 0 ? 'color: #333; text-shadow: #FFF 1px 1px;' : 'color: #fff; text-shadow: #333 1px 1px;' %>" class="num<%= rand_pic + 1 %>"><%- frases[rand_frase] %></p>
-				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad<%= rand_pic + 1 %>.jpg" alt="" border="0" />
-			</a>
-		<% }else if(anuncio == 1){ %>
-			<a href="http://www.superdown.com.br" class="sdlink no-follow" target="_blank" style="text-decoration: none; display: block; height: 98px;">
-				<img style="border:1px solid #AAA;" src="<%= process.env.CDN %>img/ads/ad_superdown.jpg" alt="" border="0" />
-			</a>
-		<% }else{ %>
-      <script type="text/javascript" src="//static.criteo.net/js/ld/publishertag.js"></script>
-      <script type="text/javascript">
-        Criteo.DisplayAd({
-          "zoneid": 244584,
-          "async": false
-        });
-      </script>
-    <% } %>
   </center>
 
 
@@ -416,19 +378,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			}
 			wrapper.animate({left: pos + 'px'});
 		});
-
-		<% if(anuncio == 0){ %>
-			// google analytics track do anúnio
-			$('.cantadas').click(function() {
-				console.log('anuncio!');
-				_gaq.push(['_trackEvent', 'Cantadas', '<%= ["Barney", "Pedreiro", "Charlie Sheen"][rand_pic] %>', '<%= frases[rand_frase] %>' ]);
-			});
-		<% } else { %>
-			$('.sdlink').click(function() {
-				console.log('anuncio!');
-				_gaq.push(['_trackEvent', 'Superdown', 'Click', 'Superdown Banner' ]);
-			});
-		<% } %>
 
 	})();
 </script>
