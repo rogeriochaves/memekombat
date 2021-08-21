@@ -20,13 +20,14 @@
     "sys": "0.0.1"
   },
   "devDependencies": {
-    "jasmine-node": "latest"
+    "jasmine-node": "latest",
+    "nodemon": "^2.0.12"
   },
   "engines": {
     "node": "14"
   },
   "subdomain": "memekombat.MemeKombat",
   "scripts": {
-    "start": "node web.js"
+    "start": "nodemon web.js"
   }
 }
