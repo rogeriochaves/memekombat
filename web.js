@@ -15,6 +15,7 @@ O esquema do banco em schema.js
 
 var everyauth = require('everyauth'); // módulo para autenticação do facebook
 var express   = require('express'); // framework pra tratar as requisições do node, gerenciar cookies, sessions, etc
+var cors = require("cors");
 var http = require('http');
 var https = require('https');
 var RedisStore = require('connect-redis')(express); // conexão com redis para armazenar sessions
@@ -22,10 +23,21 @@ var MemoryStore = express.session.MemoryStore; // memória local para armazenar 
 var FacebookClient = require('facebook-client').FacebookClient;
 var bodyParser = require('body-parser');
 var shuffle = require('knuth-shuffle').knuthShuffle;
+var firebase = require("firebase-admin");
 global.facebook = new FacebookClient();
+
+if (!process.env.FIREBASE_CREDENTIALS) {
+	throw ("FIREBASE_CREDENTIALS env var is not set, please set it to base64 encoded json credentials from firebase. " +
+		   "You can generate credentials on firebase > Project Settings > Service accounts > Generate new private key")
+}
+var firebaseCredentials = new Buffer(process.env.FIREBASE_CREDENTIALS, 'base64').toString();
+firebase.initializeApp({
+	credential: firebase.credential.cert(JSON.parse(firebaseCredentials))
+});
 
 var https = require('https');
 var fs = require('fs');
+const { request } = require('express');
 var https_options = {
   ca:   fs.readFileSync('ssl/sub.class1.server.ca.pem'),
   key:  fs.readFileSync('ssl/ssl.key'),
@@ -70,32 +82,6 @@ if(process.env.NODE_ENV == 'production'){
 
 }
 
-
-// configura a autenticação do facebook
-everyauth.facebook
-  .appId(process.env.FACEBOOK_APP_ID)
-  .appSecret(process.env.FACEBOOK_SECRET)
-  .scope('user_friends')
-  .entryPath('/') // path que direcionará para autenticação
-  .redirectPath(process.env.FACEBOOK_APP_URL) // após autenticação, retornar para url do jogo
-  .findOrCreateUser(function() {
-    return({});
-  });
-
-// ao encontrar um erro, apenas logga-lo, não travar o processo
-everyauth.everymodule.moduleErrback( function (err) {
-  console.log(err);
-});
-
-everyauth.everymodule
-  .performRedirect( function (response, location) {
-    if (location === process.env.FACEBOOK_APP_URL) {
-      response.send('<script type="text/javascript">location.href = "'+location+'";</script>');
-    } else {
-      response.render('home.ejs', {layout: false, location: location});
-    }
-  });
-
 if(process.env.NODE_ENV == 'production'){
 	var redis_url = process.env.REDISTOGO_URL
 	  , redis = {
@@ -108,6 +94,7 @@ if(process.env.NODE_ENV == 'production'){
 	var oneYear = 31557600000; // expiração dos arquivos estáticos
 	// create an express webserver
 	global.app = express();
+	app.use(cors());
 	app.use(express.errorHandler()); // lida com erros tentando não travar o processo
 	//app.use(express.logger()); // logga tudo
 	app.use(express.static(__dirname + '/public', { maxAge: oneYear })); // onde ficam os arquivos estáticos e seu tempo de expire
@@ -151,12 +138,13 @@ if(process.env.NODE_ENV == 'production'){
 	};
 
 	global.app = express();
+	app.use(cors());
 	app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
 	app.use(express.logger()); // logga tudo
 	app.use(express.cookieParser());
 	app.use(express.session({
-		secret: process.env.SESSION_SECRET,
-		store: process.env.SERVER == 'nodejitsu' ? new MemoryStore() : process.env.NODE_ENV == 'production' ? new RedisStore(redis) : new MemoryStore()
+		secret: "localsecret",
+		store: new MemoryStore()
 	}));
 	app.use(function(request, response, next) {
 		if(request.param('request_ids')){
@@ -177,6 +165,7 @@ if(process.env.NODE_ENV == 'production'){
 	app.use(bodyParser.json());
 	global.server = https.createServer(ssl_keys, app);
 }
+app.use(bodyParser.urlencoded({ extended: true }));
 
 if(process.env.NODE_ENV == 'production'){ // habilita view cache para ganhar (muita) performance
 	app.enable('view cache');
@@ -190,6 +179,48 @@ server.listen(port, function() {
 });
 //https.createServer(https_options, app).listen(port);
 //console.log("Listening on " + port);
+
+app.use((req, res, next) => {
+	const sessionCookie = req.cookies.session || '';
+	console.log('sessionCookie', sessionCookie);
+
+	firebase
+    .auth()
+    .verifySessionCookie(sessionCookie, true /** checkRevoked */)
+    .then((authToken) => {
+		req.session.auth = authToken;
+		next();
+    })
+    .catch((_error) => {
+      res.redirect('/home');
+    });
+
+});
+
+app.get('/', function (request, response) {
+	response.render('home.ejs', {layout: false});
+});
+
+app.post('/login', (req, res) => {
+	console.log('req.body', req.body);
+	const idToken = req.body.idToken.toString();
+	const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+
+	firebase
+    .auth()
+    .createSessionCookie(idToken, { expiresIn })
+    .then(
+      (sessionCookie) => {
+        // Set cookie policy for session cookie.
+        const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+        res.cookie("session", sessionCookie, options);
+		res.redirect("/game");
+      },
+      (error) => {
+        res.status(401).send("UNAUTHORIZED REQUEST!");
+      }
+    );
+});
 
 // redireciona usuário para autenticação do facebook
 app.all('/game', function (request, response) {

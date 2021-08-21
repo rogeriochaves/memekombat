@@ -17,6 +17,7 @@
   <meta property="og:site_name" content="Meme Kombat" />
   <meta property="fb:app_id" content="<%= process.env.FACEBOOK_APP_ID %>" />
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria Hallelujah">
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
   <style type="text/css">
     body{margin:0 auto; padding:0; border:2px solid #DDD; width:760px; font-family: 'Gloria Hallelujah', "Lucida Grande", Tahoma, sans-serif; background:#FFF url(/images/bg2.jpg) center 0; border-width: 0 2px; height: 650px;}
     .bg{height: 100%; background:#FFF url(/img/bg.jpg) center 0; width: 760px;}
@@ -41,6 +42,34 @@
     .nyan .rainbow{position: absolute; background: url(/img/habilidades/nyan-cat-rainbow.gif); width: 46px; height: 54px; left:0; top:23px;}
 
     .fb-like{position: absolute!important; margin-left: 100px; bottom:10px}
+
+    .firebase-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .2);
+    }
+    .firebase-login-box{
+      display: none;
+      position: absolute;
+      top: calc(50% - 140px);
+      right: 0;
+      left: 0;
+      max-width: 260px;
+      margin: 0 auto;
+      background:#FFF url(/img/bg.jpg) center 0;
+      border: 2px solid #DDD;
+    }
+    .mdl-button--raised {
+      box-shadow: none;
+      border: 2px solid #DDD;
+    }
+    .firebaseui-idp-password {
+      background: #F3886D!important;
+    }
   </style>
 </head>
 <body>
@@ -65,6 +94,9 @@
   <div class="cat"><img src="/img/habilidades/nyan-cat.gif"></div>
 </div>
 
+<div class="firebase-overlay"></div>
+<div class="firebase-login-box"></div>
+
 <div class="bg">
   <div class="content">
     <h2>Escolha seu meme e destrua seus amigos</h2>
@@ -72,16 +104,15 @@
     <div class="logo"><img src="/images/meme-kombat-logo.png" alt=""></div>
     <div class="jogar_agora">
       <div class="derp"></div>
-      <a href="#" onclick="top.location.href = '<%= location %>'; return false;">
+      <a href="#" class="play-button">
         <h1>Jogar Agora</h1>
-        <img src="/images/ico-fb.png" alt="" border="0">
       </a>
       <div class="clear"></div>
     </div>
   </div>
   <div class="fb-like" data-href="https://www.facebook.com/MemeKombat" data-send="true" data-width="570" data-show-faces="true"></div>
 </div>
-  
+
 <script src="<%= process.env.CDN %>js/libs/jquery-1.6.2.min.js"></script>
 <script type="text/javascript">
   (function anim(){
@@ -99,6 +130,85 @@
     });
   })();
 </script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+<script>
+  var overlay = document.querySelector(".firebase-overlay");
+  var loginBox = document.querySelector(".firebase-login-box");
+  document.querySelector(".play-button").addEventListener('click', function () {
+    overlay.style.display = 'block';
+    loginBox.style.display = 'block';
+  });
+  overlay.addEventListener('click', function () {
+    overlay.style.display = 'none';
+    loginBox.style.display = 'none';
+  });
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDDymyxv1VZyrwQo2ozXGJPxhmD_VPiAd8",
+    authDomain: "memekombat-a46ed.firebaseapp.com",
+    projectId: "memekombat-a46ed",
+    storageBucket: "memekombat-a46ed.appspot.com",
+    messagingSenderId: "553063652277",
+    appId: "1:553063652277:web:221e0df59683d5e2a5d7fc",
+    measurementId: "G-MY0W67371B"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  // Initialize the FirebaseUI Widget using Firebase.
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+  ui.start('.firebase-login-box', {
+    callbacks: {
+      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+
+        // return user.getIdToken().then(idToken => {
+        //   // Session login endpoint is queried and the session cookie is set.
+        //   // CSRF protection should be taken into account.
+        //   // ...
+        //   const csrfToken = getCookie('csrfToken')
+        //   return postIdTokenToSessionLogin('/sessionLogin', idToken, csrfToken);
+        // });
+        authResult.user.getIdToken().then(idToken => {
+          var form = document.createElement("form");
+          form.action = "/login";
+          form.method = "POST";
+
+          var input = document.createElement("input");
+          input.type = "hidden";
+          input.name = "idToken";
+          input.value = idToken;
+
+          form.appendChild(input);
+          document.body.appendChild(form);
+          form.submit();
+        });
+        return false;
+      },
+    },
+    signInOptions: [{
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: true
+    }, {
+      provider: firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      requireDisplayName: true
+    }, {
+      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      requireDisplayName: true
+    }, {
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      requireDisplayName: true
+    }],
+  });
+</script>
+
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -107,19 +217,6 @@
   js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1&appId=316368308396738";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-26500030-1']);
-  _gaq.push(['_trackPageview']);
-  //_gaq.push(['_trackSocial(network, socialAction, opt_target, opt_pagePath)']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
 
 </body>
 </html>
