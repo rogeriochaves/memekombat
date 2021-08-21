@@ -13,7 +13,7 @@ app.all('/ranking', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			var user = request.session.auth.facebook.user;
+			var user = request.session.auth.user;
 
 			// lista de amigos jogando o jogo
 			amigos_usando(request, response, function(result){

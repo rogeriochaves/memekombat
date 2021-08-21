@@ -180,29 +180,40 @@ server.listen(port, function() {
 //https.createServer(https_options, app).listen(port);
 //console.log("Listening on " + port);
 
-app.use((req, res, next) => {
+function firebaseAuth(req) {
 	const sessionCookie = req.cookies.session || '';
-	console.log('sessionCookie', sessionCookie);
 
-	firebase
-    .auth()
-    .verifySessionCookie(sessionCookie, true /** checkRevoked */)
-    .then((authToken) => {
-		req.session.auth = authToken;
-		next();
-    })
-    .catch((_error) => {
-      res.redirect('/home');
-    });
+	return firebase
+		.auth()
+		.verifySessionCookie(sessionCookie, true /** checkRevoked */);
+}
 
-});
+global.authMiddleware = (req, res, next) => {
+	firebaseAuth(req)
+		.then((authToken) => {
+			req.session.auth = authToken;
+			req.session.auth.user = {
+				id: authToken.uid,
+				locale: req.headers['accept-language'],
+				name: authToken.name
+			};
+			next();
+		})
+		.catch((_error) => {
+			res.redirect('/');
+		});
+};
 
 app.get('/', function (request, response) {
-	response.render('home.ejs', {layout: false});
+	firebaseAuth(request)
+		.then(() => {
+			response.redirect('/index');
+		}).catch(() => {
+			response.render('home.ejs', { layout: false });
+		});
 });
 
 app.post('/login', (req, res) => {
-	console.log('req.body', req.body);
 	const idToken = req.body.idToken.toString();
 	const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
@@ -214,7 +225,7 @@ app.post('/login', (req, res) => {
         // Set cookie policy for session cookie.
         const options = { maxAge: expiresIn, httpOnly: true, secure: true };
         res.cookie("session", sessionCookie, options);
-		res.redirect("/game");
+		res.redirect("/index");
       },
       (error) => {
         res.status(401).send("UNAUTHORIZED REQUEST!");
@@ -222,21 +233,10 @@ app.post('/login', (req, res) => {
     );
 });
 
-// redireciona usuário para autenticação do facebook
-app.all('/game', function (request, response) {
-  var host = 'https://' + request.headers.host;
-  var redirect = host;
-  if (request.session.auth){
-    redirect = host + '/index';
-  }
+app.get('/signout', authMiddleware, function (request, response) {
+	response.clearCookie('session');
 
-  response.send('<script type="text/javascript">location.href = "'+redirect+'";</script>');
-});
-
-app.get('/signout', function (request, response) {
-  delete request.session.auth;
-
-  response.redirect(302, '/');
+	response.redirect('/');
 });
 
 // recomendação do facebook para resolver alguns problemas de js cross-domain
@@ -249,7 +249,11 @@ app.all('/channel.html', function(req, res) {
 });
 
 // retorna os amigos que estão jogando (utilizado na página inicial, na arena e no ranking) e salva na session para não ficar retornando à API do Facebook
-global.amigos_usando = function(request, response, fn){
+global.amigos_usando = function (request, response, fn) {
+	// TODO: remove or adapt this
+	fn([]);
+	return;
+
 	if(!request.session.auth){
 		fn(undefined);
 	}else{

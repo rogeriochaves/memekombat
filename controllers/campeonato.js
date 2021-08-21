@@ -235,7 +235,7 @@ app.all('/campeonato', function(request, response) {
 		var token = request.session.auth.facebook.accessToken;
 		facebook.getSessionByAccessToken(token)(function(session) {
 
-			var user = request.session.auth.facebook.user;
+			var user = request.session.auth.user;
 
 			Personagem.findOne({uid: user.id}, function(err, personagem){
 				if(personagem == null){

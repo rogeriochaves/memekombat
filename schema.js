@@ -44,7 +44,6 @@ var PersonagemSchema = new Schema({
   , exp: Number
   , idioma: String
   , genero: String
-  , username: String
   , link_indicacao: String
   , ranking_pos: Number
   , campeonato_id: ObjectId

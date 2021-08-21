@@ -9,7 +9,7 @@ app.all('/_arena', function(request, response) {
 
 			var arena_uids = request.param('arena_uids') ? request.param('arena_uids').replace("'", '').split(',') : [];
 
-				var user = request.session.auth.facebook.user;
+				var user = request.session.auth.user;
 				var busca = request.param('busca');
 
 				Personagem.findOne({uid: user.id}, function(err, personagem){

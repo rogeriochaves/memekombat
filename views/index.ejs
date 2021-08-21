@@ -128,10 +128,9 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 <div class="conteudo">
 </div>
 <br /><br />
-<hr class="pessoas" />
 <div class="rodape">
 	<div class="pessoas clearfix">
-			<% if(friends_not_using && friends_using.length > 0){ %>
+			<% if(friends_using && friends_using.length > 0){ %>
 				<div class="quem-mais">
 					<%= portugues ? "Amigos que já jogam" : "Friends on Meme Kombat" %> <br />
 			    	<ul class="clearfix">
@@ -165,17 +164,19 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			<% } %>
 	</div>
 
-	<hr />
-
   </center>
 
 
   <div class="creditos">
     <hr />
-    <p>© <%= (new Date()).getFullYear() %> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc. <%= (portugues ? "Hora no servidor " : "Server's time ") + hora_servidor %>. <a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><%= portugues ? "Como jogar" : "How to play" %></a>. <br />
-        	<!--a href="http://www.facebook.com/LABINC"><img src="http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc7/313183_235786553133974_188185091227454_656018_496740_n.jpg" width="145" height="156"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/apps/application.php?id=183114805092475"><img src="http://profile.ak.fbcdn.net/hprofile-ak-snc4/277035_183114805092475_912185436_n.jpg" width="153" height="142"></a-->
-		<?php #print_r(find("SELECT now()")) ?>
-		</p>
+    <p>
+		© <%= (new Date()).getFullYear() %> <a href="https://www.facebook.com/LABINC" class="no-rel" target="_blank">Like a Boss</a> Inc.
+		<%= (portugues ? "Hora no servidor " : "Server's time ") + hora_servidor %> |
+		<a href="#" class="ajuda no-rel" style="color:#000; text-decoration:underline"><%= portugues ? "Como jogar" : "How to play" %></a>
+		|
+		<a href="/signout" class="ajuda no-rel" style="color:#000; text-decoration:underline">Logout</a>
+		<br />
+	</p>
 	</div>
 
 	<!--hr />
@@ -395,34 +396,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
-  window.fbAsyncInit = function() {
-    //FB._https = true;
-    FB.init({appId: '<%= process.env.FACEBOOK_APP_ID %>', status: true, cookie: true, xfbml: true});
-    FB.Canvas.setAutoGrow(); // ajustar altura do canvas automaticamente
-    FB.getLoginStatus(function(response) {
-      if (response.status !== 'connected' || response.authResponse.userID != '<%= user.id %>') {
-        location = '/signout';
-      }
-    });
-
-    // social track do facebook
-    FB.Event.subscribe('edge.create', function(targetUrl) {
-      _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
-    });
-    FB.Event.subscribe('edge.remove', function(targetUrl) {
-      _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
-    });
-    FB.Event.subscribe('message.send', function(targetUrl) {
-      _gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
-    });
-    FB.Event.subscribe('comment.create',function(response) {
-      _gaq.push(['_trackSocial','Facebook','comment',response]);
-    });
-    FB.Event.subscribe('comment.remove',function(response) {
-      _gaq.push(['_trackSocial','Facebook','uncomment',response]);
-    });
-  }
 
 	function extractParamFromUri(uri, paramName) {
 	  if (!uri) {

@@ -1,4 +1,4 @@
-var jogadores_arena = function(user, session, personagem, request, response, user){
+var jogadores_arena = function(user, personagem, request, response, user){
 	amigos_usando(request, response, function(result){
 		var amigos_uids = [];
 		if(result && result.forEach){
@@ -69,7 +69,7 @@ var jogadores_arena = function(user, session, personagem, request, response, use
 	});
 }
 
-var busca_jogadores_arena = function(user, session, personagem, busca, request, response, user){
+var busca_jogadores_arena = function(user, personagem, busca, request, response, user){
 	amigos_usando(request, response, function(friends){
 		var amigos_uids = friends.filter(function (friend) {
 			return friend.name.indexOf(busca) >= 0
@@ -134,43 +134,19 @@ var busca_jogadores_arena = function(user, session, personagem, busca, request, 
 	});
 }
 
-app.all('/arena', function(request, response) {
+app.all('/arena', authMiddleware, function(request, response) {
+	var user = request.session.auth.user;
+	var busca = request.param('busca');
 
-	//try{
-	var method = request.headers['x-forwarded-proto'] || 'http';
+	Personagem.findOne({uid: user.id}, function(err, personagem){
+		if(personagem != null){
 
-	if (request.session.auth) {
+			if(busca && busca.length > 0){
+				busca_jogadores_arena(user, personagem, busca, request, response, user);
+			}else{
+				jogadores_arena(user, personagem, request, response, user);
+			}
 
-		var token = request.session.auth.facebook.accessToken;
-		facebook.getSessionByAccessToken(token)(function(session) {
-
-			//var socket_id = request.param('socket_id') ? request.param('socket_id') : uuid();
-			//session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
-
-				var user = request.session.auth.facebook.user;
-				var busca = request.param('busca');
-
-				Personagem.findOne({uid: user.id}, function(err, personagem){
-					if(personagem != null){
-
-						if(busca && busca.length > 0){
-							busca_jogadores_arena(user, session, personagem, busca, request, response, user);
-						}else{
-							jogadores_arena(user, session, personagem, request, response, user);
-						}
-
-					}
-				});
-
-		    //});
-
-		});
-
-	}else{
-		response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
-	}
-	//}catch(e){
-	//	console.log(e.stack)
-	//}
-
+		}
+	});
 });

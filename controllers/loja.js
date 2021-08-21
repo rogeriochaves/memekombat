@@ -13,7 +13,7 @@ app.all('/loja', function(request, response) {
 		var token = request.session.auth.facebook.accessToken; // token de acesso
 		facebook.getSessionByAccessToken(token)(function(session) { // usuário autenticado
 
-			var user = request.session.auth.facebook.user;
+			var user = request.session.auth.user;
 
 			Personagem.findOne({uid: user.id}, function(err, data){ // encontra o personagem
 				if(data == null){

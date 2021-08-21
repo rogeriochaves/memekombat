@@ -13,7 +13,7 @@ app.all('/luta/:id?', function(request, response) {
 		var token = request.session.auth.facebook.accessToken; // token de acesso
 		facebook.getSessionByAccessToken(token)(function(session) { // usuario autenticado
 
-			var user = request.session.auth.facebook.user;
+			var user = request.session.auth.user;
 			// id da luta, passado por url ou por parâmetro
 			var luta_id = request.params.id ? request.params.id : (request.param('id') ? request.param('id') : undefined);
 
