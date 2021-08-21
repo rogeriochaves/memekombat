@@ -12,30 +12,19 @@ var get_campeonato = function(personagem, fn){
 	}
 }
 
-app.all('/sair_campeonato', function(request, response) {
+app.all('/sair_campeonato', authMiddleware, function(request, response) {
 
-	//try{
-	var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
+	var user = request.session.auth.user;
 
-	if (request.session.auth) {
+	Personagem.findOne({uid: user.id}, function(err, personagem){
 
-		var token = request.session.auth.facebook.accessToken;
-		facebook.getSessionByAccessToken(token)(function(session) {
-
-
-				var user = request.session.auth.user;
-
-				Personagem.findOne({uid: user.id}, function(err, personagem){
-
-					personagem.campeonato_id = null;
-					personagem.save(function(err){
-						response.redirect('/perfil');
-					});
-
-				});
-
+		personagem.campeonato_id = null;
+		personagem.save(function(err){
+			response.redirect('/perfil');
 		});
-	}
+
+	});
+
 });
 
 

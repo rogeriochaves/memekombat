@@ -10,8 +10,8 @@ miss = "Fail";
 sprites = {
 	'default':{
 		width: 800,
-		size: [79, 79],
-		spacing: 1,
+		size: [77, 77],
+		spacing: 3,
 		speed: 100,
 		parado: [0, 0, 4],
 		andando: [80 * 4, 0, 4],
@@ -399,3 +399,11 @@ eventos = {
 	}
 };
 ordem_eventos = [null, "orly"];
+
+// Fix pink border
+for (var key of Object.keys(sprites['default'])) {
+	if (sprites['default'][key].length >= 3) {
+		sprites['default'][key][0] += 1;
+		sprites['default'][key][1] += 1;
+	}
+}

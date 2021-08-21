@@ -166,16 +166,10 @@
   // Initialize the FirebaseUI Widget using Firebase.
   var ui = new firebaseui.auth.AuthUI(firebase.auth());
   ui.start('.firebase-login-box', {
+    signInFlow: 'popup',
     callbacks: {
       signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-
-        // return user.getIdToken().then(idToken => {
-        //   // Session login endpoint is queried and the session cookie is set.
-        //   // CSRF protection should be taken into account.
-        //   // ...
-        //   const csrfToken = getCookie('csrfToken')
-        //   return postIdTokenToSessionLogin('/sessionLogin', idToken, csrfToken);
-        // });
+        loginBox.style.display = "none";
         authResult.user.getIdToken().then(idToken => {
           var form = document.createElement("form");
           form.action = "/login";

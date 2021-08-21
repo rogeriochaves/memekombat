@@ -1,5 +1,5 @@
 app.all('/achievements/:url', function(request, response) {
-	
+
 	if(!request.params.url){
 		response.redirect('/');
 	}else{
@@ -16,5 +16,5 @@ app.all('/achievements/:url', function(request, response) {
 			}
 		});
 	}
-	
+
 });

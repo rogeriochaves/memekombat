@@ -227,98 +227,89 @@ function render_campeonato(request, response, user, personagem, campeonato){
 
 }
 
-app.all('/campeonato', function(request, response) {
+app.all('/campeonato', authMiddleware, function(request, response) {
 
-	var method = request.headers['x-forwarded-proto'] || 'http';
+	var user = request.session.auth.user;
 
-	if (request.session.auth) {
-		var token = request.session.auth.facebook.accessToken;
-		facebook.getSessionByAccessToken(token)(function(session) {
+	Personagem.findOne({uid: user.id}, function(err, personagem){
+		if(personagem == null){
+			response.redirect('inicio');
+		}else{
+			var GerarCampeonato = require('./../struct/GerarCampeonato.js');
+			if(typeof personagem.campeonato_id == 'undefined' || personagem.campeonato_id == null){
+				GerarCampeonato.get_campeonato_livre(personagem.ranking_pos, function(campeonato){
+					GerarCampeonato.inserir_personagem_no_campeonato(personagem, campeonato, function(){
+						GerarCampeonato.get_campeonato(campeonato, 0, function(camp){
+							render_campeonato(request, response, user, personagem, camp);
+						});
+					});
+				});
+			}else{
+				var chave_lv = personagem.chave_lv;
+				Campeonato.findOne({_id: personagem.campeonato_id}, function(err, campeonato){
 
-			var user = request.session.auth.user;
+					if(request.param('finalizar') && campeonato.vencedor_id && campeonato.vencedor_id.toString() == personagem._id.toString()){
+						var novo_ranking = Math.min(8, campeonato.ranking_pos + 1);
+						Ranking.findOne({pos: novo_ranking}, function(err, rank){
 
-			Personagem.findOne({uid: user.id}, function(err, personagem){
-				if(personagem == null){
-					response.redirect('inicio');
-				}else{
-					var GerarCampeonato = require('./../struct/GerarCampeonato.js');
-					if(typeof personagem.campeonato_id == 'undefined' || personagem.campeonato_id == null){
-						GerarCampeonato.get_campeonato_livre(personagem.ranking_pos, function(campeonato){
-							GerarCampeonato.inserir_personagem_no_campeonato(personagem, campeonato, function(){
-								GerarCampeonato.get_campeonato(campeonato, 0, function(camp){
-									render_campeonato(request, response, user, personagem, camp);
+							var GerarCampeonato = require('./../struct/GerarCampeonato.js');
+							GerarCampeonato.exp_ganha(personagem, personagem.chave_lv, function(personagem){
+								if(personagem.ranking_pos != novo_ranking){
+
+									var n = new Notificacao({
+										personagem_id: personagem._id,
+										tipo: 1,
+										texto: "Parabéns! Você ganhou o campeonato e passou para o ranking <b>"+rank.nome+"</b>",
+										texto_en: "Congratulations! You won the championist and became a <b>"+rank.nome_en+"</b>"
+									});
+									n.save();
+
+									personagem.ranking_pos = novo_ranking;
+								}else{
+
+									var n = new Notificacao({
+										personagem_id: personagem._id,
+										tipo: 1,
+										texto: "Parabéns! Você ganhou o campeonato",
+										texto_en: "Congratulations! You won the championist"
+									});
+									n.save();
+								}
+								personagem.chave_lv = 0;
+								personagem.campeonato_id = null;
+
+								personagem.save(function(err){
+									var Upar = require('./../struct/Upar.js');
+									Upar.subir_level(personagem);
+									response.redirect('/perfil');
 								});
 							});
+
+
+
+						});
+					}else if(request.param('proxima_luta')){
+						Chave.findOne({campeonato_id: campeonato._id, data_liberacao: {$lte: (new Date())}, level: personagem.chave_lv, $or: [{personagem1_id: personagem._id}, {personagem2_id: personagem._id}]}, function(err, chave){
+							var levels = parseInt(Math.log(campeonato.qtd_chaves) / Math.log(2));
+							if(chave != null && personagem.chave_lv <= levels){
+								personagem.chave_lv++;
+								personagem.save();
+								response.redirect('/luta/'+chave.luta_id+'?campeonato=true');
+							}else{
+								response.redirect('/perfil');
+							}
 						});
 					}else{
-						var chave_lv = personagem.chave_lv;
-						Campeonato.findOne({_id: personagem.campeonato_id}, function(err, campeonato){
-
-							if(request.param('finalizar') && campeonato.vencedor_id && campeonato.vencedor_id.toString() == personagem._id.toString()){
-								var novo_ranking = Math.min(8, campeonato.ranking_pos + 1);
-								Ranking.findOne({pos: novo_ranking}, function(err, rank){
-
-									var GerarCampeonato = require('./../struct/GerarCampeonato.js');
-									GerarCampeonato.exp_ganha(personagem, personagem.chave_lv, function(personagem){
-										if(personagem.ranking_pos != novo_ranking){
-
-											var n = new Notificacao({
-												personagem_id: personagem._id,
-												tipo: 1,
-												texto: "Parabéns! Você ganhou o campeonato e passou para o ranking <b>"+rank.nome+"</b>",
-												texto_en: "Congratulations! You won the championist and became a <b>"+rank.nome_en+"</b>"
-											});
-											n.save();
-
-											personagem.ranking_pos = novo_ranking;
-										}else{
-
-											var n = new Notificacao({
-												personagem_id: personagem._id,
-												tipo: 1,
-												texto: "Parabéns! Você ganhou o campeonato",
-												texto_en: "Congratulations! You won the championist"
-											});
-											n.save();
-										}
-										personagem.chave_lv = 0;
-										personagem.campeonato_id = null;
-
-										personagem.save(function(err){
-											var Upar = require('./../struct/Upar.js');
-											Upar.subir_level(personagem);
-											response.redirect('/perfil');
-										});
-									});
-
-
-
-								});
-							}else if(request.param('proxima_luta')){
-								Chave.findOne({campeonato_id: campeonato._id, data_liberacao: {$lte: (new Date())}, level: personagem.chave_lv, $or: [{personagem1_id: personagem._id}, {personagem2_id: personagem._id}]}, function(err, chave){
-									var levels = parseInt(Math.log(campeonato.qtd_chaves) / Math.log(2));
-									if(chave != null && personagem.chave_lv <= levels){
-										personagem.chave_lv++;
-										personagem.save();
-										response.redirect('/luta/'+chave.luta_id+'?campeonato=true');
-									}else{
-										response.redirect('/perfil');
-									}
-								});
-							}else{
-								GerarCampeonato.get_campeonato(campeonato, chave_lv, function(camp){
-									render_campeonato(request, response, user, personagem, camp);
-								});
-							}
-
-
+						GerarCampeonato.get_campeonato(campeonato, chave_lv, function(camp){
+							render_campeonato(request, response, user, personagem, camp);
 						});
-
 					}
-				}
-			});
-		});
-	}else{
-		response.send('<script type="text/javascript">top.location.href = "'+process.env.FACEBOOK_APP_HOME+'";</script>');
-	}
+
+
+				});
+
+			}
+		}
+	});
+
 });
