@@ -192,13 +192,13 @@
       requireDisplayName: true
     }, {
       provider: firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-      requireDisplayName: true
     }, {
       provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      requireDisplayName: true
+      scopes: [
+        'public_profile',
+      ],
     }, {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      requireDisplayName: true
     }],
   });
 </script>

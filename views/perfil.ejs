@@ -46,10 +46,22 @@
 	<div class="atributos">
 		<div class="clearfix">
 			<div class="meme_lv">
-				<div class="img">
-					<div class="meme <%= personagem.meme_src %> <%= personagem.genero == 'female' ? "derpina" : "" %>" style="border:1px solid #CCC"></div>
-					<img src="https://graph.facebook.com/<%= personagem.uid %>/picture?type=large" border="0" />
-				</div>
+				<% if (personagem.avatar.indexOf("gravatar") >= 0 && user.id == personagem.uid) { %>
+					<a href="https://gravatar.com" target="_blank" class="no-rel img" style="display: inline-block; position: relative">
+						<div style="position: absolute; width: 100%; height: 100%; text-align: center; display: flex; align-items: center; justify-content: center;">
+							<span style="background: #FFF; border-radius: 5px; font-size: 16px; padding: 3px;">
+								✏️ <%= portugues ? "editar" : "edit" %>
+							</span>
+						</div>
+						<div class="meme <%= personagem.meme_src %> <%= personagem.genero == 'female' ? "derpina" : "" %>" style="border:1px solid #CCC"></div>
+						<img src="<%= personagem.avatar %>" border="0" />
+					</a>
+				<% } else { %>
+					<div class="img">
+						<div class="meme <%= personagem.meme_src %> <%= personagem.genero == 'female' ? "derpina" : "" %>" style="border:1px solid #CCC"></div>
+						<img src="<%= personagem.avatar %>" border="0" />
+					</div>
+				<% } %>
 			</div>
 			<div class="attrs">
 				<table>
@@ -225,7 +237,7 @@
 							<% pupilos.forEach(function(pupilo) { %>
 								<li>
 									<a href="perfil?uid=<%= pupilo.uid %>">
-										<img src="https://graph.facebook.com/<%= pupilo.uid %>/picture?type=square" alt="<%= pupilo.nome %>" />
+										<img src="<%= pupilo.avatar %>" alt="<%= pupilo.nome %>" />
 									</a>
 								</li>
 							<% }) %>

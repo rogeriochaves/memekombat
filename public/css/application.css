@@ -11,7 +11,7 @@ a:hover{text-decoration: none; color: #333!important;}
 	.personagem a{width:79px; height: 79px; position: absolute; z-index:6; color: #000; text-decoration: none;}
 	.personagem a .perfil, a.player .perfil{position: absolute; background-image: url(../img/balao-perfil.png); width: 152px; height: 74px; margin: -75px 0 0 -40px; padding: 7px 7px 0 7px; opacity:0; filter: alpha(opacity = 0); transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear; -o-transition: opacity 0.2s linear; -webkit-transition: opacity 0.2s linear;}
 	a.player .perfil{margin:-120px 0 0 -45px; display: none;}
-		.personagem .perfil img, .personagem .info, .player .perfil img, .player .info{float: left;}
+		.personagem .perfil img, .personagem .info, .player .perfil img, .player .info{float: left; width: 48px}
 		.personagem .perfil .info, .player .perfil .info{margin-left: 10px; font-size: 14px; line-height: 26px;}
 	.personagem a:hover .perfil, a.player:hover .perfil{display: block; text-decoration: none; cursor: pointer; z-index:999; opacity:1; filter: alpha(opacity = 100); transition: opacity 0.1s linear; -moz-transition: opacity 0.2s linear; -o-transition: opacity 0.2s linear; -webkit-transition: opacity 0.2s linear;}
 .dano{position:absolute; font-size:25px; color:#000; z-index:2; text-shadow:2px 2px 3px #999; text-align: center;}

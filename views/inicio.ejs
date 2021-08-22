@@ -160,7 +160,7 @@
 		    	<ul class="clearfix">
 					<% amigos.forEach(function(friend){ %>
 						<li>
-							<img src="https://graph.facebook.com/<%= friend.id %>/picture?type=square" alt="<%= friend.nome %>" />
+							<img src="<%= friend.avatar %>" alt="<%= friend.nome %>" />
 						</li>
 					<% }); %>
 			    </ul>

@@ -59,7 +59,7 @@
 		<div class="personagem" rel="0" sprite="<%= p1.meme_src %><%= p1.genero == 'female' ? "_derpina" : '' %>" status="parado" frame="0" pos="0">
 			<a href="perfil?uid=<%= p1.uid %>">
 				<div class="perfil">
-					<img src="https://graph.facebook.com/<%= p1.uid %>/picture?type=square" />
+					<img src="<%= p1.avatar %>" />
 					<div class="info">
 						<%= p1.nome.split(' ')[0] %> <br />
 						<%= portugues ? "Nv" : "Lv" %> <%= p1.level %>
@@ -70,7 +70,7 @@
 		<div class="personagem mirror" rel="1" sprite="<%= p2.meme_src %><%= p2.genero == 'female' ? "_derpina" : '' %>" status="parado" frame="0" pos="0">
 			<a href="perfil?uid=<%= p2.uid %>">
 				<div class="perfil">
-					<img src="https://graph.facebook.com/<%= p2.uid %>/picture?type=square" />
+					<img src="<%= p2.avatar %>" />
 					<div class="info">
 						<%= p2.nome.split(' ')[0] %> <br />
 						<%= portugues ? "Nv" : "Lv" %> <%= p2.level %>

@@ -57,6 +57,7 @@ var criar_personagem = function(request, response, mestre_id){
 	p.uid = user.id;
 	p.indicacao_id = mestre_id; // caso ele tenha entrado por indicação
 	p.meme_src = request.param('meme').replace(" derpina", ""); // meme escolhido
+	p.avatar = user.picture;
 	p.level = 1;
 	// randomização dos atributos
 	p.hp = parseInt(Math.random() * 10) + 10;

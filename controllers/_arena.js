@@ -19,7 +19,7 @@ app.all('/_arena', authMiddleware, function(request, response) {
 					.where('uid').nin(arena_uids)
 					.where('level').lt(personagem.level + requisicoes + 2)
 					.sort('-level random').limit(5)
-					.select('uid level nome meme_src genero')
+					.select('uid avatar level nome meme_src genero')
 					.exec(function(err, amigos){
 						amigos.forEach(function(p){
 							p.random = Math.random();
@@ -33,7 +33,7 @@ app.all('/_arena', authMiddleware, function(request, response) {
 							.where('uid').nin(amigos_uids.concat(arena_uids))
 							.where('level').lt(personagem.level + requisicoes + 2)
 							.sort('-level random').limit(limite)
-							.select('uid level nome meme_src genero')
+							.select('uid avatar level nome meme_src genero')
 							.exec(function(err, outros_jogadores){
 
 								outros_jogadores.forEach(function(p){

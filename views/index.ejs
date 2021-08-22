@@ -137,7 +137,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 		    			<% friends_using.forEach(function(friend){ %>
 							<li>
 								<a href="perfil?uid=<%= friend.id %>">
-									<img src="https://graph.facebook.com/<%= friend.id %>/picture?type=square" alt="<%= friend.nome %>" />
+									<img src="<%= friend.avatar %>" alt="<%= friend.nome %>" />
 								</a>
 							</li>
 						<% }); %>

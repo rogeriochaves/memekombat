@@ -24,6 +24,7 @@ var FacebookClient = require('facebook-client').FacebookClient;
 var bodyParser = require('body-parser');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 var firebase = require("firebase-admin");
+var crypto = require("crypto");
 global.facebook = new FacebookClient();
 
 if (!process.env.FIREBASE_CREDENTIALS) {
@@ -188,14 +189,31 @@ function firebaseAuth(req) {
 		.verifySessionCookie(sessionCookie, true /** checkRevoked */);
 }
 
+function getPicture(authToken) {
+	let picture = authToken.picture;
+	if (!picture) {
+		if (!authToken.email) {
+			throw "Neither picture nor email available for " + JSON.stringify(authToken);
+		}
+		const gravatarHash = crypto.createHash('md5').update(authToken.email).digest("hex");
+		picture = "https://www.gravatar.com/avatar/" + gravatarHash + "?s=200&d=retro";
+	}
+	if (authToken.firebase.sign_in_provider == "twitter.com") {
+		picture = picture.replace("_normal.", ".");
+	}
+	return picture;
+}
+
 global.authMiddleware = (req, res, next) => {
 	firebaseAuth(req)
 		.then((authToken) => {
 			req.session.auth = authToken;
+
 			req.session.auth.user = {
 				id: authToken.uid,
 				locale: req.headers['accept-language'],
-				name: authToken.name
+				name: authToken.name,
+				picture: getPicture(authToken)
 			};
 			next();
 		})

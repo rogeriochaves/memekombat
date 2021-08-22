@@ -33,6 +33,7 @@ mongoose.model('Notificacoes', NotificacaoSchema);
 var PersonagemSchema = new Schema({
 	uid: {type: String, unique: true}
   ,	meme_src: String
+  , avatar: String
   , level: Number
   , hp: Number
   , atq: Number

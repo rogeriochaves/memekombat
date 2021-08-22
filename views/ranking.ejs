@@ -28,9 +28,9 @@
 							<div class="pos"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
 							<div class="img">
 								<div class="meme <%= amigo.meme_src %> <%= i > 0 ? "small" : "" %> <%= amigo.genero == 'female' ? 'derpina' : '' %>" style="border:1px solid #CCC"></div>
-								<img src="https://graph.facebook.com/<%= amigo.uid %>/picture?type=<%= i == 0 ? "large" : "square" %>" border="0" />
+								<img src="<%= amigo.avatar %>" border="0" />
 							</div>
-							
+
 							<% if (amigo.ranking_pos < 8){ %>
 								<div class="info clearfix" style="<%= i > 0 ? "width:233px" : "" %>">
 									<div style="float:left; <%= i == 0 ? "width:95px" : "" %>">
@@ -52,8 +52,8 @@
 									</div>
 								</div>
 							<% } %>
-							
-							
+
+
 						<% }else{ %>
 							<div class="pos" style="font-size:16px; margin-right:20px;"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
 							<div class="info" style="width:300px">
@@ -76,7 +76,7 @@
 		</ul>
 	</div>
 	<div style="float:left; width:1px; height:780px; background-color:#C3C3C3;"></div>
-	
+
 	<div style="float:left; width:340px; margin-left:30px">
 		<div class="tit-ranking">
 			<%= portugues ? "Ranking Geral" : "Worldwide Ranking" %>
@@ -91,7 +91,7 @@
 							<div class="pos"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
 							<div class="img">
 								<div class="meme <%= jogador.meme_src %> <%= i > 0 ? "small" : "" %> <%= jogador.genero == 'female' ? "derpina" : '' %>" style="border:1px solid #CCC"></div>
-								<img src="https://graph.facebook.com/<%= jogador.uid %>/picture?type=<%= i == 0 ? "large" : "square" %>" border="0" />
+								<img src="<%= jogador.avatar %>" border="0" />
 							</div>
 							<% if (jogador.ranking_pos < 8){ %>
 								<div class="info clearfix" style="<%= i > 0 ? "width:238px" : "" %>">

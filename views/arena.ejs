@@ -30,23 +30,23 @@
 		</div>
 	<% }else{ %>
 		<% players.forEach(function(player){ %>
-			<li> 															 
+			<li>
 				<a href="luta?vs=<%= player.uid %>" class="link_luta">&nbsp;</a>
-				<div class="perfil">										 
-					<div style="width:500px; height:21px">					 
-							<a href="perfil?uid=<%= player.uid %>">			 
-								<%= player.nome %>							 
-							</a>											 
-					</div>													 
-				</div>														 
-				<div class="meme <%= player.meme_src %> <%= player.genero == 'female' ? 'derpina' : '' %>" style="border:1px solid #CCC"></div>																								
-				<div class="foto">																		 
-					<img src="https://graph.facebook.com/<%= player.uid %>/picture?type=large" border="0" />
-				</div>																					 
-				<div class="level">																		 
+				<div class="perfil">
+					<div style="width:500px; height:21px">
+							<a href="perfil?uid=<%= player.uid %>">
+								<%= player.nome %>
+							</a>
+					</div>
+				</div>
+				<div class="meme <%= player.meme_src %> <%= player.genero == 'female' ? 'derpina' : '' %>" style="border:1px solid #CCC"></div>
+				<div class="foto">
+					<img src="<%= player.avatar %>" border="0" />
+				</div>
+				<div class="level">
 					<%= portugues ? 'Nv' : 'Lv' %>
-					<%= player.level %>									 
-				</div>																					 
+					<%= player.level %>
+				</div>
 			</li>
 			<script type="text/javascript" charset="utf-8">
 				if(typeof arena_uids == 'undefined') arena_uids = [];
@@ -64,13 +64,13 @@
 
 <script type="text/javascript" charset="utf-8">
 	(function(){
-		
+
 		if(typeof arena_uids == 'undefined') arena_uids = [];
-		
+
 		$('form#frmBusca').submit(function() {
 			if($('.arena-loading').length == 0){
 				$('.memes-arena').html('<center><img src="<%= process.env.CDN %>img/loading.gif" class="arena-loading" /></center>');
-			
+
 				$.get('arena', $(this).serialize(), function(data){
 					$('.conteudo').html(data);
 					ajaxizar_links();
@@ -87,7 +87,7 @@
 				}
 			});
 		});
-		
+
 		$('.mais-memes').live('click', function() {
 			if($('.arena-loading').length == 0){
 				$('.memes-arena').append('<center style="clear:both" class="arena-loading"><img src="<%= process.env.CDN %>img/loading.gif" /></center>');
@@ -103,6 +103,6 @@
 				return false;
 			}
 		});
-		
+
 	})();
 </script>
