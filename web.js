@@ -190,7 +190,8 @@ global.authMiddleware = (req, res, next) => {
 			req.session.auth.user = {
 				id: authToken.uid,
 				locale: req.headers['accept-language'],
-				name: authToken.name
+				name: authToken.name,
+				provider: authToken.firebase.sign_in_provider
 			};
 			next();
 		})
@@ -247,26 +248,24 @@ app.all('/channel.html', function(req, res) {
 });
 
 // retorna os amigos que estão jogando (utilizado na página inicial, na arena e no ranking) e salva na session para não ficar retornando à API do Facebook
-global.amigos_usando = function (request, response, fn) {
-	// TODO: remove or adapt this
-	fn([]);
-	return;
+global.amigos_usando = function (request, _response, fn) {
+	var providerToken = request.cookies.providerToken;
 
-	if(!request.session.auth){
-		fn(undefined);
-	}else{
-		if(request.session.amigos){ // caso exista na session
-			fn(request.session.amigos);
-		}else{
-			var token = request.session.auth.facebook.accessToken;
-			facebook.getSessionByAccessToken(token)(function(session) { // consulta à API do facebook
-        session.graphCall('/me/friends', { fields: ['uid', 'name'], limit: 800 })(function(amigos) {
-					request.session.amigos = shuffle(amigos.data);
-					fn(amigos);
-				});
-			});
-		}
-	}
+	return fn([]);
+	if(!providerToken) return fn([]);
+
+	// caso exista na session
+	if(request.session.amigos) return fn(request.session.amigos);
+
+	// if (request.session.auth.user.provider == "facebook.com") {
+	// 	facebook.getSessionByAccessToken(providerToken)(function (session) { // consulta à API do facebook
+	// 		session.graphCall('/me/friends', { fields: ['uid', 'name'], limit: 800 })(function (amigos) {
+	// 			console.log('amigos', amigos);
+	// 			// request.session.amigos = shuffle(amigos.data);
+	// 			fn(amigos);
+	// 		});
+	// 	});
+	// }
 };
 
 // requisita todos os controllers do jogo
