@@ -102,16 +102,19 @@ a:hover{text-decoration: none; color: #333!important;}
 		.armas_habilidades li.pupilos ul li{width:50px; height:50px; margin-left: 2px;}
 		.small_badge{cursor: pointer;}
 
-.stream{width:244px; margin:0 0 0 18px; padding:0; list-style:none;}
+.stream{width:244px; margin:25px 0 0 18px; padding:0; list-style:none;}
 	.stream a{text-decoration: none!important; color: #000!important;}
 	.stream a:hover{text-decoration: underline!important;}
 	.stream li{margin-top:2px; padding:12px 9px 0 9px; background:url(../img/notice_white.png); width:226px; height:55px;}
 	.stream li.green{background:url(../img/notice_green.png);}
 	.stream li.red{background:url(../img/notice_red.png);}
 
-.lutar div{width: 204px; height: 45px; background: url(../img/fundo-lutar-disabled.png) no-repeat; padding: 15px 30px 0 15px; color: #222; text-align: center; margin:50px 0 25px 10px;}
+.lutar div{width: 204px; height: 45px; background: url(../img/fundo-lutar.png) no-repeat; padding: 15px 30px 0 15px; color: #222; text-align: center; margin: 0 0 0 10px;}
 a.lutar{text-decoration: none; font-size: 14px;}
 a.lutar:hover span{text-decoration: underline;}
+
+.lutar.green div{background: url(../img/fundo-lutar-green.png) no-repeat;}
+.lutar.disabled div{background: url(../img/fundo-lutar-disabled.png) no-repeat;}
 
 .quem-mais, .quem-deveria{margin: 10px 25px 0 20px; float:left;}
 	.quem-mais ul, .quem-deveria ul{margin: 0; padding: 0; list-style: none; margin-top: 10px; margin-bottom: 5px;}

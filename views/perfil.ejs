@@ -263,6 +263,35 @@
 					<span><%= portugues ? "Lutar contra" : "Fight" %> <%= personagem.nome ? personagem.nome.split(" ")[0] : "" %></span>
 				</div>
 			</a>
+			<% if (!userFriends[personagem.uid] || userFriends[personagem.uid] == 'cancelled') { %>
+				<a class="lutar green" href="amizade/approve?uid=<%= personagem.uid %>">
+					<div>
+						<img src="<%= process.env.CDN %>img/icons/add-friend.png" width="18" border="0" />
+						<span><%= portugues ? "Adicionar como amigo" : "Add friend" %></span>
+					</div>
+				</a>
+			<% } else if (userFriends[personagem.uid] == 'request_received') { %>
+				<a class="lutar green" href="amizade/approve?uid=<%= personagem.uid %>">
+					<div>
+						<img src="<%= process.env.CDN %>img/icons/add-friend.png" width="18" border="0" />
+						<span><%= portugues ? "Aceitar amizade" : "Accept friendship" %></span>
+					</div>
+				</a>
+			<% } else if (userFriends[personagem.uid] == 'request_sent') { %>
+				<a class="lutar disabled" href="amizade/approve?uid=<%= personagem.uid %>">
+					<div>
+						<img src="<%= process.env.CDN %>img/icons/add-friend.png" width="18" border="0" />
+						<span><%= portugues ? "Aguardando confirmação" : "Undo request" %></span>
+					</div>
+				</a>
+			<% } else if (userFriends[personagem.uid] == 'friends') { %>
+				<a class="lutar" href="amizade/approve?uid=<%= personagem.uid %>">
+					<div>
+						<img src="<%= process.env.CDN %>img/icons/add-friend.png" width="18" border="0" />
+						<span><%= portugues ? "Desfazer amizade" : "Undo friendship" %></span>
+					</div>
+				</a>
+			<% } %>
 		<% }else{ %>
 
 			<a class="lutar" href="#">

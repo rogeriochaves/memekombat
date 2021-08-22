@@ -1,4 +1,6 @@
-var get_campeonato = function(personagem, fn){
+const { getFriends } = require('../struct/Amizades');
+
+var get_campeonato = function (personagem, fn) {
 	if (typeof personagem.campeonato_id != 'undefined' && personagem.campeonato_id != null){
 		Campeonato.findById(personagem.campeonato_id, function(err, campeonato){
 			if(campeonato != null){
@@ -34,7 +36,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 
 	var uid = request.param('uid') ? request.param('uid') : user.id;
 
-	Personagem.findOne({uid: uid}, function(err, personagem){
+	Personagem.findOne({uid: uid}, async function(err, personagem){
 		if(personagem == null && request.params.uid){
 			response.redirect('perfil');
 		}else if(personagem == null){
@@ -46,7 +48,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 
 			if(request.session.erro) delete request.session.erro;
 
-
+				var userFriends = await getFriends(user.id);
 
 
 				Arquivamento
@@ -68,9 +70,11 @@ app.all('/perfil', authMiddleware, function(request, response) {
 									Characters.lutas_restantes(personagem._id, function(quant){
 
 										Notificacao.find({personagem_id: personagem._id}).sort('-data').limit(8).exec(function(err, notificacoes){
+
 											response.render('perfil.ejs', {
 												layout:   false,
 												user:     user,
+												userFriends: userFriends,
 												prox_nivel: prox_nivel,
 												lutas_restantes: quant,
 												personagem: personagem,
@@ -105,6 +109,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 								response.render('perfil.ejs', {
 									layout:   false,
 									user:     user,
+									userFriends: userFriends,
 									prox_nivel: prox_nivel,
 									personagem: personagem,
 									quant_pupilos: quant_pupilos,

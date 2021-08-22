@@ -3,6 +3,8 @@
   Ao executar o arquivo populate.js, este preencherá o banco, com as armas do jogo, habilidades, etc
 */
 
+const { Schema } = require("mongoose");
+
 var ArquivamentoSchema = new Schema({
 	titulo: String
   , num: { type: Number, unique: true }
@@ -159,6 +161,13 @@ var ChaveSchema = new Schema({
 });
 mongoose.model('Chaves', ChaveSchema);
 
+var AmizadeSchema = new Schema({
+  from_id: { type: String, index: true }
+  , to_id: { type: String, index: true }
+  , status: String // pending | approved | cancelled
+});
+mongoose.model('Amizades', AmizadeSchema);
+
 global.Personagem = mongoose.model('Personagens');
 global.Equipamento = mongoose.model('Equipamentos');
 global.Habilidade = mongoose.model('Habilidades');
@@ -171,3 +180,4 @@ global.Pedido = mongoose.model('Pedidos');
 global.Chave = mongoose.model('Chaves');
 global.Campeonato = mongoose.model('Campeonatos');
 global.Notificacao = mongoose.model('Notificacoes');
+global.Amizade = mongoose.model('Amizades');
