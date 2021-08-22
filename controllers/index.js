@@ -39,7 +39,6 @@ var render_index = function(req, res, novo_personagem){
 			  session_fight: session_fight,
 			  novo_personagem: (novo_personagem ? true : false),
 			  friends_using: friends_using,
-			  friends_not_using: [],
 			  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 	        });
 

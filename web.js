@@ -249,23 +249,7 @@ app.all('/channel.html', function(req, res) {
 
 // retorna os amigos que estão jogando (utilizado na página inicial, na arena e no ranking) e salva na session para não ficar retornando à API do Facebook
 global.amigos_usando = function (request, _response, fn) {
-	var providerToken = request.cookies.providerToken;
-
 	return fn([]);
-	if(!providerToken) return fn([]);
-
-	// caso exista na session
-	if(request.session.amigos) return fn(request.session.amigos);
-
-	// if (request.session.auth.user.provider == "facebook.com") {
-	// 	facebook.getSessionByAccessToken(providerToken)(function (session) { // consulta à API do facebook
-	// 		session.graphCall('/me/friends', { fields: ['uid', 'name'], limit: 800 })(function (amigos) {
-	// 			console.log('amigos', amigos);
-	// 			// request.session.amigos = shuffle(amigos.data);
-	// 			fn(amigos);
-	// 		});
-	// 	});
-	// }
 };
 
 // requisita todos os controllers do jogo
