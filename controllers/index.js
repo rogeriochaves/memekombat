@@ -5,6 +5,9 @@ nele é carregado o personagem do jogador, ou criado um novo, caso ainda não ex
 
 */
 
+var crypto = require("crypto");
+var fetch = require('node-fetch');
+
 // renderiza o index.ejs, esta função é chamada após encontrar / criar novo personagem do usuário
 var render_index = function(req, res, novo_personagem){
 
@@ -48,8 +51,31 @@ var render_index = function(req, res, novo_personagem){
 
 }
 
+var getPicture = async function(providerToken, authToken) {
+	let picture = authToken.picture;
+	if (!picture) {
+		if (!authToken.email) {
+			throw "Neither picture nor email available for " + JSON.stringify(authToken);
+		}
+		const gravatarHash = crypto.createHash('md5').update(authToken.email).digest("hex");
+		picture = "https://www.gravatar.com/avatar/" + gravatarHash + "?s=200&d=retro";
+	}
+	if (authToken.firebase.sign_in_provider == "twitter.com") {
+		picture = picture.replace("_normal.", ".");
+	}
+	if (providerToken && authToken.firebase.sign_in_provider == "facebook.com") {
+		const result = await fetch(picture + "?type=large&access_token=" + providerToken);
+		picture = result.url;
+	}
+
+	return picture;
+}
+
 // cria o personagem do usuário
-var criar_personagem = function(request, response, mestre_id){
+var criar_personagem = async function(request, response, mestre_id){
+	var authToken = await firebaseAuth(request);
+	var providerToken = request.cookies.providerToken;
+	var picture = await getPicture(providerToken, authToken);
 
 	var user = request.session.auth.user;
 
@@ -57,7 +83,7 @@ var criar_personagem = function(request, response, mestre_id){
 	p.uid = user.id;
 	p.indicacao_id = mestre_id; // caso ele tenha entrado por indicação
 	p.meme_src = request.param('meme').replace(" derpina", ""); // meme escolhido
-	p.avatar = user.picture;
+	p.avatar = picture;
 	p.level = 1;
 	// randomização dos atributos
 	p.hp = parseInt(Math.random() * 10) + 10;

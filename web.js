@@ -24,7 +24,6 @@ var FacebookClient = require('facebook-client').FacebookClient;
 var bodyParser = require('body-parser');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 var firebase = require("firebase-admin");
-var crypto = require("crypto");
 global.facebook = new FacebookClient();
 
 if (!process.env.FIREBASE_CREDENTIALS) {
@@ -38,12 +37,6 @@ firebase.initializeApp({
 
 var https = require('https');
 var fs = require('fs');
-const { request } = require('express');
-var https_options = {
-  ca:   fs.readFileSync('ssl/sub.class1.server.ca.pem'),
-  key:  fs.readFileSync('ssl/ssl.key'),
-  cert: fs.readFileSync('ssl/ssl.crt')
-};
 
 global.mongoose = require('mongoose'); // conexão com MongoDB
 // objetos do MongoDB
@@ -181,27 +174,12 @@ server.listen(port, function() {
 //https.createServer(https_options, app).listen(port);
 //console.log("Listening on " + port);
 
-function firebaseAuth(req) {
+global.firebaseAuth = (req) => {
 	const sessionCookie = req.cookies.session || '';
 
 	return firebase
 		.auth()
 		.verifySessionCookie(sessionCookie, true /** checkRevoked */);
-}
-
-function getPicture(authToken) {
-	let picture = authToken.picture;
-	if (!picture) {
-		if (!authToken.email) {
-			throw "Neither picture nor email available for " + JSON.stringify(authToken);
-		}
-		const gravatarHash = crypto.createHash('md5').update(authToken.email).digest("hex");
-		picture = "https://www.gravatar.com/avatar/" + gravatarHash + "?s=200&d=retro";
-	}
-	if (authToken.firebase.sign_in_provider == "twitter.com") {
-		picture = picture.replace("_normal.", ".");
-	}
-	return picture;
 }
 
 global.authMiddleware = (req, res, next) => {
@@ -212,8 +190,7 @@ global.authMiddleware = (req, res, next) => {
 			req.session.auth.user = {
 				id: authToken.uid,
 				locale: req.headers['accept-language'],
-				name: authToken.name,
-				picture: getPicture(authToken)
+				name: authToken.name
 			};
 			next();
 		})
@@ -233,6 +210,7 @@ app.get('/', function (request, response) {
 
 app.post('/login', (req, res) => {
 	const idToken = req.body.idToken.toString();
+	const providerToken = req.body.providerToken.toString();
 	const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
 	firebase
@@ -243,7 +221,8 @@ app.post('/login', (req, res) => {
         // Set cookie policy for session cookie.
         const options = { maxAge: expiresIn, httpOnly: true, secure: true };
         res.cookie("session", sessionCookie, options);
-		res.redirect("/index");
+        res.cookie("providerToken", providerToken, options);
+        res.redirect("/index");
       },
       (error) => {
         res.status(401).send("UNAUTHORIZED REQUEST!");
@@ -253,6 +232,7 @@ app.post('/login', (req, res) => {
 
 app.get('/signout', authMiddleware, function (request, response) {
 	response.clearCookie('session');
+	response.clearCookie('providerToken');
 
 	response.redirect('/');
 });

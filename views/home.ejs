@@ -169,18 +169,26 @@
     signInFlow: 'popup',
     callbacks: {
       signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        var providerToken = authResult.credential && authResult.credential.accessToken;
+
         loginBox.style.display = "none";
         authResult.user.getIdToken().then(idToken => {
           var form = document.createElement("form");
           form.action = "/login";
           form.method = "POST";
 
-          var input = document.createElement("input");
-          input.type = "hidden";
-          input.name = "idToken";
-          input.value = idToken;
+          var idTokenInput = document.createElement("input");
+          idTokenInput.type = "hidden";
+          idTokenInput.name = "idToken";
+          idTokenInput.value = idToken;
+          form.appendChild(idTokenInput);
 
-          form.appendChild(input);
+          var providerTokenInput = document.createElement("input");
+          providerTokenInput.type = "hidden";
+          providerTokenInput.name = "providerToken";
+          providerTokenInput.value = providerToken;
+          form.appendChild(providerTokenInput);
+
           document.body.appendChild(form);
           form.submit();
         });
