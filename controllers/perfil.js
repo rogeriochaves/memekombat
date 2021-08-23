@@ -50,6 +50,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 
 				var userFriends = await getFriends(user.id);
 				var relationship = userFriends[uid] && userFriends[uid].relationship;
+				var pendingFriendRequests = Object.values(userFriends).filter(x => x.relationship == 'request_received');
 
 				var profileFriends = user.id == uid ? userFriends : (await getFriends(uid));
 				profileFriends = Object.values(profileFriends).filter(x => x.relationship == 'friends');
@@ -79,6 +80,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 												user:     user,
 												relationship: relationship,
 												profileFriends: profileFriends,
+												pendingFriendRequests: pendingFriendRequests,
 												prox_nivel: prox_nivel,
 												lutas_restantes: quant,
 												personagem: personagem,
@@ -115,6 +117,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 									user:     user,
 									relationship: relationship,
 									profileFriends: profileFriends,
+									pendingFriendRequests: pendingFriendRequests,
 									prox_nivel: prox_nivel,
 									personagem: personagem,
 									quant_pupilos: quant_pupilos,

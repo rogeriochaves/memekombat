@@ -310,6 +310,19 @@
 			<% } %>
 
 			<ul class="stream">
+				<% pendingFriendRequests.forEach(function(friendRequest) { %>
+					<li class="green friendship_request">
+						<a href="perfil?uid=<%= friendRequest.id %>">
+							<%= friendRequest.nome %>
+						</a>
+						<%= portugues ?  "te enviou um pedido de amizade" : "sent you a friendship request" %>
+						<div style="padding-top: 8px">
+							<a href="amizade/approve?uid=<%= friendRequest.id %>"><%= portugues ? "✅ Aceitar" : "✅ Accept" %></a>
+							&nbsp;
+							<a href="amizade/cancel?uid=<%= friendRequest.id %>"><%= portugues ? "❌ Recusar" : "❌ Reject" %></a>
+						</div>
+					</li>
+				<% }) %>
 				<% var i = 0; %>
 				<% notificacoes.forEach(function(notificacao) { %>
 					<% if(i < 8){ %>

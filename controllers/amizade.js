@@ -6,7 +6,7 @@ app.get('/amizade/approve', authMiddleware, async function (request, response) {
 	const friendId = request.param('uid');
 
     const friends = await getFriends(user.id);
-    const relationship = friends[friendId].relationship;
+    const relationship = friends[friendId] && friends[friendId].relationship;
 
     if (!relationship) {
         const amizadeFrom = new Amizade({
