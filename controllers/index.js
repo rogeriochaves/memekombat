@@ -16,37 +16,19 @@ var render_index = function(req, res, novo_personagem){
 	require('date-utils');
 	var hora_servidor = (new Date()).toFormat('HH24:MI:SS'); // hora do servidor que aparece no rodapé
 
-		// Amigos que jogam
-		amigos_usando(req, res, function(fu){
+	// caso seja um link de uma luta, vai direto pra luta e o id é deletado da sessão
+	session_fight = req.session.fight;
+	delete req.session.fight;
 
-			friends_using = [];
-			if(fu && fu.forEach){
-				fu.forEach(function (f){
-					if(friends_using.length < 6) friends_using.push(f);
-				});
-			}
-			var limit = 12 - Math.max(3, friends_using.length);
-
-			// caso seja um link de uma luta, vai direto pra luta e o id é deletado da sessão
-			session_fight = req.session.fight;
-			delete req.session.fight;
-
-			// render the home page
-	        res.render('index.ejs', {
-	          layout:   false,
-	          user:     user,
-			  hora_servidor: hora_servidor,
-			  session_fight: session_fight,
-			  novo_personagem: (novo_personagem ? true : false),
-			  friends_using: friends_using,
-			  portugues: (user.locale && user.locale.indexOf('pt') >= 0)
-	        });
-
-		});
-
-
-
-    //});
+	// render the home page
+	res.render('index.ejs', {
+		layout:   false,
+		user:     user,
+		hora_servidor: hora_servidor,
+		session_fight: session_fight,
+		novo_personagem: (novo_personagem ? true : false),
+		portugues: (user.locale && user.locale.indexOf('pt') >= 0)
+	});
 
 }
 

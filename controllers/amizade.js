@@ -6,13 +6,9 @@ app.get('/amizade/approve', authMiddleware, async function (request, response) {
 	const friendId = request.param('uid');
 
     const friends = await getFriends(user.id);
-    const friendship = friends[friendId];
-    console.log('friends', friends);
-    console.log('user', user);
-    console.log('friendId', friendId);
+    const relationship = friends[friendId].relationship;
 
-    if (!friendship) {
-        console.log("here1");
+    if (!relationship) {
         const amizadeFrom = new Amizade({
             from_id: user.id,
             to_id: friendId,
@@ -20,20 +16,17 @@ app.get('/amizade/approve', authMiddleware, async function (request, response) {
         });
         await promisify(amizadeFrom.save).call(amizadeFrom);
 
-        console.log("here2");
         const amizadeTo = new Amizade({
             from_id: friendId,
             to_id: user.id,
             status: 'pending',
         });
         await promisify(amizadeTo.save).call(amizadeTo);
-        console.log("here3");
 
         response.redirect("/perfil?uid=" + friendId);
-    } else if (friendship.relationship == 'friends' || friendship.relationship == 'request_sent') {
+    } else if (relationship == 'friends' || relationship == 'request_sent') {
         response.redirect("/perfil?uid=" + friendId);
-    } else if (friendship.relationship == 'request_received' || friendship.relationship == 'cancelled') {
-        // TODO: broken?
+    } else if (relationship == 'request_received' || relationship == 'cancelled') {
         await promisify(Amizade.update).call(Amizade,
             { from_id: user.id, to_id: friendId },
             { status: 'approved' },
@@ -50,7 +43,7 @@ app.get('/amizade/cancel', authMiddleware, async function (request, response) {
 	const friendId = request.param('uid');
 
     await promisify(Amizade.update).call(Amizade,
-        { from_id: friendId, to_id: user.id },
+        { from_id: user.id, to_id: friendId },
         { status: 'cancelled' },
         { upsert: true }
     );

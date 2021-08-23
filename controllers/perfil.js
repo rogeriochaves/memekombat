@@ -49,7 +49,10 @@ app.all('/perfil', authMiddleware, function(request, response) {
 			if(request.session.erro) delete request.session.erro;
 
 				var userFriends = await getFriends(user.id);
+				var relationship = userFriends[uid] && userFriends[uid].relationship;
 
+				var profileFriends = user.id == uid ? userFriends : (await getFriends(uid));
+				profileFriends = Object.values(profileFriends).filter(x => x.relationship == 'friends');
 
 				Arquivamento
 					.where('_id')
@@ -74,7 +77,8 @@ app.all('/perfil', authMiddleware, function(request, response) {
 											response.render('perfil.ejs', {
 												layout:   false,
 												user:     user,
-												userFriends: userFriends,
+												relationship: relationship,
+												profileFriends: profileFriends,
 												prox_nivel: prox_nivel,
 												lutas_restantes: quant,
 												personagem: personagem,
@@ -109,7 +113,8 @@ app.all('/perfil', authMiddleware, function(request, response) {
 								response.render('perfil.ejs', {
 									layout:   false,
 									user:     user,
-									userFriends: userFriends,
+									relationship: relationship,
+									profileFriends: profileFriends,
 									prox_nivel: prox_nivel,
 									personagem: personagem,
 									quant_pupilos: quant_pupilos,

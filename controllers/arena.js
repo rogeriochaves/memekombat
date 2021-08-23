@@ -72,7 +72,7 @@ var jogadores_arena = function(user, personagem, request, response, user){
 var busca_jogadores_arena = function(user, personagem, busca, request, response, user){
 	amigos_usando(request, response, function(friends){
 		var amigos_uids = friends.filter(function (friend) {
-			return friend.name.indexOf(busca) >= 0
+			return friend.nome.indexOf(busca) >= 0
 		}).map(function (friend) {
 			return friends.id
 		}).slice(0, 10);

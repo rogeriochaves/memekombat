@@ -28,7 +28,7 @@
 							<div class="pos"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
 							<div class="img">
 								<div class="meme <%= amigo.meme_src %> <%= i > 0 ? "small" : "" %> <%= amigo.genero == 'female' ? 'derpina' : '' %>" style="border:1px solid #CCC"></div>
-								<img src="<%= amigo.avatar %>" border="0" />
+								<img width="100%" src="<%= amigo.avatar %>" border="0" />
 							</div>
 
 							<% if (amigo.ranking_pos < 8){ %>
@@ -91,7 +91,7 @@
 							<div class="pos"><%= i + 1 %><sup><%= portugues ? 'º' : en_pos[Math.min(3, i)] %></sup></div>
 							<div class="img">
 								<div class="meme <%= jogador.meme_src %> <%= i > 0 ? "small" : "" %> <%= jogador.genero == 'female' ? "derpina" : '' %>" style="border:1px solid #CCC"></div>
-								<img src="<%= jogador.avatar %>" border="0" />
+								<img width="100%" src="<%= jogador.avatar %>" border="0" />
 							</div>
 							<% if (jogador.ranking_pos < 8){ %>
 								<div class="info clearfix" style="<%= i > 0 ? "width:238px" : "" %>">

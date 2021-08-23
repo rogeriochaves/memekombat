@@ -1,18 +1,9 @@
-// const promisify = (fn) => (...params) => {
-//     return new Promise((resolve, reject) => {
-//         console.log('params', params);
-//         fn.apply(Amizade, [...params, (err, result) => {
-//             if (err) return reject(err);
-//             return resolve(result);
-//         }]);
-//     });
-// }
 const { promisify } = require('util');
 
 module.exports.getFriends = async function (uid) {
     let selfStatus = {};
     let friendsStatus = {};
-    let result = {};
+    let relationships = {};
 
     const amizadesFrom = await (promisify(Amizade.find).call(Amizade, { from_id: uid }));
     for (let amizade of amizadesFrom) {
@@ -24,7 +15,7 @@ module.exports.getFriends = async function (uid) {
         friendsStatus[amizade.from_id] = amizade.status;
     }
 
-    for (let friendId of Object.keys(selfStatus)) {
+    for (const friendId of Object.keys(selfStatus)) {
         const self = selfStatus[friendId];
         const friend = friendsStatus[friendId];
 
@@ -35,14 +26,30 @@ module.exports.getFriends = async function (uid) {
         if (self == 'pending' && friend != 'cancelled') {
             relationship = 'request_received';
         }
-        if (self != 'cancelled' && friend == 'pending') {
-            relationship = 'request_sent';
-        }
         if (self == 'cancelled' || friend == 'cancelled') {
             relationship = 'cancelled';
         }
+        if (self == 'approved' && friend != 'approved') {
+            relationship = 'request_sent';
+        }
 
-        result[friendId] = relationship;
+        relationships[friendId] = relationship;
+    }
+
+    const query = Personagem
+        .where('uid').in(Object.keys(relationships))
+        .select('uid avatar nome')
+    const personagens = await promisify(query.exec).call(query);
+
+    let result = {};
+    for (const personagem of personagens) {
+        personagem.relationship = relationships[personagem.uid];
+        result[personagem.uid] = {
+            id: personagem.uid,
+            relationship: relationships[personagem.uid],
+            avatar: personagem.avatar,
+            nome: personagem.nome
+        };
     }
 
     return result;

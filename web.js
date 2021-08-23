@@ -247,9 +247,15 @@ app.all('/channel.html', function(req, res) {
 	res.render('channel.ejs', {layout: false});
 });
 
+const { getFriends } = require('./struct/Amizades');
 // retorna os amigos que estão jogando (utilizado na página inicial, na arena e no ranking) e salva na session para não ficar retornando à API do Facebook
 global.amigos_usando = function (request, _response, fn) {
-	return fn([]);
+	const user = request.session.auth.user;
+
+	getFriends(user.id).then(friendsMap => {
+		const friends = Object.values(friendsMap).filter(x => x.relationship == 'friends');
+		fn(friends);
+	});
 };
 
 // requisita todos os controllers do jogo

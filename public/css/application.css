@@ -116,9 +116,10 @@ a.lutar:hover span{text-decoration: underline;}
 .lutar.green div{background: url(../img/fundo-lutar-green.png) no-repeat;}
 .lutar.disabled div{background: url(../img/fundo-lutar-disabled.png) no-repeat;}
 
-.quem-mais, .quem-deveria{margin: 10px 25px 0 20px; float:left;}
+.quem-mais, .quem-deveria{margin: 40px 25px 0 20px; float:left;}
 	.quem-mais ul, .quem-deveria ul{margin: 0; padding: 0; list-style: none; margin-top: 10px; margin-bottom: 5px;}
 	.quem-mais li, .quem-deveria li{float: left; margin-right: 5px; width:50px; cursor: pointer;}
+	.quem-mais img { width: 48px }
 .creditos{font-size:10px; font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; text-align: center; width:760px;}
 .creditos a{color:#000; text-decoration: none;}
 	.creditos a:hover{text-decoration: underline;}

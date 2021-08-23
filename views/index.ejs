@@ -129,27 +129,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 </div>
 <br /><br />
 <div class="rodape">
-	<div class="pessoas clearfix">
-			<% if(friends_using && friends_using.length > 0){ %>
-				<div class="quem-mais">
-					<%= portugues ? "Amigos que já jogam" : "Friends on Meme Kombat" %> <br />
-			    	<ul class="clearfix">
-		    			<% friends_using.forEach(function(friend){ %>
-							<li>
-								<a href="perfil?uid=<%= friend.id %>">
-									<img src="<%= friend.avatar %>" alt="<%= friend.nome %>" />
-								</a>
-							</li>
-						<% }); %>
-			    	</ul>
-					<small><%= portugues ? "Clique para desafiá-los" : "Click to fight them" %></small>
-				</div>
-			<% } %>
-	</div>
-
-  </center>
-
-
   <div class="creditos">
     <hr />
     <p>
