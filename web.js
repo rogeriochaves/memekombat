@@ -197,11 +197,14 @@ global.authMiddleware = (req, res, next) => {
 };
 
 app.get('/', function (request, response) {
+	const locale = request.headers['accept-language'];
+	const portugues = locale && locale.indexOf('pt') >= 0;
+
 	firebaseAuth(request)
 		.then(() => {
 			response.redirect('/index');
 		}).catch(() => {
-			response.render('home.ejs', { layout: false });
+			response.render('home.ejs', { layout: false, portugues: portugues });
 		});
 });
 
