@@ -271,6 +271,25 @@
 				</li>
 			<% } %>
 		</ul>
+		<% if(profileFriends && profileFriends.length > 0){ %>
+			<div class="quem-mais">
+				<% if (user.id == personagem.uid){ %>
+					<%= portugues ? "Seus amigos " : "Your friends" %> <br />
+				<% } else { %>
+					<%= portugues ? "Amigos de " + personagem.nome : personagem.nome + "'s friends" %> <br />
+				<% } %>
+				<ul class="clearfix">
+					<% profileFriends.forEach(function(friend){ %>
+						<li>
+							<a href="perfil?uid=<%= friend.id %>">
+								<img src="<%= friend.avatar %>" alt="<%= friend.nome %>" />
+							</a>
+						</li>
+					<% }); %>
+				</ul>
+				<small><%= portugues ? "Clique para desafiá-los" : "Click to fight them" %></small>
+			</div>
+		<% } %>
 	</div>
 	<div style="float:left">
 		<% if (user.id != personagem.uid){ %>
@@ -359,28 +378,6 @@
 			</ul>
 		<% } %>
 	</div>
-</div>
-
-<div class="pessoas clearfix">
-	<% if(profileFriends && profileFriends.length > 0){ %>
-		<div class="quem-mais">
-			<% if (user.id == personagem.uid){ %>
-				<%= portugues ? "Seus amigos " : "Your friends" %> <br />
-			<% } else { %>
-				<%= portugues ? "Amigos de " + personagem.nome : personagem.nome + "'s friends" %> <br />
-			<% } %>
-			<ul class="clearfix">
-				<% profileFriends.forEach(function(friend){ %>
-					<li>
-						<a href="perfil?uid=<%= friend.id %>">
-							<img src="<%= friend.avatar %>" alt="<%= friend.nome %>" />
-						</a>
-					</li>
-				<% }); %>
-			</ul>
-			<small><%= portugues ? "Clique para desafiá-los" : "Click to fight them" %></small>
-		</div>
-	<% } %>
 </div>
 
 <div class="modal-overlay convidar-amigos-overlay"></div>
