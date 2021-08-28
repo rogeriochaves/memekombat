@@ -199,12 +199,13 @@ global.authMiddleware = (req, res, next) => {
 app.get('/', function (request, response) {
 	const locale = request.headers['accept-language'];
 	const portugues = locale && locale.indexOf('pt') >= 0;
+	const startLogin = !!request.param('fight');
 
 	firebaseAuth(request)
 		.then(() => {
 			response.redirect('/index');
 		}).catch(() => {
-			response.render('home.ejs', { layout: false, portugues: portugues });
+			response.render('home.ejs', { layout: false, portugues: portugues, startLogin: startLogin });
 		});
 });
 
