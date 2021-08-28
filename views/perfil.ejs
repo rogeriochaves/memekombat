@@ -382,3 +382,44 @@
 		</div>
 	<% } %>
 </div>
+
+<div class="modal-overlay convidar-amigos-overlay"></div>
+<div class="modal convidar-amigos-modal">
+	<% if (portugues) { %>
+		<p>Cada amigo que voce convida para o Meme Kombat vira seu pupilo, te dando EXP cada vez que eles sobem de nível.</p>
+		<p>Compartilhe o link abaixo e ganhe mais pupilos:</p>
+	<% } else { %>
+		<p>Each friend you invite to Meme Kombat becomes your pupil, giving you EXP each time they up a level.</p>
+		<p>Share the link below and get more pupils:</p>
+	<% } %>
+	<div class="modal-link" style="padding-bottom: 10px; display: flex;">
+		<input type="text" onmouseover="this.focus();this.select();" value="<%= process.env.APP_URL + "?i=" + personagem.uid %>" readonly="readonly" style="width: 100%" />
+		<a href="#" class="no-rel" style="text-decoration: none; font-size: 22px; padding-left: 10px">📋</a>
+	</div>
+	<div class="modal-copy-result" style="padding-bottom: 10px; text-align: center; display: none;">Link copiado!</div>
+</div>
+
+<script>
+	$(".convidar-amigos").click(function (event) {
+		event.preventDefault();
+
+		$(".convidar-amigos-modal, .convidar-amigos-overlay").fadeIn();
+	});
+
+	$(".modal-overlay").click(function () {
+		$(".modal, .modal-overlay").fadeOut();
+	});
+
+	$(".modal-link input, .modal-link a").click(function (event) {
+		event.preventDefault();
+
+		var link = $(".modal-link input").val();
+		navigator.clipboard.writeText(link).then(function () {
+			$(".modal-copy-result").show();
+
+			setTimeout(function () {
+				$(".modal-copy-result").hide();
+			}, 2000);
+		});
+	});
+</script>

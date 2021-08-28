@@ -153,22 +153,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 	   document.getElementById('fb-root').appendChild(e);
     }());
 
-	function requestCallback(response) {
-	        // Handle callback here
-	      }
-	function sendRequestToOneRecipient(user_id) {
-	    FB.ui({
-			method: 'apprequests',
-	    	message: '<%= portugues ? "Seja meu pupilo" : "Be my pupil" %>',
-	    	to: user_id
-	    }, requestCallback);
-	  }
-	function sendRequestToManyRecipients() {
-	  FB.ui({method: 'apprequests',
-	    message: '<%= portugues ? "Seja meu pupilo" : "Be my pupil" %>'
-	  }, requestCallback);
-	}
-
 	function atualizar_twitter(){
 		try{
 			twttr.widgets.load();
@@ -294,12 +278,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 
 		// clica no link para convidar amigos
 		$('.convidar-amigos').live('click', function() {
-			sendRequestToManyRecipients(); // abre uma tela com todos os amigos
-			return false;
-		});
-		// clica em alguém que ainda não joga
-		$('.quem-deveria li a').live('click', function() {
-			sendRequestToOneRecipient($(this).attr('uid')); // abre um box para convidar aquele amigo
+			
 			return false;
 		});
 

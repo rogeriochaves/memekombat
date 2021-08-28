@@ -268,7 +268,5 @@ td.r{background-image: url(../img/chaves/r.gif);}
 
 .player.me img{outline:0; border-color:#6C0; box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1),0 0 8px rgba(102, 204, 0, 0.6);}
 
-/*a.ad{text-decoration: none; display: block; height: 98px;}
-.ad p{font-family: sans-serif; position: absolute; width: 340px; font-size: 18px; margin: 15px 0 0 280px; text-align: left; color: #fff; text-shadow: #333 1px 1px;}
-.ad p.num1{color: #333; text-shadow: #FFF 1px 1px;}
-.ad img{border:1px solid #AAA;}*/
+.modal-overlay { z-index: 10; position: fixed; display: none; background: rgba(0, 0, 0, 0.2); width: 100%; height: 100%; top: 0; left: 0; }
+.modal { z-index: 11; position: fixed; display: none; background: #FFF url(../img/bg.jpg) center 0; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 300px; padding: 5px 20px; box-shadow: 5px 5px 5px rgba(0,0,0,.3) }
