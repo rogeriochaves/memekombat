@@ -20,7 +20,7 @@ var jogadores_arena = function(user, personagem, request, response, user){
 					});
 					var limite = 10 - amigos.length;
 
-					amigos_uids.push(user.id);
+					amigos_uids.push(user.uid);
 
 					Personagem
 						.where('uid').nin(amigos_uids)
@@ -90,7 +90,7 @@ var busca_jogadores_arena = function(user, personagem, busca, request, response,
 				var limite = 10 - amigos.length;
 
 				if(limite > 0){
-					amigos_uids.push(user.id);
+					amigos_uids.push(user.uid);
 					var IgnoraAcentos = require('./../lib/ignora_acentos.js');
 
 					Personagem
@@ -138,7 +138,7 @@ app.all('/arena', authMiddleware, function(request, response) {
 	var user = request.session.auth.user;
 	var busca = request.param('busca');
 
-	Personagem.findOne({uid: user.id}, function(err, personagem){
+	Personagem.findOne({uid: user.uid}, function(err, personagem){
 		if(personagem != null){
 
 			if(busca && busca.length > 0){

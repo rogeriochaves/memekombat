@@ -9,7 +9,7 @@
 		});
 	});
 </script>
-<% if (user.id == personagem.uid){ %>
+<% if (user.uid == personagem.uid){ %>
 	<div class="clearfix" style="margin-top: 34px; padding-left: 20px;">
 	<% if (message) { %>
 		<div class="notice" style="float:none; padding: 0 0 15px 0;">
@@ -63,7 +63,7 @@
 	<div class="atributos">
 		<div class="clearfix">
 			<div class="meme_lv">
-				<% if (personagem.avatar.indexOf("gravatar") >= 0 && user.id == personagem.uid) { %>
+				<% if (personagem.avatar.indexOf("gravatar") >= 0 && user.uid == personagem.uid) { %>
 					<a href="https://gravatar.com" target="_blank" class="no-rel img" style="display: inline-block; position: relative">
 						<div style="position: absolute; width: 100%; height: 100%; text-align: center; display: flex; align-items: center; justify-content: center;">
 							<span style="background: #FFF; border-radius: 5px; font-size: 16px; padding: 3px;">
@@ -82,7 +82,7 @@
 			</div>
 			<div class="attrs">
 				<table>
-					<% if (user.id != personagem.uid){ %>
+					<% if (user.uid != personagem.uid){ %>
 						<tr>
 							<td colspan="2" height="50" style="font-size:20px">
 								<%= personagem.nome %>
@@ -107,7 +107,7 @@
 								<img src="<%= process.env.CDN %>img/ranking_max.png" border="0" />
 							<% } %>
 							<br />
-							<% if (user.id == personagem.uid){ %>
+							<% if (user.uid == personagem.uid){ %>
 								<div class="exp">
 									EXP: <%= personagem.exp %> / <%= prox_nivel %>
 									<div class="barra">
@@ -125,7 +125,7 @@
 										</span>
 									</td>
 									<td>
-										<% if (user.id == personagem.uid){ %>
+										<% if (user.uid == personagem.uid){ %>
 											<a href="#" class="convidar-amigos no-rel">
 												<span class="texto_quant_pupilos"><%= portugues ? (quant_pupilos == 1 ? 'pupilo' : 'pupilos') : (quant_pupilos == 1 ? 'pupil' : 'pupils') %></span>
 											</a>
@@ -194,7 +194,7 @@
 				</table>
 			</div>
 		</div>
-		<ul class="clearfix armas_habilidades" style="<%= user.id != personagem.uid ? 'width:690px' : '' %>">
+		<ul class="clearfix armas_habilidades" style="<%= user.uid != personagem.uid ? 'width:690px' : '' %>">
 			<li class="armas">
 				<%= portugues ? 'Armas' : 'Weapons' %>
 				<% if(personagem.equipamentos.length > 8){ %>
@@ -246,7 +246,7 @@
 					<% }) %>
 				</ul>
 			</li>
-			<% if (user.id == personagem.uid){ %>
+			<% if (user.uid == personagem.uid){ %>
 				<li class="pupilos">
 					<% if(pupilos.length > 0){ %>
 						<%= portugues ? 'Pupilos' : 'Pupils' %>
@@ -273,7 +273,7 @@
 		</ul>
 		<% if(profileFriends && profileFriends.length > 0){ %>
 			<div class="quem-mais">
-				<% if (user.id == personagem.uid){ %>
+				<% if (user.uid == personagem.uid){ %>
 					<%= portugues ? "Seus amigos " : "Your friends" %> <br />
 				<% } else { %>
 					<%= portugues ? "Amigos de " + personagem.nome : personagem.nome + "'s friends" %> <br />
@@ -281,7 +281,7 @@
 				<ul class="clearfix">
 					<% profileFriends.forEach(function(friend){ %>
 						<li>
-							<a href="perfil?uid=<%= friend.id %>">
+							<a href="perfil?uid=<%= friend.uid %>">
 								<img src="<%= friend.avatar %>" alt="<%= friend.nome %>" />
 							</a>
 						</li>
@@ -292,7 +292,7 @@
 		<% } %>
 	</div>
 	<div style="float:left">
-		<% if (user.id != personagem.uid){ %>
+		<% if (user.uid != personagem.uid){ %>
 			<a class="lutar" href="luta?vs=<%= personagem.uid %>">
 				<div>
 					<img src="<%= process.env.CDN %>img/icons/sword.png" border="0" />
@@ -348,14 +348,14 @@
 			<ul class="stream">
 				<% pendingFriendRequests.forEach(function(friendRequest) { %>
 					<li class="green friendship_request">
-						<a href="perfil?uid=<%= friendRequest.id %>">
+						<a href="perfil?uid=<%= friendRequest.uid %>">
 							<%= friendRequest.nome %>
 						</a>
 						<%= portugues ?  "te enviou um pedido de amizade" : "sent you a friendship request" %>
 						<div style="padding-top: 8px">
-							<a href="amizade/approve?uid=<%= friendRequest.id %>"><%= portugues ? "✅ Aceitar" : "✅ Accept" %></a>
+							<a href="amizade/approve?uid=<%= friendRequest.uid %>"><%= portugues ? "✅ Aceitar" : "✅ Accept" %></a>
 							&nbsp;
-							<a href="amizade/cancel?uid=<%= friendRequest.id %>"><%= portugues ? "❌ Recusar" : "❌ Reject" %></a>
+							<a href="amizade/cancel?uid=<%= friendRequest.uid %>"><%= portugues ? "❌ Recusar" : "❌ Reject" %></a>
 						</div>
 					</li>
 				<% }) %>

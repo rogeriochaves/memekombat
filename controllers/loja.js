@@ -8,7 +8,7 @@ app.all('/loja', authMiddleware, function(request, response) {
 
 	var user = request.session.auth.user;
 
-	Personagem.findOne({uid: user.id}, function(err, data){ // encontra o personagem
+	Personagem.findOne({uid: user.uid}, function(err, data){ // encontra o personagem
 		if(data == null){
 			response.redirect('inicio');
 		}else{

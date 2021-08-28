@@ -11,7 +11,7 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 	// id da luta, passado por url ou por parâmetro
 	var luta_id = request.params.id ? request.params.id : (request.param('id') ? request.param('id') : undefined);
 
-	Personagem.findOne({uid: user.id}, function(err, personagem){ // seleciona o personagem
+	Personagem.findOne({uid: user.uid}, function(err, personagem){ // seleciona o personagem
 
 		if(personagem != null){
 
@@ -19,7 +19,7 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 
 				if(request.param('vs')){ // caso haja um param vs, é porque está desafiando alguém
 					var vs = request.param('vs');
-					if(vs == user.id){ // caso ele desafie ele mesmo
+					if(vs == user.uid){ // caso ele desafie ele mesmo
 						response.redirect('/arena'); // redireciona para a arena
 					}else{
 
@@ -42,7 +42,7 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 
 											// verifica se é amigo do desafiado (para mostrar um botão postar no mural de fulano)
 											var is_friend = false;
-											if(vencedor.uid == user.id){
+											if(vencedor.uid == user.uid){
 												for(var i = amigos.length; i--;){
 													if(perdedor.uid == amigos[i].uid){
 														is_friend = true;
@@ -112,7 +112,7 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 
 										// verifica se o vencedor é amigo do perdedor
 										var is_friend = false;
-										if(vencedor.uid == user.id){
+										if(vencedor.uid == user.uid){
 											for(var i = amigos.length; i--;){
 												if(perdedor.uid == amigos[i].uid){
 													is_friend = true;

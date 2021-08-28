@@ -15,9 +15,9 @@ module.exports.getFriends = async function (uid) {
         friendsStatus[amizade.from_id] = amizade.status;
     }
 
-    for (const friendId of Object.keys(selfStatus)) {
-        const self = selfStatus[friendId];
-        const friend = friendsStatus[friendId];
+    for (const friendUid of Object.keys(selfStatus)) {
+        const self = selfStatus[friendUid];
+        const friend = friendsStatus[friendUid];
 
         let relationship;
         if (self == 'approved' && friend == 'approved') {
@@ -33,7 +33,7 @@ module.exports.getFriends = async function (uid) {
             relationship = 'request_sent';
         }
 
-        relationships[friendId] = relationship;
+        relationships[friendUid] = relationship;
     }
 
     const query = Personagem
@@ -45,7 +45,7 @@ module.exports.getFriends = async function (uid) {
     for (const personagem of personagens) {
         personagem.relationship = relationships[personagem.uid];
         result[personagem.uid] = {
-            id: personagem.uid,
+            uid: personagem.uid,
             relationship: relationships[personagem.uid],
             avatar: personagem.avatar,
             nome: personagem.nome

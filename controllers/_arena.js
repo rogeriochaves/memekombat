@@ -5,7 +5,7 @@ app.all('/_arena', authMiddleware, function(request, response) {
 	// TODO: fix busca load more
 	var busca = request.param('busca');
 
-	Personagem.findOne({uid: user.id}, function(err, personagem){
+	Personagem.findOne({uid: user.uid}, function(err, personagem){
 		if(personagem != null){
 			amigos_usando(request, response, function(friends){
 				var amigos_uids = friends.map(function (friend) {
@@ -27,7 +27,7 @@ app.all('/_arena', authMiddleware, function(request, response) {
 						});
 						var limite = 10 - amigos.length;
 
-						amigos_uids.push(user.id);
+						amigos_uids.push(user.uid);
 
 						Personagem
 							.where('uid').nin(amigos_uids.concat(arena_uids))

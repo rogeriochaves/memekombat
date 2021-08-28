@@ -62,7 +62,7 @@ var criar_personagem = async function(request, response, mestre_id){
 	var user = request.session.auth.user;
 
 	var p = new Personagem();
-	p.uid = user.id;
+	p.uid = user.uid;
 	p.indicacao_id = mestre_id; // caso ele tenha entrado por indicação
 	p.meme_src = request.param('meme').replace(" derpina", ""); // meme escolhido
 	p.avatar = picture;
@@ -135,7 +135,7 @@ app.all('/index', authMiddleware, function(request, response) {
 
   var user = request.session.auth.user; // pega o usuário logado no facebook
 
-  Personagem.findOne({uid: user.id}, function(err, data){ // encontra o personagem dele
+  Personagem.findOne({uid: user.uid}, function(err, data){ // encontra o personagem dele
     if(data == null && request.param('meme')){ // caso não tenha nenhum personagem com esse uid e ele tenha selecionado um meme
       if(request.session.request_ids){ // verifica se há um convite pelo facebook
         var mestre_request_id = request.session.request_ids[0];
@@ -150,7 +150,7 @@ app.all('/index', authMiddleware, function(request, response) {
             });
             // deleta o convite
             request.session.request_ids.forEach(function(req_id){
-              session.graphCall('/' + req_id + '_' + user.id, {}, 'DELETE')(function(){
+              session.graphCall('/' + req_id + '_' + user.uid, {}, 'DELETE')(function(){
                 // callback
               });
             });

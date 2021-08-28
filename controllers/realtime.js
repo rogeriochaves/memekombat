@@ -34,7 +34,7 @@ app.post('/realtime', function(request, response) {
       var actions = body.actions;
       var lastAction = actions[actions.length - 1];
       var item = itemList[body.items[0].product];
-      var uid = body.user.id;
+      var uid = body.user.uid;
 
       // Check if payment was approved
       if (lastAction.type === 'charge' && lastAction.status === 'completed') { // approved

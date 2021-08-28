@@ -184,7 +184,7 @@ global.authMiddleware = (req, res, next) => {
 			req.session.auth = authToken;
 
 			req.session.auth.user = {
-				id: authToken.uid,
+				uid: authToken.uid,
 				locale: req.headers['accept-language'],
 				name: authToken.name,
 				provider: authToken.firebase.sign_in_provider
@@ -248,7 +248,7 @@ const { getFriends } = require('./struct/Amizades');
 global.amigos_usando = function (request, _response, fn) {
 	const user = request.session.auth.user;
 
-	getFriends(user.id).then(friendsMap => {
+	getFriends(user.uid).then(friendsMap => {
 		const friends = Object.values(friendsMap).filter(x => x.relationship == 'friends');
 		fn(friends);
 	});

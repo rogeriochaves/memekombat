@@ -20,7 +20,7 @@ app.all('/ranking', authMiddleware, function(request, response) {
 		}
 
 		// inclui o próprio personagem na lista de amigos
-		amigos_uids.push(user.id);
+		amigos_uids.push(user.uid);
 
 		// seleciona os top 10 amigos
 		Personagem.where('uid').in(amigos_uids).sort('-level').select('nome avatar uid ranking_pos level meme_src genero').limit(10).exec(function(err, amigos){

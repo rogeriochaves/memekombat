@@ -18,7 +18,7 @@ app.all('/sair_campeonato', authMiddleware, function(request, response) {
 
 	var user = request.session.auth.user;
 
-	Personagem.findOne({uid: user.id}, function(err, personagem){
+	Personagem.findOne({uid: user.uid}, function(err, personagem){
 
 		personagem.campeonato_id = null;
 		personagem.save(function(err){
@@ -34,7 +34,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 
 	var user = request.session.auth.user;
 
-	var uid = request.param('uid') ? request.param('uid') : user.id;
+	var uid = request.param('uid') ? request.param('uid') : user.uid;
 
 	Personagem.findOne({uid: uid}, async function(err, personagem){
 		if(personagem == null && request.params.uid){
@@ -48,11 +48,11 @@ app.all('/perfil', authMiddleware, function(request, response) {
 
 			if(request.session.erro) delete request.session.erro;
 
-				var userFriends = await getFriends(user.id);
+				var userFriends = await getFriends(user.uid);
 				var relationship = userFriends[uid] && userFriends[uid].relationship;
 				var pendingFriendRequests = Object.values(userFriends).filter(x => x.relationship == 'request_received');
 
-				var profileFriends = user.id == uid ? userFriends : (await getFriends(uid));
+				var profileFriends = user.uid == uid ? userFriends : (await getFriends(uid));
 				profileFriends = Object.values(profileFriends).filter(x => x.relationship == 'friends');
 
 				Arquivamento
@@ -62,7 +62,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 					.find(function(err, arquivamentos){
 
 
-						if(uid == user.id){
+						if(uid == user.uid){
 							Personagem.where().select('nome avatar uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 
 								var quant_pupilos = pupilos.length;

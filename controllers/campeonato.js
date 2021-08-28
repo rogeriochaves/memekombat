@@ -231,7 +231,7 @@ app.all('/campeonato', authMiddleware, function(request, response) {
 
 	var user = request.session.auth.user;
 
-	Personagem.findOne({uid: user.id}, function(err, personagem){
+	Personagem.findOne({uid: user.uid}, function(err, personagem){
 		if(personagem == null){
 			response.redirect('inicio');
 		}else{
