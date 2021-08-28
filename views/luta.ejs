@@ -92,8 +92,8 @@
 					    method: 'feed',
 					    name: 'Meme Kombat',
 						to: '<%= perdedor.uid %>',
-					    link: "<%= app_url %>?fight=<%= luta_id %>",
-					    picture: "<%= app_home %>img/logo_post.png",
+					    link: "<%= process.env.APP_URL %>?fight=<%= luta_id %>",
+					    picture: "<%= process.env.APP_URL %>img/logo_post.png",
 					    caption: '<%= portugues ? "Ei perdedor!" : "Hey Loser!" %>',
 					    description: '<%= portugues ? "Derrotei você no Meme Kombat, meu meme é melhor que o seu!" : "I defeated you in Meme Kombat, my meme is better than yours!" %>'
 					  }
@@ -103,24 +103,24 @@
 			});
 
 		</script>
-		<div class="fb-comments" data-href="<%= app_home %>luta/<%= luta_id %>" data-num-posts="5" data-width="500"></div>
+		<div class="fb-comments" data-href="<%= process.env.APP_URL %>luta/<%= luta_id %>" data-num-posts="5" data-width="500"></div>
 	</div>
 	<div class="redes">
 		<div class="clearfix">
 			<div style="float:left; margin-left:5px; margin-top:5px">
-				<iframe src="//www.facebook.com/plugins/like.php?href=<%= escape(app_url + '?fight=' + luta_id) %>&amp;send=true&amp;layout=box_count&amp;width=120&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=80&amp;locale=es_ES&amp;appId=251027861615668" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:80px" allowTransparency="true"></iframe>
+				<iframe src="//www.facebook.com/plugins/like.php?href=<%= escape(process.env.APP_URL + '?fight=' + luta_id) %>&amp;send=true&amp;layout=box_count&amp;width=120&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=80&amp;locale=es_ES&amp;appId=251027861615668" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:80px" allowTransparency="true"></iframe>
 			</div>
 			<div style="float:left; margin-left:5px; margin-top:5px">
 				<% if (portugues){ %>
-					<a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" data-url="<%=((short_url && short_url != "http://bit.ly/") ? short_url : "https://apps.facebook.com/meme_kombat/?fight=" + luta_id) %>" data-text="Que luta!" data-via="MemeKombat" data-via="memekombat" data-lang="pt">Tweetar</a>
+					<a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" data-url="<%=((short_url && short_url != "http://bit.ly/") ? short_url : process.env.APP_URL + "meme_kombat/?fight=" + luta_id) %>" data-text="Que luta!" data-via="MemeKombat" data-via="memekombat" data-lang="pt">Tweetar</a>
 				<% }else{ %>
-					<a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" data-url="<%=((short_url && short_url != "http://bit.ly/") ? short_url : "https://apps.facebook.com/meme_kombat/?fight=" + luta_id) %>" data-text="What a fight!" data-via="MemeKombat" data-via="memekombat" data-lang="en">Tweet</a>
+					<a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" data-url="<%=((short_url && short_url != "http://bit.ly/") ? short_url : process.env.APP_URL + "meme_kombat/?fight=" + luta_id) %>" data-text="What a fight!" data-via="MemeKombat" data-via="memekombat" data-lang="en">Tweet</a>
 				<% } %>
 			</div>
 		</div>
 		<div style="margin:0 0 10px 30px">
 			<%= portugues ? "Link da Luta" : "Fight Link" %>:<br />
-			<input type="text" onmouseover="this.focus();this.select();" value="<%=((short_url && short_url != "http://bit.ly/") ? short_url : "https://apps.facebook.com/meme_kombat/?fight=" + luta_id) %>" readonly="readonly" style="width:120px" />
+			<input type="text" onmouseover="this.focus();this.select();" value="<%=((short_url && short_url != "http://bit.ly/") ? short_url : process.env.APP_URL + "?fight=" + luta_id) %>" readonly="readonly" style="width:120px" />
 		</div>
 	</div>
 </div>

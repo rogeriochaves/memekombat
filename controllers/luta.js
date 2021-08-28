@@ -64,8 +64,6 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 												vencedor: vencedor,
 												perdedor: perdedor,
 												lutas_restantes: quant,
-												app_url: process.env.FACEBOOK_APP_URL,
-												app_home: process.env.FACEBOOK_APP_HOME,
 												short_url: short_url,
 												portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 											});
@@ -139,8 +137,6 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 												vencedor: vencedor,
 												perdedor: perdedor,
 												lutas_restantes: quant,
-												app_url: process.env.FACEBOOK_APP_URL,
-												app_home: process.env.FACEBOOK_APP_HOME,
 												short_url: luta.short_url,
 												portugues: (user.locale && user.locale.indexOf('pt') >= 0)
 											});

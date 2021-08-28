@@ -2,7 +2,7 @@
   <head>
     <title><%= arquivamento.titulo_en %></title>
     <meta property="og:type" content="game.achievement"/>
-    <meta property="og:url" content="<%= app_home %>achievements/?url=<%= arquivamento.url %>"/>
+    <meta property="og:url" content="<%= process.env.APP_URL %>achievements/?url=<%= arquivamento.url %>"/>
     <meta property="og:title" content="<%= arquivamento.titulo_en %>"/>
     <meta property="og:description" content="<%= arquivamento.descricao_en %>"/>
     <meta property="og:image" content="<%= process.env.CDN %>img/badges/<%= arquivamento.img %>"/>

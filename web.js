@@ -46,18 +46,16 @@ global.ObjectId = Schema.ObjectId;
 // definição dos esquemas do banco
 require('./schema.js');
 
+process.env.APP_URL = "https://memekombat.rchaves.app/";
+
 // definindo valores de configuração
 if(process.env.NODE_ENV == 'production'){
 
 	// Configurações do app do facebook
-	// process.env.FACEBOOK_APP_ID = '';
-	// process.env.FACEBOOK_SECRET = '';
-	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/meme_kombat/';
-	process.env.FACEBOOK_APP_HOME = 'https://memekombat.herokuapp.com/';
 
 	// CDN
 	//process.env.CDN = 'https://d24yrm0vsffrow.cloudfront.net/';
-	process.env.CDN = process.env.FACEBOOK_APP_HOME;
+	process.env.CDN = process.env.APP_URL;
 
 	// Conexão com o banco
 	mongoose.connect(process.env.MONGOLAB_URI);
@@ -69,9 +67,7 @@ if(process.env.NODE_ENV == 'production'){
 	// Configurações do app do facebook de teste
 	// process.env.FACEBOOK_APP_ID = '';
 	// process.env.FACEBOOK_SECRET = '';
-	process.env.FACEBOOK_APP_URL = 'https://apps.facebook.com/memekombattest/';
-	process.env.FACEBOOK_APP_HOME = 'https://localhost:3000/';
-	process.env.CDN = process.env.FACEBOOK_APP_HOME;
+	process.env.CDN = "https://localhost:3000/";
 	mongoose.connect('mongodb://localhost:27017/memekombat'); // db local
 
 }

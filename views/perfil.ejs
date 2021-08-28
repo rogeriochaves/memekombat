@@ -28,15 +28,32 @@
 			<%- portugues ? 'Seu meme está cansado, volte amanhã.<br /> Quer mais lutas? <a href="loja">Clique aqui</a>' : 'Your meme is tired, come back tomorrow.<br /> Want more? <a href="loja">Clique here</a>' %>
 		<% } %>
 	<% } %>
-		<div class="help">
+		<div class="help help_indicacao">
 			<div class="box">
 				<%= portugues ? "Envie esse link para seus amigos virarem seus pupilos!" : "Send this link to your friends and make them your pupil" %>
+			</div>
+			<div class="box box-copiado" style="display: none; opacity: 1">
+				<%= portugues ? "Copiado pra area de transferência!" : "Copied to clipboard!" %>
 			</div>
 		</div>
 		<div class="link_indicacao">
 			<%= portugues ? "Link de pupilos" : "Pupil link" %>
-			<input type="text" onmouseover="this.focus();this.select();" value="<%= (personagem.link_indicacao && personagem.link_indicacao != "http://bit.ly/") ? personagem.link_indicacao : "https://apps.facebook.com/meme_kombat/?i=" + personagem.uid %>" readonly="readonly" style="width:120px" />
+			<input type="text" onmouseover="this.focus();this.select();" value="<%= process.env.APP_URL + "?i=" + personagem.uid %>" readonly="readonly" style="width:120px" />
 		</div>
+		<script>
+			$(".link_indicacao input, .help_indicacao").click(function () {
+				var link = $(".link_indicacao input").val();
+				navigator.clipboard.writeText(link).then(function () {
+					$(".help_indicacao .box").hide();
+					$(".help_indicacao .box-copiado")[0].style.display = 'flex';
+
+					setTimeout(function () {
+						$(".help_indicacao .box")[0].style.display = 'flex';
+						$(".help_indicacao .box-copiado").hide();
+					}, 2000);
+				});
+			});
+		</script>
 	</div>
 	<hr />
 <% }else{ %>

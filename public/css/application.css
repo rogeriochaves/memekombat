@@ -236,8 +236,8 @@ a.lutar:hover span{text-decoration: underline;}
 .link_indicacao{float: right;}
 
 .help{width: 16px; height: 16px; margin:0 5px; background-image: url(../img/icons/help.png); cursor: pointer; float: right;}
-	.help .box{display: none; position: absolute; background-image: url(../img/balao-perfil.png); width: 152px; height: 74px; margin: -80px 0 0 -150px; padding: 7px 7px 0 7px; opacity:0; z-index:11; filter: alpha(opacity = 0); transition: opacity 0.2s linear; -webkit-transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear}
-	.help:hover .box{display: block; opacity:1; filter: alpha(opacity = 100); transition: opacity 0.2s linear; -webkit-transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear}
+	.help .box{display: none; position: absolute; background-image: url(../img/balao-perfil.png); width: 152px; height: 54px; margin: -80px 0 0 -150px; padding: 7px 7px 20px 7px; opacity:0; z-index:11; filter: alpha(opacity = 0); transition: opacity 0.2s linear; -webkit-transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear; align-items: center;}
+	.help:hover .box{display: flex; opacity:1; filter: alpha(opacity = 100); transition: opacity 0.2s linear; -webkit-transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear}
 
 .chave{margin:40px 0 0 20px;}
 .chave td{background-position: center center; background-repeat: no-repeat; height: 50px; text-align: center}

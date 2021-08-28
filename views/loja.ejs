@@ -104,7 +104,7 @@
 							"language": '<%= portugues ? "pt" : "en" %>'
 	                    };
 
-	      window.top.location = 'https://www.facebook.com/dialog/pay?app_id=<%= process.env.FACEBOOK_APP_ID %>&redirect_uri=<%= process.env.FACEBOOK_APP_HOME %>&credits_purchase=false&purchase_type=item&order_info='+encodeURI(JSON.stringify(order_info))
+	      window.top.location = 'https://www.facebook.com/dialog/pay?app_id=<%= process.env.FACEBOOK_APP_ID %>&redirect_uri=<%= process.env.APP_URL %>&credits_purchase=false&purchase_type=item&order_info='+encodeURI(JSON.stringify(order_info))
 
 	      /*var obj = {
 		    method: 'pay',

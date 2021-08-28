@@ -23,7 +23,7 @@ module.exports.postar_arquivamento = function(arquivamento_url, personagem, fn) 
 
 
 					var app_access_token = data.split('access_token=')[1];
-					var achievement = process.env.FACEBOOK_APP_HOME + 'achievements/' + arquivamento.url;
+					var achievement = process.env.APP_URL + 'achievements/' + arquivamento.url;
 					var achievement_display_order = 1;
 					var score = 10;
 					var achievement_registration_URL = '/' + process.env.FACEBOOK_APP_ID + '/achievements&achievement=' + achievement + '&display_order=' + achievement_display_order + '&access_token=' + app_access_token;
