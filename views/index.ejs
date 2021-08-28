@@ -167,9 +167,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
   <![endif]-->
 <script type="text/javascript" charset="utf-8">
 	(function() {
-		// centraliza a imagem de carregando
-		$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
-
 		// ao clicar nas insígnias, fazem ela abrir por cima da tela com seu respectivo texto
 		$('.small_badge').live('click', function() {
 			$('.badge img').attr('src', "<%= process.env.CDN %>img/badges/" + $(this).attr('data-img'));
@@ -238,7 +235,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 					// mostra a imagem de carregando
 					$('.carregando').show();
 					$('.carregando').css({'opacity': '0'});
-					$('.carregando img').css({marginLeft: ($('body').width() + 128) / 2 + 40});
 					$('.carregando').animate({'opacity': '0.5'});
 					carregando_timeout = setTimeout(function(){ // caso não carregue, esconde o carregando pro usuário clicar no link de novo (solução FAIL)
 						$('.carregando').fadeOut();
@@ -274,12 +270,6 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 
 				return false;
 			}
-		});
-
-		// clica no link para convidar amigos
-		$('.convidar-amigos').live('click', function() {
-			
-			return false;
 		});
 
 		// efeito carousel nas armas do personagem
