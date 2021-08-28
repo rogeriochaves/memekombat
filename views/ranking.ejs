@@ -73,6 +73,15 @@
 				</li>
 				<% i++ %>
 			<% }) %>
+			<% if (amigos.length == 1) { %>
+				<div style="padding: 20px">
+					<% if (portugues) { %>
+						Encontre seus amigos na <a href="/arena">arena</a>
+					<% } else { %>
+						Find your friends at the <a href="/arena">arena</a>
+					<% } %>
+				</div>
+			<% } %>
 		</ul>
 	</div>
 	<div style="float:left; width:1px; height:780px; background-color:#C3C3C3;"></div>
