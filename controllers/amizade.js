@@ -9,19 +9,17 @@ app.get('/amizade/approve', authMiddleware, async function (request, response) {
     const relationship = friends[friendId] && friends[friendId].relationship;
 
     if (!relationship) {
-        const amizadeFrom = new Amizade({
-            from_id: user.id,
-            to_id: friendId,
-            status: 'approved',
-        });
-        await promisify(amizadeFrom.save).call(amizadeFrom);
+        await promisify(Amizade.update).call(Amizade,
+            { from_id: user.id, to_id: friendId },
+            { status: 'approved' },
+            { upsert: true }
+        );
 
-        const amizadeTo = new Amizade({
-            from_id: friendId,
-            to_id: user.id,
-            status: 'pending',
-        });
-        await promisify(amizadeTo.save).call(amizadeTo);
+        await promisify(Amizade.update).call(Amizade,
+            { from_id: friendId, to_id: user.id },
+            { status: 'pending' },
+            { upsert: true }
+        );
 
         response.redirect("/perfil?uid=" + friendId);
     } else if (relationship == 'friends' || relationship == 'request_sent') {

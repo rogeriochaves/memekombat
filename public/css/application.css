@@ -258,6 +258,7 @@ td.r{background-image: url(../img/chaves/r.gif);}
 
 .pupilos{list-style: none; margin: 0 20px 0 0; padding: 0; width:740px;}
 	.pupilos li{float: left; margin:0 10px 10px 0;}
+	.pupilos img{width: 48px}
 
 
 .seta{width: 36px; height: 101px; background: url(../img/setas-armas.png) no-repeat; position: absolute; cursor: pointer; margin: 0 0 0 -20px;}

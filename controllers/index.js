@@ -7,6 +7,7 @@ nele é carregado o personagem do jogador, ou criado um novo, caso ainda não ex
 
 var crypto = require("crypto");
 var fetch = require('node-fetch');
+const { promisify } = require('util');
 
 // renderiza o index.ejs, esta função é chamada após encontrar / criar novo personagem do usuário
 var render_index = function(req, res, novo_personagem){
@@ -83,36 +84,48 @@ var criar_personagem = async function(request, response, mestre_id){
 	p.habilidades = [];
 	p.atributos = [];
 
-	p.save(function(){
+	await promisify(p.save).call(p);
 
-		// notificação de boas vindas
-		var n = new Notificacao({
-			personagem_id: p._id,
-			tipo: 0,
-			texto: "Seja bem vindo ao Meme Kombat",
-			texto_en: "Welcome to le Meme Kombat"
-		});
-		n.save();
-
-		// caso o personagem tenha um mestre, este ganha +1 de EXP por ter convidado um pupilo
-		if(typeof mestre_id != 'undefined'){
-			Personagem.findOne({_id: mestre_id}, function(err, mestre){
-				if(mestre != null){
-					var n = new Notificacao({
-						personagem_id: mestre._id,
-						tipo: 0,
-						texto: user.name + " agora é seu pupilo. EXP + 1",
-						texto_en: user.name + " is now your pupil. EXP + 1",
-						personagem2_id: p._id
-					});
-					n.save();
-					mestre.exp += 1;
-					//var subir_level = require('./struct/upar.js');
-					//subir_level(mestre);
-				}
-			});
-		}
+	// notificação de boas vindas
+	var n = new Notificacao({
+		personagem_id: p._id,
+		tipo: 0,
+		texto: "Seja bem vindo ao Meme Kombat",
+		texto_en: "Welcome to le Meme Kombat"
 	});
+	n.save();
+
+	// caso o personagem tenha um mestre, este ganha +1 de EXP por ter convidado um pupilo e eles viram amigos
+	if(typeof mestre_id != 'undefined'){
+		var mestre = await promisify(Personagem.findOne).call(Personagem, { _id: mestre_id });
+
+		if(mestre != null){
+			var n = new Notificacao({
+				personagem_id: mestre._id,
+				tipo: 0,
+				texto: user.name + " agora é seu pupilo. EXP + 1",
+				texto_en: user.name + " is now your pupil. EXP + 1",
+				personagem2_id: p._id
+			});
+			n.save();
+			mestre.exp += 1;
+			//var subir_level = require('./struct/upar.js');
+			//subir_level(mestre);
+
+			await promisify(Amizade.update).call(Amizade,
+				{ from_id: mestre.uid, to_id: p.uid },
+				{ status: 'approved' },
+				{ upsert: true }
+			);
+
+			await promisify(Amizade.update).call(Amizade,
+				{ from_id: p.uid, to_id: mestre.uid },
+				{ status: 'approved' },
+				{ upsert: true }
+			);
+		}
+	}
+
 	// renderiza a index
 	render_index(request, response, true);
 }
