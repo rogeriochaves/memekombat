@@ -24,6 +24,7 @@ var MemoryStore = express.session.MemoryStore; // memória local para armazenar 
 var FacebookClient = require('facebook-client').FacebookClient;
 var bodyParser = require('body-parser');
 var firebase = require("firebase-admin");
+var metrics = require("./lib/metrics");
 global.facebook = new FacebookClient();
 
 if (!process.env.FIREBASE_CREDENTIALS) {
@@ -232,6 +233,11 @@ app.get('/signout', authMiddleware, function (request, response) {
 
 app.get('/test-error', function (request, response) {
 	throw "Test error for checking Sentry error capture integration";
+});
+
+app.get("/metrics", async (request, response) => {
+	response.set("Content-Type", metrics.register.contentType);
+	response.end(await metrics.register.metrics());
 });
 
 // recomendação do facebook para resolver alguns problemas de js cross-domain
