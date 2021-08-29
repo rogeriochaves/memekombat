@@ -15,7 +15,7 @@ app.all('/ranking', authMiddleware, function(request, response) {
 		var amigos_uids = [];
 		if(result && result.forEach){
 			result.forEach(function(friend) {
-				amigos_uids.push(friend.id);
+				amigos_uids.push(friend.uid);
 			});
 		}
 

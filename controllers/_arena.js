@@ -9,7 +9,7 @@ app.all('/_arena', authMiddleware, function(request, response) {
 		if(personagem != null){
 			amigos_usando(request, response, function(friends){
 				var amigos_uids = friends.map(function (friend) {
-					return friend.id;
+					return friend.uid;
 				});
 
 				var requisicoes = parseInt(arena_uids.length / 8);

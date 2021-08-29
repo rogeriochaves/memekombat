@@ -3,7 +3,7 @@ var jogadores_arena = function(user, personagem, request, response, user){
 		var amigos_uids = [];
 		if(result && result.forEach){
 			result.forEach(function(friend) {
-				amigos_uids.push(friend.id);
+				amigos_uids.push(friend.uid);
 			});
 		}
 
@@ -74,7 +74,7 @@ var busca_jogadores_arena = function(user, personagem, busca, request, response,
 		var amigos_uids = friends.filter(function (friend) {
 			return friend.nome.indexOf(busca) >= 0
 		}).map(function (friend) {
-			return friends.id
+			return friends.uid
 		}).slice(0, 10);
 
 		Personagem
