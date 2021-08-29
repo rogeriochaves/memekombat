@@ -20,11 +20,9 @@ var express   = require('express'); // framework pra tratar as requisições do 
 var cors = require("cors");
 var http = require('http');
 var https = require('https');
-var RedisStore = require('connect-redis')(express); // conexão com redis para armazenar sessions
 var MemoryStore = express.session.MemoryStore; // memória local para armazenar sessions, caso esteja em development
 var FacebookClient = require('facebook-client').FacebookClient;
 var bodyParser = require('body-parser');
-var shuffle = require('knuth-shuffle').knuthShuffle;
 var firebase = require("firebase-admin");
 global.facebook = new FacebookClient();
 
@@ -75,14 +73,6 @@ if(process.env.NODE_ENV == 'production'){
 }
 
 if(process.env.NODE_ENV == 'production'){
-	var redis_url = process.env.REDISTOGO_URL
-	  , redis = {
-			host: (redis_url.split('@')[1].split(':')[0]),
-			port: redis_url.split(':')[3].replace('/', ''),
-			pass: redis_url.split(':')[2].split('@')[0],
-			db: redis_url.split(':')[1].replace('//', ''),
-			cookie: {maxAge: 60000 * 5}
-		}
 	var oneYear = 31557600000; // expiração dos arquivos estáticos
 	// create an express webserver
 	global.app = express();
@@ -91,10 +81,11 @@ if(process.env.NODE_ENV == 'production'){
 	//app.use(express.logger()); // logga tudo
 	app.use(express.static(__dirname + '/public', { maxAge: oneYear })); // onde ficam os arquivos estáticos e seu tempo de expire
 	app.use(express.cookieParser()); // utilizar cookies
-	// configuração da session, conectando com Redis
+	// configuração da session, conectando com Mongo
 	app.use(express.session({
 		secret: process.env.SESSION_SECRET,
-		store: new RedisStore(redis)
+		// TODO: maybe replace this with a redis store? But only if we scale the app or it dies too much
+		store: new MemoryStore()
 	}));
 	// insert a middleware to set the facebook redirect hostname to http/https dynamically
 	app.use(function(request, response, next) {
