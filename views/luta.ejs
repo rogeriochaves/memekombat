@@ -16,7 +16,7 @@
 		<div class="hp enemy" rel="1">
 			<div class="bar"></div>
 		</div>
-		<div class="venceu" <%- is_friend ? '' : 'style="margin-top:0"' %>>
+		<div class="venceu">
 			<div class="nome"><small><%= vencedor.nome %></small></div>
 			<div class="win"><%= portugues ? "VENCEU" : "WINS" %></div>
 			<small>
@@ -45,14 +45,6 @@
 							<div class="txt" style="padding-top:5px">replay</div>
 						</a>
 					</li>
-					<% if (is_friend){ %>
-						<li class="clearfix">
-							<a href="#" class="lnkPost">
-								<div class="img"><img src="img/icons/facebook.png" border="0"></div>
-								<div class="txt" style="padding-top:5px"><%= portugues ? "postar no mural de " + perdedor.nome.split(' ')[0] : "post to " + perdedor.nome.split(' ')[0] + "'s wall" %></div>
-							</a>
-						</li>
-					<% } %>
 				</ul>
 			</small>
 		</div>

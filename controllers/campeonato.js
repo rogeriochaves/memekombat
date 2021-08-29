@@ -17,18 +17,18 @@ function posicao(x, y, chaves, levels, personagem, portugues, fn){
 			if(p != null){
 				var html = '<a class="player '+(p.uid == personagem.uid ? 'me' : '')+'" href="perfil?uid='+chaves[x][y].uid+'">';
 				html2 = '<div class="perfil" style="margin-left:'+ml+'px; '+img+'"> 						\
-					<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=square" />		\
+					<img src="'+p.avatar+'" />		\
 					<div class="info">																		\
 						'+p.nome.split(' ')[0]+'<br />													    \
 						'+(portugues ? "Nv " : "Lv ")+p.level+'												\
 					</div>																					\
 				</div></a>';
 				if(x == levels){
-					fn(html + '<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=normal" border="0">' + html2);
+					fn(html + '<img src="'+p.avatar+'" style="width: 96px" border="0">' + html2);
 				}else{
 					var size = parseInt(50 / Math.max(1, levels - x));
-					mt = (x == 0 ? 40 : 0);
-					fn(html + '<img src="https://graph.facebook.com/'+chaves[x][y].uid+'/picture?type=square" border="0" style="width:'+size+'px; height:'+size+'px; margin-top:'+mt+'px ">' + html2);
+					mt = (x == 0 ? 45 : 0);
+					fn(html + '<img src="'+p.avatar+'" border="0" style="width:'+size+'px; height:'+size+'px; margin-top:'+mt+'px ">' + html2);
 				}
 			}else{
 				fn('');
@@ -36,8 +36,8 @@ function posicao(x, y, chaves, levels, personagem, portugues, fn){
 		});
 	}else if(x == 0){
 		var size = parseInt(50 / Math.max(1, (levels - x)));
-		var mt = (x == 0 ? 40 : 0);
-		fn('<img src="https://graph.facebook.com/picture?type=square" border="0" style="width:'+size+'px; height:'+size+'px; margin-top:'+mt+'px ">');
+		var mt = (x == 0 ? 45 : 0);
+		fn('<div style="border: 1px solid #999; vertical-align: middle; background: #FFF; display: inline-block; width:'+size+'px; height:'+size+'px; margin-top:'+mt+'px "></div>');
 	}else{
 		fn("&nbsp;");
 	}

@@ -330,20 +330,16 @@
 			<% } %>
 		<% }else{ %>
 
-			<a class="lutar" href="#">
-				<!--a href="campeonato" -->
+			<a class="lutar" href="campeonato">
 				<div style="margin-top:5px">
 					<img src="<%= process.env.CDN %>img/icons/trophy.png" border="0" />
 					<% if (campeonato && campeonato != null){ %>
-						<span><%= portugues ? "Campeonato Fechado" : "Championship Closed" %></span>
+						<span><%= portugues ? "Campeonato" : "Championship" %></span>
 					<% }else{ %>
-						<span><%= portugues ? "Campeonato Fechado" : "Championship Closed" %></span>
+						<span><%= portugues ? "Campeonato" : "Championship" %></span>
 					<% } %>
 				</div>
 			</a>
-			<% if (campeonato && campeonato != null && campeonato.chaves_livres <= 0){ %>
-				<div style="text-align:center; margin:-20px 0 20px 0"><a href="sair_campeonato" onclick="cached_pages['campeonato'] = null;">Sair do campeonato</a></div>
-			<% } %>
 
 			<ul class="stream">
 				<% pendingFriendRequests.forEach(function(friendRequest) { %>

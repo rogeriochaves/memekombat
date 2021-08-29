@@ -110,17 +110,6 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 										var vencedor = (p1._id.toString() == luta.ganhador_id.toString() ? p1 : p2);
 										var perdedor = (p1._id.toString() == luta.ganhador_id.toString() ? p2 : p1);
 
-										// verifica se o vencedor é amigo do perdedor
-										var is_friend = false;
-										if(vencedor.uid == user.uid){
-											for(var i = amigos.length; i--;){
-												if(perdedor.uid == amigos[i].uid){
-													is_friend = true;
-													break;
-												}
-											}
-										}
-
 										var Characters = require('./../struct/Characters.js');
 										// consulta a quantidade de lutas restantes do personagem (para ao final da luta decidir se mostrará um botão de voltar ao perfil, ou voltar à arena)
 										Characters.lutas_restantes(personagem._id, function(quant){
@@ -132,7 +121,6 @@ app.all('/luta/:id?', authMiddleware, function(request, response) {
 												p1: p1,
 												p2: p2,
 												movimentos: luta.movimentos,
-												is_friend: is_friend,
 												campeonato: (request.param('campeonato') ? true : false),
 												vencedor: vencedor,
 												perdedor: perdedor,
