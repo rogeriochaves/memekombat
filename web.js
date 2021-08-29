@@ -13,6 +13,8 @@ O esquema do banco em schema.js
 
 */
 
+require('./lib/errors');
+
 var everyauth = require('everyauth'); // módulo para autenticação do facebook
 var express   = require('express'); // framework pra tratar as requisições do node, gerenciar cookies, sessions, etc
 var cors = require("cors");
@@ -235,6 +237,10 @@ app.get('/signout', authMiddleware, function (request, response) {
 	response.clearCookie('providerToken');
 
 	response.redirect('/');
+});
+
+app.get('/test-error', function (request, response) {
+	throw "Test error for checking Sentry error capture integration";
 });
 
 // recomendação do facebook para resolver alguns problemas de js cross-domain

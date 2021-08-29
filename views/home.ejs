@@ -220,5 +220,21 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
+<script
+  src="https://browser.sentry-cdn.com/6.11.0/bundle.min.js"
+  integrity="sha384-c+8PXtRnYfCKsSEvgtDqFeJvhjltkNLIUB1vcWKW4EleABoS4jh87UrE+1nQXg+g"
+  crossorigin="anonymous"
+></script>
+<script>
+Sentry.init({
+  dsn: "https://cc4964a6085e471ab0767d0f9b9208fc@o378045.ingest.sentry.io/5935881",
+  integrations: [new Sentry.Integrations.BrowserTracing()],
+
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0,
+});
+</script>
+
 </body>
 </html>

@@ -3,6 +3,8 @@
   "version": "0.0.2-3",
   "description": "Meme facebook game, Node.js language",
   "dependencies": {
+    "@sentry/node": "^6.11.0",
+    "@sentry/tracing": "^6.11.0",
     "b64url": "1.0.3",
     "body-parser": "~1.13.1",
     "connect-redis": "1.4.5",
