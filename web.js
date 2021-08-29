@@ -13,9 +13,8 @@ O esquema do banco em schema.js
 
 */
 
-require('./lib/errors');
+var { sentry } = require("./lib/errors");
 
-var everyauth = require('everyauth'); // módulo para autenticação do facebook
 var express   = require('express'); // framework pra tratar as requisições do node, gerenciar cookies, sessions, etc
 var cors = require("cors");
 var http = require('http');
@@ -73,12 +72,17 @@ if(process.env.NODE_ENV == 'production'){
 
 }
 
+// create an express webserver
+global.app = express();
+
+if (sentry) {
+	// The error handler must be before any other error middleware and after all controllers
+	app.use(sentry.Handlers.requestHandler());
+}
+
 if(process.env.NODE_ENV == 'production'){
 	var oneYear = 31557600000; // expiração dos arquivos estáticos
-	// create an express webserver
-	global.app = express();
 	app.use(cors());
-	app.use(express.errorHandler()); // lida com erros tentando não travar o processo
 	//app.use(express.logger()); // logga tudo
 	app.use(express.static(__dirname + '/public', { maxAge: oneYear })); // onde ficam os arquivos estáticos e seu tempo de expire
 	app.use(express.cookieParser()); // utilizar cookies
@@ -106,14 +110,10 @@ if(process.env.NODE_ENV == 'production'){
 			request.session.fight = request.param('fight');
 		}
 
-		// autentica o usuário
-	    var method = 'https';//request.headers['x-forwarded-proto'] || 'http';
-	    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-	    next();
+		next();
 	});
-	app.use(everyauth.middleware());
-	app.use(require('./lib/facebook.js').Facebook());
 	app.use(bodyParser.json());
+
 	global.server = http.createServer(app);
 }else{
 	var ssl_keys = {
@@ -121,7 +121,6 @@ if(process.env.NODE_ENV == 'production'){
 	  cert: fs.readFileSync('ssl/ssl.crt')
 	};
 
-	global.app = express();
 	app.use(cors());
 	app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
 	app.use(express.logger()); // logga tudo
@@ -140,12 +139,8 @@ if(process.env.NODE_ENV == 'production'){
 		if(request.param('fight')){
 			request.session.fight = request.param('fight');
 		}
-    var method = 'https';
-    everyauth.facebook.myHostname(method + '://' + request.headers.host);
-    next();
+		next();
 	});
-	app.use(everyauth.middleware());
-	app.use(require('./lib/facebook.js').Facebook());
 	app.use(bodyParser.json());
 	global.server = https.createServer(ssl_keys, app);
 }
@@ -232,7 +227,10 @@ app.get('/signout', authMiddleware, function (request, response) {
 });
 
 app.get('/test-error', function (request, response) {
-	throw "Test error for checking Sentry error capture integration";
+	const object = {};
+	object.isUndefinedAFunction();
+
+	response.send("should never reach here");
 });
 
 app.get("/metrics", async (request, response) => {
@@ -277,3 +275,13 @@ require('./controllers/offline.js');
 require('./controllers/tos_pp.js');
 require('./controllers/testando.js');
 require('./controllers/amizade.js');
+
+if (sentry) {
+	app.use(function onError(err, req, res, next) {
+		const errorId = sentry.captureException(err, { req: req });
+		// The error id is attached to `res.sentry` to be returned
+		// and optionally displayed to the user for support.
+		res.statusCode = 500;
+		res.end("Internal Server Error #" + errorId + "\n");
+	});
+}
