@@ -129,7 +129,7 @@ async function gerar_chaves_lutas_k(i, k, max_k, campeonato, levels){
 		if(i < levels - 1){
 			var [vencedor2, i3, k3] = await criar_luta_campeonato(campeonato, i2, k2 + 1);
 
-			await promisify(Chave.update).call(Chave, {
+			await promisify(Chave.updateOne).call(Chave, {
 				campeonato_id: campeonato._id,
 				num: (k3 - 1) / 2,
 				level: i3 + 1

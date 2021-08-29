@@ -1,12 +1,12 @@
 <% if(campeonato.chaves_livres <= 0 && personagem.chave_lv + 1 < campeonato.qtd_chaves && !personagem_perdeu){ %>
 	<script type="text/javascript" charset="utf-8">
-		if(typeof tempo_restante == "undefined") tempo_restante = <%= proxima_luta %>;		
+		if(typeof tempo_restante == "undefined") tempo_restante = <%= proxima_luta %>;
 		$(document).ready(function() {
 			atualizar_contador();
 			if(typeof contador != "undefined") clearInterval(contador);
 	  		contador = setInterval(atualizar_contador, 1000);
 		});
-	
+
 		function atualizar_contador(){
 			if(isNaN(tempo_restante)) return false;
 			if(tempo_restante <= 0){
@@ -27,7 +27,7 @@
 			$('#contador .min').html(addZero(minutos));
 			$('#contador .sec').html(addZero(segundos));
 		}
-	
+
 		function addZero(num){
 			return (num < 10 ? "0" : "") + num
 		}

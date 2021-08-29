@@ -9,13 +9,13 @@ app.get('/amizade/approve', authMiddleware, async function (request, response) {
     const relationship = friends[friendUid] && friends[friendUid].relationship;
 
     if (!relationship) {
-        await promisify(Amizade.update).call(Amizade,
+        await promisify(Amizade.updateOne).call(Amizade,
             { from_id: user.uid, to_id: friendUid },
             { status: 'approved' },
             { upsert: true }
         );
 
-        await promisify(Amizade.update).call(Amizade,
+        await promisify(Amizade.updateOne).call(Amizade,
             { from_id: friendUid, to_id: user.uid },
             { status: 'pending' },
             { upsert: true }
@@ -25,7 +25,7 @@ app.get('/amizade/approve', authMiddleware, async function (request, response) {
     } else if (relationship == 'friends' || relationship == 'request_sent') {
         response.redirect("/perfil?uid=" + friendUid);
     } else if (relationship == 'request_received' || relationship == 'cancelled') {
-        await promisify(Amizade.update).call(Amizade,
+        await promisify(Amizade.updateOne).call(Amizade,
             { from_id: user.uid, to_id: friendUid },
             { status: 'approved' },
             { upsert: true }
@@ -40,7 +40,7 @@ app.get('/amizade/cancel', authMiddleware, async function (request, response) {
     const user = request.session.auth.user;
 	const friendUid = request.param('uid');
 
-    await promisify(Amizade.update).call(Amizade,
+    await promisify(Amizade.updateOne).call(Amizade,
         { from_id: user.uid, to_id: friendUid },
         { status: 'cancelled' },
         { upsert: true }

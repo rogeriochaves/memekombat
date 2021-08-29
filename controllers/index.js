@@ -112,13 +112,13 @@ var criar_personagem = async function(request, response, mestre_id){
 			//var subir_level = require('./struct/upar.js');
 			//subir_level(mestre);
 
-			await promisify(Amizade.update).call(Amizade,
+			await promisify(Amizade.updateOne).call(Amizade,
 				{ from_id: mestre.uid, to_id: p.uid },
 				{ status: 'approved' },
 				{ upsert: true }
 			);
 
-			await promisify(Amizade.update).call(Amizade,
+			await promisify(Amizade.updateOne).call(Amizade,
 				{ from_id: p.uid, to_id: mestre.uid },
 				{ status: 'approved' },
 				{ upsert: true }
@@ -172,9 +172,7 @@ app.all('/index', authMiddleware, function(request, response) {
         criar_personagem(request, response); // cria personagem normalmente
       }
     }else if(data == null){
-      var method = 'https';//request.headers['x-forwarded-proto'] || 'https';
-      var host = method + '://' + request.headers.host;
-      response.redirect(host + '/inicio'); // redireciona para a tela de seleção de memes
+      response.redirect('/inicio'); // redireciona para a tela de seleção de memes
     }else{
 
       render_index(request, response); // renderiza a index
