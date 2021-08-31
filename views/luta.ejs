@@ -75,28 +75,6 @@
 
 <hr />
 <div class="clearfix">
-	<div class="comentarios">
-    	<script type="text/javascript" charset="utf-8">
-			$(document).ready(function() {
-				$('.lnkPost').click(function() {
-					FB.ui(
-					  {
-					    method: 'feed',
-					    name: 'Meme Kombat',
-						to: '<%= perdedor.uid %>',
-					    link: "<%= process.env.APP_URL %>?fight=<%= luta_id %>",
-					    picture: "<%= process.env.APP_URL %>img/logo_post.png",
-					    caption: '<%= portugues ? "Ei perdedor!" : "Hey Loser!" %>',
-					    description: '<%= portugues ? "Derrotei você no Meme Kombat, meu meme é melhor que o seu!" : "I defeated you in Meme Kombat, my meme is better than yours!" %>'
-					  }
-					);
-					return false;
-				});
-			});
-
-		</script>
-		<div class="fb-comments" data-href="<%= process.env.APP_URL %>luta/<%= luta_id %>" data-num-posts="5" data-width="500"></div>
-	</div>
 	<div class="redes">
 		<div class="clearfix">
 			<div style="float:left; margin-left:5px; margin-top:5px">
@@ -116,9 +94,6 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" charset="utf-8">
-	FB.XFBML.parse();
-</script>
 <script type="text/javascript" charset="utf-8">
 
 	var randomNumber = Math.floor(Math.random()*24);
