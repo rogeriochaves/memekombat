@@ -67,7 +67,7 @@ if(process.env.NODE_ENV == 'production'){
 	// Configurações do app do facebook de teste
 	// process.env.FACEBOOK_APP_ID = '';
 	// process.env.FACEBOOK_SECRET = '';
-	process.env.CDN = "https://localhost:3000/";
+	process.env.CDN = "/";
 	mongoose.connect('mongodb://localhost:27017/memekombat'); // db local
 
 }
