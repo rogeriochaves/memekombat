@@ -18,7 +18,6 @@ var { sentry } = require("./lib/errors");
 var express   = require('express'); // framework pra tratar as requisições do node, gerenciar cookies, sessions, etc
 var cors = require("cors");
 var http = require('http');
-var https = require('https');
 var MemoryStore = express.session.MemoryStore; // memória local para armazenar sessions, caso esteja em development
 var FacebookClient = require('facebook-client').FacebookClient;
 var bodyParser = require('body-parser');
@@ -35,7 +34,6 @@ firebase.initializeApp({
 	credential: firebase.credential.cert(JSON.parse(firebaseCredentials))
 });
 
-var https = require('https');
 var fs = require('fs');
 
 global.mongoose = require('mongoose'); // conexão com MongoDB
@@ -116,11 +114,6 @@ if(process.env.NODE_ENV == 'production'){
 
 	global.server = http.createServer(app);
 }else{
-	var ssl_keys = {
-		key:  fs.readFileSync('ssl/ssl.key'),
-	  cert: fs.readFileSync('ssl/ssl.crt')
-	};
-
 	app.use(cors());
 	app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
 	app.use(express.logger()); // logga tudo
@@ -142,7 +135,7 @@ if(process.env.NODE_ENV == 'production'){
 		next();
 	});
 	app.use(bodyParser.json());
-	global.server = https.createServer(ssl_keys, app);
+	global.server = http.createServer(app);
 }
 app.use(bodyParser.urlencoded({ extended: true }));
 
