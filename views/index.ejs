@@ -64,11 +64,13 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 			pagina_atual = url;
 			if(url.indexOf('luta') >= 0 && url.indexOf('vs') >= 0){ // ao entrar na luta o cache do perfil é apagado (pois o personagem ganha exp, notificações, lvl, etc)
 				cached_pages['perfil'] = null;
+				cached_pages['arena'] = null;
 				cached_pages['perfil?uid=' + url.split('vs=')[1]] = null;
 			}else if(url.indexOf('campeonato') >= 0 && url.indexOf('?finalizar') >= 0){ // ao finalizar o campeonato, o cache do campeonato, ranking e perfil são apagados
 				tempo_restante = undefined;
 				cached_pages['ranking'] = null;
 				cached_pages['perfil'] = null;
+				cached_pages['arena'] = null;
 				cached_pages['campeonato'] = null;
 				cached_pages['campeonato?proxima_luta=true'] = null;
 				cached_pages['campeonato?finalizar=true'] = null;
@@ -79,6 +81,7 @@ O layout do jogo é esta página index, já que o resto carrega por ajax na div 
 				cached_pages['campeonato?finalizar=true'] = null;
 			}else if(url.indexOf('sair_campeonato') >= 0){ // ao sair do campeonato o cache do perfil é apagado
 				cached_pages['perfil'] = data;
+				cached_pages['arena'] = null;
 			}else{
 				cached_pages[url] = data;
 			}
