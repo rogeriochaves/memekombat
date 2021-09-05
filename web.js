@@ -178,7 +178,7 @@ global.authMiddleware = (req, res, next) => {
 		});
 };
 
-app.get('/', function (request, response) {
+app.all('/', function (request, response) {
 	const locale = request.headers['accept-language'];
 	const portugues = locale && locale.indexOf('pt') >= 0;
 
