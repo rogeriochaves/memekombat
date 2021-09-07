@@ -63,7 +63,7 @@ app.all('/perfil', authMiddleware, function(request, response) {
 
 
 						if(uid == user.uid){
-							Personagem.where().select('nome avatar uid').find({indicacao_id: personagem._id}, function(err, pupilos){
+							Personagem.where('deleted').ne(true).select('nome avatar uid').find({indicacao_id: personagem._id}, function(err, pupilos){
 
 								var quant_pupilos = pupilos.length;
 								if(quant_pupilos > 6){

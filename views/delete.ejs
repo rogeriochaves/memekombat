@@ -1,0 +1,45 @@
+<div style="padding: 20px">
+    <div style="font-family: 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif">
+        <% if (portugues) { %>
+            <p>
+                Ao deletar sua conta, todas suas informações pessoais como nome, email e informação de login serão
+                permanentemente deletadas do jogo sem possibilidade de recuperação. Seu personagem continuará existindo
+                dado sua conexão com outras partes do jogo, mas terá seu nome removido, a foto removida, as notificações
+                referindo a seu personagem removidas, e nenhum maneira de ser acessado novamente.
+            </p>
+            <p>
+                Tem certeza que deseja continuar?
+            </p>
+        <% } else { %>
+            <p>
+                By deleting your account, all your personal information such as name, email and login information
+                will be permanently deleted from the game with no way of recovering it. Your character will stay
+                due to it's connections with other parts of the game, but it will have it's name removed, the picture
+                removed, the notifications referring to it removed, and no way of accessing it again.
+            </p>
+            <p>
+                Are you sure you want to continue?
+            </p>
+        <% } %>
+    </div>
+    <a class="no-rel lutar" href="#" id="delete-account">
+        <div>
+            <span><%= portugues ? "Sim, deletar conta" : "Yes, delete account" %></span>
+        </div>
+    </a>
+</div>
+
+<script>
+    $("#delete-account").click(function (e) {
+        e.preventDefault();
+
+        $('.carregando').show();
+        $.post('/delete-account', {}, function(){
+            $('.carregando').fadeOut();
+            window.location = "/";
+        }).fail(function () {
+            $('.carregando').fadeOut();
+            alert("Something went wrong while trying to delete your account, we are terribly sorry, please open an issue on GitHub")
+        });
+    });
+</script>

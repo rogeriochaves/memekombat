@@ -38,6 +38,7 @@ module.exports.getFriends = async function (uid) {
 
     const query = Personagem
         .where('uid').in(Object.keys(relationships))
+        .where('deleted').ne(true)
         .select('uid avatar nome')
     const personagens = await promisify(query.exec).call(query);
 

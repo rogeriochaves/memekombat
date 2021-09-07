@@ -57,6 +57,7 @@ var PersonagemSchema = new Schema({
   , equipamentos: Array
   , habilidades: Array
   , random: {type: Number, default: parseInt(Math.random() * 100)}
+  , deleted: {type: Boolean, default: false}
 });
 mongoose.model('Personagens', PersonagemSchema);
 

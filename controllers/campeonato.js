@@ -19,7 +19,7 @@ function posicao(x, y, chaves, levels, personagem, portugues, fn){
 				html2 = '<div class="perfil" style="margin-left:'+ml+'px; '+img+'"> 						\
 					<img src="'+p.avatar+'" />		\
 					<div class="info">																		\
-						'+p.nome.split(' ')[0]+'<br />													    \
+						'+(p.nome || "").split(' ')[0]+'<br />													    \
 						'+(portugues ? "Nv " : "Lv ")+p.level+'												\
 					</div>																					\
 				</div></a>';

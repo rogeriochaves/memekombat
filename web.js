@@ -268,6 +268,7 @@ require('./controllers/offline.js');
 require('./controllers/tos_pp.js');
 require('./controllers/testando.js');
 require('./controllers/amizade.js');
+require('./controllers/delete.js');
 
 if (sentry) {
 	app.use(function onError(err, req, res, next) {

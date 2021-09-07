@@ -53,7 +53,7 @@
 				<div class="perfil">
 					<img src="<%= p1.avatar %>" />
 					<div class="info">
-						<%= p1.nome.split(' ')[0] %> <br />
+						<%= (p1.nome || "").split(' ')[0] %> <br />
 						<%= portugues ? "Nv" : "Lv" %> <%= p1.level %>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 				<div class="perfil">
 					<img src="<%= p2.avatar %>" />
 					<div class="info">
-						<%= p2.nome.split(' ')[0] %> <br />
+						<%= (p2.nome || "").split(' ')[0] %> <br />
 						<%= portugues ? "Nv" : "Lv" %> <%= p2.level %>
 					</div>
 				</div>

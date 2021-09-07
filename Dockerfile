@@ -10,4 +10,4 @@ ENV NODE_ENV=production
 
 COPY . .
 
-CMD npm run start
+CMD node web.js

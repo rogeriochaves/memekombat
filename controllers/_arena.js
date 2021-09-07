@@ -18,6 +18,7 @@ app.all('/_arena', authMiddleware, function(request, response) {
 					.where('uid').in(amigos_uids)
 					.where('uid').nin(arena_uids)
 					.where('level').lt(personagem.level + requisicoes + 2)
+					.where('deleted').ne(true)
 					.sort('-level random').limit(5)
 					.select('uid avatar level nome meme_src genero')
 					.exec(function(err, amigos){
@@ -32,6 +33,7 @@ app.all('/_arena', authMiddleware, function(request, response) {
 						Personagem
 							.where('uid').nin(amigos_uids.concat(arena_uids))
 							.where('level').lt(personagem.level + requisicoes + 2)
+							.where('deleted').ne(true)
 							.sort('-level random').limit(limite)
 							.select('uid avatar level nome meme_src genero')
 							.exec(function(err, outros_jogadores){
