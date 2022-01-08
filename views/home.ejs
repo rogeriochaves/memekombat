@@ -21,7 +21,7 @@
   <style type="text/css">
     body{margin:0 auto; padding:0; border:2px solid #DDD; width:760px; font-family: 'Gloria Hallelujah', "Lucida Grande", Tahoma, sans-serif; background:#FFF url(/images/bg2.jpg) center 0; border-width: 0 2px; height: 650px;}
     .bg{height: 100%; background:#FFF url(/img/bg.jpg) center 0; width: 760px;}
-    .content{width: 450px; margin: 0 auto; padding-top:100px;}
+    .content{width: 450px; margin: 0 auto; padding-top:100px; height: 100%; box-sizing: border-box;}
     h2, h1{font-weight: normal;}
     h2{font-size: 15px; padding:0; color: #999; text-align: center;}
     hr{border: none; margin-top: -5px; margin-bottom: 50px; width: 350px;}
@@ -41,7 +41,7 @@
     .nyan .cat{position: absolute; left:0; top:20px; z-index:1}
     .nyan .rainbow{position: absolute; background: url(/img/habilidades/nyan-cat-rainbow.gif); width: 46px; height: 54px; left:0; top:23px;}
 
-    .fb-like{position: absolute!important; margin-left: 100px; bottom:10px}
+    .fb-like{margin-left: 50px; margin-bottom: 10px}
 
     .firebase-overlay {
       display: none;
@@ -110,7 +110,10 @@
       <div class="clear"></div>
     </div>
   </div>
-  <div class="fb-like" data-href="https://www.facebook.com/MemeKombat" data-send="true" data-width="570" data-show-faces="true"></div>
+  <div class="rodape">
+    <div class="fb-like" data-href="https://www.facebook.com/MemeKombat" data-send="true" data-width="570" data-show-faces="true"></div>
+    <a href="/pp" target="_blank" style="color:#000; text-decoration:underline; font-size: 13px; text-align: right; font-family: 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif"><%= portugues ? "Política de Privacidade" : "Privacy Policy" %></a>
+  </div>
 </div>
 
 <script src="<%= process.env.CDN %>js/libs/jquery-1.6.2.min.js"></script>
